@@ -1,4 +1,4 @@
-package vooga.fighter.objects;
+package vooga.fighter.model.loaders;
 
 
 import java.awt.Dimension;
@@ -9,8 +9,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import util.Pixmap;
-import vooga.fighter.objects.utils.State;
-import vooga.fighter.objects.utils.UpdatableLocation;
+import vooga.fighter.model.objects.EnvironmentObject;
+import vooga.fighter.model.objects.MapObject;
+import vooga.fighter.model.utils.State;
+import vooga.fighter.model.utils.UpdatableLocation;
 
 
 /**

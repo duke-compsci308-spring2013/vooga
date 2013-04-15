@@ -1,4 +1,4 @@
-package vooga.fighter.objects;
+package vooga.fighter.model.loaders;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -13,7 +13,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import util.Pixmap;
-import vooga.fighter.objects.utils.State;
+import vooga.fighter.model.objects.GameObject;
+import vooga.fighter.model.utils.State;
 
 /**
  * Abstract class with shared methods that all ObjectLoader-derived classes may need.

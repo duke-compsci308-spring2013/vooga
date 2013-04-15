@@ -3,12 +3,14 @@ package vooga.fighter.controller;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.Timer;
 import util.Location;
-import vooga.fighter.game.Mode;
 import vooga.fighter.input.AlertObject;
 import vooga.fighter.input.Input;
 import vooga.fighter.input.InputMethodTarget;
+import vooga.fighter.model.LevelMode;
+import vooga.fighter.model.Mode;
 import vooga.fighter.util.Paintable;
 import vooga.fighter.view.Canvas;
 
@@ -26,9 +28,20 @@ public class ScoreController extends Controller {
     public ScoreController (String name, Canvas frame, ControllerDelegate manager,
                             GameInfo gameinfo) {
         super(name, frame, manager, gameinfo);
+        loadMode();
+        GameLoopInfo gameLoopInfo = new GameLoopInfo((LevelMode) super.getMode());
+        setGameLoopInfo(gameLoopInfo);
+        frame.setViewDataSource(gameLoopInfo);
         System.out.println("score controller finished");
     }
     
+    
+    public void loadMode() {
+        List<Integer> characterNames = myGameInfo.getCharacters();
+        int mapID = myGameInfo.getMapName();
+        Mode temp = new LevelMode(this, characterNames, mapID);
+        setMode(temp);
+    }
     
     /**
      * Exits program.
@@ -40,7 +53,7 @@ public class ScoreController extends Controller {
    
     @Override
     public Controller getController (ControllerDelegate delegate, GameInfo gameinfo) {
-        return new LevelController(super.getName(), super.getView(),
+        return new ScoreController(super.getName(), super.getView(),
                                    delegate, gameinfo);
     }
 

@@ -1,11 +1,11 @@
-package vooga.fighter.game;
+package vooga.fighter.model;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 import vooga.fighter.controller.ModelDelegate;
-import vooga.fighter.objects.CharacterObject;
-import vooga.fighter.objects.GameObject;
+import vooga.fighter.model.objects.CharacterObject;
+import vooga.fighter.model.objects.GameObject;
 
 /**
  * Represents a mode in the game. Holds a list of all game objects in the mode,

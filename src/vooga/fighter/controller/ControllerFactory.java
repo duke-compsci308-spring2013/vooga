@@ -30,8 +30,7 @@ public class ControllerFactory {
         myControllerMap = new HashMap<String, Controller>();
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "LevelConfig");
         myControllerNames = new ArrayList<String>();
-        setupControllerConfiguration(myResources, myControllerNames);
-        setupControllerMap(myCanvas, myControllerMap, myControllerNames);
+        setupControllerConfiguration(frame, myResources, myControllerNames, myControllerMap);
         
         
     }
@@ -40,20 +39,23 @@ public class ControllerFactory {
         return myControllerMap;
     }
 
-    private void setupControllerConfiguration(ResourceBundle resources, List<String> controllerName) {
+    private void setupControllerConfiguration(Canvas frame, ResourceBundle resources, List<String> controllerName,
+                                              Map<String, Controller> controllermap) {
         for(String key: resources.keySet()){
             controllerName.add(key);
+            if (key.equals("LevelController")) {
+                Controller controller = new LevelController(resources.getString(key), frame);
+                controllermap.put(controller.getName(), controller);
+            }
+            else if (key.equals("ScoreController")) {
+                Controller controller = new ScoreController(resources.getString(key), frame);
+                controllermap.put(controller.getName(), controller);
+            }
+            
         }
     }
 
-    private void setupControllerMap(Canvas frame, Map<String, Controller> controllermap, 
-                                    List<String> controllerName) {
-        for(String name: controllerName) {
-            //We need to fix this!!!!!!!
-            Controller controller = new LevelController(name, frame);
-            controllermap.put(controller.getName(), controller);
-        }
-    }
+   
 
 
 

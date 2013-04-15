@@ -5,4 +5,4 @@
  * @author jackmatteucci
  * 
  */
-package vooga.fighter.game;
+package vooga.fighter.model;

@@ -1,4 +1,4 @@
-package vooga.fighter.objects.utils;
+package vooga.fighter.model.utils;
 
 import java.util.Stack;
 import util.Location;

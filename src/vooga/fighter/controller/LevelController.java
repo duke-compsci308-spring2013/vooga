@@ -11,13 +11,9 @@ import javax.swing.Timer;
 
 import util.Location;
 import vooga.fighter.input.*;
-import vooga.fighter.game.LevelMode;
-import vooga.fighter.game.Mode;
-import vooga.fighter.input.AlertObject;
-import vooga.fighter.input.Input;
-import vooga.fighter.input.InputClassTarget;
-import vooga.fighter.input.InputMethodTarget;
-import vooga.fighter.objects.CharacterObject;
+import vooga.fighter.model.LevelMode;
+import vooga.fighter.model.Mode;
+import vooga.fighter.model.objects.CharacterObject;
 import vooga.fighter.util.Paintable;
 import vooga.fighter.view.Canvas;
 

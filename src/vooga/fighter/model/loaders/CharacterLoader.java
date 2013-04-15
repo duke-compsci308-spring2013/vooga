@@ -1,4 +1,4 @@
-package vooga.fighter.objects;
+package vooga.fighter.model.loaders;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -9,7 +9,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import vooga.fighter.objects.utils.State;
+import vooga.fighter.model.objects.AttackObject;
+import vooga.fighter.model.objects.CharacterObject;
+import vooga.fighter.model.utils.State;
 import util.Pixmap;
 
 

@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 import util.Location;
-import vooga.fighter.game.LevelMode;
-import vooga.fighter.objects.ImageDataObject;
-import vooga.fighter.objects.utils.Health;
+import vooga.fighter.model.LevelMode;
+import vooga.fighter.model.utils.Health;
+import vooga.fighter.model.utils.ImageDataObject;
 import vooga.fighter.util.HUDVariable;
 import vooga.fighter.util.Paintable;
 import util.*;

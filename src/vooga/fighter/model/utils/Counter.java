@@ -1,4 +1,4 @@
-package vooga.fighter.objects.utils;
+package vooga.fighter.model.utils;
 
 /**
  * Holds a counter which can be used as a timer. The counter can be set to an initial

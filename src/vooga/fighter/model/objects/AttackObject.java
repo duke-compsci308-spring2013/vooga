@@ -1,11 +1,11 @@
-package vooga.fighter.objects;
+package vooga.fighter.model.objects;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
-import vooga.fighter.objects.utils.Counter;
-import vooga.fighter.objects.utils.Effect;
-import vooga.fighter.objects.utils.UpdatableLocation;
+import vooga.fighter.model.utils.Counter;
+import vooga.fighter.model.utils.Effect;
+import vooga.fighter.model.utils.UpdatableLocation;
 
 /**
  * Object that can inflict damage on other moveable game objects
@@ -33,14 +33,14 @@ public class AttackObject extends GameObject{
         myCounter = new Counter();
     }
     
-    public AttackObject (AttackObject attack, UpdatableLocation center){
+    public AttackObject (AttackObject other, UpdatableLocation center){
     	super();
-        try {
-            attack.clone();
-        }
-        catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+        this.mySpeed= other.mySpeed;
+        this.myDirection= other.myDirection; 
+        this.myPower= other.myPower; 
+        this.myEffects= other.myEffects;
+        this.myOwner= other.myOwner;
+        this.myCounter= other.myCounter;   
     	setLocation(center);
     }
     

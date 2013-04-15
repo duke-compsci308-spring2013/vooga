@@ -1,4 +1,4 @@
-package vooga.fighter.objects;
+package vooga.fighter.model.utils;
 
 import java.awt.Dimension;
 import util.Location;

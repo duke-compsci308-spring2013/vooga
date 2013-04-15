@@ -5,8 +5,8 @@ import vooga.fighter.controller.Controller;
 import vooga.fighter.controller.ControllerDelegate;
 import vooga.fighter.controller.GameInfo;
 import vooga.fighter.controller.LevelController;
-import vooga.fighter.game.*;
 import vooga.fighter.input.Input;
+import vooga.fighter.model.*;
 import vooga.fighter.util.Paintable;
 import vooga.fighter.view.Canvas;
 

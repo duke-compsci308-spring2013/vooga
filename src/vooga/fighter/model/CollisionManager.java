@@ -1,6 +1,11 @@
-package vooga.fighter.objects;
+package vooga.fighter.model;
 
 import java.util.List;
+import vooga.fighter.model.objects.AttackObject;
+import vooga.fighter.model.objects.CharacterObject;
+import vooga.fighter.model.objects.EnvironmentObject;
+import vooga.fighter.model.objects.GameObject;
+import vooga.fighter.model.objects.MapObject;
 
 /**
  * Detects collisions between all the game objects

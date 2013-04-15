@@ -1,9 +1,11 @@
-package vooga.fighter.objects;
+package vooga.fighter.model.objects;
 
 import util.Location;
 import util.Pixmap;
-import vooga.fighter.objects.utils.State;
-import vooga.fighter.objects.utils.UpdatableLocation;
+import vooga.fighter.model.loaders.ObjectLoader;
+import vooga.fighter.model.utils.ImageDataObject;
+import vooga.fighter.model.utils.State;
+import vooga.fighter.model.utils.UpdatableLocation;
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;

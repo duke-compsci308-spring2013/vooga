@@ -1,13 +1,14 @@
-package vooga.fighter.objects;
+package vooga.fighter.model.objects;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import vooga.fighter.objects.utils.Effect;
-import vooga.fighter.objects.utils.Health;
+import vooga.fighter.model.loaders.CharacterLoader;
+import vooga.fighter.model.utils.Effect;
+import vooga.fighter.model.utils.Health;
+import vooga.fighter.model.utils.UpdatableLocation;
 import util.Vector;
-import vooga.fighter.objects.utils.UpdatableLocation;
 
 
 /**

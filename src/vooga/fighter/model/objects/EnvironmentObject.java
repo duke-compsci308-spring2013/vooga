@@ -1,6 +1,6 @@
-package vooga.fighter.objects;
+package vooga.fighter.model.objects;
 
-import vooga.fighter.objects.utils.UpdatableLocation;
+import vooga.fighter.model.utils.UpdatableLocation;
 
 
 /**

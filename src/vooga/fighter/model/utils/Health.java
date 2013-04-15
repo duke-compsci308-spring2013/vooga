@@ -1,4 +1,4 @@
-package vooga.fighter.objects.utils;
+package vooga.fighter.model.utils;
 
 /**
  * Represents a health value for an object.

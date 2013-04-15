@@ -1,8 +1,8 @@
-package vooga.fighter.objects.utils;
+package vooga.fighter.model.utils;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
-import vooga.fighter.objects.GameObject;
+import vooga.fighter.model.objects.GameObject;
 import util.Location;
 import util.Pixmap;
 

@@ -1,9 +1,9 @@
-package vooga.fighter.objects.utils;
+package vooga.fighter.model.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import vooga.fighter.objects.CharacterObject;
-import vooga.fighter.objects.GameObject;
+import vooga.fighter.model.objects.CharacterObject;
+import vooga.fighter.model.objects.GameObject;
 
 /**
  * Represents an effect placed on a character (or several).
