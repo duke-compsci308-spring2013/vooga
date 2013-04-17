@@ -12,7 +12,9 @@ import vooga.rts.networking.communications.Message;
  */
 public interface IMessageReceiver {
 
-    public void sendMessage (Message message, ConnectionThread thread);
+    public void receiveMessageFromClient (Message message, ConnectionThread thread);
+    
+    public void removeConnection (ConnectionThread thread);
 
 }
 

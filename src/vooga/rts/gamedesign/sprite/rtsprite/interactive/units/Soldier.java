@@ -1,9 +1,8 @@
 package vooga.rts.gamedesign.sprite.rtsprite.interactive.units;
 
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 import vooga.rts.resourcemanager.ResourceManager;
-import vooga.rts.gamedesign.upgrades.UpgradeTree;
-import vooga.rts.util.Location;
 import vooga.rts.util.Location3D;
 import vooga.rts.util.Pixmap;
 import vooga.rts.util.Sound;
@@ -22,7 +21,7 @@ public class Soldier extends Unit {
      */
 
     //default values
-    public static Pixmap DEFAULT_IMAGE = new Pixmap(ResourceManager.instance().loadFile("images/sprites/soldier.png"));
+    public static Pixmap DEFAULT_IMAGE = new Pixmap(ResourceManager.getInstance().<BufferedImage>getFile("images/sprites/soldier.png", BufferedImage.class));
     public static Location3D DEFAULT_LOCATION = new Location3D();
     public static Dimension DEFAULT_SIZE = new Dimension(90,90);
     public static Sound DEFAULT_SOUND = null;

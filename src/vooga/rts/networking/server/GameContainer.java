@@ -1,76 +1,33 @@
 package vooga.rts.networking.server;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import vooga.rts.networking.communications.Message;
-import vooga.rts.networking.communications.SystemMessage;
-import vooga.rts.networking.factory.Command;
-import vooga.rts.networking.factory.CommandFactory;
 
-public class GameContainer implements IMessageReceiver, IThreadContainer {
 
-    private Map<Integer, ConnectionThread> myConnectionThreads = new HashMap<Integer, ConnectionThread>();
-    private Map<String, LobbyContainer> myLobbies = new HashMap<String, LobbyContainer>();
-    private List<GameServer> myGameServers = new ArrayList<GameServer>();
-    private CommandFactory myFactory;
-    private int myGameNumber = 0;
-    
-    public GameContainer (CommandFactory factory) {
-        myFactory = factory;
-    }
-    
-    protected void addConnection (ConnectionThread thread) {
-        myConnectionThreads.put(thread.getID(), thread);
-    }
-    
-    protected void addGameServer (GameServer server) {
-        myGameServers.add(server);
-    }
-    
-    protected void removeGameServer (GameServer server) {
-        
-    }
-    
-    @Override
-    public void sendMessage (Message message, ConnectionThread thread) {
-        if(message instanceof SystemMessage) {
-            SystemMessage systemMessage = (SystemMessage) message;
-            Command command = myFactory.getCommand(systemMessage.getMessage());
-            command.execute(thread, this, systemMessage.getParameters());
-        } else {
-            
-        }
-    }
-    
-    @Override
-    public void removeConnection (ConnectionThread thread) {
-        myConnectionThreads.remove(thread);
-    }
+public class GameContainer extends AbstractThreadContainer {
 
-    @Override
-    public void joinGame (ConnectionThread thread, String gameName) {
+    private Map<Integer, Room> myRooms = new HashMap<Integer, Room>();
+    private int myNextRoomNumber = 0;
+
+    protected void removeRoom (Room room) {
+        myRooms.remove(room.getID());
+    }
+    
+    protected void addRoom (Room room) {
+        myRooms.put(room.getID(), room);
     }
 
     @Override
     public void joinLobby (ConnectionThread thread, String lobbyName) {
-        LobbyContainer lobby;
-        if(!myLobbies.containsKey(lobbyName)) {
-            lobby = new LobbyContainer(myFactory, this);
-            myLobbies.put(lobbyName, lobby);
+        Room room;
+        if (!myRooms.containsKey(lobbyName)) {
+            room = new Lobby(myNextRoomNumber, this);
+            addRoom(room);
+            myNextRoomNumber++;
         }
-        myConnectionThreads.remove(thread.getID());
-        lobby = myLobbies.get(lobbyName);
-        lobby.addConnection(thread);
-    }
-
-    @Override
-    public void leaveLobby (ConnectionThread thread) {
-    }
-
-    @Override
-    public void startGameServer () {
+        removeConnection(thread);
+        room = myRooms.get(lobbyName);
+        room.addConnection(thread);
     }
 
 }

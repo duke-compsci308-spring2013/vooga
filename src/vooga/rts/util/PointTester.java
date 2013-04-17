@@ -49,7 +49,7 @@ public class PointTester {
     public void paint (Graphics2D pen) {
         int width = 12;
         int height = 6;
-
+/*
         for (Location3D loc : myShapes) {
             Point2D nP = Camera.instance().worldToView(loc);
             if (Camera.instance().isVisible(nP)) {
@@ -58,6 +58,7 @@ public class PointTester {
             }
         }
         Camera.instance().paint(pen);
+        */
     }
 
 }

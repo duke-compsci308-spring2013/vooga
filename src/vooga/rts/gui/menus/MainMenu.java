@@ -27,7 +27,7 @@ public class MainMenu extends Menu {
     public MainMenu () {
         super();
 
-        myBGImage = ResourceManager.instance().loadFile(DEFAULT_BGIMAGE_LOCATION);
+        myBGImage = ResourceManager.getInstance().<BufferedImage>getFile(DEFAULT_BGIMAGE_LOCATION, BufferedImage.class);
         setImage(myBGImage);
 
         myStartButton =

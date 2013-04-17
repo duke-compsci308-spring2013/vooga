@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import vooga.rts.networking.communications.Message;
+import vooga.rts.networking.communications.clientmessages.InitialConnectionMessage;
 
 
 /**
@@ -54,24 +55,35 @@ public class ConnectionThread extends Thread {
     @Override
     public void run () {
         myConnectionActive = true;
+        try {
+            Object obj;
+            
+            // Checks to see if first class passed is initial connection mesage
+            // TODO repeated/bad code
+            if ((obj = myInput.readObject()) != null && obj instanceof InitialConnectionMessage) {
+                Message message = (Message) obj;
+                myMessageServer.receiveMessageFromClient(message, this);
+            } else {
+                myConnectionActive = false;
+                myMessageServer.removeConnection(this);
+                return;
+            }
         while (myConnectionActive) {
-            try {
-                Object obj;
                 if ((obj = myInput.readObject()) != null && obj instanceof Message) {
                     Message message = (Message) obj;
-                    myMessageServer.sendMessage(message, this);
+                    myMessageServer.receiveMessageFromClient(message, this);
                 }
-            }
-            catch (IOException e) {
-                // TODO add logger
-                e.printStackTrace();
-                close();
-            }
-            catch (ClassNotFoundException e) {
-                // TODO add logger
-                e.printStackTrace();
-                close();
-            }
+            }  
+        }
+        catch (IOException e) {
+            // TODO add logger
+            e.printStackTrace();
+            close();
+        }
+        catch (ClassNotFoundException e) {
+            // TODO add logger
+            e.printStackTrace();
+            close();
         }
     }
 

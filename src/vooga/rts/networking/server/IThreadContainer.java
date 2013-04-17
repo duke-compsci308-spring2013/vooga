@@ -1,5 +1,10 @@
 package vooga.rts.networking.server;
 
+/**
+ * Provides an interface between ClientInfoMessages coming in and the various thread container classses.
+ * @author David Winegar
+ *
+ */
 public interface IThreadContainer {
 
     public void removeConnection (ConnectionThread thread);
@@ -10,5 +15,8 @@ public interface IThreadContainer {
 
     public void leaveLobby (ConnectionThread thread);
 
-    public void startGameServer ();
+    public void startGameServer (ConnectionThread thread);
+
+    public void requestLobbies (ConnectionThread thread, int startNumber, int endNumber);
+
 }

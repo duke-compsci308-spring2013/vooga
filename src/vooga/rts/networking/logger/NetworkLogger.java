@@ -39,7 +39,9 @@ public class NetworkLogger {
      * @return instance of this Network Logger
      */
     public static NetworkLogger getInstance () {
-        if (instance == null) return new NetworkLogger();
+        if (instance == null) {
+            instance = new NetworkLogger();
+        }
         return instance;
     }
 

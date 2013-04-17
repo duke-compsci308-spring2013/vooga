@@ -4,6 +4,7 @@ package vooga.rts.leveleditor.components;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,7 @@ import vooga.rts.util.Location;
  */
 
 
-public class EditableMap {
+public class EditableMap implements Serializable {
 
     
     private int myXSize;

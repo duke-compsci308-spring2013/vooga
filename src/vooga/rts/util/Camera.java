@@ -11,7 +11,7 @@ public class Camera {
 
     private static final double ISO_WIDTH = 1.0;
     private static final double ISO_HEIGHT = 0.5;
-    public static final double MOVE_SPEED = 10.0;
+    public static final double MOVE_SPEED = 200.0;
 
     private static Camera myInstance;
 

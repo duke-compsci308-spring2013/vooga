@@ -1,18 +1,6 @@
 package vooga.rts.gamedesign;
 
-import java.awt.Dimension;
 import java.lang.reflect.InvocationTargetException;
-
-import vooga.rts.gamedesign.sprite.rtsprite.Projectile;
-import vooga.rts.gamedesign.sprite.rtsprite.interactive.units.Soldier;
-import vooga.rts.gamedesign.sprite.rtsprite.interactive.units.Unit;
-import vooga.rts.gamedesign.strategy.attackstrategy.CanAttack;
-import vooga.rts.gamedesign.strategy.attackstrategy.CannotAttack;
-import vooga.rts.resourcemanager.ResourceManager;
-import vooga.rts.util.Location;
-import vooga.rts.util.Pixmap;
-import vooga.rts.util.Sound;
-import vooga.rts.gamedesign.Weapon;
 
 public class GameDesignMain {
 

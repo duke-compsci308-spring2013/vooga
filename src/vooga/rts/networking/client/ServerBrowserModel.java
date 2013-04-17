@@ -1,7 +1,7 @@
 package vooga.rts.networking.client;
 
 import vooga.rts.networking.communications.Message;
-import vooga.rts.networking.communications.server.InitialConnectionMessage;
+import vooga.rts.networking.communications.clientmessages.InitialConnectionMessage;
 
 public class ServerBrowserModel implements IMessageReceiver {
 

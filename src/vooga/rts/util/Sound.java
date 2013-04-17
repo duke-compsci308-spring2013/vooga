@@ -25,6 +25,13 @@ public class Sound {
     public Sound (String filename) {
         setSound(filename);
     }
+    
+    /**
+     * Construct a sound with specified Audio Clip
+     */
+    public Sound (AudioClip soundclip) {
+        myClip = soundclip;
+    }
 
     /**
      * Set this sound to the data referred to by the given filename.

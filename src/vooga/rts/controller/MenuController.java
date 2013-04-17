@@ -57,6 +57,12 @@ public class MenuController extends AbstractController implements Observer  {
     public void onLeftMouseUp (PositionObject o) {        
         getCurrentMenu().handleMouseDown((int)o.getX(), (int)o.getY());
     }
+    
+    @Override
+    public void onMouseMove (PositionObject o) {        
+        getCurrentMenu().handleMouseMovement((int)o.getX(), (int)o.getY());
+    }
+    
 
     @Override
     public void update (Observable arg0, Object arg1) {
