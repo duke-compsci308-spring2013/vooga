@@ -20,8 +20,7 @@ import vooga.fighter.util.Text;
 import vooga.fighter.view.Canvas;
 import vooga.fighter.controller.ControllerManager;
 import vooga.fighter.controller.GameInfo;
-import vooga.fighter.input.Input;
-import vooga.fighter.input.InputClassTarget;
+
 
 import java.util.ArrayList;
 import java.util.Enumeration;

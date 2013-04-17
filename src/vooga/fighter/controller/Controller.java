@@ -1,7 +1,8 @@
 package vooga.fighter.controller;
 
-import vooga.fighter.input.Input;
-import vooga.fighter.input.InputClassTarget;
+
+
+import util.input.Input;
 import vooga.fighter.model.*;
 import vooga.fighter.view.Canvas;
 

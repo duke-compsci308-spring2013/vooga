@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.Timer;
 import util.Location;
-import vooga.fighter.input.AlertObject;
-import vooga.fighter.input.Input;
-import vooga.fighter.input.InputMethodTarget;
+import util.input.AlertObject;
+import util.input.Input;
+import util.input.InputMethodTarget;
 import vooga.fighter.model.LevelMode;
 import vooga.fighter.model.Mode;
 import vooga.fighter.util.Paintable;
@@ -85,6 +85,12 @@ public class ScoreController extends Controller {
         myManager.notifyEndCondition("Test");
         
     }
+
+	@Override
+	public void notifyEndCondition(String endCondition) {
+		// TODO Auto-generated method stub
+		
+	}
    
 
 }

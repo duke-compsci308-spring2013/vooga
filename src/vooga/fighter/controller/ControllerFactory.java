@@ -1,7 +1,6 @@
 package vooga.fighter.controller;
 
-import vooga.fighter.input.Input;
-import vooga.fighter.input.InputClassTarget;
+
 
 
 
@@ -15,7 +14,7 @@ import java.util.ResourceBundle;
 
 import vooga.fighter.view.Canvas;
 
-@InputClassTarget
+
 public class ControllerFactory {
     private static final String DEFAULT_RESOURCE_PACKAGE = "vooga.fighter.config.";
 

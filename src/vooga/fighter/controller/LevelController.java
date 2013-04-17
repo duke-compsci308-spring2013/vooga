@@ -10,7 +10,7 @@ import java.util.List;
 import javax.swing.Timer;
 
 import util.Location;
-import vooga.fighter.input.*;
+import util.input.*;
 import vooga.fighter.model.LevelMode;
 import vooga.fighter.model.Mode;
 import vooga.fighter.model.objects.CharacterObject;
@@ -123,5 +123,11 @@ public class LevelController extends Controller {
         myManager.notifyEndCondition("GameOver");
         
     }
+
+	@Override
+	public void notifyEndCondition(String endCondition) {
+		// TODO Auto-generated method stub
+		
+	}
     
 }
