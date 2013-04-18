@@ -69,7 +69,7 @@ public class MainView extends JFrame {
 		myViewPanelList = new JPanel[3];
 		myViewPanelList[0] = new GameCenterPanel(this, myModel);
 		myViewPanelList[1] = new SocialCenterPanel();
-		myViewPanelList[2] = new StorePanel();
+		myViewPanelList[2] = new StorePanel(myModel);
 
 		myViewPanel = new JPanel(new CardLayout());
 		myViewPanel.setBounds(150, 0, 650, 600);
