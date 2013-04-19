@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<menutype>
+    <menumode menuname="MainMenu" >
+        <menuobject menuobjectname="ModeSelectMenu" />
+    </menumode>
+    <menumode menuname="ModeSelectMenu" >
+        <menuobject menuobjectname="1v1" />
+    </menumode>
+    <menumode menuname="CharacterSelectMenu" >
+        <menuobject menuobjectname="Ryu" />
+    </menumode>
+    <menumode menuname="GameOver" >
+        <menuobject menuobjectname="EndGame" />
+    </menumode>
+    <menumode menuname="MapSelectMenu" >
+        <menuobject menuobjectname="BlueMap" />
+    </menumode>
+    
+</menutype>

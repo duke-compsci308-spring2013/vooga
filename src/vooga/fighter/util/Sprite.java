@@ -214,9 +214,9 @@ public abstract class Sprite {
     }
     
     public Location getOriginalCenterLocation() {
-    	return new Location(myOriginalCenter);
+        return new Location(myOriginalCenter);
     }
-	
+
     
 
     /**
@@ -242,86 +242,86 @@ public abstract class Sprite {
     protected double getHitDirection (Rectangle bounds) {
         // double angle = Vector.angleBetween(myCenter, new Location(bounds.getCenterX(), bounds.getCenterY()));
         // BUGBUG: FIX ME --- this is very imperfect, but sort of works for now
-    	Location BottomRightCorner = new Location(getRight(), getBottom());
-    	Location BottomLeftCorner = new Location(getLeft(), getBottom());
-    	Location TopRightCorner = new Location(getRight(), getTop());
-    	Location TopLeftCorner = new Location(getLeft(), getTop());
+        Location BottomRightCorner = new Location(getRight(), getBottom());
+        Location BottomLeftCorner = new Location(getLeft(), getBottom());
+        Location TopRightCorner = new Location(getRight(), getTop());
+        Location TopLeftCorner = new Location(getLeft(), getTop());
         if (bounds.contains(BottomRightCorner)) {
-        	if(DifferenceInAnglesFromCenterToCorners(BottomRightCorner, new Location(bounds.getMinX(), bounds.getMinY())) >= 0
-        			&& DifferenceInAnglesFromCenterToCorners(BottomRightCorner, new Location(bounds.getMinX(), bounds.getMinY())) <= -180)
-        	{
-        		return LEFT_DIRECTION;
-        	}
-        	else
-        	{
-        		return UP_DIRECTION;
-        	}
+                if(DifferenceInAnglesFromCenterToCorners(BottomRightCorner, new Location(bounds.getMinX(), bounds.getMinY())) >= 0
+                                && DifferenceInAnglesFromCenterToCorners(BottomRightCorner, new Location(bounds.getMinX(), bounds.getMinY())) <= -180)
+                {
+                        return LEFT_DIRECTION;
+                }
+                else
+                {
+                        return UP_DIRECTION;
+                }
         }
         else if (bounds.contains(BottomLeftCorner)) {
-        	if(DifferenceInAnglesFromCenterToCorners(BottomLeftCorner,new Location(bounds.getMaxX(), bounds.getMinY()))
-        			>= 0)
-        	{
-        		return UP_DIRECTION;
-        	}
-        	else
-        	{
-        		return RIGHT_DIRECTION;
-        	}
+                if(DifferenceInAnglesFromCenterToCorners(BottomLeftCorner,new Location(bounds.getMaxX(), bounds.getMinY()))
+                                >= 0)
+                {
+                        return UP_DIRECTION;
+                }
+                else
+                {
+                        return RIGHT_DIRECTION;
+                }
         }
         else if (bounds.contains(TopLeftCorner)) {
-        	if(DifferenceInAnglesFromCenterToCorners(TopLeftCorner, 
-        			new Location(bounds.getMinX(), bounds.getMaxY())) >= 0)
-        	{
-        		return DOWN_DIRECTION;
-        	}
-        	else
-        	{
-        		return RIGHT_DIRECTION;
-        	}
+                if(DifferenceInAnglesFromCenterToCorners(TopLeftCorner, 
+                                new Location(bounds.getMinX(), bounds.getMaxY())) >= 0)
+                {
+                        return DOWN_DIRECTION;
+                }
+                else
+                {
+                        return RIGHT_DIRECTION;
+                }
         }
         else if (bounds.contains(TopRightCorner)) {
-        	if(DifferenceInAnglesFromCenterToCorners(TopRightCorner, 
-        			new Location(bounds.getMaxX(), bounds.getMaxY())) >= 0
-        		&& DifferenceInAnglesFromCenterToCorners(TopRightCorner, 
-        				new Location(bounds.getMaxX(), bounds.getMaxY())) <= 180)
-        	{
-        		return LEFT_DIRECTION;
-        	}
-        	else
-        	{
-        		return DOWN_DIRECTION;
-        	}
+                if(DifferenceInAnglesFromCenterToCorners(TopRightCorner, 
+                                new Location(bounds.getMaxX(), bounds.getMaxY())) >= 0
+                        && DifferenceInAnglesFromCenterToCorners(TopRightCorner, 
+                                        new Location(bounds.getMaxX(), bounds.getMaxY())) <= 180)
+                {
+                        return LEFT_DIRECTION;
+                }
+                else
+                {
+                        return DOWN_DIRECTION;
+                }
         }
         return 0;
         //return Double.NaN;
     }
-	/**
-	 * Determines the difference of the angles of the vector from the center of the sprite to its 
-	 * relevant corner and the vector from the center to the other corner's intersecting corner
-	 */
+        /**
+         * Determines the difference of the angles of the vector from the center of the sprite to its 
+         * relevant corner and the vector from the center to the other corner's intersecting corner
+         */
     private double DifferenceInAnglesFromCenterToCorners(Location RelevantCorner, 
-    		Location IntersectingCorner)
+                Location IntersectingCorner)
     {
-    	double AngleFromCenterToRelevantCorner;
-    	double AngleFromCenterToIntersectingCorner;
+        double AngleFromCenterToRelevantCorner;
+        double AngleFromCenterToIntersectingCorner;
   
-        	AngleFromCenterToRelevantCorner = Vector.angleBetween(myCenter, 
-        			RelevantCorner);
-        	AngleFromCenterToIntersectingCorner = Vector.angleBetween(myCenter, 
-        			IntersectingCorner);
-        	return Vector.angleBetween(AngleFromCenterToRelevantCorner, 
-        			AngleFromCenterToIntersectingCorner);
+                AngleFromCenterToRelevantCorner = Vector.angleBetween(myCenter, 
+                                RelevantCorner);
+                AngleFromCenterToIntersectingCorner = Vector.angleBetween(myCenter, 
+                                IntersectingCorner);
+                return Vector.angleBetween(AngleFromCenterToRelevantCorner, 
+                                AngleFromCenterToIntersectingCorner);
     }
     public boolean HitTop(Rectangle bounds){
-    	return UP_DIRECTION == getHitDirection(bounds);
+        return UP_DIRECTION == getHitDirection(bounds);
     }
     public boolean HitRight(Rectangle bounds){
-    	return RIGHT_DIRECTION == getHitDirection(bounds);
+        return RIGHT_DIRECTION == getHitDirection(bounds);
     }
     public boolean HitLeft(Rectangle bounds){
-    	return LEFT_DIRECTION == getHitDirection(bounds);
+        return LEFT_DIRECTION == getHitDirection(bounds);
     }
     public boolean HitBottom(Rectangle bounds){
-    	return DOWN_DIRECTION == getHitDirection(bounds);
+        return DOWN_DIRECTION == getHitDirection(bounds);
     }
 }

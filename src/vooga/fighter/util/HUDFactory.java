@@ -30,7 +30,7 @@ public class HUDFactory {
 
         for (Field member : objectClass.getDeclaredFields()) {
             for (Annotation a : member.getAnnotations()) {
-                if (a.getClass() == HUDVariable.class) {
+                if (a instanceof HUDVariable) {
                     HUDVariable varAnnotation = (HUDVariable) a;
                     if (member.get(gameObject) == null) {
                         continue;

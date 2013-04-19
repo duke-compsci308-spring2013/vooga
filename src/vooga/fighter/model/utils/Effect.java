@@ -8,7 +8,7 @@ import vooga.fighter.model.objects.GameObject;
 /**
  * Represents an effect placed on a character (or several).
  * 
- * @author james, alanni
+ * @author James Wei, alanni
  *
  */
 public abstract class Effect {

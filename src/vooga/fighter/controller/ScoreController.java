@@ -1,100 +1,74 @@
 package vooga.fighter.controller;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.util.List;
-import javax.swing.Timer;
 import util.Location;
 import util.input.AlertObject;
 import util.input.Input;
+import util.input.InputClassTarget;
 import util.input.InputMethodTarget;
-import vooga.fighter.model.LevelMode;
-import vooga.fighter.model.Mode;
+import util.input.PositionObject;
+import vooga.fighter.controller.Controller;
+import vooga.fighter.controller.ControllerDelegate;
+import vooga.fighter.controller.GameInfo;
+import vooga.fighter.controller.OneVOneController;
+import vooga.fighter.model.*;
+import vooga.fighter.model.objects.MouseClickObject;
 import vooga.fighter.util.Paintable;
 import vooga.fighter.view.Canvas;
 
-public class ScoreController extends Controller {
-    private static final String INPUT_PATHWAY = "vooga.fighter.input.Game1Mapping_en_US";
-    
-    private Mode myMode;
-    private Canvas myCanvas;
+import java.awt.Dimension;
+import java.util.List;
+import java.util.ResourceBundle;
 
+
+/**
+ * 
+ * @author Jerry Li
+ * 
+ */
+
+@InputClassTarget
+public class ScoreController extends MenuController {
+        
+    private ResourceBundle myResources;
+    
     public ScoreController (String name, Canvas frame) {
         super(name, frame);
-        System.out.println("score controller started");
     }
-
-    public ScoreController (String name, Canvas frame, ControllerDelegate manager,
-                            GameInfo gameinfo) {
+        
+    public ScoreController(String name, Canvas frame, ControllerDelegate manager, 
+                GameInfo gameinfo) {
         super(name, frame, manager, gameinfo);
-
-        loadMode();
-        GameLoopInfo gameLoopInfo = new GameLoopInfo((LevelMode) super.getMode());
-        setGameLoopInfo(gameLoopInfo);
-        frame.setViewDataSource(gameLoopInfo);
-        System.out.println("score controller finished");
+        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "LevelConfig");
     }
     
-    
-
-    public void loadMode() {
-        List<Integer> characterNames = myGameInfo.getCharacters();
-        int mapID = myGameInfo.getMapName();
-        Mode temp = new LevelMode(this, characterNames, mapID);
-        setMode(temp);
-    }
-
     /**
-     * Exits program.
+     * Checks this controller's end conditions
      */
-    public void exit () {
-        System.exit(0);
-    }
+    public void notifyEndCondition(String choice) {
+    	removeListener();
+        if(EXIT.equals(choice)){
+        	getManager().exit();
+        }
+        if(BACK.equals(choice)) {
+        	getManager().notifyEndCondition(BACK);
+        }
+        else if (getMode().getMenuNames().contains(choice)){
+                getGameInfo().setGameMode(choice);
+                getGameInfo().setNumCharacters(Integer.parseInt(myResources.getString(choice)));
+                getManager().notifyEndCondition(NEXT);
+                }
+        }
 
-   
+
+
     @Override
     public Controller getController (ControllerDelegate delegate, GameInfo gameinfo) {
-
-        return new ScoreController(super.getName(), super.getView(),
+        return new MainMenuController(super.getName(), super.getView(),
                                    delegate, gameinfo);
     }
 
-    @Override
-    protected Input makeInput () {
-        Input input = new Input(INPUT_PATHWAY, super.getView());
-        input.addListenerTo(this);
-        return input;
+    public void removeListener(){
+    	super.removeListener();
+    	getInput().removeListener(this);
     }
-    
-    @InputMethodTarget(name = "Exit_Game")
-    public void playerOneJumpInput (AlertObject alObj)  {
-        System.exit(0);
-    }
-    
-    @InputMethodTarget(name = "Restart")
-    public void playerOneLeftInput (AlertObject alObj) {
-        System.out.println("restarting");
-        notifyEndCondition();
-        
-    }
-
-    @Override
-    public void notifyEndCondition () {
-        System.out.println("score controller notify end is working");
-        myGameInfo.setCharacter(0, 1);
-        myGameInfo.setCharacter(1, 2);
-        myGameInfo.setMapName(1);
-        myManager.notifyEndCondition("Test");
-        
-    }
-
-	@Override
-	public void notifyEndCondition(String endCondition) {
-		// TODO Auto-generated method stub
-		
-	}
-   
-
 }

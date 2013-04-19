@@ -25,7 +25,7 @@ public class Main extends JFrame
     public static void main (String args[])
     {
         // view of user's content
-
+    	
         // start animation
         GameManager control = new GameManager();
         control.run();

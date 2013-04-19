@@ -6,18 +6,28 @@ import vooga.fighter.model.utils.Health;
 
 public class PlayerStatus {
     
-    private String myName;
+    private static int myPlayerID = 0;
+    private String myPlayerName;
+    private String myCharacterName;
     private Health myHealth;
     private Double myScore;
     
+    public PlayerStatus () {
+        myPlayerID++;
+        myCharacterName = "";
+        myPlayerName = "Player " + myPlayerID;
+        myHealth = null;
+        myScore = (double) 0;
+    }
+    
     public PlayerStatus (String name, Health health, Double score) {
-        myName = name;
+        myCharacterName = name;
         myHealth = health;
         myScore = score;
     }
     
-    public String getName() {
-        return myName;
+    public String getPlayerName() {
+        return myPlayerName;
     }
     
     public Health getHealth() {
@@ -28,8 +38,8 @@ public class PlayerStatus {
         return myScore;
     }
     
-    public void setName(String name) {
-        myName = name;
+    public void setCharacterName(String name) {
+        myCharacterName = name;
     }
     
     public void setHealth(Health health) {

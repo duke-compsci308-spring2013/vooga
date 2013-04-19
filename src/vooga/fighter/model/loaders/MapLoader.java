@@ -2,6 +2,8 @@ package vooga.fighter.model.loaders;
 
 
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,49 +19,66 @@ import vooga.fighter.model.utils.UpdatableLocation;
 
 /**
  * 
- * @author alanni
- * Loads the data to the map
+ * @author alanni, David Le
+ * Loads the data to the map object
  */
 
 public class MapLoader extends ObjectLoader {
 
 
-	private static final String CHARACTER_PATH = "src/vooga/fighter/config/maps.xml";
+	private static final String MAP_PATH = "src/vooga/fighter/config/maps.xml";
 
 	private MapObject myMap;
+	/**
+	 * Dummy Constructor only to be used when getting map count
+	 */
+	public MapLoader(){
+		super(MAP_PATH);
+	}
 
-	public MapLoader (int mapId, MapObject map) {
-		super(CHARACTER_PATH);
+	public MapLoader (String mapName, MapObject map) {
+		super(MAP_PATH);
 		myMap = map;
-		load(mapId);
+		load(mapName);
 	}
 
 	/**
 	 * Loads map from xml data
 	 */
-	public void load(int mapId) {
+	public void load(String mapName) {
 		Document doc = getDocument();
 		NodeList mapNodes = doc.getElementsByTagName("map");
 
 		for (int i = 0; i < mapNodes.getLength(); i++) {
 			Element node = (Element) mapNodes.item(i);
-			int id = Integer.parseInt(getAttributeValue(node, "mapID"));
-			if (id == mapId) {
+			String name = getAttributeValue(node, "mapName");
+			if (mapName.equals(name)) {
 			    // fix 1 to number of frames later
 				State mapState = new State(myMap, 1);
-				mapState.populateImage(new Pixmap(getAttributeValue(node, "enviroBackground")), 0);
-				Node mapSize = node.getElementsByTagName("size").item(0);
-				mapState.populateSize(new Dimension(Integer.parseInt(getAttributeValue(mapSize, "xSize")),
-						Integer.parseInt(getAttributeValue(mapSize, "ySize"))), 0);
+				mapState.populateImage(new Pixmap(getAttributeValue(node, "mapBackground")), 0);
+				mapState.populateSize(new Dimension(Integer.parseInt(getAttributeValue(node, "xSize")),
+						Integer.parseInt(getAttributeValue(node, "ySize"))), 0);
 				myMap.addState("background", mapState);
-				myMap.setLocation(new UpdatableLocation(Integer.parseInt(getAttributeValue(mapSize, "xSize"))/2,
-						Integer.parseInt(getAttributeValue(mapSize, "ySize"))/2));
-				NodeList enviroObjectNodes = node.getElementsByTagName("enviroObject");
-				addEnviroObjects(enviroObjectNodes);
-				NodeList startingPosNodes= node.getElementsByTagName("startingPos");
-				addStartingPositions(startingPosNodes);
+				myMap.setLocation(new UpdatableLocation(Integer.parseInt(getAttributeValue(node, "xSize"))/2,
+						Integer.parseInt(getAttributeValue(node, "ySize"))/2));
+				NodeList startingPosNodes= node.getElementsByTagName("startingPositions");
+				Element firststartingposition = (Element) startingPosNodes.item(0);
+				NodeList startingPos1 = firststartingposition.getElementsByTagName("startingPos");
+				addStartingPositions(startingPos1);
 			}
 		}
+	}
+	
+	
+	public List<String> getMapNames(){
+		List maps = new ArrayList<String>();
+		Document doc = getDocument();
+		NodeList mapNodes = doc.getElementsByTagName("map");
+		for (int i = 0; i < mapNodes.getLength(); i++) {
+			Element node = (Element) mapNodes.item(i);
+			maps.add(getAttributeValue(node, "mapName"));
+		}
+		return maps;		
 	}
 
 	/**
@@ -70,11 +89,11 @@ public class MapLoader extends ObjectLoader {
 	private void addStartingPositions(NodeList startingPosNodes) {
 		for (int i=0; i<startingPosNodes.getLength(); i++){
 			Node startingPosition= startingPosNodes.item(i);
+			System.out.println(getAttributeValue(startingPosition, "xCoord"));
 			int xCoord= Integer.parseInt(getAttributeValue(startingPosition, "xCoord"));
 			int yCoord= Integer.parseInt(getAttributeValue(startingPosition, "yCoord"));
 			myMap.addStartPosition(new UpdatableLocation(xCoord,yCoord));
 		}
-
 	}
 
 	/**
@@ -94,6 +113,8 @@ public class MapLoader extends ObjectLoader {
 			toAdd.setImageData();
 		}
 	}
+
+
 
 
 }

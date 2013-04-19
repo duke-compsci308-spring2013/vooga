@@ -7,6 +7,7 @@ import vooga.fighter.model.utils.ImageDataObject;
 import vooga.fighter.model.utils.State;
 import vooga.fighter.model.utils.UpdatableLocation;
 import java.awt.Dimension;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 /**
  * Represents a single object in the game.
  * 
- * @author james, alanni, David Le
+ * @author James Wei, alanni, David Le
  * 
  */
 public abstract class GameObject {
@@ -143,13 +144,6 @@ public abstract class GameObject {
     }
     
     /**
-     * Returns the priority of the object
-     */   
-    public int getPriority(){
-    	return myCurrentState.getPriority(); 
-    }
-    
-    /**
      * Sets image data for this object. Size, Location, and Image must not be
      * null for this object before calling this method, otherwise, this method
      * returns null.
@@ -172,29 +166,55 @@ public abstract class GameObject {
     
     /**
      * Updates the object for the game loop. Should be overridden by subclasses if
-     * necessary, but all overrides should call superclass method.
+     * necessary, but all overrides should first call superclass method.
      */
     public void update() {
     	setImageData();
         if (myCenter != null) {
             myCenter.update();
         }
+    }
+    
+    /**
+     * Updates the objects state for the game loop. States are updated separately
+     * because all states must be updated together, either before or after other
+     * update logic that depends on current states.
+     */
+    public void updateState() {
         if (myCurrentState != null) {
             myCurrentState.update();
         }
     }
     
     /**
-     * Returns the difference between two game object's priorities. A negative
-     * number indicates the calling object has higher priority, whereas a positive
-     * number indicates the other object has higher priority.   
+     * Second dispatch for collision management. Key part of the visitor pattern.
      */
-    public int compare(GameObject o){
-    	return this.getPriority()-o.getPriority();
-    }   
+    public abstract void dispatchCollision(GameObject other);
     
+    /**
+     * Handles a collision with another game object. Key part of the visitor pattern.
+     */
+    public abstract void handleCollision(CharacterObject other);
+
+    /**
+     * Handles a collision with another game object. Key part of the visitor pattern.
+     */
+    public abstract void handleCollision(AttackObject other);
+    
+    /**
+     * Handles a collision with another game object. Key part of the visitor pattern.
+     */
+    public abstract void handleCollision(EnvironmentObject other);
+    
+    /**
+     * Returns collection of states
+     */
+    protected Collection getStates(){
+    	return myStates.values();
+    }
     /**
      * Indicates whether or not the object is ready to be removed.
      */
     public abstract boolean shouldBeRemoved();
+    
 }

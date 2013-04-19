@@ -12,7 +12,7 @@ import java.util.*;
  * particular map. Also contains the background image, music, and player start
  * locations.
  * 
- * @author james, mp
+ * @author James Wei, mp
  * 
  */
 
@@ -26,13 +26,13 @@ public class MapObject extends GameObject {
     /**
      * Constructor for a new Map object.
      */
-    public MapObject(int mapId) {
+    public MapObject(String mapName) {
         super();
         myEnviroObjects = new ArrayList<EnvironmentObject>();
         myStartingPositions = new ArrayList<UpdatableLocation>();
         mySounds = new HashMap<String,Sound>();
         myCurrentSound = null;
-        setLoader(new MapLoader(mapId, this));
+        setLoader(new MapLoader(mapName, this));
         setCurrentState("background");
         setImageData();
     }
@@ -137,6 +137,24 @@ public class MapObject extends GameObject {
      */
     public boolean shouldBeRemoved() {
         return false;
+    }
+
+
+    public void dispatchCollision (GameObject other) {
+        
+    }
+
+    public void handleCollision (CharacterObject other) {
+        
+    }
+
+
+    public void handleCollision (AttackObject other) {
+        
+    }
+
+    public void handleCollision (EnvironmentObject other) {
+        
     }
     
 }

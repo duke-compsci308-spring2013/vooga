@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<objects>
+    <menuobject menuobjectname="ModeSelectMenu">
+    	<state name="Test">
+            <frame image="fighter/images/StartGame.gif" />
+        </state>
+    </menuobject>
+    <menuobject menuobjectname="1v1">
+    	<state name="Test">
+            <frame image="fighter/images/1v1.jpg" />
+        </state>
+    </menuobject>
+    <menuobject menuobjectname="Ryu">
+    	<state name="Test">
+            <frame image="fighter/images/ryu_stand1.png" />
+        </state>
+    </menuobject>
+    <menuobject menuobjectname="EndGame">
+    	<state name="Test">
+            <frame image="fighter/images/GameOver.jpg" />
+        </state>
+    </menuobject>
+    <menuobject menuobjectname = "BlueMap">
+    	<state name = "Test">
+    		<frame image = "fighter/images/FinalDestination.jpg" />
+    	</state>
+   	</menuobject>
+</objects>

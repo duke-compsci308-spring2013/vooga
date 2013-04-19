@@ -7,7 +7,8 @@ import util.Vector;
 /**
  * Represents a location that can take in acceleration forces and resolve them
  * in an update method.
- * @author james
+ * 
+ * @author James Wei
  *
  */
 public class UpdatableLocation {

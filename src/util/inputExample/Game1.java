@@ -74,7 +74,7 @@ public class Game1 {
 	
 	@InputMethodTarget(name="movetest")
 	public void movementCoordTest(PositionObject posObj) {
-		//System.out.println(posObj.getX() + ", " + posObj.getY());
+		System.out.println(posObj.getX() + ", " + posObj.getY());
 	}
 	
 	@InputMethodTarget(name="scrolltest")

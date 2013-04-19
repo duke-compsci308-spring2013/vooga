@@ -3,6 +3,7 @@ package vooga.fighter.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import arcade.games.HighScores;
 import arcade.games.UserGameData;
 
 /**
@@ -11,31 +12,36 @@ import arcade.games.UserGameData;
  * 
  */
 public class GameInfo extends UserGameData{
+
     private String myGameMode;
-    private int myMapID;
-    private List<Integer> myCharacters;
+    private String myMapName;
+    private int myMapCount;
+    private List<String> myCharacters;
     private Integer myNumCharacters;
     private List<Integer> myScores;
-    
+    private List<String> myMapsPlayed;
+    private List<String> myMapNames;
+    private HighScores myHighScores;
 
     /**
      * Constructor
      */
-    public GameInfo () {
-    	myCharacters = new ArrayList<Integer>();
+    public GameInfo (List<String> mapNames) {
+    	myCharacters = new ArrayList<String>();
+    	myMapsPlayed = new ArrayList<String>();
     	myScores = new ArrayList<Integer>();
+    	myGameMode = "Fighting Game";
+    	myMapNames = mapNames;
     }
     
     /**
      * Test constructor, automatically adds character index and map index to load. 
      */
-    public GameInfo (List<Integer> characterIndexes, int mapID) {
-        this();
-        myCharacters = characterIndexes;
-        System.out.println("character size" + myCharacters.size());
-        myMapID = mapID;
+    public GameInfo (List<String> mapNames, List<String> characters, String map) {
+        this(mapNames);
+        myCharacters = characters;
+        myMapName = map;
     }
-
     /**
      * 
      */
@@ -91,49 +97,52 @@ public class GameInfo extends UserGameData{
      * 
      * @param myGameMode
      */
-    public void setGameMode (String myGameMode) {
-        myGameMode = myGameMode;
+    public void setGameMode (String gameMode) {
+        myGameMode = gameMode;
     }
 
     /**
      * 
      * @return
      */
-    public int getMapName () {
-        return myMapID;
+    public String getMapName () {
+        return myMapName;
     }
 
     /**
      * 
      * @param myMapName
      */
-    public void setMapName (int mapID) {
-        myMapID = mapID;
+    public void setMapName (String map) {
+        myMapName = map;
     }
 
     /**
      * 
      * @return
      */
-    public List<Integer> getCharacters () {
+    public List<String> getCharacters () {
         return myCharacters;
     }
-
+    
+    public void addCharacters(String character) {
+        myCharacters.add(character);
+    }
     /**
      * 
      * @param index
      * @param characterName
      */
-    public void setCharacter (int index, int characterID) {
-        myCharacters.set(index, characterID);
+    public void setCharacter (int index, String character) {
+        myCharacters.set(index, character);
     }
 
     /**
      * 
      * @param myCharacters
      */
-    public void setCharacters (List<String> myCharacters) {
-        myCharacters = myCharacters;
+    public void setCharacters (List<String> characters) {
+        myCharacters = characters;
     }
 
     /**
@@ -148,8 +157,28 @@ public class GameInfo extends UserGameData{
      * 
      * @param myNumCharacters
      */
-    public void setNumCharacters (int myNumCharacters) {
-        myNumCharacters = myNumCharacters;
+    public void setNumCharacters (int numCharacters) {
+        myNumCharacters = numCharacters;
+    }
+    
+
+    public int getMapCount(){
+    	return myMapNames.size();
     }
 
+    public List<String> getMapsPlayed(){
+    	return myMapsPlayed;
+    }
+    
+    public List<String> getMapNames(){
+    	return myMapNames;
+    }
+    
+    public void setHighScores(HighScores highscores){
+    	myHighScores = highscores;
+    }
+    
+    public HighScores getHighScores(){
+    	return myHighScores;
+    }
 }

@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import vooga.fighter.controller.ModelDelegate;
 import vooga.fighter.model.loaders.MapLoader;
+import vooga.fighter.model.objects.AttackObject;
 import vooga.fighter.model.objects.CharacterObject;
 import vooga.fighter.model.objects.EnvironmentObject;
 import vooga.fighter.model.objects.GameObject;
 import vooga.fighter.model.objects.MapObject;
+import vooga.fighter.model.utils.Health;
 import vooga.fighter.model.utils.ImageDataObject;
 import vooga.fighter.model.utils.State;
 import vooga.fighter.model.utils.UpdatableLocation;
@@ -17,21 +19,26 @@ import vooga.fighter.model.utils.UpdatableLocation;
 /**
  * Represents one level in the game, i.e. one matchup of two or more characters.
  * 
- * @author james
+ * @author James Wei, alanni
  * 
  */
 public class LevelMode extends Mode {
 
     private List<UpdatableLocation> myStartLocations;
-    private List<Integer> myCharacterIds;
-    private int myMapId;
+    private List<String> myCharacterNames;
+    private List<CharacterObject> myCharacterObjects;
+    private List<Health> myHealthStats;
+    private List<Double> myScores;
+    private String myMapName;
     private MapObject myMap;
 
-    public LevelMode(ModelDelegate cd, List<Integer> charIds, int mapId) {
+    public LevelMode(ModelDelegate cd, List<String> charNames, String mapName) {
         super(cd);
         myStartLocations = new ArrayList<UpdatableLocation>();
-        myCharacterIds = charIds;
-        myMapId = mapId;
+        myCharacterObjects = new ArrayList<CharacterObject>();
+        myHealthStats = new ArrayList<Health>();
+        myCharacterNames = charNames;
+        myMapName = mapName;
         myMap = null;
     }
 
@@ -39,39 +46,46 @@ public class LevelMode extends Mode {
      * Overrides superclass initialize method by creating all objects in the level.
      */
     public void initializeMode() {
-        loadMap(myMapId);
-        loadCharacters(myCharacterIds, myStartLocations);
+        loadMap(myMapName);
+        loadCharacters(myCharacterNames, myStartLocations);
+        loadHealth();
+    }
+    
+    public void loadHealth() {
+        for (int i = 0; i < myCharacterObjects.size(); i++) {
+            myHealthStats.add(myCharacterObjects.get(i).getHealth());
+        }
     }
 
     /**
      * Updates level mode by calling update in all of its objects.
      */
     public void update(double stepTime, Dimension bounds) {
+    	loadAttacks(); 
+    	removeAppropriateObjects(); 
         List<GameObject> myObjects = getMyObjects();
         handleCollisions();
         for (int i=0; i<myObjects.size(); i++) {
             GameObject object = myObjects.get(i);
-            State state = object.getCurrentState();
-//            System.out.printf("Updating %s:\n", object.getClass().toString());
-//            System.out.printf("Object current state:\ncurrentFrame: %d\nnumFrames: %d\nNull checks:\nImage: %b\nRectangle: %b\nSize: %b\n",
-//                              state.myCurrentFrame, state.myNumFrames, (state.getCurrentImage()==null), (state.getCurrentRectangle()==null),
-//                              (state.getCurrentSize()==null));
             object.update();
             if (object.shouldBeRemoved()) {
                 myObjects.remove(object);
                 i--;
             }
         }
-        if (shouldModeEnd()) {
-            super.signalTermination();
+
+        for (int i=0; i<myObjects.size(); i++) {
+            GameObject object = myObjects.get(i);
+            object.updateState();
         }
+        winningConditions();
     }
 
     /**
      * Loads the environment objects for a map using the ObjectLoader.
      */
-    public void loadMap (int mapId) {
-        myMap = new MapObject(mapId);
+    public void loadMap(String mapName) {
+        myMap = new MapObject(mapName);
     	myStartLocations = myMap.getStartPositions();
     	addObject(myMap);
     	List<EnvironmentObject> mapObjects = myMap.getEnviroObjects();
@@ -83,37 +97,28 @@ public class LevelMode extends Mode {
     /**
      * Loads the character objects for the selected characters using the ObjectLoader.
      */
-    public void loadCharacters(List<Integer> characterIds, List<UpdatableLocation> startingPos) {
-        for (int i=0; i<characterIds.size(); i++) {
-            int charId = characterIds.get(i);
+    public void loadCharacters(List<String> characterNames, List<UpdatableLocation> startingPos) {
+        for (int i=0; i<characterNames.size(); i++) {
+            String charName = characterNames.get(i);
             UpdatableLocation start = startingPos.get(i);
-            addObject(new CharacterObject(charId, start));
+            CharacterObject newCharacter = new CharacterObject(charName, start);
+            addObject(newCharacter);
+            myCharacterObjects.add(newCharacter);
         }
-    }
-
-    /**
-     * Detects and handles collisions between game objects.
-     */
-    public void handleCollisions () {
-        CollisionManager.checkCollisions(getMyObjects());
     }
     
     /**
      * Checks if the level has ended. Does so by checking if any player has no health
      * remaining.
      */
-    public boolean shouldModeEnd() {
-        for (GameObject object : getMyObjects()) {
-            if (object instanceof CharacterObject) {
-                CharacterObject currentChar = (CharacterObject) object;
-                if (!currentChar.hasHealthRemaining()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
+    /**
+     * Returns the list of CharacterObjects.
+     */
+    public List<CharacterObject> getMyCharacterObjects() {
+        return myCharacterObjects;
+    }
+    
     /**
      * Creates the list of image data objects and returns it.
      */
@@ -125,4 +130,43 @@ public class LevelMode extends Mode {
         return result;
     }
     
+    /**
+     * loads attacks from characters if they are new and aren't timed out
+     */
+    public void loadAttacks(){
+    	for (CharacterObject ch: myCharacterObjects){
+    		for (AttackObject attack: ch.getAttackObjects()){
+    			if (!(getMyObjects().contains(attack)||attack.shouldBeRemoved())){
+    				addObject(attack);
+    			}
+    		}
+    	}
+    }
+    
+    public List<Health> getHealth() {
+        myHealthStats.clear();
+        for (int i = 0; i < myCharacterObjects.size(); i++) {
+            myHealthStats.add(myCharacterObjects.get(i).getHealth());
+        }
+        return myHealthStats;
+    }
+    
+//    public List<Double> getScores() {
+//        myScores.clear();
+//        for (int i = 0; i < myCharacterObjects.size(); i++) {
+//            myHealthStats.add(myCharacterObjects.get(i).getScore());
+//        }
+//        return myScores;
+//       
+//    }
+    private void winningConditions(){
+    	for (int i = 0; i < myCharacterObjects.size(); i++) {
+    		if(myCharacterObjects.get(i).getLocation().getLocation().getX()<0){
+    			signalTermination("Ryu");
+    		}
+    	}
+    }
+    
+    
+
 }

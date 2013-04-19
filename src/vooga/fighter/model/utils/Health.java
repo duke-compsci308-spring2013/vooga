@@ -3,7 +3,7 @@ package vooga.fighter.model.utils;
 /**
  * Represents a health value for an object.
  * 
- * @author james
+ * @author James Wei
  * 
  */
 public class Health {

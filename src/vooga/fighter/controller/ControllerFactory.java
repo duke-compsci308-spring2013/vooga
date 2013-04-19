@@ -16,45 +16,46 @@ import vooga.fighter.view.Canvas;
 
 
 public class ControllerFactory {
-    private static final String DEFAULT_RESOURCE_PACKAGE = "vooga.fighter.config.";
+
+    private static final String ONE_V_ONE = "test";
+    private static final String MAIN_MENU = "MainMenu";
+    private static final String CHARACTER_SELECT = "CharacterSelectMenu";
+    private static final String MAP_SELECT = "MapSelectMenu";
+    private static final String MODE_SELECT = "ModeSelectMenu";
+    private static final String SCORE_CONTROLLER = "GameOver";
 
     private Map<String, Controller> myControllerMap;
     private Canvas myCanvas;
-    private ResourceBundle myResources;
-    private List<String> myControllerNames;
+    private ResourceBundle myLevelResources;
+    private ResourceBundle myMenuResources;
+    private ResourceBundle myScoreResources;
 
 
     public ControllerFactory(Canvas frame) {
         myCanvas = frame;
         myControllerMap = new HashMap<String, Controller>();
-        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "LevelConfig");
-        myControllerNames = new ArrayList<String>();
-
-        setupControllerConfiguration(frame, myResources, myControllerNames, myControllerMap);
-     
-    }
+        setupControllerConfiguration(frame, myControllerMap);
+    } 
 
     public Map getMap(){
         return myControllerMap;
     }
 
-    private void setupControllerConfiguration(Canvas frame, ResourceBundle resources, List<String> controllerName,
-                                              Map<String, Controller> controllermap) {
-        for(String key: resources.keySet()){
-            controllerName.add(key);
-            if (key.equals("LevelController")) {
-                Controller controller = new LevelController(resources.getString(key), frame);
+    protected void setupControllerConfiguration(Canvas frame,  Map<String, Controller> controllermap) {
+                Controller controller = new OneVOneController(ONE_V_ONE, frame);
                 controllermap.put(controller.getName(), controller);
-            }
-            else if (key.equals("ScoreController")) {
-                Controller controller = new ScoreController(resources.getString(key), frame);
+                controller = new MainMenuController(MAIN_MENU, frame);
                 controllermap.put(controller.getName(), controller);
-            }
-            
+                controller = new CharacterSelectController(CHARACTER_SELECT, frame);
+                controllermap.put(controller.getName(), controller);
+                controller = new MapSelectController(MAP_SELECT, frame);
+                controllermap.put(controller.getName(), controller);
+                controller = new ScoreController(SCORE_CONTROLLER, frame);
+                controllermap.put(controller.getName(), controller);
+                controller = new ModeSelectMenuController(MODE_SELECT, frame);
+                controllermap.put(controller.getName(), controller);
         }
     }
 
 
 
-
-}

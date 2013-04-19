@@ -1,12 +1,17 @@
 package vooga.fighter.controller;
 
 import util.Location;
+import util.input.AlertObject;
 import util.input.Input;
+import util.input.InputClassTarget;
+import util.input.InputMethodTarget;
+import util.input.PositionObject;
 import vooga.fighter.controller.Controller;
 import vooga.fighter.controller.ControllerDelegate;
 import vooga.fighter.controller.GameInfo;
-import vooga.fighter.controller.LevelController;
+import vooga.fighter.controller.OneVOneController;
 import vooga.fighter.model.*;
+import vooga.fighter.model.objects.MouseClickObject;
 import vooga.fighter.util.Paintable;
 import vooga.fighter.view.Canvas;
 
@@ -20,10 +25,10 @@ import java.util.ResourceBundle;
  * @author Jerry Li and Jack Matteucci
  * 
  */
-public class MenuController extends Controller {
 
-    private static final String INPUT_PATHWAY = "PATHWAY";
-    private GameInfo myGameInfo;
+public abstract class MenuController extends Controller {
+
+    private static final String INPUT_PATHWAY = "vooga.fighter.config.menudefault";
 
     public MenuController (String name, Canvas frame) {
         super(name, frame);
@@ -32,41 +37,26 @@ public class MenuController extends Controller {
     public MenuController(String name, Canvas frame, ControllerDelegate manager, 
     		GameInfo gameinfo) {
     	super(name, frame, manager, gameinfo);
+        setInput(manager.getInput());
+        getInput().replaceMappingResourcePath(INPUT_PATHWAY);
+        getInput().addListenerTo(this);
+    	DisplayLoopInfo LoopInfo =  new DisplayLoopInfo(super.getMode());
+    	setLoopInfo(LoopInfo);
     }
     
     public void loadMode() {
-        List<Integer> characterNames = myGameInfo.getCharacters();
-        int mapID = myGameInfo.getMapName();
-        Mode temp = new LevelMode(this, characterNames, mapID);
-        setMode(temp);
+        Mode mode = new MenuMode(this, super.getName());
+        super.setMode(mode);
     }
-
-
-    /**
-     * Checks special occurences of game state.
-     */
-    public void notifyEndCondition () {
-       
+    
+    public MenuMode getMode(){
+    	return (MenuMode) super.getMode();
     }
-    /**
-     * Checks special occurences of game state.
-     */
-    public void notifyEndCondition(String string) {
-        
+    
+    public void removeListener(){
+    	super.removeListener();
+    	getInput().removeListener(this);
     }
-
-
-    @Override
-    public Controller getController (ControllerDelegate delegate, GameInfo gameinfo) {
-        return new MenuController(super.getName(), super.getView(),
-                                   delegate, gameinfo);
-    }
-
-    @Override
-    protected Input makeInput () {
-        return new Input(INPUT_PATHWAY, super.getView());
-    }
-
     
 
 }

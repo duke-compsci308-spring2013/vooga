@@ -15,44 +15,48 @@ import util.Vector;
  * Represents a character in the game, as well as the character's current state
  * in the given session.
  * 
- * @author alanni, james, David Le
+ * @author James Wei, alanni, David Le
  * 
  */
 public class CharacterObject extends GameObject {
 
     private Map<String, AttackObject> myAttacks;
     private List<Effect> myActiveEffects;
-    private Health myHealth;
-
+    private Health myHealth; 
+    private List<AttackObject> currentAttacks; 
+    
     /**
      * Constructs a new CharacterObject.
-     * 
-     * Note: Dayvid once the object loader is functional we will replace this
-     * constructor to take in just an ID, then we will load parameters from XML.
      */
-    public CharacterObject(int objectId, UpdatableLocation center) {
+    public CharacterObject(String charName, UpdatableLocation center) {
         super();
         myAttacks = new HashMap<String, AttackObject>();
         myActiveEffects = new ArrayList<Effect>();
         myHealth = new Health();
-        setLoader(new CharacterLoader(objectId, this));
-        setLocation(center);
+        currentAttacks= new ArrayList<AttackObject>();
+        setLoader(new CharacterLoader(charName, this));
         setCurrentState("stand");
+        getCurrentState().setLooping(true);
+        setLocation(center);
         setImageData();
+        
     }
 
     /**
      * Updates the character for one game loop cycle. Applies movement from acceleration
      * forces acting on the character.
      */
-
     public void update() {
         super.update();
-        if (getCurrentState().hasCompleted()) {
-            setCurrentState("stand");
-        }
         for (Effect effect : myActiveEffects) {
             effect.update();
+        }       
+    }
+    
+    public void updateState() {
+        super.updateState();
+        if (getCurrentState().hasCompleted()) {
+            setCurrentState("stand");            
         }
     }
 
@@ -118,6 +122,9 @@ public class CharacterObject extends GameObject {
         return myHealth.hasHealthRemaining();
     }
 
+    /**
+     * Sets the health of the character
+     */
     public void setHealth(int amount) {
         myHealth.setHealth(amount);
     }
@@ -137,7 +144,7 @@ public class CharacterObject extends GameObject {
     public void attack(String attack) {
         setCurrentState("weakPunch");
         if (myAttacks.containsKey(attack)) {
-            new AttackObject(myAttacks.get(attack), getLocation());
+            currentAttacks.add(new AttackObject(myAttacks.get(attack), getLocation()));
         }
     }
 
@@ -154,10 +161,52 @@ public class CharacterObject extends GameObject {
      */
     public void jump() {        
 
-    }
+    } 
     
+    /**
+     * Characters should never be removed.
+     */
     public boolean shouldBeRemoved() {
         return false;
     }
+    
+    /**
+     * returns list of all attackObjects
+     */
+    public List<AttackObject> getAttackObjects(){
+    	return currentAttacks; 
+    }
+    
+
+    /**
+     * Dispatches a colliding object to allow for proper collision handling. 
+     */
+    public void dispatchCollision(GameObject other) {
+        other.handleCollision(this);
+    }
+    
+    /**
+     * Collision with another CharacterObject.
+     */
+    public void handleCollision(CharacterObject other) {
+        System.out.println("CharacterObject handleCollision : Character collided with character");
+    }
+    
+    /**
+     * Collision with an AttackObject.
+     */
+    public void handleCollision(AttackObject other) {
+        other.inflictDamage(this);
+        System.out.println("CharacterObject handleCollision : Character collided with ATTACK");
+        
+    }
+    
+    /**
+     * Collision with an EnvironmentObject.
+     */
+    public void handleCollision(EnvironmentObject other) {
+        System.out.println("CharacterObject handleCollision : Character collided with environment");
+    }
+    
 
 }
