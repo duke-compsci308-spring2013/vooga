@@ -1,5 +1,5 @@
 
-package games.example;
+package games.examplegenre.example;
 
 import java.io.IOException;
 import arcade.games.ArcadeInteraction;

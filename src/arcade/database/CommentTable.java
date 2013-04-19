@@ -4,38 +4,37 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
- * Creates and updates game table
+ * Creates and updates user table
  * this clearly needs to be refactored because there is duplicate code
  * @author Natalia Carvalho
  */
-public class UserGameDataTable extends Table {
+public class CommentTable extends Table {
 
     private static final String TABLE_SEPARATOR = ": ";
     private static final String GAMEID_COLUMN_FIELD = "gameid";  
     private static final String USERID_COLUMN_FIELD = "userid";
-    private static final String USERGAMEFILEPATH_COLUMN_FIELD = "usergamefilepath";
-    private static final String USERGAMEID_COLUMN_FIELD = "usergameid";  
+    private static final String COMMENT_COLUMN_FIELD = "commentfield";
+    private static final String COMMENTID_COLUMN_FIELD = "commentid";  
 
     
     private static final int GAMEID_COLUMN_INDEX = 1;
     private static final int USERID_COLUMN_INDEX = 2;
-    private static final int USERGAMEFILEPATH_COLUMN_INDEX = 3;
-    private static final int USERGAMEID_COLUMN_INDEX = 4;
-
+    private static final int COMMENT_COLUMN_INDEX = 3;
+    private static final int COMMENTID_COLUMN_INDEX = 4;
     
-    private static final String TABLE_NAME = "usergamedata";  
-
+    private static final String TABLE_NAME = "comments";
 
     private Connection myConnection;
     private PreparedStatement myPreparedStatement; 
     private ResultSet myResultSet;
     
     /**
-     * Constructor, eventually want this to be in superclass
+     * Constructor but eventually I want to make this part of the abstract class
      */
-    public UserGameDataTable() {
+    public CommentTable() {
         establishConnectionToDatabase();
     }
 
@@ -51,7 +50,6 @@ public class UserGameDataTable extends Table {
         String url = "jdbc:postgresql://cgi.cs.duke.edu/nrc10";
         String user = "nrc10";
         String password = "aUsg5xj2f";
-
 
         try {
             myConnection = DriverManager.getConnection(url, user, password);
@@ -85,19 +83,19 @@ public class UserGameDataTable extends Table {
     }
     
     /**
-     * Add new user game data to table 
+     * Add new comment to table
      * @param gameid is game id
      * @param userid is user id
-     * @param highscore of the game
+     * @param comment is the comment to be added
      */
-    public void createNewUserGameData (String gameid, String userid) {
+    public void addNewComment (String gameid, String userid, String comment) {
         
-        String stm = "INSERT INTO usergamedata(gameid, userid, highscore) VALUES (?, ?, ?)";
-        //String stm = "INSERT INTO " + TABLE_NAME + "(" + GAMEID_COLUMN_FIELD + ", " + USERID_COLUMN_FIELD + ", " + HIGHSCORE_COLUMN_FIELD + ") VALUES(?, ?, ?)";
+        String stm = "INSERT INTO scores(gameid, userid, comment) VALUES (?, ?, ?)";
         try {
             myPreparedStatement = myConnection.prepareStatement(stm);
             myPreparedStatement.setString(GAMEID_COLUMN_INDEX, gameid);
             myPreparedStatement.setString(USERID_COLUMN_INDEX, userid);
+            myPreparedStatement.setString(COMMENT_COLUMN_INDEX, comment);
             myPreparedStatement.executeUpdate();
         }
         catch (SQLException e) {
@@ -105,39 +103,17 @@ public class UserGameDataTable extends Table {
         }
     }
     
-    /**
-     * Updates a high score given userid and gameid
-     * @param gameid is game id
-     * @param userid is user id
-     * @param highscore of the game
-     */
-    public void updateHighScore(String userid, String gameid, String highscore) {
-        String stm = "UPDATE usergamedata SET highscore = '" + highscore + "' WHERE userid = '" + userid + "' AND gameid = '" + gameid + "'" ;
-        try {
-            myPreparedStatement = myConnection.prepareStatement(stm);
-            myPreparedStatement.executeUpdate();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public List<String> getCommentByUsername(String gameid, String userid) {
+        //TODO implement method
+        return null;
+    }
+    
+    public List<String> getAllCommentsForGame(String gameid) {
+        //TODO implement method
+        return null;
+    }
 
-    }
-    
-    /**
-     * Given userid, delete the user from the table
-     * @param userid is user id
-     */
-    public void deleteUser(String userid) {
-        String stm = "DELETE FROM " + TABLE_NAME + " WHERE "+ USERID_COLUMN_FIELD + "='" + userid + "'";
-        try {
-            myPreparedStatement = myConnection.prepareStatement(stm);
-            myPreparedStatement.executeUpdate();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    
+    @Override
     void printEntireTable () {
         System.out.println();
         try {
@@ -146,8 +122,8 @@ public class UserGameDataTable extends Table {
             while (myResultSet.next()) {
                 System.out.print(myResultSet.getString(GAMEID_COLUMN_INDEX) + TABLE_SEPARATOR);
                 System.out.print(myResultSet.getString(USERID_COLUMN_INDEX) + TABLE_SEPARATOR);                
-                System.out.print(myResultSet.getString(USERGAMEFILEPATH_COLUMN_INDEX) + TABLE_SEPARATOR);
-                System.out.println(myResultSet.getString(USERGAMEID_COLUMN_INDEX) + TABLE_SEPARATOR);
+                System.out.print(myResultSet.getString(COMMENT_COLUMN_INDEX) + TABLE_SEPARATOR);
+                System.out.println(myResultSet.getString(COMMENTID_COLUMN_INDEX) + TABLE_SEPARATOR);
             }
         }
         catch (SQLException e) {
@@ -155,9 +131,6 @@ public class UserGameDataTable extends Table {
         }
     }
 
-    public double getAverageRating (String gameName) {
-        // TODO Auto-generated method stub
-        return 0;
-        
-    }
+  
+
 }

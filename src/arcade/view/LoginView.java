@@ -1,25 +1,22 @@
 package arcade.view;
 
-import java.awt.Image;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
-import java.util.MissingResourceException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import arcade.model.Model;
-import arcade.util.JPicture;
 
 
 /**
@@ -30,219 +27,142 @@ import arcade.util.JPicture;
  * 
  */
 @SuppressWarnings("serial")
-public class LoginView extends JFrame {
-
-    private static final String IMAGES_LOCATION = "src/arcade/resources/images/";
-    private static final String ERROR_MESSAGE = "Required file is not present.";
-    /**
-     * 
-     */
-    private static final String BACKGROUND_FILENAME = "arcade/resources/images/LoginBackGround.jpg";
-    private static final String LOGO_FILENAME = "VoogaLogo.png";
-    private static final String TITLE_KEYWORD = "title";
-    private static final String LOGIN_KEYWORD = "login";
-    private static final String REGISTER_KEYWORD = "new_account";
-    private static final String USERNAME_KEYWORD = "username";
-    private static final String PASSWORD_KEYWORD = "password";
-    public static final int WINDOW_WIDTH = 300;
-    public static final int WINDOW_HEIGHT = 240;
-    private static final int HEADLINE_WIDTH = 170;
-    private static final int HEADLINE_HEIGHT = 70;
-    private static final int OFFSET = HEADLINE_WIDTH / 2;
-    private static final int NO_KEY_PRESSED = -1;
+public class LoginView extends Account {
+    private static final String LOGO_FILENAME = "../resources/images/VoogaLogo.png";
+    private static final int WINDOW_WIDTH = 260;
+    private static final int WINDOW_HEIGHT = 240;
+    // private static final int NO_KEY_PRESSED = -1;
+    // private int myLastKeyPressed;
 
     /**
+     * Constructs the LoginView with a Model and ResourceBundle
      * 
+     * @param model to authenticate the login information
+     * @param resources to display text of appropriate language on screen
      */
-    private Model myModel;
-    private ResourceBundle myResources;
-    private JPanel myContentPanel;
-    private JTextField myUserNameTextField;
-    private JPasswordField myPasswordTextField;
-    private JLabel myWarningMessage;
-    private JComponent myBackground;
-    private int myLastKeyPressed;
-
-    /**
-     * Constructor
-     * 
-     * @param language
-     */
-    public LoginView (Model model, ResourceBundle rb) {
-        myModel = model;
-        myResources = rb;
-
-        setTitle(myResources.getString(TITLE_KEYWORD));
+    public LoginView (Model model, ResourceBundle resources) {
+        super(model, resources);
+        
+        setPasswordFieldListener(new KeyAdapter() {
+            @Override
+            public void keyPressed (KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    tryLogin();
+                }
+            }
+        });
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         setLocationRelativeTo(null);
-        myContentPanel = (JPanel) getContentPane();
-        myContentPanel.setLayout(null);
+    }
 
-        createHeadLine();
-        createTextLabels();
-        createTextFields();
-        createLoginButton();
-        createRegisterButton();
-
-        createMessageArea();
-        createBackground();
-
-        setResizable(false);
-        setVisible(true);
+    @Override
+    protected List<JComponent> makeComponents () {
+        List<JComponent> components = new ArrayList<JComponent>();
+        components.add(createLogo());
+        components.add(createUsernameField());
+        components.add(createPasswordField());
+        components.add(createMessageArea());
+        components.add(createButtons());
+        return components;
     }
 
     /**
-     * create Headline
+     * create the main logo and center it.
      */
-    private void createHeadLine () {
-        ImageIcon headlineIcon = createImageIcon(LOGO_FILENAME);
-        JLabel headline = new JLabel(headlineIcon);
-        headline.setBounds(WINDOW_WIDTH / 2 - OFFSET, OFFSET / 20, HEADLINE_WIDTH, HEADLINE_HEIGHT);
-        myContentPanel.add(headline);
+    private JComponent createLogo () {
+        JPanel panel = new JPanel();
+        ImageIcon headIcon = new ImageIcon(this.getClass().getResource(LOGO_FILENAME));
+        JLabel head = new JLabel(headIcon);
+        panel.add(head);
+        return panel;
     }
 
     /**
-     * create the username and password labels
+     * Create the login and register buttons.
+     * 
+     * @return
      */
-    private void createTextLabels () {
-        String usernameDescription = myResources.getString(USERNAME_KEYWORD);
-        String passwordDescription = myResources.getString(PASSWORD_KEYWORD);
-        JLabel username = new JLabel("<html><b>" + usernameDescription + "</b></html>");
-        username.setBounds(50, 70, 80, 25);
-        JLabel password = new JLabel("<html><b>" + passwordDescription + "</b></html>");
-        password.setBounds(50, 100, 80, 25);
-        myContentPanel.add(username);
-        myContentPanel.add(password);
-    }
+    private JComponent createButtons () {
+        JPanel buttonPanel = new JPanel();
 
-    /**
-     * create the text field. KeyListener added along the way
-     */
-    private void createTextFields () {
-        // UserNameTextField
-        myUserNameTextField = new JTextField();
-        myUserNameTextField.setBounds(145, 70, 100, 25);
-        myUserNameTextField.addKeyListener(createKeyAdapter());
-
-        // PasswordTextField
-        myPasswordTextField = new JPasswordField();
-        myPasswordTextField.setBounds(145, 100, 100, 25);
-        myPasswordTextField.addKeyListener(createKeyAdapter());
-        resetTextFields();
-        myContentPanel.add(myUserNameTextField);
-        myContentPanel.add(myPasswordTextField);
-    }
-
-    /**
-     * Login button created. ActionListener added along the way
-     */
-    private void createLoginButton () {
-        JButton login = new JButton(myResources.getString(LOGIN_KEYWORD));
-        login.setBounds(70, 170, 80, 25);
-
+        JButton login = new JButton(getResources().getString(TextKeywords.LOGIN));
         login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed (ActionEvent arg0) {
                 tryLogin();
             }
         });
-        myContentPanel.add(login);
+        buttonPanel.add(login);
+
+        JButton register = new JButton(getResources().getString(TextKeywords.REGISTER));
+        register.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed (ActionEvent arg0) {
+                new RegisterView(getModel(), getResources());
+                // getModel().startRegister(); to instantiate the register view
+                dispose();
+            }
+        });
+        buttonPanel.add(register);
+
+        resizeComponentWidths(buttonPanel);
+        return buttonPanel;
     }
 
     /**
-     * Register button created
+     * Finds the maximum preferred width for all components in a container,
+     * and then resizes all components to match that width.
+     * 
+     * @param container
      */
-    // TODO: Add actionlistener
-    // Figure out the actual action!!
-    private void createRegisterButton () {
-        JButton register = new JButton(myResources.getString(REGISTER_KEYWORD));
-        register.setBounds(150, 170, 80, 25);
-        myContentPanel.add(register);
+    private void resizeComponentWidths (Container container) {
+        int max = 0;
+        for (Component c : container.getComponents()) {
+            int width = c.getPreferredSize().width;
+            if (width > max) {
+                max = width;
+            }
+        }
+
+        for (Component c : container.getComponents()) {
+            c.setPreferredSize(new Dimension(max, c.getPreferredSize().height));
+        }
     }
 
     /**
-         * 
-         */
+     * Sends the inputs to the model to try logging in.
+     */
     private void tryLogin () {
-        String userNameInput = myUserNameTextField.getText();
-        String userPasswordInput = new String(myPasswordTextField.getPassword());
-        resetTextFields();
-        myModel.authenticate(userNameInput, userPasswordInput);
+        String usernameInput = getUsername();
+        String passwordInput = getPassword();
+        clearUsername();
+        clearPassword();
+        getModel().authenticate(usernameInput, passwordInput);
     }
 
-    private void resetTextFields () {
-        myUserNameTextField.setText("");
-        myPasswordTextField.setText("");
-    }
-
-    /**
-     * create KeyListener: listen to "Enter" key
-     * Reset the myLastKeyPressed to -1 after the key is released
-     * 
-     * @return
-     */
-    private KeyAdapter createKeyAdapter () {
-        KeyAdapter keyAdapter = new KeyAdapter() {
-            @Override
-            public void keyPressed (KeyEvent e) {
-                myLastKeyPressed = e.getKeyCode();
-                if (myLastKeyPressed == KeyEvent.VK_ENTER) {
-                    tryLogin();
-                }
-            }
-
-            @Override
-            public void keyReleased (KeyEvent e) {
-                myLastKeyPressed = NO_KEY_PRESSED;
-            }
-        };
-        return keyAdapter;
-    }
-
-    private void createBackground () {
-        myBackground = new JPicture(BACKGROUND_FILENAME, getSize());
-        myBackground.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-        myContentPanel.add(myBackground);
-
-    }
-
-    private void createMessageArea () {
-        myWarningMessage = new JLabel();
-        myWarningMessage.setBounds(50, 120, 250, 50);
-        myContentPanel.add(myWarningMessage);
-
-    }
-
-    public void sendMessage (String message) {
-        myWarningMessage.setText("<html><font color = red>" + message + "</font></html>");
-    }
-
-    public void destroy () {
-        setVisible(false);
-        dispose();
-    }
-
-    /**
-     * 
-     * @param filename
-     * @return
-     */
-    private ImageIcon createImageIcon (String filename) {
-        Image myImage;
-        try {
-            myImage = ImageIO.read(new File(IMAGES_LOCATION + filename));
-            return new ImageIcon(myImage, filename);
-        }
-        catch (IOException e) {
-            throw new MissingResourceException(ERROR_MESSAGE, "", "");
-        }
-
-    }
-
-    // private void refreshFrame () {
-    // this.setBounds(0, 0, WINDOW_WIDTH + 1, WINDOW_HEIGHT);
-    // this.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-    // setLocationRelativeTo(null);
+    // /**
+    // * create KeyListener: listen to "Enter" key
+    // * Reset the myLastKeyPressed to -1 after the key is released
+    // *
+    // * @return
+    // */
+    // private KeyAdapter createKeyAdapter () {
+    // KeyAdapter keyAdapter = new KeyAdapter() {
+    // @Override
+    // public void keyPressed (KeyEvent e) {
+    // myLastKeyPressed = e.getKeyCode();
+    // if (myLastKeyPressed == KeyEvent.VK_ENTER) {
+    // tryLogin();
+    // }
+    // }
+    //
+    // @Override
+    // public void keyReleased (KeyEvent e) {
+    // myLastKeyPressed = NO_KEY_PRESSED;
+    // }
+    // };
+    // return keyAdapter;
     // }
 }

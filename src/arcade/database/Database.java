@@ -15,6 +15,7 @@ public class Database {
     private UserTable myUserTable;
     private UserGameDataTable myUserGameDataTable;
     private ScoreTable myScoreTable;
+    private CommentTable myCommentTable;
     
     /**
      * Database constructor
@@ -24,6 +25,7 @@ public class Database {
         myUserTable = new UserTable();
         myUserGameDataTable = new UserGameDataTable();
         myScoreTable = new ScoreTable();
+        myCommentTable = new CommentTable();
     }
 
     /**
@@ -34,6 +36,7 @@ public class Database {
         myUserTable.closeConnection();
         myUserGameDataTable.closeConnection();
         myScoreTable.closeConnection();
+        myCommentTable.closeConnection();
     }
     
     /**
@@ -65,8 +68,8 @@ public class Database {
      * Creates a new game
      * @param gameName is name of name
      */
-    public boolean createGame(String gameName) {
-        return myGameTable.createGame(gameName);
+    public boolean createGame(String gameName , String genre) {
+        return myGameTable.createGame(gameName , genre);
     }
     
     public void userPlaysGameFirst(String user, String gameName, String highscore) {
@@ -103,6 +106,10 @@ public class Database {
         //TODO delete game from other tables as well
     }
     
+    public boolean usernameExists(String username) {
+        return myUserTable.usernameExists(username);
+    }
+    
     public void addNewHighScore(String username, String gameName, String newHighScore) {
         myScoreTable.addNewHighScore(retrieveUserId(username), retrieveGameId(gameName), newHighScore);
     }
@@ -121,6 +128,23 @@ public class Database {
     
     public UserGameData getUserGameData(String gameName, String username) {
         return null;
+    }
+    
+    public void userServer(UserGameData usd) {
+        //use http method to send bits of information to send it to a script running on cgi
+        //php, or write in java
+    }
+    
+    public void insertComment(String username, String gameName, String comment) {
+        myCommentTable.addNewComment(retrieveGameId(gameName), retrieveUserId(username), comment);
+    }
+    
+    public List<String> retrieveCommentFromUsername(String username, String gameName) {
+        return myCommentTable.getCommentByUsername(retrieveGameId(gameName), retrieveUserId(username));
+    }
+    
+    public List<String> retrieveCommentsForGame(String gameName) {
+        return myCommentTable.getAllCommentsForGame(retrieveGameId(gameName));
     }
     
     public GameData getGameData(String gameName) {
@@ -150,9 +174,11 @@ public class Database {
     public void updateRating (String userName, String gameName, double rating) {
         
     }
+    public String getGenre(String gameName){
+        return myGameTable.getGenre(gameName);
+    }
 
-    public double getAverageRating () {
-        // TODO Auto-generated method stub
-        return 0;
+    public double getAverageRating (String gameName) {
+        return myUserGameDataTable.getAverageRating(gameName);
     }
 }

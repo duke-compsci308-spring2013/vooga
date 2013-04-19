@@ -13,16 +13,19 @@ public class Main {
         //myDatabase.printUserTable();
         //myDatabase.printGameTable();
         
-        myDatabase.createUser("kayzooo", "mypassword", "Kevin", "Zhu", "11/12/1990");
-        myDatabase.createUser("natx13", "nataliapassword", "Natalia", "Carvalho", "04/26/1991", "blahblahblh");
-        myDatabase.createUser("bob", "mypassword", "Joe", "Smith", "11/11/1911");        
+   //     myDatabase.createUser("kayzooo", "mypassword", "Kevin", "Zhu", "11/12/1990");
+   //     myDatabase.createUser("doesthiswork", "hiiii", "hiii", "hiii", "11/12/1990");
+   //     myDatabase.createUser("natx13", "nataliapassword", "Natalia", "Carvalho", "04/26/1991", "blahblahblh");
+   //     myDatabase.createUser("bob", "mypassword", "Joe", "Smith", "11/11/1911");   
+  //      myDatabase.createUser("test", "test", "test", "test", "01/01/1901");
         
-        myDatabase.deleteGame("Pacman");
-        myDatabase.createGame("example");
+        //myDatabase.deleteGame("example");
         
 //       myDatabase.addAvatarToUser("natx13", "C:/blahbalhblah");
         
-        myDatabase.authenticateUsernameAndPassword("kayzooo", "mypassword");
+        //myDatabase.createGame("example", "examplegenre");
+        
+//        myDatabase.authenticateUsernameAndPassword("kayzooo", "mypassword");
         
         //myDatabase.printUserGameDataTable();
         
@@ -36,12 +39,13 @@ public class Main {
         
         //myGameDatabase.registerGame("Pacman");
         
+        
         List<String> myGameNames = myDatabase.retrieveListOfGames();
         
         for (String game : myGameNames) {
             System.out.println(game);
         }
-        
+                
         myDatabase.printUserTable();
         myDatabase.printGameTable();
         myDatabase.printUserGameDataTable();

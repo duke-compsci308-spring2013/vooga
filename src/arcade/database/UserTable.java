@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 /**
  * Creates and updates user table
+ * this clearly needs to be refactored because there is duplicate code
  * @author Natalia Carvalho
  */
 public class UserTable extends Table {
