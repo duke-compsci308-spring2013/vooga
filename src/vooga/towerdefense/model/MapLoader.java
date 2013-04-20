@@ -12,7 +12,7 @@ import vooga.towerdefense.model.tiles.factories.TileFactory;
 import vooga.towerdefense.util.Location;
 
 /**
- * A class responsible from loading a map from a text file.
+ * A class responsible for loading a map from a text file.
  * 
  * The text file is formatted as follows:
  * 

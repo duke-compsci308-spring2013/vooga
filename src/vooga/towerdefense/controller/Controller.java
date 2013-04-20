@@ -17,11 +17,11 @@ import vooga.towerdefense.attributes.AttributeManager;
 import vooga.towerdefense.controller.modes.BuildMode;
 import vooga.towerdefense.controller.modes.ControlMode;
 import vooga.towerdefense.controller.modes.SelectMode;
-import vooga.towerdefense.factories.ExampleTowerFactory;
-import vooga.towerdefense.factories.ExampleUnitFactory;
 import vooga.towerdefense.factories.TowerDefinition;
-import vooga.towerdefense.factories.TrollUnitDefinition;
 import vooga.towerdefense.factories.WaveFactory;
+import vooga.towerdefense.factories.examples.ExampleTowerFactory;
+import vooga.towerdefense.factories.examples.ExampleUnitFactory;
+import vooga.towerdefense.factories.examples.TrollUnitDefinition;
 import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.gameElements.Tower;
 import vooga.towerdefense.gameElements.Wave;
@@ -230,9 +230,9 @@ public class Controller {
     public void handleShopClickOnItem (Point p) {
         ShopItem itemToBuy = myModel.getShopItem(p);
         List<Action> actions = new ArrayList<Action>();
-       ExampleTowerFactory factory = new ExampleTowerFactory("Tower", myModel.getMap());
+        ExampleTowerFactory factory = new ExampleTowerFactory("Tower", myModel.getMap());
 //       factory.createGameElement();
-       Tower t=factory.createTower(new Location(p.getX(),p.getY()));
+        Tower t=factory.createTower(new Location(p.getX(),p.getY()));
         //Tower t = new Tower(new Pixmap("shopicons/redtower.png"), new Location(p.getX(), p.getY()), new Dimension(50, 50), null, actions);
         BuildMode myNewMode = new BuildMode();
         myNewMode.setItemToBuild(t);    

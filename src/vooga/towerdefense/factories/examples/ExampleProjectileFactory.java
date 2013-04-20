@@ -1,4 +1,4 @@
-package vooga.towerdefense.factories;
+package vooga.towerdefense.factories.examples;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -6,6 +6,7 @@ import java.util.List;
 
 import vooga.towerdefense.action.Action;
 import vooga.towerdefense.attributes.AttributeManager;
+import vooga.towerdefense.factories.ProjectileFactory;
 import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.gameElements.Projectile;
 import vooga.towerdefense.util.Location;

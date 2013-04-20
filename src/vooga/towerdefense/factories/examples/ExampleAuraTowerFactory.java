@@ -1,4 +1,4 @@
-package vooga.towerdefense.factories;
+package vooga.towerdefense.factories.examples;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -10,6 +10,9 @@ import vooga.towerdefense.action.TrackTarget;
 import vooga.towerdefense.attributes.Attribute;
 import vooga.towerdefense.attributes.AttributeConstants;
 import vooga.towerdefense.attributes.AttributeManager;
+import vooga.towerdefense.factories.ProjectileFactory;
+import vooga.towerdefense.factories.TowerDefinition;
+import vooga.towerdefense.factories.TowerFactory;
 import vooga.towerdefense.gameElements.Tower;
 import vooga.towerdefense.model.GameMap;
 import vooga.towerdefense.util.Location;
@@ -35,18 +38,11 @@ public class ExampleAuraTowerFactory extends TowerFactory {
 
     public Tower createTower (Location putHere) {
         TowerDefinition def = new TowerDefinition();
+        AttributeManager AM = getDefaultAM();
         
         Pixmap tImage = new Pixmap("palmtree.png");
 
-        AttributeManager AM = new AttributeManager();
-        AM.addAttribute(new Attribute(AttributeConstants.ATTACK_RADIUS, 300.0));
-        AM.addAttribute(new Attribute(AttributeConstants.DIRECTION, 50.0));
-        AM.addAttribute(new Attribute(AttributeConstants.ATTACK_INTERVAL, 30.0));
-        AM.addAttribute(new Attribute(AttributeConstants.NUM_OF_TARGETS, 1.0));
-        AM.addAttribute(new Attribute(AttributeConstants.ATTACK_RADIUS, 200.0));
-        AM.addAttribute(new Attribute(AttributeConstants.MOVE_SPEED, 10.0));
-        AM.addAttribute(new Attribute(AttributeConstants.AURA_EFFECT, -10.0));
-        AM.setProjectileFactory(new ProjectileFactory());
+
         Tower myTower;
         if (putHere != null) {
             myTower = new Tower(tImage, putHere,
