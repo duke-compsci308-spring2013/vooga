@@ -3,6 +3,7 @@ package vooga.scroller.model;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import util.Location;
@@ -46,6 +47,8 @@ public class Model {
     private static final String PART_ONE = "public void visit (";
     private static final String PART_TWO = ") {}";
     private static final String COMMA = ", ";
+    private static final String DIRECTORY_LOCATION = "src/vooga/scroller/collision_manager/files/";
+    private static final String FILE_NAME = "visitMethods.txt";
 
 
     private static final String PLAYER_IMAGES = "mario.gif";
@@ -55,8 +58,9 @@ public class Model {
      * 
      * @param view which is used to display/control game.
      * @param myScrollingManager used to control in-game scrolling.
+     * @throws IOException 
      */
-    public Model (View view, ScrollingManager sm) {
+    public Model (View view, ScrollingManager sm) throws IOException {
         myScrollingManager = sm;
         myView = view;
         
@@ -69,8 +73,7 @@ public class Model {
         myLevelManager.getCurrentLevel().addPlayer(myPlayer);
 
 //        myLevelManager.setCurrentLevel(DEFAULT_START_LEVEL_ID);
-        
-        mySecretary = new Secretary();
+        mySecretary = new Secretary(DIRECTORY_LOCATION, FILE_NAME);
         generateVisitMethods(spriteStrings);  
     }
 
@@ -160,8 +163,9 @@ public class Model {
      * collision_manager. 
      * @param List<Strings> spriteStrings
      * @author Jay Wang
+     * @throws IOException 
      */
-    private void generateVisitMethods (List<String> spriteStrings) {
+    private void generateVisitMethods (List<String> spriteStrings) throws IOException {
         for (int i = 0; i < spriteStrings.size(); i++) {
             for (int j = i+1; j < spriteStrings.size(); j++) {
                 
