@@ -72,7 +72,7 @@ public class GameLoop {
         myTimer = new Timer(DEFAULT_DELAY,
                             new ActionListener() {
                                 public void actionPerformed (ActionEvent e) {
-//                                    myController.update(DEFAULT_DELAY / ONE_SECOND);
+                                //myController.update(DEFAULT_DELAY);
                                     myController.update(10);
                                     myController.displayMap();
                                 }
