@@ -1,8 +1,9 @@
-package vooga.towerdefense.factories;
+package vooga.towerdefense.factories.examples;
 
 
 import java.awt.Dimension;
 
+import vooga.towerdefense.factories.GameElementDefinition;
 import vooga.towerdefense.util.Location;
 import vooga.towerdefense.util.Pixmap;
 

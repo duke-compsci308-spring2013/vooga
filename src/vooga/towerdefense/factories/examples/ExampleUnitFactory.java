@@ -1,4 +1,4 @@
-package vooga.towerdefense.factories;
+package vooga.towerdefense.factories.examples;
 
 import java.util.ArrayList;
 
@@ -10,6 +10,8 @@ import vooga.towerdefense.action.RemoveGameElement;
 import vooga.towerdefense.attributes.Attribute;
 import vooga.towerdefense.attributes.AttributeConstants;
 import vooga.towerdefense.attributes.AttributeManager;
+import vooga.towerdefense.factories.GameElementDefinition;
+import vooga.towerdefense.factories.UnitFactory;
 import vooga.towerdefense.gameElements.Unit;
 import vooga.towerdefense.model.GameMap;
 import vooga.towerdefense.model.Path;
