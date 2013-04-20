@@ -1,7 +1,8 @@
-package vooga.towerdefense.action;
+package vooga.towerdefense.action.examples;
 
 import java.util.List;
 
+import vooga.towerdefense.action.Action;
 import vooga.towerdefense.factories.GameElementFactory;
 import vooga.towerdefense.gameElements.GameElement;
 
