@@ -26,7 +26,7 @@ public class RemoveGameElement extends Action {
 
    
     public void execute () {
-        myMap.removeElement(myElement);
+        myMap.removeGameElement(myElement);
     }
 
     /**

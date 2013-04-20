@@ -45,6 +45,7 @@ public class ExampleUnitFactory extends UnitFactory {
 		AM.addAttribute(new Attribute(AttributeConstants.MOVE_SPEED, 150.0));
 		AM.addAttribute(new Attribute(AttributeConstants.DIRECTION, 50.0));
 		AM.addAttribute(new Attribute(AttributeConstants.ATTACK_INTERVAL, 50.0));
+		AM.addAttribute(new Attribute(AttributeConstants.HEALTH, 100.0));
 		Unit myUnit;
 		if (putHere != null) {
 			myUnit = new Unit(myDefinition.myImage, putHere,

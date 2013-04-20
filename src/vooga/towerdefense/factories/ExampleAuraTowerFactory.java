@@ -62,7 +62,7 @@ public class ExampleAuraTowerFactory extends TowerFactory {
                 new FindTargets(myMap, putHere, AM.getAttribute(AttributeConstants.ATTACK_RADIUS));
         findTargets.initAction();
         findTargets.addFollowUpAction(new ModifyAttributeValue(AM
-                                                               .getAttribute(AttributeConstants.AURA_EFFECT), AttributeConstants.MOVE_SPEED));
+                                                               .getAttribute(AttributeConstants.AURA_EFFECT), AttributeConstants.HEALTH));
         actions.add(findTargets);
 
         myTower.addActions(actions);

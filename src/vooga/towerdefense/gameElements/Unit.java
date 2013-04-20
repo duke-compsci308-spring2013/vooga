@@ -97,7 +97,7 @@ public class Unit extends GameElement {
     @Override
     public void paint(Graphics2D pen){
     	super.paint(pen);
-    	getAttributeManager().getAttribute(AttributeConstants.MOVE_SPEED).paint(pen, getCenter(),new Dimension((int)getWidth(),(int)getHeight()));
+    	getAttributeManager().getAttribute(AttributeConstants.HEALTH).paint(pen, getCenter(),new Dimension((int)getWidth(),(int)getHeight()));
     	
     }
 
