@@ -48,16 +48,12 @@ public class XMLTool {
     private static final String RUNTIME_EXP_MESSAGE =
             "Could not create a new instance of a Document.";
     private Document myDoc;
-    private String myURL;
     
     /**
      * The constructor of this XML file builder automatically creates a buffered
-     * document with the destination of the argument path, ready to receive elements.
-     * 
-     * @param path The destination URL including <filename>.xml
+     * document with the destination of the argument path, ready to receive elements. *
      */
-    public XMLTool (String path) {
-        myURL = path;
+    public XMLTool () {
         makeDoc();
     }
     
@@ -68,7 +64,6 @@ public class XMLTool {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         try {
             myDoc = dbFactory.newDocumentBuilder().newDocument();
-            System.out.println("madeDoc");
         }
         catch (ParserConfigurationException e) {
             throw new RuntimeException(RUNTIME_EXP_MESSAGE, e);
@@ -79,12 +74,14 @@ public class XMLTool {
      * Sets a new document from an XML file.
      * This is an XML reader.
      * 
-     * @param file XML formatted file.
+     * @param path The path with the filename of an XML formatted file.
      */
-    public void setDoc (File file) {
+    public void setDoc (String path) {
+        File file = new File(path);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         try {
             myDoc = dbFactory.newDocumentBuilder().parse(file);
+            
         }
         catch (IOException e) {
             throw new RuntimeException("Could not open file.", e);
@@ -273,6 +270,7 @@ public class XMLTool {
     
     /**
      * Gets the content of the FIRST element associated with the referent tag.
+     * If the tag refers to a non-leaf node, it concatenates all the values from its children.
      * 
      * @param tag A string with the tag of the element.
      * @return the content(value) of the element.
@@ -287,16 +285,16 @@ public class XMLTool {
      * If the parent element does not contain children, this method returns an empty map.
      * 
      * @param parent The parent element node.
-     * @return
+     * @return a map with the tag (as a map key) and the content (as a map value) of all the
+     *         children elements of a particular node.
      */
     public Map<String, String> getMapFromParentElement (Element parent) {
         Map<String, String> map = new HashMap<String, String>();
         NodeList nodes = parent.getChildNodes();
         for (int i = 0; i < nodes.getLength(); i++) {
-            Element node = (Element) nodes.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element paramElement = (Element) node;
-                map.put(paramElement.getTagName(), getContent(node));
+            if (nodes.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                Element node = (Element) nodes.item(i);
+                map.put(node.getTagName(), node.getTextContent());
             }
         }
         return map;
@@ -351,30 +349,26 @@ public class XMLTool {
     }
     
     /**
-     * This simple method makes it easy for the user to write the XML file.
-     */
-    public void writeFile () {
-        try {
-            writeFile(translateToXMLString(myDoc), myURL);
-        }
-        catch (TransformerException e) {
-            throw new RuntimeException("The document could not be converted into a string", e);
-        }
-    }
-    
-    /**
      * This <code>FileWriter</code> creates the document in an specific location,
      * form an String.
      * 
-     * @param xmlString A converted string from an XMLDocument
      * @param path The destination URL with the <filename>.XML
      */
-    public void writeFile (String xmlString, String path) {
-        FileWriter writer;
+    public void writeFile (String path) {
+        FileWriter writer = null;
         try {
             writer = new FileWriter(path);
-            writer.write(xmlString);
+            writer.write(translateToXMLString(myDoc));
             writer.close();
+        }
+        catch (TransformerException e) {
+            try {
+                writer.close();
+            }
+            catch (IOException e1) {
+                throw new RuntimeException("The writer could not be closed", e);
+            }
+            throw new RuntimeException("The document could not be converted into a string", e);
         }
         catch (IOException e) {
             throw new RuntimeException("File could not be written.", e);
