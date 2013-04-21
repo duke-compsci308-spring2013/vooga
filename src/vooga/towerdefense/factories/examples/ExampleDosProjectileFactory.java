@@ -102,9 +102,9 @@ public class ExampleDosProjectileFactory extends GameElementFactory {
         findTargets.addFollowUpAction(new SetAttributeValue(AM
                 .getAttribute(AttributeConstants.AURA_EFFECT), AttributeConstants.HEALTH));
         actions.add(findTargets);
-        Action randomChance = new RandomChance(0.01);
-        randomChance.addFollowUpAction(new RemoveGameElement(map, myProjectile));
-        actions.add(randomChance);
+        //Action randomChance = new RandomChance(-0.01);
+        //randomChance.addFollowUpAction(new RemoveGameElement(map, myProjectile));
+        //actions.add(randomChance);
         //actions.add(new Move(myProjectile.getCenter(), AM
         //        .getAttribute(AttributeConstants.MOVE_SPEED), AM
         //        .getAttribute(AttributeConstants.DIRECTION)));

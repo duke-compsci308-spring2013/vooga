@@ -217,8 +217,10 @@ public class GameMap {
         List<GameElement> elementsWithinRadius = new ArrayList<GameElement>();
 
         for (GameElement gameElement : myGameElements) {
-            if (Vector.distanceBetween(source, gameElement.getCenter()) <= radius) {
-                elementsWithinRadius.add(gameElement);
+            if (gameElement != null) {
+                if (Vector.distanceBetween(source, gameElement.getCenter()) <= radius) {
+                    elementsWithinRadius.add(gameElement);
+                }
             }
         }
         return elementsWithinRadius;
