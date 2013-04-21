@@ -36,11 +36,11 @@ public class ExampleUnitFactory extends GameElementFactory {
         myGameMap = gameMap;
     }
 
-    public GameElement createGameElement (Location putHere) {
-        return createGameElement(putHere, new TrollUnitDefinition());
+    public GameElement createElement (Location putHere) {
+        return createElement(putHere, new TrollUnitDefinition());
     }
 
-    public GameElement createGameElement (Location putHere, TrollUnitDefinition myDef) {
+    public GameElement createElement (Location putHere, TrollUnitDefinition myDef) {
         TrollUnitDefinition myDefinition = myDef;
 
         AttributeManager AM = new AttributeManager();
@@ -58,21 +58,21 @@ public class ExampleUnitFactory extends GameElementFactory {
                                             myDefinition.getCenter(), myDefinition.getSize(), AM);
         }
 
+        Path path = myGameMap.getShortestPath(putHere,
+                                              myGameMap.default_end_location);
         ArrayList<Action> actions = new ArrayList<Action>();
+        actions.add(new FollowPath(myGameElement, path));
         actions.add(new Move(myGameElement.getCenter(), myGameElement.getAttributeManager()
                 .getAttribute(AttributeConstants.MOVE_SPEED), myGameElement
                 .getAttributeManager().getAttribute(
                                                     AttributeConstants.DIRECTION)));
-        Path path = myGameMap.getShortestPath(putHere,
-                                              myGameMap.default_end_location);
-        actions.add(new FollowPath(myGameElement, path));
-        // Action myDeath = new OnDeath(AM.getAttribute(AttributeConstants.HEALTH));
-        // myDeath.addFollowUpAction(new RemoveGameElement(myGameMap, myGameElement));
-        // actions.add(myDeath);
+
+        Action myDeath = new OnDeath(AM.getAttribute(AttributeConstants.HEALTH));
+        myDeath.addFollowUpAction(new RemoveGameElement(myGameMap, myGameElement));
+        actions.add(myDeath);
         myGameElement.addActions(actions);
-
+        System.out.println("TROOOOOLLS IN THE DUNGEON!");  //Yeah, its late...
         return myGameElement;
-
     }
 
 }

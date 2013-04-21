@@ -70,6 +70,7 @@ public class Controller {
         List<Wave> waves = new ArrayList<Wave>();
 
         GameMap map = new GameMap(null, 800, 600, null);
+        //FIXME: Hardcoded for testing trolls
         waves.add(WaveFactory.createWave(new ExampleUnitFactory("Troll",
                                                                 new TrollUnitDefinition(), map),
                                          25, map, map
