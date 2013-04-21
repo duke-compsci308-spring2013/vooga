@@ -47,7 +47,6 @@ public class ExampleShootingTowerFactory extends TowerFactory {
 	        ArrayList<Action> actions = new ArrayList<Action>();
 	        FindTargets findTargets =
 	                new FindTargets(myMap, putHere, AM.getAttribute(AttributeConstants.ATTACK_RADIUS));
-	        findTargets.initAction();
 	       // findTargets.addFollowUpAction(LaunchProjectile(putHere, new ExampleProjectileFactory(), , myMap)));
 	        actions.add(findTargets);
 
