@@ -3,6 +3,7 @@ package vooga.towerdefense.action;
 import vooga.towerdefense.attributes.Attribute;
 import vooga.towerdefense.attributes.AttributeConstants;
 import vooga.towerdefense.factories.ProjectileFactory;
+import vooga.towerdefense.factories.examples.ExampleDosProjectileFactory;
 import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.model.GameMap;
 import vooga.towerdefense.util.Location;
@@ -14,9 +15,9 @@ import vooga.towerdefense.util.Location;
  */
 public class LaunchProjectile extends Action {
 
-	private ProjectileFactory myProjectileFactory;
+	private ExampleDosProjectileFactory myProjectileFactory;
 	private GameElement myTarget;
-	private Location myStart;
+	private GameElement myStart;
 	private GameMap myMap;
 	
     /**
@@ -25,8 +26,8 @@ public class LaunchProjectile extends Action {
      * @param ProjectileFacotry
      * @param GameElement
      */
-    public LaunchProjectile (GameMap map, Location startLocation, ProjectileFactory projectileFactory, GameElement target) {
-    	myProjectileFactory = projectileFactory;
+    public LaunchProjectile (GameMap map, GameElement startLocation, ExampleDosProjectileFactory exampleDosProjectileFactory, GameElement target) {
+    	myProjectileFactory = exampleDosProjectileFactory;
     	myTarget = target;
     	myStart = startLocation;
     	myMap = map;
@@ -39,13 +40,13 @@ public class LaunchProjectile extends Action {
     @Override
     public void executeAction (double elapsedTime) {
     	System.out.print("shooted!!!");
-        GameElement projectile = myProjectileFactory.createProjectile(myTarget, myStart);
-        projectile.addAction(new MoveToDestination(myStart, myTarget.getCenter(), 
+        GameElement projectile = myProjectileFactory.createProjectile(myStart, myTarget);
+        projectile.addAction(new MoveToDestination(myStart.getCenter(), myTarget.getCenter(), 
     			projectile.getAttributeManager().getAttribute(AttributeConstants.MOVE_SPEED)));
         myMap.addGameElement(projectile);
         for (GameElement e : getTargets()) {
-            GameElement projectile2 = myProjectileFactory.createProjectile(myStart, e);
-            projectile2.addAction(new MoveToDestination(myStart, e.getCenter(), 
+            GameElement projectile2 = myProjectileFactory.createElement(myStart, e, myMap);
+            projectile2.addAction(new MoveToDestination(myStart.getCenter(), e.getCenter(), 
                             projectile2.getAttributeManager().getAttribute(AttributeConstants.MOVE_SPEED)));
             myMap.addGameElement(projectile2);
         }

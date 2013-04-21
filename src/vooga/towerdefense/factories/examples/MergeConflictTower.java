@@ -58,7 +58,8 @@ public class MergeConflictTower extends GameElementFactory {
         Action randomFiring = new RandomChance(0.01);
         ExampleDosProjectileFactory coolStoryBro = new ExampleDosProjectileFactory();
         coolStoryBro.initialize(getMap());
-        Action launchProjectile = new MakeElement(getMap(), myTower.getCenter(), new ExampleDosProjectileFactory());
+        //Action launchProjectile = new MakeElement(getMap(), myTower.getCenter(), new ExampleDosProjectileFactory());
+        Action launchProjectile = new LaunchProjectile(getMap(), myTower, new ExampleDosProjectileFactory(), myTower);
         findTargets.addFollowUpAction(launchProjectile);
         randomFiring.addFollowUpAction(findTargets);
         actions.add(randomFiring);
