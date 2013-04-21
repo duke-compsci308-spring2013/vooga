@@ -1,8 +1,9 @@
-package vooga.towerdefense.util;
+package util.XMLToolExample;
 
 import java.util.HashMap;
 import java.util.Map;
 import org.w3c.dom.Element;
+import util.XMLTool;
 
 
 /**
@@ -17,6 +18,7 @@ public class XMLToolExample {
     
     /**
      * Loads the XMLTool tester methods.
+     * 
      * @param args
      */
     public static void main (String args[]) {
