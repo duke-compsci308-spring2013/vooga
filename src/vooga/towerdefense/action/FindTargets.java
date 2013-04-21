@@ -1,17 +1,16 @@
 package vooga.towerdefense.action;
 
-import java.util.List;
 import vooga.towerdefense.attributes.Attribute;
-import vooga.towerdefense.attributes.AttributeConstants;
-import vooga.towerdefense.factories.ProjectileFactory;
-import vooga.towerdefense.factories.examples.ExampleProjectileFactory;
-import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.model.GameMap;
 import vooga.towerdefense.util.Location;
-import vooga.towerdefense.util.Vector;
 
 
 /**
+ * 
+ * Finds all game elements on map within radius of its source location and
+ * sets its followup actions to target those elements
+ * it then calls update on its followup actions
+ * 
  * 
  * @author Matthew Roy
  * @author Xu Rui

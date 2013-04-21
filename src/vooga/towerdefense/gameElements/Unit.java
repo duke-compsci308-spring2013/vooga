@@ -29,6 +29,7 @@ public class Unit extends GameElement {
     private static final AttributeConstants ATTRIBUTE_CONSTANTS = null;
     private Path myPath;
     private Location myCurrentPathNode;
+
     /**
      * @param image
      * @param center
@@ -64,21 +65,25 @@ public class Unit extends GameElement {
     }
 
     /**
-     * this follow path logic has been transferred to a followPath action which will do exactly the same thing
+     * this follow path logic has been transferred to a followPath action which will do exactly the
+     * same thing
      */
     @Deprecated
-    private void changeNode() {
-        if (myPath.hasNext()){
-			myCurrentPathNode=myPath.next();
-			Vector newDirection= getCenter().difference(myCurrentPathNode);
-			//for some reason, this method gives the wrong sign on the angle
-			newDirection = new Vector(-1*newDirection.getDirection(), newDirection.getMagnitude());
-			getAttributeManager().getAttribute(ATTRIBUTE_CONSTANTS.DIRECTION).setValue(newDirection.getDirection());
-		}
-		else{
-			getAttributeManager().getAttribute(ATTRIBUTE_CONSTANTS.MOVE_SPEED).setValue(0);
-		}
+    private void changeNode () {
+        if (myPath.hasNext()) {
+            myCurrentPathNode = myPath.next();
+            Vector newDirection = getCenter().difference(myCurrentPathNode);
+            // for some reason, this method gives the wrong sign on the angle
+            newDirection =
+                    new Vector(-1 * newDirection.getDirection(), newDirection.getMagnitude());
+            getAttributeManager().getAttribute(ATTRIBUTE_CONSTANTS.DIRECTION)
+                    .setValue(newDirection.getDirection());
+        }
+        else {
+            getAttributeManager().getAttribute(ATTRIBUTE_CONSTANTS.MOVE_SPEED).setValue(0);
+        }
     }
+
     /**
      * @param image
      * @param center
@@ -89,21 +94,15 @@ public class Unit extends GameElement {
     }
 
     @Override
-    public void update (double elapsedTime) {
-        executeActions(elapsedTime);
-       
-
-    }
-    @Override
-    public void paint(Graphics2D pen){
-    	super.paint(pen);
-    	getAttributeManager().getAttribute(AttributeConstants.HEALTH).paint(pen, getCenter(),new Dimension((int)getWidth(),(int)getHeight()));
-    	
+    public void paint (Graphics2D pen) {
+        super.paint(pen);
+        getAttributeManager().getAttribute(AttributeConstants.HEALTH)
+                .paint(pen, getCenter(), new Dimension((int) getWidth(), (int) getHeight()));
     }
 
-    private void executeActions (double elapsedTime) {
+    private void updateActions (double elapsedTime) {
         for (Action act : getActions()) {
-            act.executeAction(elapsedTime);
+            act.update(elapsedTime);
         }
     }
 }

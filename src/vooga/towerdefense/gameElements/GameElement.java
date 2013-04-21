@@ -11,7 +11,8 @@ import vooga.towerdefense.util.Sprite;
 
 
 /**
- * Blank tower that holds its attributes and actions that define it
+ * Underlying game element object that all types of sprites in the game are created from
+ * Defined by its attributes and actions
  * 
  * @author Matthew Roy
  * @author Xu Rui
