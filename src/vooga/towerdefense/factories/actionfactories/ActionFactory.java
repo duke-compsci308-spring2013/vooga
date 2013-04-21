@@ -1,8 +1,6 @@
 package vooga.towerdefense.factories.actionfactories;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.util.List;
 import vooga.towerdefense.action.Action;
 import vooga.towerdefense.model.GameMap;
 
