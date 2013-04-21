@@ -45,15 +45,19 @@ public class GameElement extends Sprite {
         this(image, center, size, new AttributeManager(), new ArrayList<Action>());
     }
 
+    /**
+     * Updates all attributes and actions
+     * @param elapsedTime
+     */
     public void update (double elapsedTime) {
-
         for (Action a : myActions) {
             a.update(elapsedTime);
         }
+        myAttributeManager.update();
     }
-    
-    public void addAction(Action a){
-    	myActions.add(a);
+
+    public void addAction (Action a) {
+        myActions.add(a);
     }
 
     public void addActions (List<Action> actions) {
