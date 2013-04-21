@@ -1,10 +1,13 @@
-
 package vooga.towerdefense.gameElements;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 import vooga.towerdefense.action.Action;
+import vooga.towerdefense.attributes.Attribute;
+import vooga.towerdefense.attributes.AttributeConstants;
 import vooga.towerdefense.attributes.AttributeManager;
 import vooga.towerdefense.util.Location;
 import vooga.towerdefense.util.Pixmap;
@@ -64,6 +67,21 @@ public class GameElement extends Sprite {
             a.update(elapsedTime);
         }
         myAttributeManager.update();
+    }
+
+    @Override
+    public void paint (Graphics2D pen) {
+        super.paint(pen);
+
+        // FIXME: Hardcoded healthbars
+        Attribute health = getAttributeManager().getAttribute(AttributeConstants.HEALTH);
+        if (health != null) {
+            pen.setColor(Color.red);
+            pen.fillRect((int) this.getX(), (int) this.getY() -
+                                            (int) this.getHeight() /
+                                            2, (int) (this.getWidth() * (health
+                    .getValue() / health.getOriginalValue())), (int) this.getHeight() / 10);
+        }
     }
 
     public void addAction (Action a) {

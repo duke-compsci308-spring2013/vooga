@@ -19,10 +19,18 @@ public class OnDeath extends Action {
      * @param initiator
      */
     public OnDeath (Attribute health) {
+        super();
         myHealth = health;
-        myActions = new ArrayList<Action>();
+        setEnabled(false);
     }
 
+    public void update(double elapsedTime) {
+        executeAction(elapsedTime);
+        if (isEnabled()) {
+            updateFollowupActions(elapsedTime);
+        }
+    }
+    
     /**
      * Overrides from superclasses
      * @param elapseTime 
@@ -30,7 +38,7 @@ public class OnDeath extends Action {
     @Override
     public void executeAction (double elapseTime) {
         if (myHealth.getValue() <= 0)
-            execute();
+            setEnabled(true);
     }
     
     public void execute() {
@@ -39,13 +47,4 @@ public class OnDeath extends Action {
         }
     }
 
-    /**
-     * Overrides from superclasses
-     * @param elapsedTime 
-     */
-    @Override
-    public void update (double elapsedTime) {
-        // TODO Auto-generated method stub
-        
-    }
 }

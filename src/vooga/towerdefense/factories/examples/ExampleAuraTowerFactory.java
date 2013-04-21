@@ -38,7 +38,8 @@ public class ExampleAuraTowerFactory extends GameElementFactory {
         TowerDefinition def = new TowerDefinition();
         AttributeManager AM = getDefaultAM();
 
-        Pixmap tImage = new Pixmap("palmtree.png");
+        //Pixmap tImage = new Pixmap("palmtree.png");
+        Pixmap tImage = new Pixmap("Duvall.jpg");
 
         GameElement myTower;
         if (putHere != null) {
@@ -63,13 +64,13 @@ public class ExampleAuraTowerFactory extends GameElementFactory {
 
     public AttributeManager getDefaultAM () {
         AttributeManager AM = new AttributeManager();
-        AM.addAttribute(new Attribute(AttributeConstants.ATTACK_RADIUS, 300.0));
+        AM.addAttribute(new Attribute(AttributeConstants.ATTACK_RADIUS, 500.0));
         AM.addAttribute(new Attribute(AttributeConstants.DIRECTION, 50.0));
         AM.addAttribute(new Attribute(AttributeConstants.ATTACK_INTERVAL, 30.0));
         AM.addAttribute(new Attribute(AttributeConstants.NUM_OF_TARGETS, 1.0));
         AM.addAttribute(new Attribute(AttributeConstants.ATTACK_RADIUS, 200.0));
         AM.addAttribute(new Attribute(AttributeConstants.MOVE_SPEED, 10.0));
-        AM.addAttribute(new Attribute(AttributeConstants.AURA_EFFECT, -10.0));
+        AM.addAttribute(new Attribute(AttributeConstants.AURA_EFFECT, -50.0));
         AM.setProjectileFactory(new ProjectileFactory());
         return AM;
     }

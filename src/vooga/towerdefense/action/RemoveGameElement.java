@@ -26,15 +26,7 @@ public class RemoveGameElement extends Action {
 
    
     public void execute () {
+        System.out.println("Deleting some poor unfortunate soul.");
         myMap.removeGameElement(myElement);
     }
-
-    /**
-     * Overrides from superclasses
-     * @param elapsedTime 
-     */
-    @Override
-    public void update (double elapsedTime) {
-    }
-
 }
