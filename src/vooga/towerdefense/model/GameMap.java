@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 import vooga.rts.util.Vector;
 import vooga.towerdefense.action.Action;
 import vooga.towerdefense.action.FollowPath;
@@ -133,7 +134,6 @@ public class GameMap {
     private void paintGameElements (Graphics2D pen) {
         for (int i = 0; i < myGameElements.size(); ++i) {
             myGameElements.get(i).paint(pen);
-            System.out.println("painting game elements");
         }
     }
 
