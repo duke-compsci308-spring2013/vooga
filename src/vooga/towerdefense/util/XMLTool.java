@@ -35,6 +35,8 @@ import org.xml.sax.SAXException;
  * The use of attributes is avoided because they are more difficult to read
  * and to maintain. (Reference: w3schools.com)
  * 
+ * TODO: Create an easy way to store multiple values in an Element?
+ * 
  * @WARNING: This code is not yet fully implemented.
  * 
  * @author Yoshida
@@ -66,6 +68,7 @@ public class XMLTool {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         try {
             myDoc = dbFactory.newDocumentBuilder().newDocument();
+            System.out.println("madeDoc");
         }
         catch (ParserConfigurationException e) {
             throw new RuntimeException(RUNTIME_EXP_MESSAGE, e);
@@ -106,6 +109,18 @@ public class XMLTool {
     /*
      * Creating new elements
      */
+    
+    /**
+     * Creates the root of this document.
+     * 
+     * @param tag This parameter is the tag of the root
+     * @return the root
+     */
+    public Element makeRoot (String tag) {
+        Element root = myDoc.createElement(tag);
+        myDoc.appendChild(root);
+        return root;
+    }
     
     /**
      * Creates a new empty element in the Doc.
@@ -248,7 +263,6 @@ public class XMLTool {
     
     /**
      * This method returns the value of an element as a String.
-     * The string has no white spaces.
      * 
      * @param element The element from which the content is being extracted.
      * @return A string stores in the element.
