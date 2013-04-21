@@ -11,8 +11,8 @@ import vooga.towerdefense.attributes.Attribute;
 import vooga.towerdefense.attributes.AttributeConstants;
 import vooga.towerdefense.attributes.AttributeManager;
 import vooga.towerdefense.factories.GameElementDefinition;
-import vooga.towerdefense.factories.UnitFactory;
-import vooga.towerdefense.gameElements.Unit;
+import vooga.towerdefense.factories.GameElementFactory;
+import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.model.GameMap;
 import vooga.towerdefense.model.Path;
 import vooga.towerdefense.util.Location;
@@ -22,7 +22,7 @@ import vooga.towerdefense.util.Location;
  * @author Jimmy Longley
  * 
  */
-public class ExampleUnitFactory extends UnitFactory {
+public class ExampleUnitFactory extends GameElementFactory {
 
 	private GameMap myGameMap;
 
@@ -36,11 +36,11 @@ public class ExampleUnitFactory extends UnitFactory {
 		myGameMap = gameMap;
 	}
 
-	public Unit createUnit(Location putHere) {
-		return createUnit(putHere, new TrollUnitDefinition());
+	public GameElement createGameElement(Location putHere) {
+		return createGameElement(putHere, new TrollUnitDefinition());
 	}
 
-	public Unit createUnit(Location putHere, TrollUnitDefinition myDef) {
+	public GameElement createGameElement(Location putHere, TrollUnitDefinition myDef) {
 		TrollUnitDefinition myDefinition = myDef;
 
 		AttributeManager AM = new AttributeManager();
@@ -48,29 +48,29 @@ public class ExampleUnitFactory extends UnitFactory {
 		AM.addAttribute(new Attribute(AttributeConstants.DIRECTION, 50.0));
 		AM.addAttribute(new Attribute(AttributeConstants.ATTACK_INTERVAL, 50.0));
 		AM.addAttribute(new Attribute(AttributeConstants.HEALTH, 100.0));
-		Unit myUnit;
+		GameElement myGameElement;
 		if (putHere != null) {
-			myUnit = new Unit(myDefinition.myImage, putHere,
+            myGameElement = new GameElement(myDefinition.myImage, putHere,
 					myDefinition.getSize(), AM);
 		} else {
-			myUnit = new Unit(myDefinition.getImage(),
+			myGameElement = new GameElement(myDefinition.getImage(),
 					myDefinition.getCenter(), myDefinition.getSize(), AM);
 		}
 
 		ArrayList<Action> actions = new ArrayList<Action>();
-		actions.add(new Move(myUnit.getCenter(), myUnit.getAttributeManager()
-				.getAttribute(AttributeConstants.MOVE_SPEED), myUnit
+		actions.add(new Move(myGameElement.getCenter(), myGameElement.getAttributeManager()
+				.getAttribute(AttributeConstants.MOVE_SPEED), myGameElement
 				.getAttributeManager().getAttribute(
 						AttributeConstants.DIRECTION)));
 		Path path = myGameMap.getShortestPath(putHere,
 				myGameMap.default_end_location);
-		actions.add(new FollowPath(myUnit, path));
+		actions.add(new FollowPath(myGameElement, path));
 		//Action myDeath = new OnDeath(AM.getAttribute(AttributeConstants.HEALTH));
-		//myDeath.addFollowUpAction(new RemoveGameElement(myGameMap, myUnit));
+		//myDeath.addFollowUpAction(new RemoveGameElement(myGameMap, myGameElement));
 		//actions.add(myDeath);
-		myUnit.addActions(actions);
+		myGameElement.addActions(actions);
 
-		return myUnit;
+		return myGameElement;
 
 	}
 

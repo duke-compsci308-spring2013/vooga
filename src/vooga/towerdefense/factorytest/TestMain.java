@@ -1,7 +1,6 @@
 package vooga.towerdefense.factorytest;
 
 import vooga.towerdefense.gameElements.GameElement;
-import vooga.towerdefense.gameElements.Tower;
 import vooga.towerdefense.util.Location;
 
 public class TestMain {
