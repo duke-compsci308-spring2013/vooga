@@ -27,6 +27,15 @@ public class Attribute {
     }
     
     /**
+     * Creates a copy of an existing attribute
+     * Note: It sets its default value to the current value
+     * @param toCopy
+     */
+    public Attribute (Attribute toCopy) {
+        this(toCopy.getName(), toCopy.getValue());
+    }
+    
+    /**
      * Applies a new attribute to the current attribute.
      * This default behavior is defined by the attribute.
      * Default is to set value equal to attribute toApply's value

@@ -23,19 +23,14 @@ public class MoveFactory extends ActionFactory {
 	 * @param elementToMove
 	 * @return
 	 */
-
-	public Action createAction(GameElement elementToMove) {
-		return new Move(elementToMove.getCenter(), elementToMove
+	@Override
+	protected Action buildAction(GameElement elementToMove) {
+		Action action = new Move(elementToMove.getCenter(), elementToMove
 				.getAttributeManager().getAttribute(
 						myMoveSpeedReference), elementToMove
 				.getAttributeManager().getAttribute(
 						AttributeConstants.DIRECTION));
+		return action;
 	}
 	
-	//temporary
-	@Override
-	public Action createAction() {
-		return null;
-	}
-
 }

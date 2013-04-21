@@ -20,10 +20,6 @@ public class TrollUnitDefinition extends GameElementDefinition {
     private static final double DEFAULT_MOVE_SPEED = 150;
     private static final double DEFAULT_DIRECTION = 50;
     
-    public Pixmap myImage;
-    public Location myCenter;
-    public Dimension mySize;
-
     /**
      * 
      */

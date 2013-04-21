@@ -20,7 +20,7 @@ public class WaveFactory {
                                    Tile spawnTile,
                                    double spawnDelay,
                                    double duration) {
-
+        
         Location spawnLocation = new Location(spawnTile.getCenter().getX(),
                                               spawnTile.getCenter().getY());
         List<GameElement> units = new ArrayList<GameElement>();
@@ -33,7 +33,7 @@ public class WaveFactory {
 
     }
 
-    public static Wave createWave (UnitFactory unitFactory, int numUnits,
+    public static Wave createWave (GameElementFactory unitFactory, int numUnits,
                                    GameMap gameMap, Tile spawnTile) {
         return createWave(unitFactory, numUnits, gameMap, spawnTile,
                           DEFAULT_SPAWN_DELAY, DEFAULT_DURATION);

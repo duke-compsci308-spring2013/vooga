@@ -3,6 +3,7 @@ package vooga.towerdefense.factories;
 import java.util.ArrayList;
 import vooga.towerdefense.action.Action;
 import vooga.towerdefense.attributes.AttributeManager;
+import vooga.towerdefense.factories.actionfactories.ActionFactory;
 import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.util.Location;
 
@@ -32,11 +33,6 @@ public abstract class UnitFactory extends GameElementFactory {
     public AttributeManagerFactory createAttributeFactory () {
         AttributeManagerFactory factory = new AttributeManagerFactory();
         return factory;
-    }
-
-    public ActionFactory createActionFactory () {
-        ActionFactory actFactory = new ActionFactory();
-        return actFactory;
     }
 
     public GameElement createUnit (Location putHere) {

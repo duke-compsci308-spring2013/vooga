@@ -1,6 +1,10 @@
 package vooga.towerdefense.factories;
 
+import java.util.ArrayList;
+import java.util.List;
+import vooga.towerdefense.action.Action;
 import vooga.towerdefense.attributes.AttributeConstants;
+import vooga.towerdefense.factories.actionfactories.ActionFactory;
 import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.util.Location;
 
@@ -16,25 +20,39 @@ public class GameElementFactory {
      * Name of the element that is defined in this class. For convenience.
      */
     private String myName;
-    private GameElementDefinition def; 
+    private GameElementDefinition myDef; 
+    private List<ActionFactory> myActionsToMake;
     //private AttributeFactory myFactory;
     
     public GameElementFactory() {
-    // TowerFactory myTowerFactory = new TowerFactory(TowerDefinition);
-     //Tower tower1 = myTowerFactory.make(Location);
+        myActionsToMake = new ArrayList<ActionFactory>();
     }
     
     public GameElementFactory(String name, GameElementDefinition definition) {
+        this();
         myName = name;
-        def = definition;
+        myDef = definition;
     }
     
     public GameElementFactory(GameElementDefinition definition) {
         this(definition.get(AttributeConstants.NAME), definition);
     }
     
+    public String getName() {
+        return myName;
+    }
+    
     public GameElementDefinition getDefinition() {
-        return def;
+        return myDef;
+    }
+    
+    /**
+     * For testing only
+     * @param def
+     */
+    @Deprecated
+    public void setDefinition(GameElementDefinition def) {
+        myDef = def;
     }
     
     public AttributeManagerFactory createAttributeFactory() {
@@ -42,20 +60,37 @@ public class GameElementFactory {
         return factory;
     }
     
-    public ActionFactory createActionFactory() {
-        ActionFactory actFactory = new ActionFactory();
-        return actFactory;
+    public void setActionFactories(List<ActionFactory> actionsToMake) {
+        myActionsToMake = actionsToMake;
     }
     
+    /**
+     * Creates a list of actions for a specific element
+     * @param e element to base actions around
+     * @return list of the actions for that element
+     */
+    public List<Action> createActions(GameElement element) {
+        List<Action> actions = new ArrayList<Action>();
+        for (ActionFactory a : myActionsToMake) {
+            actions.add(a.createAction(element));
+        }
+        return actions;
+    }
+    
+    /**
+     * Creates a new game element
+     * @return
+     */
     public GameElement createElement(){
-        if (def == null) {
+        if (myDef == null) {
             return null;
         }
-		return new GameElement(def.getImage(), 
-				def.getCenter(), 
-				def.getSize(), 
-				createAttributeFactory().makeAttributeManager(), 
-				createActionFactory().createActions());
+        GameElement element = new GameElement(myDef.getImage(), 
+                                              myDef.getCenter(), 
+                                              myDef.getSize(), 
+                                              createAttributeFactory().makeAttributeManager());
+        element.addActions(createActions(element));
+        return element;
     }
 
     /**
@@ -63,8 +98,12 @@ public class GameElementFactory {
      * @return 
      */
     public GameElement createElement (Location spawnLocation) {
-        // TODO Auto-generated method stub
-        return null;
+        GameElement element = new GameElement(myDef.getImage(), 
+                                              spawnLocation, 
+                                              myDef.getSize(), 
+                                              createAttributeFactory().makeAttributeManager());
+        element.addActions(createActions(element));
+        return element;
     }
 
 }
