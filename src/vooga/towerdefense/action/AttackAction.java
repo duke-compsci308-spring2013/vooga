@@ -56,10 +56,6 @@ public class AttackAction extends PeriodicAction {
 
 	}
 
-    @Override
-    public void initAction () {
-        
-    }
 
 	@Override
 	public void update(double elapsedTime) {

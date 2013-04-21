@@ -3,6 +3,7 @@ package vooga.towerdefense.action;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import vooga.towerdefense.attributes.Attribute;
+import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.util.Location;
 
 /**
@@ -11,14 +12,14 @@ import vooga.towerdefense.util.Location;
  */
 public class PaintAttributes extends Action {
 
-    private Location myLocation;
+    private GameElement myElement;
     private Attribute myAttribute;
     
     /**
      * 
      */
-    public PaintAttributes (Location unitLoc, Attribute toPaint) {
-        myLocation = unitLoc;
+    public PaintAttributes (GameElement element, Attribute toPaint) {
+        myElement = element;
         myAttribute = toPaint;
     }
 
@@ -28,9 +29,10 @@ public class PaintAttributes extends Action {
      */
     public void executeAction (double elapseTime, Graphics2D pen) {
         pen.setColor(Color.red);
+        
         //THIS IS VERY SPECIFIC FOR TESTING, WE WILL FIGURE OUT BETTER WAY TO FIT THE BAR
-        pen.fillRect((int)myLocation.getX(), (int)myLocation.getY()-size.height/2, (int)(size.getWidth()*(getValue()/getOriginalValue())), (int)size.getHeight()/10);
-}
+        pen.fillRect((int)myElement.getX(), (int)myElement.getY()-(int)myElement.getHeight()/2, (int)(myElement.getWidth()*(myAttribute.getValue()/myAttribute.getOriginalValue())), (int)myElement.getHeight()/10);
+
     }
 
     /**

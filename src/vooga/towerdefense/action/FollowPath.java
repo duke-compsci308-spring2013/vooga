@@ -21,14 +21,8 @@ public class FollowPath extends Action {
 	}
 
 	@Override
-	public void update(double elapsedTime) {
-		//to-do
-	}
-
-	@Override
-	public void executeAction(double elapseTime) {
+	public void executeAction(double elapsedTime) {
 		if (myInitiator.getCenter().distance(myCurrentPathNode) < DISTANCE_OFFSET) {
-			System.out.println("changed node to " + myCurrentPathNode);
 			changeNode();
 		}
 	}
@@ -53,6 +47,7 @@ public class FollowPath extends Action {
 		}
 
 		else {
+		        //TODO: needs to have an reached end of path thing
 			myInitiator.getAttributeManager()
 					.getAttribute(AttributeConstants.MOVE_SPEED).setValue(0);
 		}
@@ -62,5 +57,7 @@ public class FollowPath extends Action {
 	public void setPath(Path path) {
 		myPath = path;
 	}
+
+
 
 }

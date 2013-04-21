@@ -13,42 +13,38 @@ import vooga.towerdefense.util.Vector;
 
 /**
  * 
- * @author Xu Rui
  * @author Matthew Roy
- * 
+ * @author Xu Rui
  */
 public class FindTargets extends Action {
 
     private Attribute myScanningRadius;
-    private List<GameElement> myTargets;
     private Location mySource;
     private GameMap myMap;
 
     public FindTargets (GameMap map, Location source, Attribute attackRadius) {
+        super();
         myScanningRadius = attackRadius;
         mySource = source;
         myMap = map;
-        myTargets = myMap.getTargetsWithinRadius(source, myScanningRadius.getValue());
-        initAction();
     }
 
     public void update (double elapsedTime) {
         if (isEnabled()) {
-            myTargets = myMap.getTargetsWithinRadius(mySource, myScanningRadius.getValue());
             executeAction(elapsedTime);
+            updateFollowupActions(elapsedTime);
         }
     }
 
     @Override
     public void executeAction (double elapsedTime) {
-        if (!myTargets.isEmpty()) {
-            List<Action> actions = getFollowUpAction();
-            for (Action a : actions) {
-                a.setTargets(myTargets);
-                a.executeAction(elapsedTime);
-            }
-        }
-
+        setTargets(myMap.getTargetsWithinRadius(mySource, myScanningRadius.getValue()));
     }
 
+    public void updateFollowupActions (double elapsedTime) {
+        for (Action a : getFollowUpActions()) {
+            a.setTargets(getTargets());
+            a.update(elapsedTime);
+        }
+    }
 }

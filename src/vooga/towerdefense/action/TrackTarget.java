@@ -43,7 +43,7 @@ public class TrackTarget extends Action{
 		if(!myTargets.isEmpty()){
 			for (GameElement t: myTargets){
 				addFollowUpAction(new LaunchProjectile(mySource, new ExampleProjectileFactory(), t, myMap));
-				for (Action a: getFollowUpAction()){
+				for (Action a: getFollowUpActions()){
 					a.update(elapsedTime);
 				}
 			}
