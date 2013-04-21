@@ -2,6 +2,7 @@ package vooga.towerdefense.factories.actionfactories;
 
 import java.awt.Graphics2D;
 import vooga.towerdefense.action.Action;
+import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.model.GameMap;
 
 
@@ -28,6 +29,6 @@ public abstract class ActionFactory {
         myPen = pen;
     }
 
-    public abstract Action createAction ();
+    public abstract Action createAction (GameElement e);
 
 }

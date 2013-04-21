@@ -19,7 +19,7 @@ public class Move extends Action {
     private Attribute mySpeed;
     private Attribute myDirection;
 
-    public Move ( Location location, Attribute movespeed, Attribute direction) {
+    public Move (Location location, Attribute movespeed, Attribute direction) {
     	mySpeed = movespeed;
     	myCenter = location;
     	myDirection = direction;
