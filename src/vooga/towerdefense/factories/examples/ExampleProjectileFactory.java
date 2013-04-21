@@ -8,7 +8,6 @@ import vooga.towerdefense.action.Action;
 import vooga.towerdefense.attributes.AttributeManager;
 import vooga.towerdefense.factories.ProjectileFactory;
 import vooga.towerdefense.gameElements.GameElement;
-import vooga.towerdefense.gameElements.Projectile;
 import vooga.towerdefense.util.Location;
 import vooga.towerdefense.util.Pixmap;
 
@@ -20,8 +19,8 @@ public class ExampleProjectileFactory extends ProjectileFactory{
     private static final AttributeManager DEFAULT_ATTRIBUTE_MANAGER=new AttributeManager();
     
 
-	public Projectile createProjectile(GameElement target, Location source){
-		return new Projectile(DEFAULT_IMAGE,DEFAULT_SIZE, source, target.getCenter(),DEFAULT_ACTIONS,DEFAULT_ATTRIBUTE_MANAGER);
+	public GameElement createProjectile(GameElement target, Location source){
+		return new GameElement(DEFAULT_IMAGE,source, DEFAULT_SIZE, DEFAULT_ATTRIBUTE_MANAGER, DEFAULT_ACTIONS);
 	}
 
 }
