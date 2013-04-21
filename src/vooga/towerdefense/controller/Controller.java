@@ -19,6 +19,7 @@ import vooga.towerdefense.factories.WaveFactory;
 import vooga.towerdefense.factories.examples.ExampleAuraTowerFactory;
 import vooga.towerdefense.factories.examples.ExampleTowerFactory;
 import vooga.towerdefense.factories.examples.ExampleUnitFactory;
+import vooga.towerdefense.factories.examples.MergeConflictTower;
 import vooga.towerdefense.factories.examples.TrollUnitDefinition;
 import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.gameElements.Wave;
@@ -72,9 +73,14 @@ public class Controller {
 
         GameMap map = new GameMap(null, 800, 600, null);
         //FIXME: Hardcoded for testing trolls
-        ExampleAuraTowerFactory buildMorePylons = new ExampleAuraTowerFactory(map, "Tree of Doom", null);
-        GameElement duvallTheMighty = buildMorePylons.createElement(new Location(450, 200));
+        ExampleAuraTowerFactory codeStyleGenerator = new ExampleAuraTowerFactory(map, "Tree of Doom", null);
+        codeStyleGenerator.initialize(map);
+        GameElement duvallTheMighty = codeStyleGenerator.createElement(new Location(450, 200));
         map.addGameElement(duvallTheMighty);
+        MergeConflictTower buildMorePylons = new MergeConflictTower(map, "RAGE", null);
+        buildMorePylons.initialize(map);
+        GameElement github = buildMorePylons.createElement(new Location(250, 400));
+        map.addGameElement(github);
         waves.add(WaveFactory.createWave(new ExampleUnitFactory("Troll",
                                                                 new TrollUnitDefinition(), map),
                                          25, map, map

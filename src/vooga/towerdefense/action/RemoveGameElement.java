@@ -16,6 +16,7 @@ public class RemoveGameElement extends Action {
      * 
      */
     public RemoveGameElement (GameMap map, GameElement elementToRemove) {
+        super();
         myMap = map;
         myElement = elementToRemove;
     }

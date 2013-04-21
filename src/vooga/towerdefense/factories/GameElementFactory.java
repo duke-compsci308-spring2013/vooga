@@ -6,6 +6,7 @@ import vooga.towerdefense.action.Action;
 import vooga.towerdefense.attributes.AttributeConstants;
 import vooga.towerdefense.factories.actionfactories.ActionFactory;
 import vooga.towerdefense.gameElements.GameElement;
+import vooga.towerdefense.model.GameMap;
 import vooga.towerdefense.util.Location;
 
 /**
@@ -22,7 +23,7 @@ public class GameElementFactory {
     private String myName;
     private GameElementDefinition myDef; 
     private List<ActionFactory> myActionsToMake;
-    //private AttributeFactory myFactory;
+    private GameMap myMap;
     
     public GameElementFactory() {
         myActionsToMake = new ArrayList<ActionFactory>();
@@ -36,6 +37,14 @@ public class GameElementFactory {
     
     public GameElementFactory(GameElementDefinition definition) {
         this(definition.get(AttributeConstants.NAME), definition);
+    }
+    
+    public void initialize(GameMap map) {
+        myMap = map;
+    }
+    
+    public GameMap getMap() {
+        return myMap;
     }
     
     public String getName() {

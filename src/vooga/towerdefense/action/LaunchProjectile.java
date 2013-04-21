@@ -25,7 +25,7 @@ public class LaunchProjectile extends Action {
      * @param ProjectileFacotry
      * @param GameElement
      */
-    public LaunchProjectile (GameMap map,Location startLocation, ProjectileFactory projectileFactory, GameElement target) {
+    public LaunchProjectile (GameMap map, Location startLocation, ProjectileFactory projectileFactory, GameElement target) {
     	myProjectileFactory = projectileFactory;
     	myTarget = target;
     	myStart = startLocation;
@@ -43,6 +43,12 @@ public class LaunchProjectile extends Action {
         projectile.addAction(new MoveToDestination(myStart, myTarget.getCenter(), 
     			projectile.getAttributeManager().getAttribute(AttributeConstants.MOVE_SPEED)));
         myMap.addGameElement(projectile);
+        for (GameElement e : getTargets()) {
+            GameElement projectile2 = myProjectileFactory.createProjectile(myStart, e);
+            projectile2.addAction(new MoveToDestination(myStart, e.getCenter(), 
+                            projectile2.getAttributeManager().getAttribute(AttributeConstants.MOVE_SPEED)));
+            myMap.addGameElement(projectile2);
+        }
         
     	//hard coded to add move to destination as follow up action
     	/*addFollowUpAction(new MoveToDestination(myTarget.getCenter(), myStart, 
