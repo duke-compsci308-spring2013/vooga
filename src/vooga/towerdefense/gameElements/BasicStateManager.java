@@ -8,7 +8,7 @@ import vooga.towerdefense.attributes.AttributeConstants;
  * this is a state manager that we pre-made for the designer, for fast prototyping.
  * to do more customized stuff, designer can always subclass StateManager to create his own
  * 
- * @author gouzhen-1
+ * @author Zhen Gou
  * 
  */
 
@@ -18,7 +18,7 @@ public class BasicStateManager extends StateManager {
     private final State myBuffedState;
     private State myCurrentState;
 
-    public BasicStateManager (Unit unit, State normal, State buffed) {
+    public BasicStateManager (GameElement unit, State normal, State buffed) {
         super(unit);
         myNormalState = normal;
         myBuffedState = buffed;
@@ -33,7 +33,7 @@ public class BasicStateManager extends StateManager {
     @Override
     public void updateAndPaint (Graphics2D pen) {
         myCurrentState = myNormalState;
-        if (getUnit().getAttributeManager().getAttribute(myAttributeConstants.ARMOR).isChanged()) {
+        if (getGameElement().getAttributeManager().getAttribute(myAttributeConstants.ARMOR).isChanged()) {
             myCurrentState = myBuffedState;
         }
 
@@ -42,7 +42,7 @@ public class BasicStateManager extends StateManager {
     }
 
     private void paint (Graphics2D pen) {
-        myCurrentState.paint(pen, getUnit());
+        myCurrentState.paint(pen, getGameElement());
 
     }
 

@@ -1,16 +1,16 @@
-
 package vooga.towerdefense.factories;
 
 import java.util.ArrayList;
-
 import vooga.towerdefense.action.Action;
 import vooga.towerdefense.attributes.AttributeManager;
-import vooga.towerdefense.gameElements.Unit;
+import vooga.towerdefense.factories.actionfactories.ActionFactory;
+import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.util.Location;
+
 
 /**
  * @author Matthew Roy
- *
+ * 
  */
 public abstract class UnitFactory extends GameElementFactory {
 
@@ -29,27 +29,21 @@ public abstract class UnitFactory extends GameElementFactory {
         super(elementName, definition);
         // TODO Auto-generated constructor stub
     }
-    
-    
-    public AttributeManagerFactory createAttributeFactory() {
+
+    public AttributeManagerFactory createAttributeFactory () {
         AttributeManagerFactory factory = new AttributeManagerFactory();
         return factory;
     }
-    
-    public ActionFactory createActionFactory() {
-        ActionFactory actFactory = new ActionFactory();
-        return actFactory;
-    }
-    
-    public Unit createUnit(Location putHere){
+
+    public GameElement createUnit (Location putHere) {
         GameElementDefinition myDefinition = getDefinition();
-        
+
         AttributeManager AM = new AttributeManager();
-        Unit myUnit = new Unit(null, null, null);
+        GameElement myUnit = new GameElement(null, null, null);
         ArrayList<Action> actions = new ArrayList<Action>();
-        
+
         return myUnit;
-        
+
     }
 
 }

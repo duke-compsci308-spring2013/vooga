@@ -133,6 +133,7 @@ public class GameMap {
     private void paintGameElements (Graphics2D pen) {
         for (int i = 0; i < myGameElements.size(); ++i) {
             myGameElements.get(i).paint(pen);
+            System.out.println("painting game elements");
         }
     }
 
@@ -192,6 +193,7 @@ public class GameMap {
     
     private void sortGameElementsByDistanceToSource(List<GameElement> elementsWithinRadius, 
                                                     Location source) {
+        
         class GameElementComparator implements Comparator<GameElement> {
             private Location mySource;
 

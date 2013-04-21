@@ -7,8 +7,8 @@ import vooga.towerdefense.model.tiles.Tile;
 
 
 /**
- * A wave of enemy units, allows developer to control the number and types of
- * units as well as the speed at which units are spawned.
+ * A wave of enemy GameElements, allows developer to control the number and types of
+ * GameElements as well as the speed at which GameElements are spawned.
  * 
  * @author XuRui
  * @author Matthew Roy
@@ -18,7 +18,7 @@ import vooga.towerdefense.model.tiles.Tile;
 
 public class Wave {
 
-    protected List<Unit> myUnits;
+    protected List<GameElement> myGameElements;
     protected AttributeManager myAttributes;
     protected double myDuration;
     protected double mySpawnDelay;
@@ -27,9 +27,12 @@ public class Wave {
     private double myLastSpawnTime;
     private Tile mySpawnLocation;
 
-    public Wave (GameMap gameMap, List<Unit> units, Tile spawnLocation, double spawnDelay,
+    public Wave (GameMap gameMap,
+                 List<GameElement> GameElements,
+                 Tile spawnLocation,
+                 double spawnDelay,
                  double duration) {
-        myUnits = units;
+        myGameElements = GameElements;
         myDuration = duration;
         mySpawnDelay = spawnDelay;
         myMap = gameMap;
@@ -39,10 +42,10 @@ public class Wave {
     }
 
     public void update (double timeElapsed) {
-        if (canSpawn() && hasNextUnit()) {
-            Unit unit = generateUnit(getNextUnit());
-            myMap.addToMap(unit, mySpawnLocation);
-            System.out.println("spawned a unit");
+        if (canSpawn() && hasNextGameElement()) {
+            GameElement GameElement = generateGameElement(getNextGameElement());
+            myMap.addToMap(GameElement, mySpawnLocation);
+            System.out.println("spawned a GameElement");
             myLastSpawnTime = myTimer;
         }
         myTimer += timeElapsed;
@@ -56,16 +59,16 @@ public class Wave {
      */
     public boolean waveCompleted () {
         return myTimer > myDuration;
-        // return !hasNextUnit();
+        // return !hasNextGameElement();
     }
 
     /**
-     * Creates a unit based on given type and location using the wave attributes
+     * Creates a GameElement based on given type and location using the wave attributes
      * 
-     * @return unit created
+     * @return GameElement created
      */
-    private Unit generateUnit (Unit u) {
-        // TODO: should really be a unit generator class given, not an actual unit
+    private GameElement generateGameElement (GameElement u) {
+        // TODO: should really be a GameElement generator class given, not an actual GameElement
         return u;
     }
 
@@ -73,14 +76,14 @@ public class Wave {
         return myDuration;
     }
 
-    private Unit getNextUnit () {
-        Unit u = myUnits.iterator().next();
-        myUnits.remove(0);
+    private GameElement getNextGameElement () {
+        GameElement u = myGameElements.iterator().next();
+        myGameElements.remove(0);
         return u;
     }
 
-    private boolean hasNextUnit () {
-        return myUnits.iterator().hasNext();
+    private boolean hasNextGameElement () {
+        return myGameElements.iterator().hasNext();
     }
 
     /**
@@ -91,7 +94,7 @@ public class Wave {
         return myTimer == 0 || (myTimer - myLastSpawnTime) > mySpawnDelay;
     }
 
-    private void addUnit (Unit unit) {
-        myUnits.add(unit);
+    private void addGameElement (GameElement element) {
+        myGameElements.add(element);
     }
 }

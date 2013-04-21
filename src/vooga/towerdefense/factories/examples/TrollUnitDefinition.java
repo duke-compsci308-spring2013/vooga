@@ -1,8 +1,9 @@
-package vooga.towerdefense.factories;
+package vooga.towerdefense.factories.examples;
 
 
 import java.awt.Dimension;
 
+import vooga.towerdefense.factories.GameElementDefinition;
 import vooga.towerdefense.util.Location;
 import vooga.towerdefense.util.Pixmap;
 
@@ -19,10 +20,6 @@ public class TrollUnitDefinition extends GameElementDefinition {
     private static final double DEFAULT_MOVE_SPEED = 150;
     private static final double DEFAULT_DIRECTION = 50;
     
-    public Pixmap myImage;
-    public Location myCenter;
-    public Dimension mySize;
-
     /**
      * 
      */

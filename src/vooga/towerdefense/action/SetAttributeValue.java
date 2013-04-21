@@ -21,7 +21,6 @@ public class SetAttributeValue extends Action {
         myTargetAttribute = targetAttributeName;
         myAppliedAttribute = attributeToApply;
         myTargets = new ArrayList<GameElement>();
-        initAction();
     }
     
     
