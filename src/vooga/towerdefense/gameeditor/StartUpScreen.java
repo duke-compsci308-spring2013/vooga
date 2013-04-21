@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  * StartUpScreen starts the GameEditor for the
@@ -24,7 +25,12 @@ public class StartUpScreen extends JPanel {
     private static final String WELCOME_KEYWORD = "WELCOME TO GAME EDITOR";
     private static final String START_KEYWORD = "START";
     private static final String NEXT_SCREEN_NAME = "vooga.towerdefense.gameeditor.ViewEditorScreen";
+    private static final String GAME_NAME_TEXT = "Game Name: ";
+    private static final String SELECT_NAME_TEXT = "Confirm this as Game Name";
+    private static final int TEXT_FIELD_WIDTH = 20;
     private JButton myStartButton;
+    private JButton myGameNameConfirmation;
+    private JTextField myGameName;
     private MouseAdapter myMouseAdapter;
     private GameEditorController myController;
     
@@ -40,7 +46,8 @@ public class StartUpScreen extends JPanel {
         setVisible(true);
         makeMouseAdapter();
         add(makeLabel(), BorderLayout.NORTH);
-        add(makeButton(), BorderLayout.SOUTH);
+        add(makeButton(), BorderLayout.CENTER);
+        add(makeGameNamingSection(), BorderLayout.SOUTH);
     }
     
     /**
@@ -62,6 +69,17 @@ public class StartUpScreen extends JPanel {
         return new JLabel(WELCOME_KEYWORD);
     }
     
+    private JPanel makeGameNamingSection() {
+        JPanel panel = new JPanel();
+        panel.add(new JLabel(GAME_NAME_TEXT), BorderLayout.NORTH);
+        myGameName = new JTextField(TEXT_FIELD_WIDTH);
+        panel.add(myGameName, BorderLayout.CENTER);
+        myGameNameConfirmation = new JButton(SELECT_NAME_TEXT);
+        myGameNameConfirmation.addMouseListener(myMouseAdapter);
+        panel.add(myGameNameConfirmation, BorderLayout.SOUTH);
+        return panel;
+    }
+    
     /**
      * helper method to make the buttons.
      * @return the JButton created
@@ -76,7 +94,10 @@ public class StartUpScreen extends JPanel {
         myMouseAdapter = new MouseAdapter() {
             @Override
             public void mouseClicked (MouseEvent e) {
-                if (e.getSource().equals(myStartButton)) {
+                if (e.getSource().equals(myGameNameConfirmation)) {
+                    myController.setNameOfGame(myGameName.getText());
+                }
+                else if (e.getSource().equals(myStartButton)) {
                     try {
                         setVisible(false);
                         myController.displayNextScreen(NEXT_SCREEN_NAME);
