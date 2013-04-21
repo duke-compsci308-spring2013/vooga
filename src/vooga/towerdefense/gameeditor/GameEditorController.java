@@ -13,13 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import vooga.towerdefense.gameElements.GameElement;
-import vooga.towerdefense.gameElements.Unit;
 import vooga.towerdefense.gameElements.Wave;
 import vooga.towerdefense.util.Location;
 import vooga.towerdefense.util.Pixmap;
+import vooga.towerdefense.util.XMLTool;
 
 /**
- * Controls the game editor.
+ * Controls the game editor & makes the XML
+ *      file based on input from the game editor.
  *
  * @author Angelica Schwartz
  */
@@ -32,10 +33,12 @@ public class GameEditorController extends JFrame {
     private static final long serialVersionUID = 1L;
     private static final String TITLE_KEYWORD = "GAME EDITOR";
     private static final Dimension SIZE = new Dimension(700, 700);
+    private static final String RESOURCE_PATH = "vooga.src.vooga.towerdefense.resources.";
     private Dimension mySize;
     private Dimension myMapSize;
-    private List<Unit> myCreatedUnits;
+    private List<GameElement> myCreatedUnits;
     private List<Wave> myCreatedWaves;
+    private XMLTool myXMLTool;
     
     /**
      * Constructor.
@@ -43,7 +46,7 @@ public class GameEditorController extends JFrame {
      */
     public GameEditorController(Dimension size) {
         this.setTitle(TITLE_KEYWORD);
-        myCreatedUnits = new ArrayList<Unit>();
+        myCreatedUnits = new ArrayList<GameElement>();
         myCreatedWaves = new ArrayList<Wave>();
         mySize = size;
         setSize(mySize);
@@ -52,7 +55,7 @@ public class GameEditorController extends JFrame {
         initializeGUI();
         
         //TODO: remove, this is just for testing
-        Unit temp = new Unit(new Pixmap("tower.gif"), new Location(0,0), new Dimension(0,0), null, null);
+        GameElement temp = new GameElement(new Pixmap("tower.gif"), new Location(0,0), new Dimension(0,0), null, null);
         myCreatedUnits.add(temp);
         myCreatedUnits.add(temp);
         myCreatedUnits.add(temp);
@@ -70,6 +73,15 @@ public class GameEditorController extends JFrame {
         
         this.pack();
         setVisible(true);
+    }
+    
+    /**
+     * sets the name of this game.
+     */
+    public void setNameOfGame(String name) {
+        String path = RESOURCE_PATH.replace(".", "/");
+        path = path.replace("%20", " ");
+        myXMLTool = new XMLTool(path + name + ".xml");
     }
     
     /**
@@ -103,6 +115,15 @@ public class GameEditorController extends JFrame {
         //TODO: implement
         System.out.println("added unit to game");
         //update myCreatedUnits to contain the new unit
+        
+    }
+    
+    /**
+     * adds a game element to the XML file.
+     */
+    public void addGameElementToGame() {
+        //TODO: make xml file for an element. use this
+        //    method for other parts. 
     }
     
     /**
@@ -111,8 +132,8 @@ public class GameEditorController extends JFrame {
      */
     public List<GameElement> getUnits() {
         List<GameElement> g = new ArrayList<GameElement>();
-        for (Unit u : myCreatedUnits) {
-            g.add(u);
+        for (GameElement unit : myCreatedUnits) {
+            g.add(unit);
         }
         return g;
     }
@@ -165,8 +186,8 @@ public class GameEditorController extends JFrame {
      */
     public List<Image> getIconsForUnits() {
         List<Image> images = new ArrayList<Image>();
-        for (Unit u : myCreatedUnits) {
-            images.add(u.getPixmap().getImage());
+        for (GameElement unit : myCreatedUnits) {
+            images.add(unit.getPixmap().getImage());
         }
         return images;
     }
@@ -205,7 +226,6 @@ public class GameEditorController extends JFrame {
         if (directory.exists()) {
             File[] files = directory.listFiles();
             for (File file : files) {
-                System.out.println(file.getName());
                 if (file.getName().endsWith(CLASS_INDICATOR_STRING)) {
                     classes.add(Class.forName(packageName + "." +
                             file.getName().subSequence(0, file.getName().length()
@@ -228,8 +248,10 @@ public class GameEditorController extends JFrame {
         List<String> names = new ArrayList<String>();
         List<Class> classes = getClassesInPackage(packageName);
         for (Class c : classes) {
-            names.add(c.getName().substring(packageName.length()+1,
+            if (!c.getName().contains("$")) {
+                names.add(c.getName().substring(packageName.length()+1,
                         c.getName().length()));
+            }
         }
         return names;
     }

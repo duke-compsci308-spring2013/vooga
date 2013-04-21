@@ -3,14 +3,9 @@ package vooga.towerdefense.gameeditor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.util.List;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import vooga.towerdefense.gameElements.Unit;
 
 /**
  * The Catalog displays the images that the
@@ -20,6 +15,10 @@ import vooga.towerdefense.gameElements.Unit;
  */
 public class Catalog extends JPanel {
     
+    /**
+     * default serialized id.
+     */
+    private static final long serialVersionUID = 1L;
     private static final Color BACKGROUND_COLOR = Color.WHITE;
     private static final int SIDE_LENGTH = 50;
     private List<Image> myIconList;
