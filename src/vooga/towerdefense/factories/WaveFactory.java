@@ -27,7 +27,7 @@ public class WaveFactory {
         for (int i = 0; i < numUnits; i++) {
             System.out.println("added another unit to spawn");
 
-            units.add(ElementFactory.createGameElement(spawnLocation));
+            units.add(ElementFactory.createElement(spawnLocation));
         }
         return new Wave(gameMap, units, spawnTile, spawnDelay, duration);
 

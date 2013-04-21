@@ -4,7 +4,6 @@ import vooga.towerdefense.attributes.Attribute;
 import vooga.towerdefense.attributes.AttributeConstants;
 import vooga.towerdefense.factories.ProjectileFactory;
 import vooga.towerdefense.gameElements.GameElement;
-import vooga.towerdefense.gameElements.Projectile;
 import vooga.towerdefense.model.GameMap;
 import vooga.towerdefense.util.Location;
 
@@ -40,7 +39,7 @@ public class LaunchProjectile extends Action {
     @Override
     public void executeAction (double elapsedTime) {
     	System.out.print("shooted!!!");
-        Projectile projectile = myProjectileFactory.createProjectile(myTarget, myStart);
+        GameElement projectile = myProjectileFactory.createProjectile(myTarget, myStart);
         projectile.addAction(new MoveToDestination(myTarget.getCenter(), myStart, 
     			projectile.getAttributeManager().getAttribute(AttributeConstants.MOVE_SPEED)));
         myMap.addGameElement(projectile);

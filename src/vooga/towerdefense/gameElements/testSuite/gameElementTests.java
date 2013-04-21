@@ -8,7 +8,6 @@ import java.awt.Dimension;
 
 //import org.junit.Test;
 
-import vooga.towerdefense.gameElements.Unit;
 import vooga.towerdefense.util.Location;
 import vooga.towerdefense.util.Pixmap;
 import vooga.towerdefense.util.Sprite;

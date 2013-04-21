@@ -47,7 +47,7 @@ public class GameElementFactory {
         return actFactory;
     }
     
-    public GameElement createGameElement(){
+    public GameElement createElement(){
         if (def == null) {
             return null;
         }
@@ -62,7 +62,7 @@ public class GameElementFactory {
      * @param spawnLocation
      * @return 
      */
-    public GameElement createGameElement (Location spawnLocation) {
+    public GameElement createElement (Location spawnLocation) {
         // TODO Auto-generated method stub
         return null;
     }

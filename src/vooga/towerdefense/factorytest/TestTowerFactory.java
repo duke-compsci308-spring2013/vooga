@@ -18,13 +18,13 @@ public class TestTowerFactory extends GameElementFactory {
 	}
 	
 	public GameElement makeTower(Location loc){
-		GameElement tower = createGameElement();
+		GameElement tower = createElement();
 		tower.setCenter(loc.getX(),loc.getY());
 		return tower;
 	}
 
 	@Override
-    public GameElement createGameElement(){
+    public GameElement createElement(){
 		return new GameElement(myDef.getImage(), 
 				myDef.getCenter(), 
 				myDef.getSize(), 

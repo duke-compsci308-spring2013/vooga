@@ -11,18 +11,17 @@ import vooga.towerdefense.factories.ProjectileFactory;
 import vooga.towerdefense.factories.TowerDefinition;
 import vooga.towerdefense.factories.TowerFactory;
 import vooga.towerdefense.gameElements.GameElement;
-import vooga.towerdefense.gameElements.Tower;
-import vooga.towerdefense.gameElements.Unit;
 import vooga.towerdefense.model.GameMap;
 import vooga.towerdefense.model.Path;
 import vooga.towerdefense.util.Location;
 
+
 /**
  * @author Matthew Roy
- *
+ * 
  */
 public class ExampleTowerFactory extends TowerFactory {
-	private GameMap myGameMap;
+    private GameMap myGameMap;
 
     /**
      * @param name
@@ -30,49 +29,47 @@ public class ExampleTowerFactory extends TowerFactory {
      */
     public ExampleTowerFactory (String name, GameMap map) {
         super(name, null);
-        myGameMap=map;
+        myGameMap = map;
     }
-    
-    
-    
-    public Tower createTower(Location putHere){
-        TowerDefinition def=new TowerDefinition();
-       
+
+    public GameElement createTower (Location putHere) {
+        TowerDefinition def = new TowerDefinition();
+
         AttributeManager AM = new AttributeManager();
         AM.addAttribute(new Attribute(AttributeConstants.ATTACK_RADIUS, 300.0));
         AM.addAttribute(new Attribute(AttributeConstants.DIRECTION, 50.0));
         AM.addAttribute(new Attribute(AttributeConstants.ATTACK_INTERVAL, 30.0));
         AM.addAttribute(new Attribute(AttributeConstants.NUM_OF_TARGETS, 1.0));
-        AM.addAttribute(new Attribute(AttributeConstants.MOVE_SPEED,10.0));
+        AM.addAttribute(new Attribute(AttributeConstants.MOVE_SPEED, 10.0));
         AM.setProjectileFactory(new ProjectileFactory());
-        Tower myTower;
+        GameElement myTower;
         if (putHere != null) {
-                myTower = new Tower(def.getImage(), def.getCenter(),
-                                def.getSize(), AM);
-        } else {
-                myTower = new Tower(def.getImage(),
-                                def.getCenter(), def.getSize(), AM);
+            myTower = new GameElement(def.getImage(), def.getCenter(),
+                                      def.getSize(), AM);
+        }
+        else {
+            myTower = new GameElement(def.getImage(),
+                                      def.getCenter(), def.getSize(), AM);
         }
 
         ArrayList<Action> actions = new ArrayList<Action>();
 
-        //actions.add(new AttackAction(myGameMap,myTower,myTower.getAttributeManager().getProjectileFactory()));
-        actions.add(new TrackTarget(putHere, myTower.getAttributeManager().getAttribute(AttributeConstants.ATTACK_RADIUS), myGameMap));
+        // actions.add(new
+        // AttackAction(myGameMap,myTower,myTower.getAttributeManager().getProjectileFactory()));
+        actions.add(new TrackTarget(putHere, myTower.getAttributeManager()
+                .getAttribute(AttributeConstants.ATTACK_RADIUS), myGameMap));
 
-        
-       
-        //actions.add(new AttackAction(myTower, ));
+        // actions.add(new AttackAction(myTower, ));
         myTower.addActions(actions);
         return myTower;
 
-        
         /*
-                return new GameElement(def.getImage(), 
-                                def.getCenter(), 
-                                def.getSize(), 
-                                createAttributeFactory().makeAttributeManager(), 
-                                createActionFactory().createActions());
-                                */
+         * return new GameElement(def.getImage(),
+         * def.getCenter(),
+         * def.getSize(),
+         * createAttributeFactory().makeAttributeManager(),
+         * createActionFactory().createActions());
+         */
     }
 
 }
