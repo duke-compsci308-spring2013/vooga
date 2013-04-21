@@ -2,6 +2,7 @@ package vooga.towerdefense.factories;
 
 import vooga.towerdefense.attributes.AttributeConstants;
 import vooga.towerdefense.gameElements.GameElement;
+import vooga.towerdefense.util.Location;
 
 /**
  * A factory that creates game elements based on preset data
@@ -55,6 +56,15 @@ public class GameElementFactory {
 				def.getSize(), 
 				createAttributeFactory().makeAttributeManager(), 
 				createActionFactory().createActions());
+    }
+
+    /**
+     * @param spawnLocation
+     * @return 
+     */
+    public GameElement createGameElement (Location spawnLocation) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

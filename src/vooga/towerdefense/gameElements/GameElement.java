@@ -1,3 +1,4 @@
+
 package vooga.towerdefense.gameElements;
 
 import java.awt.Dimension;
@@ -23,6 +24,14 @@ public class GameElement extends Sprite {
     private AttributeManager myAttributeManager;
     private List<Action> myActions;
 
+    /**
+     * 
+     * @param image
+     * @param center
+     * @param size
+     * @param attributes
+     * @param actions
+     */
     public GameElement (Pixmap image,
                         Location center,
                         Dimension size,
@@ -47,6 +56,7 @@ public class GameElement extends Sprite {
 
     /**
      * Updates all attributes and actions
+     * 
      * @param elapsedTime
      */
     public void update (double elapsedTime) {
