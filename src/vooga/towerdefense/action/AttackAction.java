@@ -22,7 +22,7 @@ public class AttackAction extends PeriodicAction {
 	private GameElement myInitiator;
 	private GameMap myMap;
 
-	public AttackAction(GameMap map, GameElement initiator, ProjectileFactory projectileToCreate){
+	public AttackAction(GameMap map, GameElement initiator){
         myMap = map;
         myInitiator=initiator;
         setCoolDown(initiator.getAttributeManager().getAttribute(AttributeConstants.ATTACK_INTERVAL).getValue());
@@ -56,11 +56,5 @@ public class AttackAction extends PeriodicAction {
 
 	}
 
-
-	@Override
-	public void update(double elapsedTime) {
-		executeAction(elapsedTime);
-		
-	}
 }
 

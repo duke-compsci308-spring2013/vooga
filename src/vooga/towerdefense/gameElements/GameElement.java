@@ -1,3 +1,4 @@
+
 package vooga.towerdefense.gameElements;
 
 import java.awt.Dimension;
@@ -11,7 +12,8 @@ import vooga.towerdefense.util.Sprite;
 
 
 /**
- * Blank tower that holds its attributes and actions that define it
+ * Underlying game element object that all types of sprites in the game are created from
+ * Defined by its attributes and actions
  * 
  * @author Matthew Roy
  * @author Xu Rui
@@ -22,6 +24,14 @@ public class GameElement extends Sprite {
     private AttributeManager myAttributeManager;
     private List<Action> myActions;
 
+    /**
+     * 
+     * @param image
+     * @param center
+     * @param size
+     * @param attributes
+     * @param actions
+     */
     public GameElement (Pixmap image,
                         Location center,
                         Dimension size,
@@ -44,15 +54,20 @@ public class GameElement extends Sprite {
         this(image, center, size, new AttributeManager(), new ArrayList<Action>());
     }
 
+    /**
+     * Updates all attributes and actions
+     * 
+     * @param elapsedTime
+     */
     public void update (double elapsedTime) {
-
         for (Action a : myActions) {
             a.update(elapsedTime);
         }
+        myAttributeManager.update();
     }
-    
-    public void addAction(Action a){
-    	myActions.add(a);
+
+    public void addAction (Action a) {
+        myActions.add(a);
     }
 
     public void addActions (List<Action> actions) {

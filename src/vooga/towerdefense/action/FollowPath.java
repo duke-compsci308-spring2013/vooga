@@ -5,6 +5,12 @@ import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.model.Path;
 import vooga.towerdefense.util.Location;
 import vooga.towerdefense.util.Vector;
+/**
+ * makes the action initiator move following a path
+ * @author Zhen Gou
+ * @author Xu Rui
+ *
+ */
 
 public class FollowPath extends Action {
 
