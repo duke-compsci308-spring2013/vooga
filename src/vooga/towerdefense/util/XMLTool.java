@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +34,8 @@ import org.xml.sax.SAXException;
  * The element operations consist of creating element trees.
  * The use of attributes is avoided because they are more difficult to read
  * and to maintain. (Reference: w3schools.com)
+ * 
+ * TODO: Create an easy way to store multiple values in an Element?
  * 
  * @WARNING: This code is not yet fully implemented.
  * 
@@ -67,6 +68,7 @@ public class XMLTool {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         try {
             myDoc = dbFactory.newDocumentBuilder().newDocument();
+            System.out.println("madeDoc");
         }
         catch (ParserConfigurationException e) {
             throw new RuntimeException(RUNTIME_EXP_MESSAGE, e);
@@ -107,6 +109,18 @@ public class XMLTool {
     /*
      * Creating new elements
      */
+    
+    /**
+     * Creates the root of this document.
+     * 
+     * @param tag This parameter is the tag of the root
+     * @return the root
+     */
+    public Element makeRoot (String tag) {
+        Element root = myDoc.createElement(tag);
+        myDoc.appendChild(root);
+        return root;
+    }
     
     /**
      * Creates a new empty element in the Doc.
@@ -204,14 +218,30 @@ public class XMLTool {
     }
     
     /*
-     * Getters: tag to tag operations
-     * get value of a leaf element tag as: String, integer, double, ?... sound?, Sprite?
-     * Get values of parent elements as a map, arrays of tags
+     * Getters
+     */
+    /**
+     * This method returns the first element in the document with an specific tag.
+     * Be careful with this method! If you have many instances of the same tag, use
+     * getElementsListByTagName, which will return a list of elements.
+     * 
+     * @param tag The name of the tag to match on. The special value "*" matches all tags. For XML,
+     *        the tag parameter is case-sensitive, otherwise it depends on the case-sensitivity
+     *        of the mark up language in use.
+     * @return The FIRST element with the tag.
      */
     public Element getElementFromTag (String tag) {
         return (Element) myDoc.getElementsByTagName(tag).item(0);
     }
     
+    /**
+     * Returns a list of elements with the tag.
+     * 
+     * @param tag The name of the tag to match on. The special value "*" matches all tags. For XML,
+     *        the tag parameter is case-sensitive, otherwise it depends on the case-sensitivity
+     *        of the mark up language in use.
+     * @return A list of elements with the tag.
+     */
     public List<Element> getElementListByTagName (String tag) {
         List<Element> nodeList = new ArrayList<Element>();
         NodeList nodes = myDoc.getElementsByTagName(tag);
@@ -221,18 +251,44 @@ public class XMLTool {
         return nodeList;
     }
     
+    /**
+     * This method return the tag name of an element.
+     * 
+     * @param element The element containing a tag
+     * @return the tag of the element as a string
+     */
     public String getTagName (Element element) {
         return element.getTagName();
     }
     
+    /**
+     * This method returns the value of an element as a String.
+     * 
+     * @param element The element from which the content is being extracted.
+     * @return A string stores in the element.
+     */
     public String getContent (Element element) {
         return element.getTextContent();
     }
     
+    /**
+     * Gets the content of the FIRST element associated with the referent tag.
+     * 
+     * @param tag A string with the tag of the element.
+     * @return the content(value) of the element.
+     */
     public String getContentFromTag (String tag) {
         return getContent(getElementFromTag(tag));
     }
     
+    /**
+     * Creates a map with the tag (as a map key) and the content (as a map value) of all the
+     * children elements of a particular node.
+     * If the parent element does not contain children, this method returns an empty map.
+     * 
+     * @param parent The parent element node.
+     * @return
+     */
     public Map<String, String> getMapFromParentElement (Element parent) {
         Map<String, String> map = new HashMap<String, String>();
         NodeList nodes = parent.getChildNodes();
@@ -242,19 +298,31 @@ public class XMLTool {
                 Element paramElement = (Element) node;
                 map.put(paramElement.getTagName(), getContent(node));
             }
-        }       
+        }
         return map;
     }
     
+    /**
+     * Searches for all parent elements with the same tag and then generates a list containing maps
+     * of their respective children.
+     * Creates maps with the tag (as a map key) and the content (as a map value) of all the
+     * children elements of a particular node.
+     * The list preserves the top-down numerical order in which the tag is found in the XML
+     * document.
+     * 
+     * @param parentsTag The tag of the parent elements to be searched.
+     * @return a list of maps. The map contains the tag of the children elements as a key and the
+     *         children content as a value. Map<key, value> = Map<childTag, childValue> =
+     *         Map<String, String>;
+     */
     public List<Map<String, String>> getMapListFromTag (String parentsTag) {
-        List<Element> nodeList = getElementListByTagName (parentsTag);
+        List<Element> nodeList = getElementListByTagName(parentsTag);
         List<Map<String, String>> listOfMaps = new ArrayList<Map<String, String>>(nodeList.size());
-        for(int i=0; i<nodeList.size(); i++) {
+        for (int i = 0; i < nodeList.size(); i++) {
             listOfMaps.add(getMapFromParentElement(nodeList.get(i)));
         }
         return listOfMaps;
     }
-    
     
     /*
      * Writing to file, will be replaced by the secretary program

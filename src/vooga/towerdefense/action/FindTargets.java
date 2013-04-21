@@ -30,17 +30,13 @@ public class FindTargets extends Action {
         mySource = source;
         myMap = map;
     }
-/* this method is exactly same as the super class's
-    public void update (double elapsedTime) {
-        if (isEnabled()) {
-            executeAction(elapsedTime);
-            updateFollowupActions(elapsedTime);
-        }
-    }*/
-
+    
     @Override
     public void executeAction (double elapsedTime) {
-        setTargets(myMap.getTargetsWithinRadius(mySource, myScanningRadius.getValue()));
+        setTargets(
+                   myMap.getTargetsWithinRadius(
+                                                mySource, 
+                                                myScanningRadius.getValue()));
     }
 
     public void updateFollowupActions (double elapsedTime) {

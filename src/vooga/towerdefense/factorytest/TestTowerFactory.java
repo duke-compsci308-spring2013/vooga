@@ -23,15 +23,4 @@ public class TestTowerFactory extends GameElementFactory {
 		return tower;
 	}
 
-	@Override
-    public GameElement createElement(){
-		return new GameElement(myDef.getImage(), 
-				myDef.getCenter(), 
-				myDef.getSize(), 
-				super.createAttributeFactory().makeAttributeManager(), 
-				super.createActionFactory().createActions());
-    	
-    }
-
-
 }

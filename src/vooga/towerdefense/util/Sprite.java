@@ -214,6 +214,7 @@ public abstract class Sprite {
         return getBounds().contains(pt);
     }
 
+    //FIXME: This will break many, many things if it is ever called, so we should fix it. -Matthew 
     /**
      * Reset shape back to its original values.
      */

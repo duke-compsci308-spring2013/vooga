@@ -21,15 +21,21 @@ public class ModifyAttributeValue extends Action {
         myAppliedAttribute = attributeToApply;
  
     }
-    
-    @Override
-    public void executeAction (double elapseTime) {
+
+
+    /**
+     * Scales the modified value to the elapsed time and applies it to all the given elements
+     * Overrides from superclasses
+     * @param elapsedTime
+     */
+    public void executeAction (double elapsedTime) {
+        double scaledModifier = myAppliedAttribute.getValue()*elapsedTime/1000.0;
         for (GameElement e : getTargets()) {
             System.out.println(e.getCenter());
             Attribute toChange = e.getAttributeManager().getAttribute(myTargetAttribute);
             System.out.println(toChange);
             if (toChange != null) {
-                toChange.modifyValue(myAppliedAttribute.getValue());
+                toChange.modifyValue(scaledModifier);
             }
         }
     }

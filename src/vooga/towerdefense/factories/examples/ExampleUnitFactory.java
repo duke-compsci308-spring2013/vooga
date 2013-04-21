@@ -1,7 +1,6 @@
 package vooga.towerdefense.factories.examples;
 
 import java.util.ArrayList;
-
 import vooga.towerdefense.action.Action;
 import vooga.towerdefense.action.FollowPath;
 import vooga.towerdefense.action.Move;
@@ -17,6 +16,7 @@ import vooga.towerdefense.model.GameMap;
 import vooga.towerdefense.model.Path;
 import vooga.towerdefense.util.Location;
 
+
 /**
  * @author Matthew Roy
  * @author Jimmy Longley
@@ -24,54 +24,55 @@ import vooga.towerdefense.util.Location;
  */
 public class ExampleUnitFactory extends GameElementFactory {
 
-	private GameMap myGameMap;
+    private GameMap myGameMap;
 
-	/**
-	 * @param elementName
-	 * @param definition
-	 */
-	public ExampleUnitFactory(String elementName,
-			GameElementDefinition definition, GameMap gameMap) {
-		super(elementName, definition);
-		myGameMap = gameMap;
-	}
+    /**
+     * @param elementName
+     * @param definition
+     */
+    public ExampleUnitFactory (String elementName,
+                               GameElementDefinition definition, GameMap gameMap) {
+        super(elementName, definition);
+        myGameMap = gameMap;
+    }
 
-	public GameElement createGameElement(Location putHere) {
-		return createGameElement(putHere, new TrollUnitDefinition());
-	}
+    public GameElement createElement (Location putHere) {
+        return createElement(putHere, new TrollUnitDefinition());
+    }
 
-	public GameElement createGameElement(Location putHere, TrollUnitDefinition myDef) {
-		TrollUnitDefinition myDefinition = myDef;
+    public GameElement createElement (Location putHere, TrollUnitDefinition myDef) {
+        TrollUnitDefinition myDefinition = myDef;
 
-		AttributeManager AM = new AttributeManager();
-		AM.addAttribute(new Attribute(AttributeConstants.MOVE_SPEED, 150.0));
-		AM.addAttribute(new Attribute(AttributeConstants.DIRECTION, 50.0));
-		AM.addAttribute(new Attribute(AttributeConstants.ATTACK_INTERVAL, 50.0));
-		AM.addAttribute(new Attribute(AttributeConstants.HEALTH, 100.0));
-		GameElement myGameElement;
-		if (putHere != null) {
-            myGameElement = new GameElement(myDefinition.myImage, putHere,
-					myDefinition.getSize(), AM);
-		} else {
-			myGameElement = new GameElement(myDefinition.getImage(),
-					myDefinition.getCenter(), myDefinition.getSize(), AM);
-		}
+        AttributeManager AM = new AttributeManager();
+        AM.addAttribute(new Attribute(AttributeConstants.MOVE_SPEED, 150.0));
+        AM.addAttribute(new Attribute(AttributeConstants.DIRECTION, 50.0));
+        AM.addAttribute(new Attribute(AttributeConstants.ATTACK_INTERVAL, 50.0));
+        AM.addAttribute(new Attribute(AttributeConstants.HEALTH, 100.0));
+        GameElement myGameElement;
+        if (putHere != null) {
+            myGameElement = new GameElement(myDefinition.getImage(), putHere,
+                                            myDefinition.getSize(), AM);
+        }
+        else {
+            myGameElement = new GameElement(myDefinition.getImage(),
+                                            myDefinition.getCenter(), myDefinition.getSize(), AM);
+        }
 
-		ArrayList<Action> actions = new ArrayList<Action>();
-		actions.add(new Move(myGameElement.getCenter(), myGameElement.getAttributeManager()
-				.getAttribute(AttributeConstants.MOVE_SPEED), myGameElement
-				.getAttributeManager().getAttribute(
-						AttributeConstants.DIRECTION)));
-		Path path = myGameMap.getShortestPath(putHere,
-				myGameMap.default_end_location);
-		actions.add(new FollowPath(myGameElement, path));
-		//Action myDeath = new OnDeath(AM.getAttribute(AttributeConstants.HEALTH));
-		//myDeath.addFollowUpAction(new RemoveGameElement(myGameMap, myGameElement));
-		//actions.add(myDeath);
-		myGameElement.addActions(actions);
+        Path path = myGameMap.getShortestPath(putHere,
+                                              myGameMap.default_end_location);
+        ArrayList<Action> actions = new ArrayList<Action>();
+        actions.add(new FollowPath(myGameElement, path));
+        actions.add(new Move(myGameElement.getCenter(), myGameElement.getAttributeManager()
+                .getAttribute(AttributeConstants.MOVE_SPEED), myGameElement
+                .getAttributeManager().getAttribute(
+                                                    AttributeConstants.DIRECTION)));
 
-		return myGameElement;
-
-	}
+        Action myDeath = new OnDeath(AM.getAttribute(AttributeConstants.HEALTH));
+        myDeath.addFollowUpAction(new RemoveGameElement(myGameMap, myGameElement));
+        actions.add(myDeath);
+        myGameElement.addActions(actions);
+        System.out.println("TROOOOOLLS IN THE DUNGEON!");  //Yeah, its late...
+        return myGameElement;
+    }
 
 }

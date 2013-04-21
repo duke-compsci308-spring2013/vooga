@@ -42,8 +42,8 @@ public class ProjectileFactory extends GameElementFactory {
         System.out.println("fireball created!+++++++++++++");
 
         List<Action> actions = new ArrayList<Action>();
-        actions.add(new MoveToDestination(targetLocation,
-                                          projectile.getCenter(), initiator.getAttributeManager()
+        actions.add(new MoveToDestination(projectile.getCenter(),
+                                          targetLocation, initiator.getAttributeManager()
                                                   .getAttribute(AttributeConstants.MOVE_SPEED)));
         projectile.addActions(actions);
         return projectile;

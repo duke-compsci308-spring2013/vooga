@@ -31,7 +31,7 @@ public class ModifyAttributeValueFactory extends ActionFactory {
      * @return
      */
     @Override
-    public Action createAction (GameElement e) {
+    protected Action buildAction (GameElement e) {
         Attribute toApply = e.getAttributeManager().getAttribute(myAttributeToApply);
         return new ModifyAttributeValue(toApply, myTargetId);
     }

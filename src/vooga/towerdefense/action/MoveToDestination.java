@@ -12,18 +12,16 @@ public class MoveToDestination extends Action{
 	private Location myStart;
 	private Location myTarget;
 	private Attribute mySpeed;
-	private boolean following;
 
-	public MoveToDestination(Location destination, Location start, Attribute movespeed){
+	public MoveToDestination(Location start, Location destination, Attribute movespeed){
 		mySpeed = movespeed;
-		following = true;
 		myStart = start;
 		myTarget = destination;
 		myHeading = new Vector(Vector.angleBetween(myStart, destination), movespeed.getValue());
 	}
 	
 	public void update(double elapsedTime) {
-		if(following) {
+		if(isEnabled()) {
 			executeAction(elapsedTime);
 		}
 	}
@@ -34,7 +32,7 @@ public class MoveToDestination extends Action{
 		myHeading.scale(myHeading.getMagnitude()/mySpeed.getValue());
 		myHeading.scale(elapsedTime);
 		if (myStart.distance(myTarget) < myHeading.getMagnitude()) {
-			following = false;
+			setEnabled(false);
 			myStart.setLocation(myTarget);
 		}
 		else {
