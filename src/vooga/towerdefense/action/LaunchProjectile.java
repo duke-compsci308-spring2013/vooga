@@ -9,10 +9,9 @@ import vooga.towerdefense.model.GameMap;
 import vooga.towerdefense.util.Location;
 
 /**
- * 
  * Creates a projectile aimed at a target
  * @author Matthew Roy
- *
+ * @author Zhen Gou
  */
 public class LaunchProjectile extends Action {
 
@@ -20,10 +19,14 @@ public class LaunchProjectile extends Action {
 	private GameElement myTarget;
 	private Location myStart;
 	private GameMap myMap;
+	
     /**
-     * @param initiator
+     * @param GameMap 
+     * @param Location
+     * @param ProjectileFacotry
+     * @param GameElement
      */
-    public LaunchProjectile (Location startLocation, ProjectileFactory projectileFactory, GameElement target, GameMap map) {
+    public LaunchProjectile (GameMap map,Location startLocation, ProjectileFactory projectileFactory, GameElement target) {
     	myProjectileFactory = projectileFactory;
     	myTarget = target;
     	myStart = startLocation;
@@ -48,16 +51,5 @@ public class LaunchProjectile extends Action {
     	getFollowUpAction().update(elapsedTime);*/
     }
 
-    /**
-     * Overrides from superclasses
-     * @param elapsedTime 
-     */
-    @Override
-    public void update (double elapsedTime) {
-        if (isEnabled()){
-        	executeAction(elapsedTime);
-        	
-        }
-    }
 
 }

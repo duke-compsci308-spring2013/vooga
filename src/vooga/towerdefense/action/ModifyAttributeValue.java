@@ -7,30 +7,24 @@ import vooga.towerdefense.gameElements.GameElement;
 
 
 /**
- * 
+ * Modify a specified 
  * @author Matthew Roy
- * 
+ * @author Zhen Gou
  */
 public class ModifyAttributeValue extends Action {
 
     private Attribute myAppliedAttribute;
     private String myTargetAttribute;
-    List<GameElement> myTargets;
 
     public ModifyAttributeValue (Attribute attributeToApply, String targetAttributeName) {
         myTargetAttribute = targetAttributeName;
         myAppliedAttribute = attributeToApply;
-        myTargets = new ArrayList<GameElement>();
+ 
     }
     
-    
-    public void setTargets(List<GameElement> elements) {
-        myTargets = elements;
-    }
-
     @Override
     public void executeAction (double elapseTime) {
-        for (GameElement e : myTargets) {
+        for (GameElement e : getTargets()) {
             System.out.println(e.getCenter());
             Attribute toChange = e.getAttributeManager().getAttribute(myTargetAttribute);
             System.out.println(toChange);
@@ -40,10 +34,5 @@ public class ModifyAttributeValue extends Action {
         }
     }
 
-    @Override
-    public void update (double elapsedTime) {
-        // TODO Auto-generated method stub
-
-    }
 
 }
