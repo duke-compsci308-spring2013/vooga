@@ -1,4 +1,4 @@
-package vooga.towerdefense.view;
+package vooga.towerdefense.view.gamescreens;
 
 import java.awt.Color;
 import java.awt.Dimension;

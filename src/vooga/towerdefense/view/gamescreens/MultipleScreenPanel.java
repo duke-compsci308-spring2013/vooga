@@ -1,4 +1,4 @@
-package vooga.towerdefense.view;
+package vooga.towerdefense.view.gamescreens;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

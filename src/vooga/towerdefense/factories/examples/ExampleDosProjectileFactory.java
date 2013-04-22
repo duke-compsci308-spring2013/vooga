@@ -76,18 +76,19 @@ public class ExampleDosProjectileFactory extends GameElementFactory {
     }
 
     /**
-     * @param myLoc
+     * @param myStart
      * @param center
      * @return
      */
-    public GameElement createElement (Location myLoc, Location target, GameMap map) {
+    public GameElement createElement (GameElement myStart, GameElement e, GameMap map) {
         TowerDefinition def = new TowerDefinition();
         AttributeManager AM = getDefaultAM();
+        initialize(map);
 
         Pixmap tImage = new Pixmap("mergeConflict.jpg");
         GameElement myProjectile;
-        if (myLoc != null) {
-            myProjectile = new GameElement(tImage, myLoc,
+        if (myStart != null) {
+            myProjectile = new GameElement(tImage, myStart.getCenter(),
                                            new Dimension(30, 30), AM);
         }
         else {
@@ -97,21 +98,30 @@ public class ExampleDosProjectileFactory extends GameElementFactory {
 
         ArrayList<Action> actions = new ArrayList<Action>();
         FindTargets findTargets =
-                new FindTargets(map, myLoc, AM.getAttribute(AttributeConstants.ATTACK_RADIUS));
+                new FindTargets(map, myStart.getCenter(), AM.getAttribute(AttributeConstants.ATTACK_RADIUS));
         findTargets.addFollowUpAction(new SetAttributeValue(AM
                 .getAttribute(AttributeConstants.AURA_EFFECT), AttributeConstants.HEALTH));
         actions.add(findTargets);
-        Action randomChance = new RandomChance(0.01);
-        randomChance.addFollowUpAction(new RemoveGameElement(map, myProjectile));
-        actions.add(randomChance);
-        actions.add(new Move(myProjectile.getCenter(), AM
-                .getAttribute(AttributeConstants.MOVE_SPEED), AM
-                .getAttribute(AttributeConstants.DIRECTION)));
-        //actions.add(new MoveToDestination(myProjectile.getCenter(), new Location(0,0), AM
-          //      .getAttribute(AttributeConstants.MOVE_SPEED)));
+        //Action randomChance = new RandomChance(-0.01);
+        //randomChance.addFollowUpAction(new RemoveGameElement(map, myProjectile));
+        //actions.add(randomChance);
+        //actions.add(new Move(myProjectile.getCenter(), AM
+        //        .getAttribute(AttributeConstants.MOVE_SPEED), AM
+        //        .getAttribute(AttributeConstants.DIRECTION)));
+        actions.add(new MoveToDestination(myProjectile.getCenter(), e.getCenter(), AM
+                .getAttribute(AttributeConstants.MOVE_SPEED)));
 
         myProjectile.addActions(actions);
         return myProjectile;
+    }
+
+    /**
+     * @param myStart
+     * @param myTarget
+     * @return 
+     */
+    public GameElement createProjectile (GameElement myStart, GameElement myTarget) {
+        return this.createElement(myStart, myTarget, getMap());
     }
 
 }

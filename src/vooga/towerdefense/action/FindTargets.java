@@ -33,10 +33,17 @@ public class FindTargets extends Action {
     
     @Override
     public void executeAction (double elapsedTime) {
-        setTargets(
+        List<GameElement> newTargets= 
                    myMap.getTargetsWithinRadius(
                                                 mySource, 
-                                                myScanningRadius.getValue()));
+                                                myScanningRadius.getValue());
+        System.out.println(newTargets);
+        for (GameElement e : newTargets) {
+            if (e != null) {
+                setTargets(newTargets);
+            }
+        }
+        
     }
 
     public void updateFollowupActions (double elapsedTime) {

@@ -9,6 +9,7 @@ package vooga.towerdefense.attributes;
  *
  */
 public class AttributeConstants {
+    
 	public static final String NAME = "Name";
 	public static final String HEALTH = "Health";
 	public static final String ATTACK_DAMAGE = "Attack Damage";

@@ -11,6 +11,15 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import vooga.towerdefense.controller.Controller;
+import vooga.towerdefense.view.gamescreens.GameElementInformationScreen;
+import vooga.towerdefense.view.gamescreens.InformationScreen;
+import vooga.towerdefense.view.gamescreens.MapScreen;
+import vooga.towerdefense.view.gamescreens.MultipleScreenPanel;
+import vooga.towerdefense.view.gamescreens.NextWaveScreen;
+import vooga.towerdefense.view.gamescreens.ShopScreen;
+import vooga.towerdefense.view.introscreens.LevelsSelectorScreen;
+import vooga.towerdefense.view.introscreens.MapsSelectorScreen;
+import vooga.towerdefense.view.introscreens.SplashScreen;
 
 
 /**

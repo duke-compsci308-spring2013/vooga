@@ -1,4 +1,4 @@
-package vooga.towerdefense.view;
+package vooga.towerdefense.view.introscreens;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import javax.swing.JPanel;
+import vooga.towerdefense.view.TDView;
 
 
 public abstract class SelectScreen extends JPanel {
