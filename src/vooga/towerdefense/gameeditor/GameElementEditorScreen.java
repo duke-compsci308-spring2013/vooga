@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -67,6 +68,10 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
      * constant for the attributes delete button.
      */
     private static final String ATTRIBUTE_DELETE_BUTTON_TEXT = "Clear selected attribute";
+    /**
+     * option for new attribute.
+     */
+    private static final String NEW_TEXT = "NEW";
     /**
      * constant for the action section title.
      */
@@ -294,6 +299,7 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
         optionsSubPanel1.add(new JLabel(ATTRIBUTE_TITLE), BorderLayout.NORTH);
         myAttributesBox = new JComboBox();
         List<String> attributes = getController().getFieldsInClass(ATTRIBUTES_CLASS_PATH);
+        attributes.add(NEW_TEXT);
         for (String a : attributes) {
             myAttributesBox.addItem(a);
         }
@@ -332,9 +338,17 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
             }
         }
         else if (e.getSource().equals(myAddAttributeButton)) {
-            myAttributesSelected.setText(myAttributesSelected.getText()
+            if (myAttributesBox.getSelectedItem().equals(NEW_TEXT)) {
+                String name = JOptionPane.showInputDialog("Enter the name of your new attribute");
+                String value = JOptionPane.showInputDialog("Enter the value for " + name);
+                myAttributesSelected.setText(myAttributesSelected.getText()
+                   + name + " " + value + "\n");
+            }
+            else {
+                myAttributesSelected.setText(myAttributesSelected.getText()
                     + myAttributesBox.getSelectedItem().toString()
                     + " " + myAttributeValue.getText() + "\n");
+            }
         }
         else if (e.getSource().equals(myAddActionButton)) {
             myActionsSelected.setText(myActionsSelected.getText()

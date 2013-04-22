@@ -134,8 +134,7 @@ public class GameEditorController extends JFrame {
     public void addProjectileToGame(String name, String path, Map<String, String> attributes, Map<String, String> actions) {
         addGameElementToGame(myProjectileParent, name, path, attributes, actions);
         System.out.println("added projectile to game");
-        myXMLDoc.writeFile("game.xml");
-}
+    }
 
     /**
      * adds a unit to the XML file.
@@ -202,18 +201,8 @@ public class GameEditorController extends JFrame {
     public List<Wave> getWaves () {
         return myCreatedWaves;
     }
-
+    
     /**
-<<<<<<< HEAD
-=======
-     * adds a tower to the XML file.
-     */
-    public void addTowerToGame () {
-        // TODO: implement
-    }
-
-    /**
->>>>>>> beb6214c4bd318ad3cf080bdc514bd578595ba10
      * adds a view to the XML file.
      */
     public void addViewToGame () {
@@ -248,6 +237,13 @@ public class GameEditorController extends JFrame {
             images.add(unit.getPixmap().getImage());
         }
         return images;
+    }
+    
+    /**
+     * write the xml file.
+     */
+    public void writeFile() {
+        myXMLDoc.writeFile(myName + ".xml");
     }
 
     /**
