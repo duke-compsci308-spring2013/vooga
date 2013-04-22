@@ -222,8 +222,7 @@ public class GameEditorController extends JFrame {
     }
 
     public Dimension getMapSize () {
-        // return myMapSize; // TODO FIX THIS
-        return new Dimension(500, 500);
+        return myMapSize;
     }
 
     /**
