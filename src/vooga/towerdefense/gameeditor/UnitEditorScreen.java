@@ -2,10 +2,11 @@ package vooga.towerdefense.gameeditor;
 
 import java.awt.Dimension;
 
+
 /**
  * UnitEditorScreen is responsible for helping
- *      the game developer make units.
- *
+ * the game developer make units.
+ * 
  * @author Angelica Schwartz
  */
 public class UnitEditorScreen extends GameElementEditorScreen {
@@ -18,9 +19,10 @@ public class UnitEditorScreen extends GameElementEditorScreen {
      * next screen constant.
      */
     private static final String NEXT_SCREEN_NAME = "WaveEditorScreen";
-    
+
     /**
      * constructor.
+     * 
      * @param size
      * @param controller
      */
@@ -38,7 +40,7 @@ public class UnitEditorScreen extends GameElementEditorScreen {
      */
     @Override
     public void addElementToGame () {
-        //TODO: implement
+        // TODO: implement
         getController().addUnitToGame();
     }
 

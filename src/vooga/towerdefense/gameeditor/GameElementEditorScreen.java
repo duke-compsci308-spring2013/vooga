@@ -15,10 +15,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+
 /**
  * GameElementEditorScreen is the super class for helping
- *      the game developer make game elements.
- *
+ * the game developer make game elements.
+ * 
  * @author Angelica Schwartz
  */
 public abstract class GameElementEditorScreen extends GameEditorScreen {
@@ -42,7 +43,8 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
     /**
      * class path for the attribute constants interface.
      */
-    private static final String ATTRIBUTES_CLASS_PATH = "vooga.towerdefense.attributes.AttributeConstants";
+    private static final String ATTRIBUTES_CLASS_PATH =
+            "vooga.towerdefense.attributes.AttributeConstants";
     /**
      * package path for actions package.
      */
@@ -109,7 +111,7 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
     private JTextArea myAttributesSelected;
     /**
      * area where the game developer can enter the
-     *          attributes value.
+     * attributes value.
      */
     private JTextField myAttributeValue;
     /**
@@ -128,23 +130,27 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
      * area where actions the user has selected are displayed.
      */
     private JTextArea myActionsSelected;
-    
+
     /**
      * Constructor.
+     * 
      * @param size
      * @param controller
      */
-    public GameElementEditorScreen(Dimension size, GameEditorController controller, String title, String nextScreen) {
+    public GameElementEditorScreen (Dimension size,
+                                    GameEditorController controller,
+                                    String title,
+                                    String nextScreen) {
         super(size, controller, title, nextScreen);
         myFileChooser = new JFileChooser(System.getProperties().getProperty(USER_DIR));
         makeScreen();
     }
-    
+
     /**
      * helper method to create all the parts of
-     *          the TowerEditorScreen.
+     * the TowerEditorScreen.
      */
-    private void makeScreen() {   
+    private void makeScreen () {
         addCharacteristicsPanel();
         try {
             JPanel attributes = makeAttributesSection();
@@ -161,17 +167,18 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * clears all fields in the TowerEditorScreen.
      */
-    public void clearScreen() {
+    @Override
+    public void clearScreen () {
         myNameBox.setText("");
         myImageBox.setText("");
         myAttributesSelected.setText("");
         myActionsSelected.setText("");
     }
-    
+
     /**
      * adds this element to the game.
      */
@@ -180,9 +187,9 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
 
     /**
      * helper method to make the text boxes for
-     *          name and image + image button.
+     * name and image + image button.
      */
-    private void addCharacteristicsPanel() {
+    private void addCharacteristicsPanel () {
         JPanel characteristicsPanel = new JPanel();
         myNameBox = new JTextField(TEXT_AREA_WIDTH);
         myImageBox = new JTextField(TEXT_AREA_WIDTH);
@@ -193,20 +200,21 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
         characteristicsPanel.add(new JLabel("Image: "));
         characteristicsPanel.add(myImageBox);
         characteristicsPanel.add(myImageSelector);
-        add(characteristicsPanel, BorderLayout.NORTH); 
+        add(characteristicsPanel, BorderLayout.NORTH);
     }
-    
+
     /**
      * helper method to make the actions section of this screen.
+     * 
      * @throws ClassNotFoundException
-     * @throws IOException 
+     * @throws IOException
      */
-    private JPanel makeActionsSection() throws ClassNotFoundException, IOException {
+    private JPanel makeActionsSection () throws ClassNotFoundException, IOException {
         JPanel actionSection = new JPanel(new BorderLayout());
         JPanel westSide = new JPanel(new BorderLayout());
         westSide.add(new JLabel(ACTION_TITLE), BorderLayout.NORTH);
         myActionsBox = new JComboBox();
-        List<String> actions = getController().getClassNamesInPackage(ACTION_PACKAGE_PATH); 
+        List<String> actions = getController().getClassNamesInPackage(ACTION_PACKAGE_PATH);
         for (String a : actions) {
             myActionsBox.addItem(a);
         }
@@ -226,19 +234,20 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
         actionSection.add(eastSide, BorderLayout.EAST);
         return actionSection;
     }
-    
+
     /**
      * helper method to make the attributes drop down box,
-     *          button, and text field.
-     * @throws ClassNotFoundException 
+     * button, and text field.
+     * 
+     * @throws ClassNotFoundException
      */
-    private JPanel makeAttributesSection() throws ClassNotFoundException {
+    private JPanel makeAttributesSection () throws ClassNotFoundException {
         JPanel attributesSection = new JPanel(new BorderLayout());
         JPanel optionsSubPanel1 = new JPanel(new BorderLayout());
         optionsSubPanel1.add(new JLabel(ATTRIBUTE_TITLE), BorderLayout.NORTH);
         myAttributesBox = new JComboBox();
         List<String> attributes = getController().getFieldsInClass(ATTRIBUTES_CLASS_PATH);
-        for (String a: attributes) {
+        for (String a : attributes) {
             myAttributesBox.addItem(a);
         }
         optionsSubPanel1.add(myAttributesBox, BorderLayout.CENTER);
@@ -262,26 +271,27 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
 
     /**
      * adds additional mouse behavior specific to this screen.
+     * 
      * @return mouse adapter
      */
     @Override
-    public void addAdditionalMouseBehavior(MouseEvent e) {
+    public void addAdditionalMouseBehavior (MouseEvent e) {
         if (e.getSource().equals(myImageSelector)) {
             int response = myFileChooser.showOpenDialog(null);
             if (response == JFileChooser.APPROVE_OPTION) {
-                File file =  myFileChooser.getSelectedFile();
+                File file = myFileChooser.getSelectedFile();
                 String path = file.getPath().replace("%20", " ");
                 myImageBox.setText(path);
             }
         }
         else if (e.getSource().equals(myAddAttributeButton)) {
             myAttributesSelected.setText(myAttributesSelected.getText() + "\n"
-                    + myAttributesBox.getSelectedItem().toString()
-                    + " = " + myAttributeValue.getText());
+                                         + myAttributesBox.getSelectedItem().toString()
+                                         + " = " + myAttributeValue.getText());
         }
         else if (e.getSource().equals(myAddActionButton)) {
             myActionsSelected.setText(myActionsSelected.getText() + "\n"
-                    + myActionsBox.getSelectedItem().toString());   
+                                      + myActionsBox.getSelectedItem().toString());
         }
         else if (e.getSource().equals(myDeleteAttributeButton)) {
             myAttributesSelected.replaceSelection("");
@@ -291,4 +301,3 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
         }
     }
 }
-
