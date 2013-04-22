@@ -4,6 +4,10 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+
+import vooga.towerdefense.factories.GameElementFactory;
+import vooga.towerdefense.factories.examples.ExampleAuraTowerFactory;
+import vooga.towerdefense.model.GameMap;
 import vooga.towerdefense.util.Location;
 
 
@@ -13,17 +17,22 @@ public class Shop {
 
     private List<ShopItem> myShopItems;
 
-    public Shop () {
+    public Shop (GameMap map) {
         myShopItems = new ArrayList<ShopItem>();
-        initShopItems();
+        initShopItems(map);
     }
 
-    private void initShopItems () {
+    private void initShopItems (GameMap map) {
         int xC = 10;
         int yC = 10;
         for (int i = 0; i < NUM_SHOP_ITEMS; ++i) {
-            myShopItems.add(new ShopItem(new Location(i * ShopItem.SHOP_ITEM_DIMENSIONS.getWidth() +
-                                                      xC, yC)));
+        	//TODO: replace this with parsed file input
+        	GameElementFactory factory = new ExampleAuraTowerFactory(map, "Tree of Doom", null);
+        	factory.initialize(map);
+        	Location l = new Location(i * ShopItem.SHOP_ITEM_WIDTH + xC, yC);
+        	myShopItems.add(new ShopItem(l,factory));
+        	
+        	
             xC += SHOP_SEPARATOR_WIDTH;
         }
     }

@@ -1,6 +1,7 @@
 package vooga.towerdefense.factories.examples;
 
 import java.util.ArrayList;
+
 import vooga.towerdefense.action.Action;
 import vooga.towerdefense.action.FollowPath;
 import vooga.towerdefense.action.Move;
@@ -71,7 +72,6 @@ public class ExampleUnitFactory extends GameElementFactory {
         myDeath.addFollowUpAction(new RemoveGameElement(myGameMap, myGameElement));
         actions.add(myDeath);
         myGameElement.addActions(actions);
-        System.out.println("TROOOOOLLS IN THE DUNGEON!");  //Yeah, its late...
         return myGameElement;
     }
 

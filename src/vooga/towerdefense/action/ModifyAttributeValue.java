@@ -1,7 +1,5 @@
 package vooga.towerdefense.action;
 
-import java.util.ArrayList;
-import java.util.List;
 import vooga.towerdefense.attributes.Attribute;
 import vooga.towerdefense.gameElements.GameElement;
 
@@ -31,9 +29,7 @@ public class ModifyAttributeValue extends Action {
     public void executeAction (double elapsedTime) {
         double scaledModifier = myAppliedAttribute.getValue()*elapsedTime/1000.0;
         for (GameElement e : getTargets()) {
-            System.out.println(e.getCenter());
             Attribute toChange = e.getAttributeManager().getAttribute(myTargetAttribute);
-            System.out.println(toChange);
             if (toChange != null) {
                 toChange.modifyValue(scaledModifier);
             }

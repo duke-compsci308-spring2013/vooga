@@ -2,15 +2,13 @@ package vooga.towerdefense.view.gamescreens;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.geom.Point2D;
+
 import javax.swing.JPanel;
+
 import vooga.towerdefense.controller.Controller;
-import vooga.towerdefense.util.Pixmap;
 
 
 /**
@@ -78,20 +76,6 @@ public class MapScreen extends JPanel {
         super.paintComponent(pen);
         // paintGridLines(pen);
         myController.paintMap(pen);
-    }
-
-    /**
-     * paints the ghost image at the mouse location.
-     * 
-     * @param p is the mouse location
-     * @param image is the pixmap image to paint
-     */
-    public void paintGhostImage (Point p, Pixmap image) {
-        if(image == null) {
-            System.out.println("nulll");
-        }
-        image.paint((Graphics2D) getGraphics(), (Point2D) p,
-                    new Dimension(image.getImage().getWidth(null), image.getImage().getHeight(null)));
     }
 
     /**

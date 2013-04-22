@@ -2,6 +2,7 @@ package vooga.towerdefense.factories;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import vooga.towerdefense.action.Action;
 import vooga.towerdefense.attributes.AttributeConstants;
 import vooga.towerdefense.factories.actionfactories.ActionFactory;
@@ -21,7 +22,7 @@ public class GameElementFactory {
      * Name of the element that is defined in this class. For convenience.
      */
     private String myName;
-    private GameElementDefinition myDef; 
+    protected GameElementDefinition myDef; 
     private List<ActionFactory> myActionsToMake;
     private GameMap myMap;
     

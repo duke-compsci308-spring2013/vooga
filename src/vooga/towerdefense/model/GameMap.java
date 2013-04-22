@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 import vooga.rts.util.Vector;
 import vooga.towerdefense.action.Action;
 import vooga.towerdefense.action.FollowPath;
@@ -15,6 +16,7 @@ import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.model.tiles.Tile;
 import vooga.towerdefense.model.tiles.factories.TileFactory;
 import vooga.towerdefense.util.Location;
+import vooga.towerdefense.util.Pixmap;
 
 
 /**
@@ -30,6 +32,7 @@ public class GameMap {
     private Location myDestination;
     private Dimension myDimension;
     private Path myPath;
+    private GameElement myGhostImage;
     private Pathfinder myPathfinder;
     public Location default_end_location;
 
@@ -120,6 +123,8 @@ public class GameMap {
     public void paint (Graphics2D pen) {
         paintTiles(pen);
         paintGameElements(pen);
+        if(myGhostImage != null)
+        	myGhostImage.paint(pen);
     }
 
     private void paintTiles (Graphics2D pen) {
@@ -133,7 +138,6 @@ public class GameMap {
     private void paintGameElements (Graphics2D pen) {
         for (int i = 0; i < myGameElements.size(); ++i) {
             myGameElements.get(i).paint(pen);
-            System.out.println("painting game elements");
         }
     }
 
@@ -260,4 +264,12 @@ public class GameMap {
         }
 
     }
+
+	public void addGhostImage(Pixmap itemImage, Location location, Dimension size) {
+		myGhostImage = new GameElement(itemImage, location, size);
+	}
+	
+	public void resetGhostImage() {
+		myGhostImage = null;
+	}
 }

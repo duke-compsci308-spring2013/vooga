@@ -2,6 +2,7 @@ package vooga.towerdefense.factories;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import vooga.towerdefense.factories.examples.ExampleUnitFactory;
 import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.gameElements.Wave;
@@ -26,7 +27,6 @@ public class WaveFactory {
                                               spawnTile.getCenter().getY());
         List<GameElement> units = new ArrayList<GameElement>();
         for (int i = 0; i < numUnits; i++) {
-            System.out.println("added another unit to spawn");
 
             units.add(ElementFactory.createElement(spawnLocation));
         }

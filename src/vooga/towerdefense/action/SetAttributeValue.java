@@ -2,6 +2,7 @@ package vooga.towerdefense.action;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import vooga.towerdefense.attributes.Attribute;
 import vooga.towerdefense.gameElements.GameElement;
 
@@ -31,9 +32,7 @@ public class SetAttributeValue extends Action {
     @Override
     public void executeAction (double elapseTime) {
         for (GameElement e : myTargets) {
-            System.out.println(e.getCenter());
             Attribute toChange = e.getAttributeManager().getAttribute(myTargetAttribute);
-            System.out.println(toChange);
             if (toChange != null) {
                 toChange.setValue(myAppliedAttribute.getValue());
             }

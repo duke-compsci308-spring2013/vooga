@@ -1,9 +1,8 @@
 package vooga.towerdefense.factories.examples;
 
 import java.util.ArrayList;
+
 import vooga.towerdefense.action.Action;
-import vooga.towerdefense.action.AttackAction;
-import vooga.towerdefense.action.FindTargets;
 import vooga.towerdefense.attributes.Attribute;
 import vooga.towerdefense.attributes.AttributeConstants;
 import vooga.towerdefense.attributes.AttributeManager;
@@ -12,7 +11,6 @@ import vooga.towerdefense.factories.TowerDefinition;
 import vooga.towerdefense.factories.TowerFactory;
 import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.model.GameMap;
-import vooga.towerdefense.model.Path;
 import vooga.towerdefense.util.Location;
 
 

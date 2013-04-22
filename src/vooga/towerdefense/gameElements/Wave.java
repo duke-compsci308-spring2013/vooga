@@ -1,6 +1,7 @@
 package vooga.towerdefense.gameElements;
 
 import java.util.List;
+
 import vooga.towerdefense.attributes.AttributeManager;
 import vooga.towerdefense.model.GameMap;
 import vooga.towerdefense.model.tiles.Tile;
@@ -45,11 +46,9 @@ public class Wave {
         if (canSpawn() && hasNextGameElement()) {
             GameElement GameElement = generateGameElement(getNextGameElement());
             myMap.addToMap(GameElement, mySpawnLocation);
-            System.out.println("spawned a GameElement");
             myLastSpawnTime = myTimer;
         }
         myTimer += timeElapsed;
-        // System.out.println("MyTimer: " + myTimer);
     }
 
     /**
