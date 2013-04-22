@@ -11,5 +11,5 @@ package vooga.rts.gamedesign.state;
  *
  */
 public enum OccupyState {
-	OCCYPYING, NOT_OCCUPYING;
+	OCCUPYING, NOT_OCCUPYING;
 }

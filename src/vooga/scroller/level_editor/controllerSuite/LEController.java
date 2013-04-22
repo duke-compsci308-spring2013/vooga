@@ -16,7 +16,7 @@ import vooga.scroller.level_editor.view.LEGridView;
 import vooga.scroller.level_editor.view.LEView;
 import vooga.scroller.level_editor.view.LEWorkspaceView;
 import vooga.scroller.level_editor.view.LevelEditing;
-import vooga.scroller.marioGame.MarioLib;
+import vooga.scroller.marioGame.spritesDefinitions.MarioLib;
 import vooga.scroller.util.Editable;
 import vooga.scroller.util.Renderable;
 import vooga.scroller.util.mvc.IController;

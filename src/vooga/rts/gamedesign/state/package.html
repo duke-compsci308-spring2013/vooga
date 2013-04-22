@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W4C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body bgcolor="white">
+<p>
+This package is part of the CompSci 308 VOOGA Game Engine Project.
+
+<p>
+This package contains the engine for real time strategy, RTS, style games.
+
+<!-- Fill this in with your high-level design and API examples -->
+This package controls the possible states of a GameEntity such as attacking states,
+movement states, producing states, occupying states, gathering states, and detectable states.
+The Entity state class contains all the states that are used in the sprite hierarchy (some of the states
+are only used in the strategies and are not in entity state).  One example of the states is using them 
+to implement a delay in an action.  For example, when a unit can gather it is set to be waiting.  When the timer
+to delay a gather starts, the unit is set to gathering.  Once the unit gathers (after the delay) the unit is set back to waiting.
+This causes the unit to only be able to gather one time for a specified period of time (its gather cool down).  
+
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>

@@ -1,110 +1,116 @@
 package vooga.rts.gamedesign.upgrades;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import vooga.rts.gamedesign.sprite.InteractiveEntity;
-import vooga.rts.gamedesign.sprite.rtsprite.Resource;
+import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 import vooga.rts.player.Player;
 
+
 /**
- * This class specifies an upgrade and is used to apply the upgrade to the 
+ * This class specifies an upgrade and is used to apply the upgrade to the
  * object that is being upgraded.
  * 
  * @author Ryan Fishel
  * @author Kevin Oh
  * @author Francesco Agosti
- * @author Wenshun Liu 
- *
+ * @author Wenshun Liu
+ * 
  */
 public class UpgradeNode {
 
-	private UpgradeTree myUpgradeTree;
-	private Map<Resource, Integer> myCost;
-    private String myUpgradeType;
-    private String myUpgradeProperty;
+    private UpgradeTree myUpgradeTree;
+    private Map<String, Integer> myCost;
+    private String myUpgradeName;
     private int myUpgradeValue;
     private boolean myHasBeenUpgraded;
-    private List<UpgradeNode> myChildren; //set to list for the Head.
-    private int myID;
+    private List<UpgradeNode> myChildren; // set to list for the Head.
 
-    public UpgradeNode(){
-        this(null, 0, null, null, 0);
+    public UpgradeNode () {
+        this(null, null, 0, 0);
     }
 
-    public UpgradeNode(UpgradeTree upgradeTree, int id, String upgradeType, String upgradeObject, int upgradeValue){
+    public UpgradeNode (UpgradeTree upgradeTree,
+                        String upgradeName,
+                        int upgradeValue,
+                        int costedResourceAmount) {
+        myCost = new HashMap<String, Integer>();
         myUpgradeTree = upgradeTree;
-    	myID = id;
-    	myUpgradeType = upgradeType;
+        myUpgradeName = upgradeName;
         myChildren = new ArrayList<UpgradeNode>();
         myHasBeenUpgraded = false;
-        myUpgradeProperty = upgradeObject;
         myUpgradeValue = upgradeValue;
+        myCost = new HashMap<String, Integer>();
+        myCost.put("resource", costedResourceAmount); // TODO: get different types of Resource
     }
 
-    //TODO: can refactor some subclass methods to here!
     /**
      * Applies the effect of this Upgrade type to the given interactive.
+     * 
      * @param interactive
-     * @throws InvocationTargetException 
-     * @throws IllegalAccessException 
-     * @throws IllegalArgumentException 
-     * @throws InstantiationException 
-     * @throws NoSuchMethodException 
-     * @throws SecurityException 
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     * @throws IllegalArgumentException
+     * @throws InstantiationException
+     * @throws NoSuchMethodException
+     * @throws SecurityException
      */
-    public void apply(int playerID)
-			throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException, InstantiationException,
-			SecurityException, NoSuchMethodException {
-    	return;
-	}
-    
-    public void apply(InteractiveEntity requester) //TODO: figure out which one should actually be called under Action
-    		throws IllegalArgumentException, IllegalAccessException,
-    		InvocationTargetException, InstantiationException,
-    		SecurityException, NoSuchMethodException {
-    	return;
+    public void apply (int playerID) throws IllegalArgumentException, IllegalAccessException,
+                                    InvocationTargetException, InstantiationException,
+                                    SecurityException, NoSuchMethodException {
+        for (InteractiveEntity i : getUpgradeTree().getUsers().get(playerID)) {
+            apply(i);
+            myUpgradeTree.activateNode(this);
+        }
     }
 
-    public boolean validUpdate(Player player){
-    	//TODO check if play has enough resource to "buy the update"
-    	return true;
+    public void apply (InteractiveEntity requester) throws IllegalArgumentException,
+                                                   IllegalAccessException,
+                                                   InvocationTargetException,
+                                                   InstantiationException, SecurityException,
+                                                   NoSuchMethodException {
+        return;
     }
 
-    public List<UpgradeNode> getChildren(){
+    public boolean validUpdate (Player player) {
+        /*
+         * for (String resourceType : myCost.keySet()) {
+         * if (player.getIndividualResourceManager().getAmount(resourceType) < myCost
+         * .get(resourceType)) {
+         * return false;
+         * }
+         * }
+         */
+        return true;
+    }
+
+    public List<UpgradeNode> getChildren () {
         return myChildren;
     }
-    
-    public UpgradeNode addChild(UpgradeNode upgrade) {
-		myChildren.add(upgrade);
-		return upgrade;
-	}
 
-    public UpgradeTree getUpgradeTree() {
-    	return myUpgradeTree;
-    }
-    
-    public String getUpgradeType(){
-        return myUpgradeType;
+    public void addChild (UpgradeNode upgrade) {
+        myChildren.add(upgrade);
     }
 
-    public boolean getHasBeenUpgraded(){
+    public UpgradeTree getUpgradeTree () {
+        return myUpgradeTree;
+    }
+
+    public String getUpgradeName () {
+        return myUpgradeName;
+    }
+
+    public boolean getHasBeenUpgraded () {
         return myHasBeenUpgraded;
     }
 
-    public String getUpgradeObject(){
-        return myUpgradeProperty;
-    }
-
-    public int getUpgradeValue(){
+    public int getUpgradeValue () {
         return myUpgradeValue;
     }
-    
-    public int getID(){
-    	return myID;
+
+    public Map<String, Integer> getCost () {
+        return myCost;
     }
 }

@@ -49,6 +49,10 @@ public class Node {
         return getTier() == other.getTier() || other.getTier() < 0;
     }
     
+    /**
+     * 
+     * @return the height of the node based on anything inside of it (ie. IObstructions)
+     */
     public int getHeight () {
         return myHeight;
     }

@@ -32,7 +32,7 @@ b  b  b  b  b  ff  b  b  b  b    a  a  a  a
 b  b  b  b  b  ff  b  b  b  b    f  f  f  f                 
                                                             
 /lib
-vooga.scroller.marioGame.MarioLib
+vooga.scroller.marioGame.spritesDefinitions.MarioLib
 /key
 d=Koopa
 e=Plant

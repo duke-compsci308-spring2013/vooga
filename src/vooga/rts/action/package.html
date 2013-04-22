@@ -1,0 +1,14 @@
+<!DOCTYPE HTML PUBLIC "-//W4C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body bgcolor="white">
+<p>
+This package is part of the CompSci 308 VOOGA Game Engine Project.
+
+<p>This Package contains all the basic actions that the game uses.
+<p>An Action is what any kind of user input is converted into before it is passed to the main game state. From there it is diverted to the current game state which handles it appropriately.
+<p>Actions will be able to be sent over the network in order to notify other players about the change in state in the local game. In other words, actions pack up any state changes that are executde by the user. Other changes will be assumed to take place on the other computers on their own (attacking and doing damage, etc).
+<p>Action is the main Action class which has the update and apply method. Subclasses must keep these two methods but have different constructors in order to store access to more information that the action may need to apply.
+</body>
+</html>

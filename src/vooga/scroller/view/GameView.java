@@ -23,8 +23,6 @@ import javax.swing.Timer;
 import vooga.scroller.scrollingmanager.OmniScrollingManager;
 import vooga.scroller.scrollingmanager.ScrollingManager;
 import vooga.scroller.sprites.superclasses.Player;
-import vooga.scroller.util.Sprite;
-import vooga.scroller.level_editor.Level;
 import vooga.scroller.model.Model;
 
 
@@ -91,7 +89,7 @@ public class GameView extends JComponent {
     public void paintComponent (Graphics pen) {
 
         // first time needs to be special cased :(
-        if (myGame != null & myScrollManager != null) {
+        if (myGame != null && myScrollManager != null) {
                myScrollManager.viewPaint(pen);
         }      
     }
@@ -132,9 +130,9 @@ public class GameView extends JComponent {
             }
         });
         // start animation
-//        if (myGame==null) {
-//            setModel(new Model(this, myScrollManager, "example.level"));//TODO
-//        }
+        if (myGame==null) {
+//            setModel(new Model(this, myScrollManager));//TODO - make a default model?
+        }
         myScrollManager.initModel(myGame);
         timer.start();
     }

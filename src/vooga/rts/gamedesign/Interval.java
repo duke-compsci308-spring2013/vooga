@@ -1,6 +1,7 @@
 package vooga.rts.gamedesign;
 
 /**
+ * This class was deprecated on 4/20/2013.  Use DelayedTask as a replacement.
  * This class deals with cooldowns.  For example, after a weapon shoots, it 
  * needs to have a delay before it can shoot again.  This class will take
  * care of setting that delay and correctly decrementing the cooldown so that
@@ -10,10 +11,20 @@ package vooga.rts.gamedesign;
  * @author Ryan Fishel
  *
  */
+@Deprecated
 public class Interval {
 	
 	private int myMaxCooldown;
 	private int myCooldown;
+	
+	/**
+	 * Creates a default interval that has a very large value so that an 
+	 * action using this interval will never be allowed.
+	 */
+	public Interval() {
+		myMaxCooldown = Integer.MAX_VALUE;
+		myCooldown = myMaxCooldown;
+	}
 	
 	/**
 	 * Creates a new interval with a max cooldown.
@@ -66,5 +77,13 @@ public class Interval {
 	 */
 	public int getCooldown() {
 		return myCooldown;
+	}
+	
+	/**
+	 * Returns the percentage of the cooldown time remaining.
+	 * @return the percentage of the cooldown to the max cooldown remaining
+	 */
+	public int getPercentageCooldownRemaining() {
+		return (myCooldown/myMaxCooldown) * 100;
 	}
 }

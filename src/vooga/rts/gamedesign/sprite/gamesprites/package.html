@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W4C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body bgcolor="white">
+<p>
+This package is part of the CompSci 308 VOOGA Game Engine Project.
+
+<p>
+This package contains the engine for real time strategy, RTS, style games.
+
+<!-- Fill this in with your high-level design and API examples -->
+The sprite hierarchy is implemented in the gamesprites package.  The highest 
+level of this hierarchy is GameSprite.  A GameSprite implements IGameLoop and 
+stores both the world location and the screen location of the sprite.  Examples
+of GameSprites are tile, terrain, and GameEntity.
+
+<p>
+GameEntity stores the health of a sprite, its velocity, its team, and its state
+(for example waiting to attack).  Examples of GameEntities are interactives 
+(like buildings and units which are in the interactive package) and projectiles.
+Projectiles are GameEntities beacause they have a velocity and a team but they are
+not selectable like interactive are.  Additionally, the health of a projectile is used
+as the amount of time that the projectile should exist if it does not hit its target.
+</p>
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>

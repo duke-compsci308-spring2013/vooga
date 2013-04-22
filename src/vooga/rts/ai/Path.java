@@ -6,12 +6,13 @@ import vooga.rts.map.*;
 import vooga.rts.util.Location;
 
 /**
+ * Stores the queue of nodes that the unit needs to traverse to get to its 
+ * desired location. For more complicated pathfinding algorithms, the path might
+ * include an update which changes it based on new information.
+ *
  * 
  * @author Challen Herzberg-Brovold
  *
- * The path class stores a path for now.
- * It will be used to get the next node in the sequence 
- * 
  */ 
 public class Path {
     
@@ -29,6 +30,10 @@ public class Path {
         return myPath.poll().getCenter();
     }
     
+    /**
+     * 
+     * @return the number of nodes in the queue.
+     */
     public int size () {
         return myPath.size();
     }

@@ -10,7 +10,7 @@ import util.Location;
 import util.Secretary;
 import vooga.scroller.level_editor.Level;
 import vooga.scroller.level_management.LevelManager;
-import vooga.scroller.marioGame.Mario;
+import vooga.scroller.marioGame.spritesDefinitions.players.Mario;
 import vooga.scroller.scrollingmanager.ScrollingManager;
 import vooga.scroller.sprites.animation.Animation;
 import vooga.scroller.sprites.animation.MovingSpriteAnimationFactory;

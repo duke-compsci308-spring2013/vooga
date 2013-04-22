@@ -3,7 +3,7 @@ package vooga.scroller.collision_manager;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import vooga.scroller.level_editor.Level;
-import vooga.scroller.marioGame.VisitMethods;
+import vooga.scroller.marioGame.spritesDefinitions.VisitMethods;
 import vooga.scroller.util.Sprite;
 
 

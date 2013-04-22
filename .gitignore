@@ -10,3 +10,5 @@ bin/
 .DS_Store
 *.project
 *.ucls
+Thumbs.db
+/bin

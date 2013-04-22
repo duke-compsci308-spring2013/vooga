@@ -1,12 +1,178 @@
-<map>
-   <info>
-      <name>CIEMAS</name>
-      <desc> our RTS is the best one !</desc>
-      <players number = 5>
-         <player 0 X=10.0 Y=10.0 />
-         <player 1 X=20.0 Y=20.0 />
-         <player 2 X=30.0 Y=30.0 />
-         <player 3 X=40.0 Y=40.0 />
-         <player 4 X=50.0 Y=50.0 />
-      </players>
-   </info>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Map>
+<MapInfo>
+<Name>testMap</Name>
+<Desc>testMap</Desc>
+<Players number="0"/>
+</MapInfo>
+<Resourceinfo>
+<SizeInfo>
+<tilesize height="40" width="40"/>
+<tileamount X="12" Y="12"/>
+</SizeInfo>
+<tileindex>
+<tiletype ID="3" image="Concrete1.jpg" name="Concrete1"/>
+<tiletype ID="2" image="Bricks1.jpg" name="Bricks1"/>
+<tiletype ID="1" image="Brush1.jpg" name="Brush1"/>
+<tiletype ID="7" image="Metal1.jpg" name="Metal1"/>
+<tiletype ID="6" image="Mesh1.jpg" name="Mesh1"/>
+<tiletype ID="5" image="Etiles1.jpg" name="Etiles1"/>
+<tiletype ID="4" image="Crops1.jpg" name="Crops1"/>
+<tiletype ID="8" image="rock1.jpg" name="Rock1"/>
+</tileindex>
+<terrainindex>
+<terraintype ID="2" image="Terrain2.jpg" name="Terrain2" walkAbility="2"/>
+<terraintype ID="1" image="Terrain1.jpg" name="Terrain1" walkAbility="4"/>
+</terrainindex>
+</Resourceinfo>
+<tiles>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="1"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="1"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="1"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="1"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="1"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="1"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="1"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+</tiles>
+<terrains>
+<layer level="1"/>
+</terrains>
+<Resources/>
+</Map>

@@ -14,11 +14,13 @@ import vooga.rts.map.Node;
 import vooga.rts.map.NodeMap;
 
 /**
+ * An implementation of the pathfinder interface that uses the A-star algorithm 
+ * to create a path for units based on the Nodes in our map. 
  * 
  * @author Challen Herzberg-Brovold, Jonno Schmidt
  *
  */
-public class AstarFinder extends PathFinder {
+public class AstarFinder implements PathFinder {
     
     @Override
     public Path calculatePath (Node start, Node finish, NodeMap map) {
@@ -65,12 +67,28 @@ public class AstarFinder extends PathFinder {
         return result; //At some point, there will be a catch so it just returns to the closest node to the desired one.
     }
 
+    /**
+     * Calculates the heuristic that is used by the A* finder. 
+     * Currently, the heuristic we use is the Manhattan difference, which is 
+     * the sum of the change in x and the change in y
+     * 
+     * @param start the starting node from which to calculate the heuristic
+     * @param finish the ending node from which to calculate the heuristic
+     * @return the heuristic value.
+     */
     private double calculateHeuristic (Node start, Node finish) {
         int dx = Math.abs(finish.getX() - start.getX());
         int dy = Math.abs(finish.getY() - start.getY());
         return dx + dy;
     }
 
+    /**
+     * Constructs the path the finish node to the beginning node, using the 
+     * comesFrom map. 
+     * @param comesFrom maps each node to the node connected to it which has the lowest heuristic value
+     * @param finish the destination node, i.e. where the unit wants to go.
+     * @return a queue of nodes from finish to the starting point 
+     */
     private Queue<Node> constructPath(Map<Node, Node> comesFrom, Node finish) {
         Queue<Node> path = new LinkedList<Node>();
         if (comesFrom.containsKey(finish)) {
@@ -83,6 +101,14 @@ public class AstarFinder extends PathFinder {
         return path;
     }
     
+    /**
+     * Returns the node with the lowest f-value (node's heuristic value plus its
+     * G-score).
+     * 
+     * @param fScore map of nodes and their f-scores.
+     * @param from list of open nodes still to be explored
+     * @return the node with the lowest value.
+     */
     private Node getLowest(Map<Node, Double> fScore, List<Node> from) {
         Node minNode = from.get(0);
         double minF = fScore.get(minNode);

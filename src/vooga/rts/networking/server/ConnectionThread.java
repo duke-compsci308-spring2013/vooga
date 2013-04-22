@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import vooga.rts.networking.communications.Message;
+import vooga.rts.networking.communications.clientmessages.InitialConnectionMessage;
+import vooga.rts.networking.communications.servermessages.CloseConnectionMessage;
 
 
 /**
@@ -28,22 +30,29 @@ public class ConnectionThread extends Thread {
      * Represents a thread that communicates to a client
      * 
      * @param socket socket used for establishing the connection
+     * @param id number of connection
      */
-    ConnectionThread (Socket socket, IMessageReceiver server, int ID) {
+    ConnectionThread (Socket socket, IMessageReceiver server, int id) {
         mySocket = socket;
         myMessageServer = server;
+        myID = id;
 
         try {
             myInput = new ObjectInputStream(mySocket.getInputStream());
             myOutput = new ObjectOutputStream(mySocket.getOutputStream());
         }
         catch (IOException e) {
-            // TODO add logger
-            e.printStackTrace();
+            ServerLogger.getInstance();
+            ServerLogger.myLogger.severe("severe message in connection thread");
 
         }
     }
 
+    /**
+     * Switches which IMessageReceiver to send messages to.
+     * 
+     * @param server to switch to
+     */
     public void switchMessageServer (IMessageReceiver server) {
         myMessageServer = server;
     }
@@ -54,25 +63,45 @@ public class ConnectionThread extends Thread {
     @Override
     public void run () {
         myConnectionActive = true;
-        while (myConnectionActive) {
-            try {
-                Object obj;
-                if ((obj = myInput.readObject()) != null && obj instanceof Message) {
-                    Message message = (Message) obj;
-                    myMessageServer.sendMessage(message, this);
+        try {
+            Object obj = myInput.readObject();
+
+            // Checks to see if first object passed is initial connection message
+            if (obj instanceof InitialConnectionMessage) {
+                sendToMessageServer(obj);
+            }
+            else {
+                // first object is not initial connection message
+                myConnectionActive = false;
+                myMessageServer.removeConnection(this);
+                return;
+            }
+
+            while (myConnectionActive) {
+                obj = myInput.readObject();
+                if (obj instanceof Message) {
+                    sendToMessageServer(obj);
                 }
             }
-            catch (IOException e) {
-                // TODO add logger
-                e.printStackTrace();
-                close();
-            }
-            catch (ClassNotFoundException e) {
-                // TODO add logger
-                e.printStackTrace();
-                close();
-            }
         }
+        catch (IOException e) {
+            // TODO add logger
+            e.printStackTrace();
+            close();
+        }
+        catch (ClassNotFoundException e) {
+            // TODO add logger
+            e.printStackTrace();
+            close();
+        }
+    }
+
+    /**
+     * sends object to message server
+     */
+    private void sendToMessageServer (Object obj) {
+        Message message = (Message) obj;
+        myMessageServer.receiveMessageFromClient(message, this);
     }
 
     /**
@@ -81,27 +110,21 @@ public class ConnectionThread extends Thread {
      */
     public void close () {
         myConnectionActive = false;
+        sendMessage(new CloseConnectionMessage());
         try {
             if (myOutput != null) {
                 myOutput.close();
             }
-        }
-        catch (Exception e) {
-        }
-        try {
             if (myInput != null) {
                 myInput.close();
             }
-        }
-        catch (Exception e) {
-        }
-        ;
-        try {
             if (mySocket != null) {
                 mySocket.close();
             }
         }
-        catch (Exception e) {
+        catch (IOException e) {
+            // TODO logger
+            e.printStackTrace();
         }
     }
 
@@ -124,20 +147,36 @@ public class ConnectionThread extends Thread {
         }
     }
 
+    /**
+     * gets the ID for the connection thread
+     * 
+     * @return id
+     */
     public int getID () {
         return myID;
     }
-    
+
+    /**
+     * Gets the user name for the connection thread.
+     * 
+     * @return username
+     */
     public String getUserName () {
         return myUserName;
     }
-    
+
+    /**
+     * Gets the name of the game the user is playing.
+     * 
+     * @return game name
+     */
     public String getGameName () {
         return myGameName;
     }
-    
+
     /**
      * Sets the user name - can only be set once.
+     * 
      * @param userName name to set
      */
     public void setUserName (String userName) {
@@ -145,9 +184,10 @@ public class ConnectionThread extends Thread {
             myUserName = userName;
         }
     }
-    
+
     /**
      * Sets the game name - can only be set once.
+     * 
      * @param gameName name to set
      */
     public void setGameName (String gameName) {

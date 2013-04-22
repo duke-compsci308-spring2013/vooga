@@ -1,22 +1,24 @@
 package vooga.rts;
 
-import vooga.rts.controller.MainController;
+import vooga.rts.state.MainState;
+
+// Ignore me again
 
 public class Game {
-	MainController myMainController;
+    MainState myState;
 
-	public static final int FPS = 60;
-	
-	public static double TIME_PER_FRAME() {
-		double persecond = 1/(double)FPS;
-		return persecond;
-	}
+    public static final int FPS = 60;
+    
+    public static double TIME_PER_FRAME () {
+        double persecond = 1 / (double) FPS;
+        return persecond;
+    }
 
-	public Game() {
-		myMainController = new MainController();
-	}
+    public Game () {
+        myState = new MainState();
+    }
 
-	public static void main(String[] args) {
-		Game game = new Game();
-	}
+    public static void main (String[] args) {
+        Game game = new Game();
+    }
 }

@@ -2,7 +2,6 @@ package vooga.scroller.level_management;
 
 import util.Location;
 import vooga.scroller.level_editor.Level;
-import vooga.scroller.level_editor.exceptions.LevelEditorException;
 import vooga.scroller.sprites.superclasses.Player;
 
 /**

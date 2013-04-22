@@ -30,7 +30,7 @@ c
                                                             
                                                             
 /lib
-vooga.scroller.sprites.test_sprites.MarioLib
+vooga.scroller.marioGame.spritesDefinitions.MarioLib
 /key
 a=LevelTwoBlockTwo
 b=MovingPlatformTwo

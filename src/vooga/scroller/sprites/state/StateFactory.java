@@ -2,7 +2,7 @@ package vooga.scroller.sprites.state;
 
 import java.util.HashMap;
 import java.util.Map;
-import vooga.scroller.marioGame.InvisibleState;
+import vooga.scroller.marioGame.spritesDefinitions.players.InvisibleState;
 import vooga.scroller.util.Sprite;
 
 public class StateFactory {

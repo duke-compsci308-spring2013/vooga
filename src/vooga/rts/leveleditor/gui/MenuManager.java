@@ -24,13 +24,63 @@ public class MenuManager extends JMenuBar {
         myCanvas = canvas;
         myChooser = new JFileChooser(System.getProperties().getProperty(USER_DIR));
         this.add(createFileMenu());
+        this.add(createPlayerMenu());
+        this.add(createLayerMenu());
 
+    }
+
+    private JMenu createLayerMenu() {
+        JMenu menu = new JMenu("Layer");
+        createLayerMenu(menu);
+        return menu;
+    }
+
+
+    private JMenu createPlayerMenu() {
+        JMenu menu = new JMenu("Player");
+        createPlayerMenu(menu);
+        return menu;
     }
 
     private JMenu createFileMenu() {
         JMenu menu = new JMenu("File");
         createFileMenu(menu);
         return menu;
+    }
+
+    private void createLayerMenu(JMenu menu) {
+        menu.add(new AbstractAction("AddLayer") {
+            @Override
+            public void actionPerformed (ActionEvent e) {
+                myCanvas.addLayer();
+            }
+        });
+        
+        menu.add(new AbstractAction("Remove") {
+            @Override
+            public void actionPerformed (ActionEvent e) {
+                myCanvas.removeLayer();
+            }
+        });
+
+    }
+    
+    private void createPlayerMenu(JMenu menu) {
+        menu.add(new AbstractAction("AddPlayer") {
+            @Override
+            public void actionPerformed (ActionEvent e) {
+               myCanvas.setMode(MapPanel.PLAYERMODE);
+               myCanvas.getMapPanel().setRemoveFlag(false);
+            }
+        });
+
+        menu.add(new AbstractAction("RemovePlayer") {
+            @Override
+            public void actionPerformed (ActionEvent e) {
+                myCanvas.setMode(MapPanel.PLAYERMODE);
+                myCanvas.getMapPanel().setRemoveFlag(true);
+            }
+        });
     }
 
     private void createFileMenu(JMenu menu) {
@@ -66,12 +116,8 @@ public class MenuManager extends JMenuBar {
                     int response = myChooser.showOpenDialog(null);
                     if (response == JFileChooser.APPROVE_OPTION) {
                         myCanvas.getMapPanel().getMyMap().load(myChooser.getSelectedFile());
-                        myCanvas.getMapPanel().getMyMap().printMatrix();
-                        
-                        myCanvas.getMapPanel().setWidth(myCanvas.getMapPanel().getMyMap().getWidth());
-                        myCanvas.getMapPanel().setHeight(myCanvas.getMapPanel().getMyMap().getHeight());
-                        myCanvas.getMapPanel().setTileWidth(MapPanel.DEFAULT_TILE_WIDTH);
-                        myCanvas.getMapPanel().setTileHeight(MapPanel.DEFAULT_TILE_HEIGHT);
+                        //myCanvas.getMapPanel().getMyMap().printMatrix();
+                        myCanvas.getMapPanel().repaint();    
                     }
                 }
                 catch (Exception exception) {
@@ -84,22 +130,32 @@ public class MenuManager extends JMenuBar {
 
 
     protected void showCustomizeMapDialog() {
+        JTextField MapName = new JTextField();
+        JTextField MapDesc = new JTextField();
+        JTextField TileWidth = new JTextField();
+        JTextField TileHeight = new JTextField();
         JTextField MapWidth = new JTextField();
         JTextField MapHeight = new JTextField();
 
-        Object[] message = {"MapWidth", MapWidth, "MapHeight", MapHeight};
+        Object[] message = {"MapName", MapName, "MapDescription", MapDesc, 
+                            "MapWidth", MapWidth, "MapHeight", MapHeight,
+                            "TileWidth", TileWidth, "TileHeight", TileHeight};
 
-        int option = JOptionPane.showConfirmDialog(null, message,"Set Map Size",JOptionPane.OK_CANCEL_OPTION);
+        int option = JOptionPane.showConfirmDialog(null, message,"Customize your map",JOptionPane.OK_CANCEL_OPTION);
 
         if (option == JOptionPane.OK_OPTION) {
             try {
-                int w = Integer.parseInt(MapWidth.getText());
-                int h = Integer.parseInt(MapHeight.getText());
-                myCanvas.getMapPanel().setWidth(w);
-                myCanvas.getMapPanel().setHeight(h);
-                myCanvas.getMapPanel().setTileWidth(MapPanel.DEFAULT_TILE_WIDTH);
-                myCanvas.getMapPanel().setTileHeight(MapPanel.DEFAULT_TILE_HEIGHT);
-                myCanvas.getMapPanel().initializeMap(w,h);
+                String name = MapName.getText();
+                String desc = MapDesc.getText();
+                int width = Integer.parseInt(MapWidth.getText());
+                int height = Integer.parseInt(MapHeight.getText());
+                int tileWidth = Integer.parseInt(TileWidth.getText());
+                int tileHeight = Integer.parseInt(TileHeight.getText());
+                myCanvas.getMapPanel().setWidth(width);
+                myCanvas.getMapPanel().setHeight(height);
+                myCanvas.getMapPanel().setTileWidth(tileWidth);
+                myCanvas.getMapPanel().setTileHeight(tileHeight);
+                myCanvas.getMapPanel().initializeMap(name,desc,width,height,tileWidth,tileHeight);
             }
             catch (Exception e1) {
                 //TODO

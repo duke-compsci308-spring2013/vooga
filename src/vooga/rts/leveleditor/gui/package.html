@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W4C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+LevelEditor.GUI Package
+</head>
+<body bgcolor="white">
+<p>
+This package is part of the CompSci 308 VOOGA Game Engine Project.
+<p>
+This package contains all the classes needed to make the GUI of the level editor. All of them extend certain JComponents. 
+
+<h4>Canvas</h4>
+<p>
+@See Canvas
+<p>
+The Canvas class is the main GUI for the level editor, it contains all the sub-JComponents and serves as the bridge for the communication between different components.
+<h4>MapPanel</h4>
+<p>
+@See MapPanel
+<p>
+The MapPanel class is responsible for displaying the map being editted by users. Users will be able to place and remove different map components on this panel using Input package.
+<h4>MapComponentPanel</h4>
+<p>
+@See MapComponentPanel
+<p>
+The MapComponentPanel class is the super class for all the Panel classes that responsible for editting the components on the map. 
+<h4>TilePanel, TerrainPanel, ResourcePanel</h4>
+<p>
+@See TilePanel, TerrainPanel, ResourcePanel
+<p>
+These classes are sub classes of MapComponentPanel. All of them allow users to import their own images as resources for the map.
+<h4>TileButton, TerrainButton, ResourceButton</h4>
+<p>
+@See TileButton, TerrainButton, ResourceButton
+These classes are responsible for displaying the images that users imported on the corresponding panel
+<h4>LayerPanel</h4>
+<p>
+@See LayerPanel
+<p>
+This class is responsible for displaying the layer information to the user, it will show the total number of layers and by clicking certain layer, user will be able to editting that layer.
+<h4>MenuManager</h4>
+<p>
+@See MenuManager
+<p>
+This class is responsible for initilizing all the menues available in this level editor. Certain menu items like save, load, addplayer, addlayer.
+
+</body>
+</html>

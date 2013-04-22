@@ -7,6 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import vooga.rts.leveleditor.components.Resource;
+import vooga.rts.leveleditor.components.Terrain;
+import vooga.rts.leveleditor.components.Tile;
+import vooga.rts.resourcemanager.ImageLoader;
+import vooga.rts.resourcemanager.ResourceManager;
 
 /**
  * 
@@ -26,23 +30,39 @@ public class Canvas extends JFrame {
 
     private MapPanel myMapPanel;
     private ResourcePanel myResourcePanel;
+    private TilePanel myTilePanel;
+    private TerrainPanel myTerrainPanel;
+    private LayerPanel myLayerPanel;
     private ButtonPanel myButtonPanel;
     private MenuManager myMenuManager;
     private Resource myCurrentSelectResource;
+    private Terrain myCurrentSelectTerrain;
+    private Tile myCurrentSelectTile;
     private JScrollPane  myMapScroll;
 
     public Canvas() {
         setTitle("Level Editor");
         myMapPanel = new MapPanel(this);
         myResourcePanel = new ResourcePanel(this);
+        myTerrainPanel = new TerrainPanel(this);
+        myTilePanel = new TilePanel(this);
+        myLayerPanel = new LayerPanel(this);
         myButtonPanel = new ButtonPanel(this);
         myMenuManager = new MenuManager(this);
 
         JPanel ChooserPanel = new JPanel(new BorderLayout());        
         JScrollPane resourceScroll = new JScrollPane(myResourcePanel);
-        JTabbedPane ResourceTabPane = new JTabbedPane();
-        ResourceTabPane.add("Resources", resourceScroll);
-        ChooserPanel.add(ResourceTabPane, BorderLayout.CENTER);
+        JScrollPane terrainScroll = new JScrollPane(myTerrainPanel);
+        JScrollPane tileScroll = new JScrollPane(myTilePanel);
+        JTabbedPane MapComponentTabPane = new JTabbedPane();
+        MapComponentTabPane.add("Tiles", tileScroll);
+        MapComponentTabPane.add("Terrains", terrainScroll);
+        MapComponentTabPane.add("Resources", resourceScroll);
+        JTabbedPane LayerTabPane = new JTabbedPane();
+        JScrollPane layerScroll = new JScrollPane(myLayerPanel);
+        LayerTabPane.add("Layers",layerScroll);
+        ChooserPanel.add(MapComponentTabPane, BorderLayout.NORTH);
+        ChooserPanel.add(LayerTabPane, BorderLayout.CENTER);
         ChooserPanel.add(myButtonPanel, BorderLayout.SOUTH);
 
         myMapScroll = new JScrollPane(myMapPanel);
@@ -65,6 +85,22 @@ public class Canvas extends JFrame {
     public Resource getCurrentSelectResource() {
         return myCurrentSelectResource;
     }
+    
+    public void setCurrentSelectTerrain(Terrain t) {
+        myCurrentSelectTerrain = t;        
+    }
+    
+    public Terrain getCurrentSelectTerrain() {
+        return myCurrentSelectTerrain;
+    }
+    
+    public void setCurrentSelectTile(Tile t) {
+        myCurrentSelectTile = t;       
+    }
+    
+    public Tile getCurrentSelectTile() {
+        return myCurrentSelectTile;
+    }
 
     public void ZoomIn() {
         myMapPanel.ZoomIn();      
@@ -76,6 +112,7 @@ public class Canvas extends JFrame {
 
     public void clear() {
         myMapPanel.clear();
+        myLayerPanel.clear();
 
     }
 
@@ -86,9 +123,30 @@ public class Canvas extends JFrame {
     public MapPanel getMapPanel() {
         return myMapPanel;
     }
-    public static void main(String[] argv) {
+    
+    public void setMode(int mode) {
+       myMapPanel.setMode(mode);       
+    }
+    
+    public void addLayer() {
+       myMapPanel.addLayer();
+       myLayerPanel.addLayer(myMapPanel.getMaxLayer());
+       
+    }
+    
+    public void removeLayer() {
+       myLayerPanel.removeLayer(myMapPanel.getMaxLayer());
+       myMapPanel.removeLayer(); 
+    }
+
+    
+    public static void main(String[] args) {
+        ResourceManager.getInstance().registerResourceLoader(new ImageLoader());
+        ResourceManager.getInstance().setResourceBase("/vooga/rts/leveleditor/resource/");
+        
         new Canvas();
     }
+
 
 
 

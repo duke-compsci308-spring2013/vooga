@@ -23,7 +23,7 @@ public interface IGameLoop {
     /**
      * Paints the entity every time the game is repainted.
      * 
-     * @param pen The graphics object that is used to paint on the canvas. 
+     * @param pen The graphics object that is used to paint on the canvas.
      */
     public void paint (Graphics2D pen);
 }

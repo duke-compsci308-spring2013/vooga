@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W4C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body bgcolor="white">
+<p>
+This package is part of the CompSci 308 VOOGA Game Engine Project.
+</p>
+
+
+<p>
+This factories package is a package that provides the Factory.java class, a tool for the developer to use that can load in customized Units, Buildings, Resources etc... that are defined in an XML file. See vooga.rts.gamedesign.factories.Factory.xml for an example of such an XML file. 
+The package contains the Factory.java class definition along with decoders. Decoders are used to extract information regarding specific types of game elements from the XML file. When we load in an XML file we switch from decoder to decoder depending on what type is required to carry out the parsing. 
+
+</p>
+<p>
+<!-- Fill this in with your high-level design and API examples -->
+
+Factory class:
+	This class reads in the XML file of defined game elements. It is closed to modification unless the game designer wants to introduce a whole new TYPE of element into the game design. For all other cases, this class is closed and will always load the XML file correctly. 
+
+	#Temporary Implementation#
+	Game elements are instantiated through reflection in the decoder classes and are put into maps that are found in the factory. When the user wants to access a certain element he can do factory.get(String nameOfElement). 
+
+Decoder abstract class:
+	As mentioned, this class has a make(Document doc) method that reads the Document (XML File), instantiates the right elements, and stores these elements in the factory. 
+
+</p>
+
+<p>
+BASIC IDEA:
+
+The game designer can choose to define the attributes of a custom element instance in the XML file. Setting attributes such as health, game strategies and things it can produce.
+If the game designer prefers to code he may extend the specified class (typically Unit, Building or Resource). This extension would set the attributes "manually" as defaults in the class. The game designer would then have to provide a default constructor (without arguments). Then, to have the factory instantiate this element the game designer can go to the XML file, go under the correct tag, and use the "custom" (adding the path of the class to the "src" attribute). The custom tag only requires a name. The benefit to this approach is that you do not need to specify anything else in the XML file. 
+
+</p>
+
+
+
+
+
+</p>
+
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>

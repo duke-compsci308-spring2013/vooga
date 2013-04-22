@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W4C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body bgcolor="white">
+<p>
+This package is part of the CompSci 308 VOOGA Game Engine Project.
+
+<p>
+This package contains the engine for real time strategy, RTS, style games.
+
+<!-- Fill this in with your high-level design and API examples -->
+This package contains the gather strategy.  Any entity that could ever possibly gather should have an instance variable
+that is an GatherStrategy.  GatherStrategy is an interface that is implemented by CanGather and CannotGather.  If the entity
+can gather then its gather strategy instance variable is set to CanGather, Otherwise, it is set to CannotGather.  The CanGather class
+contains a gather amount, and gather delay, and a gather state.  By using the strategy pattern, 
+the entities that could possibly gather can be dynamically changed during the game.  For example, a soldier might not initially be 
+able to gather.  However, the soldier could be upgraded so that it can gather.  All that would happen is
+the gather strategy of the soldier would be set to CanGather and the soldier would then have all the functionality it needs to gather. 
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>

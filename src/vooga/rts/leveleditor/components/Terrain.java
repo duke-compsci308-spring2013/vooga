@@ -2,71 +2,112 @@ package vooga.rts.leveleditor.components;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.ResourceBundle;
-import javax.imageio.ImageIO;
+import vooga.rts.leveleditor.gui.MapPanel;
+import vooga.rts.resourcemanager.ResourceManager;
 import vooga.rts.util.Location;
 
-public class Terrain {
-   
-   private static final String BUNDLE_RELATIVE_PATH = "vooga.rts.leveleditor.resource.";
-   private static final String IMAGE_RELATIVE_PATH = "./src/vooga/rts/leveleditor/resources/";
-   
-   private int myID; 
-   private Location myLocation;
+
+/**
+ * all class of terrains, which is used as a part of map
+ * 
+ * @author Richard Yang
+ * 
+ */
+
+public class Terrain extends MapComponent {
+
+    private static final String BUNDLE_NAME = "TerrainIndex";
+
+    protected Location myLocation;
+
+    private int myWalkAbility;
+    private int myImageWidth;
+    private int myImageHeight;
+
+    public Terrain (Location loc, int ID) {
+        super(BUNDLE_NAME);
+        setType(ID);
+        myLocation = loc;
+    }
+
+    public Terrain (int x, int y, int ID) {
+
+        this(new Location(x, y), ID);
+    }
     
-   private String myName;
-   private int myWalkAbility;
-   
-   private BufferedImage myImage;
-   
-   private ResourceBundle myResources = ResourceBundle.getBundle(BUNDLE_RELATIVE_PATH + "ImageIndex");
-   
-   public Terrain(Location loc , int ID , int walkAbility) {
-       myLocation = loc;
-       myID = ID;
-       myName = myResources.getString(ID+"");
-       myWalkAbility = walkAbility;
-       try {
-        myImage = ImageIO.read(new File(System.getProperty("user.dir") + IMAGE_RELATIVE_PATH+ myName+".jpg"));
+    public Terrain(int x, int y , int ID, String name, String imageName) {
+        super(ID,name,imageName);
+        myLocation = new Location(x,y);
     }
-    catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+
+    public Terrain (int i) {
+        this(0, 0, i);
     }
-       
-       
-   }
-   
-   public Terrain(int x , int y , int ID ,int walkAbility) {
-       
-       this(new Location(x,y) , ID , walkAbility);
-   }
-  
 
-   public String getMyName () {
-    return myName;
-   }
+    public void setType (int id) {
+        super.setID(id);
+        try {
+            refreshImage();
+        }
+        catch (Exception e) {
+        }
+    }
 
-   public int getMyWalkAbility () {
-    return myWalkAbility;
-   }
-   
-   public int getMyID() {
-       return myID;
-   }
-   
-   public Location getMyLocation() {
-       return myLocation;
-   }
-   
-   public void paint(Graphics pen) {
-       pen.drawImage(myImage, (int)myLocation.getX(), (int)myLocation.getY(), null);
-   }
-   
-   
-   
-   
-   
+
+    public void refreshImage () throws IOException {
+        if (myResource.containsKey(myID + "")) {
+            String content = myResource.getString(myID + "");
+            String[] buffer = content.split("&");
+            myName = buffer[0];
+            myImageName = buffer[1];
+            myWalkAbility = Integer.parseInt(buffer[2]);
+            myImage =
+                    ResourceManager.getInstance().<BufferedImage> getFile(myImageName,
+                                                                          BufferedImage.class);
+            myImageWidth = myImage.getWidth();
+            myImageHeight = myImage.getHeight();
+        }
+    }
+
+    public int getMyWalkAbility () {
+        return myWalkAbility;
+    }
+
+    public Location getMyLocation () {
+        return myLocation;
+    }
+
+    public int getMyX () {
+        return (int) myLocation.getX();
+    }
+
+    public int getMyY () {
+        return (int) myLocation.getY();
+    }
+    
+    public int getImageWidth() {
+        return myImageWidth;
+    }
+    
+    public int getImageHeight() {
+        return myImageHeight;
+    }
+
+    public void zoomIn() {
+        myLocation = new Location(myLocation.getX()*MapPanel.ZOOM_RATE,myLocation.getY()*MapPanel.ZOOM_RATE);
+        myImageWidth = (int)(myImageWidth*MapPanel.ZOOM_RATE);
+        myImageHeight = (int)(myImageHeight*MapPanel.ZOOM_RATE);
+    }
+    
+    public void zoomOut() {
+        myLocation = new Location(myLocation.getX()/MapPanel.ZOOM_RATE,myLocation.getY()/MapPanel.ZOOM_RATE);
+        myImageWidth = (int)(myImageWidth/MapPanel.ZOOM_RATE);
+        myImageHeight = (int)(myImageHeight/MapPanel.ZOOM_RATE);     
+    }
+
+    public void paint (Graphics pen) {
+        pen.drawImage(myImage, getMyX(), getMyY(), myImageWidth,myImageHeight,null);
+    }
+
 }

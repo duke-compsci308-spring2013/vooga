@@ -13,16 +13,18 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import vooga.rts.gamedesign.sprite.rtsprite.*;
+import vooga.rts.gamedesign.sprite.gamesprites.*;
 import vooga.rts.util.Location;
+import vooga.rts.util.Location3D;
 import vooga.rts.util.Pixmap;
+import vooga.rts.util.ReflectionHelper;
 
 
 /**
  * Decodes an XML file that contains resource information and instantiates those reasources. 
  * Once the resources and instantiated it puts them in the Sprite map that is found in the factory. 
  * The resource "name" is used as the key. 
- * @author agostif
+ * @author Francesco Agosti
  *
  */
 public class ResourceDecoder extends Decoder{
@@ -57,14 +59,8 @@ public class ResourceDecoder extends Decoder{
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 */
-	public Resource create(Document doc) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public void create(Document doc) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		String path = doc.getElementsByTagName(HEAD_TAG).item(0).getAttributes().getNamedItem(SOURCE_TAG).getTextContent();
-		Class<?> headClass = null;
-		try {
-			headClass = Class.forName(path);
-		} catch (ClassNotFoundException e) {
-			//ERRR
-		}
 		NodeList nodeLst = doc.getElementsByTagName(TYPE_TAG);
 		
 		for(int i = 0 ; i < nodeLst.getLength() ; i++){
@@ -74,22 +70,15 @@ public class ResourceDecoder extends Decoder{
 			int health = Integer.parseInt((nElement.getElementsByTagName(HEALTH_TAG).item(0).getTextContent()));
 			
 			
-			
-			Resource res = (Resource) headClass.getConstructor(Pixmap.class, 
-													Location.class, 
-													Dimension.class, 
-													int.class, 
-													int.class).newInstance(new Pixmap(img),
-																			new Location(0,0),
-																			RESOURCE_SIZE,
-																			0,
-																			health);																	
-			myFactory.put(name, res);
+			Resource resource = (Resource) ReflectionHelper.makeInstance(path, new Pixmap(img),
+																		new Location3D(0,0,0),
+																		RESOURCE_SIZE,
+																		0,
+																		health,
+																		name);
+					
+																
+			myFactory.put(name, resource);
 		}
-		return null;
-		
 	}
-	
-	
-
 }

@@ -8,9 +8,8 @@ import util.Location;
 import vooga.scroller.level_editor.Level;
 import vooga.scroller.level_editor.controllerSuite.LEGrid;
 import vooga.scroller.level_editor.model.LevelParser;
-import vooga.scroller.marioGame.MarioLib;
+import vooga.scroller.marioGame.spritesDefinitions.MarioLib;
 import vooga.scroller.scrollingmanager.ScrollingManager;
-import vooga.scroller.util.Pixmap;
 import vooga.scroller.view.GameView;
 
 
@@ -60,8 +59,9 @@ public class LevelFactory {
         return levels;
     }
 
+    //TODO - move splash screens out of the way
     protected Level linkLevels (List<Level> levels) {
-        SplashPage splash = new SplashPage(new Pixmap("MARIO SPLASH.png"), 0, myView, mySM);
+        SplashPage splash = new SplashPage(MarioLib.makePixmap("MARIO SPLASH.png"), 0, myView, mySM);
         splash.addDoor(new LevelPortal());
         splash.addManager(myLevelManager);
         myLevelManager.put(splash.getDoor(), levels.get(0));
@@ -98,7 +98,7 @@ public class LevelFactory {
     private LEGrid loadGridFromFile (String filename) {
         // TODO: Factor this out. make editable.
         
-        File f = (new File(DEFAULT_LEVEL_FOLDER + filename)).getAbsoluteFile();
+        File f = (new File(filename)).getAbsoluteFile();
         LEGrid result = myLevelReader.makeGridFromFile(f);
         return result;
     }

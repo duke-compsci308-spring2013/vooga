@@ -40,7 +40,7 @@ public abstract class ScrollerGame extends Game {
         myScrollingManager = setScrollingManager();
         myDisplay = new GameView(PlatformerConstants.DEFAULT_WINDOW_SIZE, myScrollingManager);
         myPlayer = setPlayer(myScrollingManager,myDisplay);
-        myLevels = setLevelFileNames();
+        myLevels = setLevelFileNamesPath();
         myTitle = setTitle();
     }
 
@@ -51,6 +51,16 @@ public abstract class ScrollerGame extends Game {
     protected abstract String setTitle ();
 
     protected abstract String[] setLevelFileNames();
+    
+    protected abstract String setLevelsDirPath();
+    
+    private String[] setLevelFileNamesPath() {
+        String[] res = new String[setLevelFileNames().length];
+        for (int i=0; i<res.length; i++) {
+            res[i]=setLevelsDirPath()+setLevelFileNames()[i];
+        }
+        return res;
+    }
     
     private void makeModel() {
         myModel = new Model(myDisplay, myScrollingManager, myPlayer, myLevels);

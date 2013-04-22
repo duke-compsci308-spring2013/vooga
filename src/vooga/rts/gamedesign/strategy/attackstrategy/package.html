@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W4C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body bgcolor="white">
+<p>
+This package is part of the CompSci 308 VOOGA Game Engine Project.
+
+<p>
+This package contains the engine for real time strategy, RTS, style games.
+
+<!-- Fill this in with your high-level design and API examples -->
+This package contains the attack strategy.  Any entity that could ever possibly attack should have an instance variable
+that is an AttackStrategy.  AttackStrategy is an interface that is implemented by CanAttack and CannotAttack.  If the entity
+can attack then its attack strategy instance variable is set to CanAttack, Otherwise, it is set to CannotAttack.  The CanAttack class
+contains a list of weapons so that if a unit can attack then it will have at least one weapon.  By using the strategy pattern, 
+the entities that could possibly attack can be dynamically changed during the game.  For example, a worker (a unit that gathers resources
+and builds buildings) might not be able to attack.  However, the worker could be upgraded so that it can attack.  All that would happen is
+the attack strategy of the worker would be set to CanAttack and the worker would then have all the functionality it needs to attack. 
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>

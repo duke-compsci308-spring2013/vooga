@@ -1,0 +1,28 @@
+<game>
+	<meta>
+		<text id="name">RTS Game</text>
+		<text id="description">This is a description.</text>
+		<file id="logo"file://path/to/file.jpg></file>
+	</meta>
+	
+	<loading>
+		<text id="game-is-loading">Game is loading...</text>
+		<text id="click-to-start">Click to start...</text>
+		<file id="background">file://path/to/file.jpg</file>
+	</loading>
+	
+	<menu>
+		<text id="start-game">Start Game</text>
+		<text id="settings">Settings</text>
+		<file id="background">file://path/to/file.jpg</file>
+	</menu>
+	
+	<building>
+		<file id="image">file://path/to/file.jpg</file>
+		<int id="health">100</int>
+	</building>
+	
+	
+	<rules>
+	</rules>
+<game>a

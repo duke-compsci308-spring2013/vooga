@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W4C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body bgcolor="white">
+<p>
+This package is part of the CompSci 308 VOOGA Game Engine Project.
+
+<p>
+This package contains the engine for real time strategy, RTS, style games.
+
+<!-- Fill this in with your high-level design and API examples -->
+This package contains objects that are can be interacted with such as buildings and units.
+These entities have strategies for attacking, occupying and producing.  These allow the entities
+to be dynamically changed so that an entity that cannot attack could be upgraded to be able to attack.
+In order to implement this, a developer would just have to set the attack strategy of the entity to CanAttack
+and the entity would have all the functionality it would need to attack.  In addition, these entities store
+a map of command to action so that the user can input a command and the entity will carry out the corresponding
+action (for example exiting a building).  These entities will know if they have been selected and will also know
+how long they take to build (for example how long it takes to create a unit once you click on that unit in the barracks).
+Finally, these entities also have an upgrade tree since all upgrades will happen to entities that can be interacted with.
+<!-- Put @see and @since tags down here. -->
+
+</body>
+</html>
