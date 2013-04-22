@@ -11,7 +11,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JFrame;
+import org.w3c.dom.Element;
 import util.XMLTool;
 import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.gameElements.Wave;
@@ -25,20 +27,30 @@ import vooga.towerdefense.util.Pixmap;
  * @author Angelica Schwartz
  */
 public class GameEditorController extends JFrame {
-
-    public static final String CLASS_INDICATOR_STRING = ".class";
     /**
      * default serialized id.
      */
     private static final long serialVersionUID = 1L;
     private static final String TITLE_KEYWORD = "GAME EDITOR";
+    private static final String UNIT_TAG = "Unit";
+    private static final String TOWER_TAG = "Tower";
+    private static final String PROJECTILE_TAG= "Projectile";
+    private static final String IMAGE_TAG = "Image";
+    private static final String ATTRIBUTES_TAG = "Attributes";
+    private static final String ACTIONS_TAG = "Actions";
     private static final Dimension SIZE = new Dimension(700, 700);
     private static final String RESOURCE_PATH = "vooga.src.vooga.towerdefense.resources.";
+    public static final String CLASS_INDICATOR_STRING = ".class";
     private Dimension mySize;
     private Dimension myMapSize;
     private List<GameElement> myCreatedUnits;
     private List<Wave> myCreatedWaves;
-    private XMLTool myXMLTool;
+    private String myName;
+    private XMLTool myXMLDoc;
+    private Element myRoot;
+    private Element myUnitParent;
+    private Element myTowerParent;
+    private Element myProjectileParent;
     
     /**
      * Constructor.
@@ -47,20 +59,24 @@ public class GameEditorController extends JFrame {
      */
     public GameEditorController (Dimension size) {
         this.setTitle(TITLE_KEYWORD);
-        myCreatedUnits = new ArrayList<Unit>();
+        myCreatedUnits = new ArrayList<GameElement>();
         myCreatedWaves = new ArrayList<Wave>();
         mySize = size;
         setSize(mySize);
         setPreferredSize(mySize);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        myXMLDoc = new XMLTool();
+        myRoot = myXMLDoc.makeRoot("Game");
+        myUnitParent = myXMLDoc.makeElement(UNIT_TAG);
+        myTowerParent = myXMLDoc.makeElement(TOWER_TAG);
+        myProjectileParent = myXMLDoc.makeElement(PROJECTILE_TAG);
+        myXMLDoc.addChildElement(myRoot, myUnitParent);
+        myXMLDoc.addChildElement(myRoot, myTowerParent);
+        myXMLDoc.addChildElement(myRoot, myProjectileParent);       
         initializeGUI();
         
         //TODO: remove, this is just for testing
         GameElement temp = new GameElement(new Pixmap("tower.gif"), new Location(0,0), new Dimension(0,0), null, null);
-
-        // TODO: remove, this is just for testing
-        Unit temp =
-                new Unit(new Pixmap("tower.gif"), new Location(0, 0), new Dimension(0, 0), null, null);
         myCreatedUnits.add(temp);
         myCreatedUnits.add(temp);
         myCreatedUnits.add(temp);
@@ -81,12 +97,17 @@ public class GameEditorController extends JFrame {
     }
 
     /**
+     * saves the xml file.
+     */
+    public void saveFile() {
+        myXMLDoc.writeFile(myName);
+    }
+    
+    /**
      * sets the name of this game.
      */
     public void setNameOfGame(String name) {
-        String path = RESOURCE_PATH.replace(".", "/");
-        path = path.replace("%20", " ");
-        myXMLTool = new XMLTool(path + name + ".xml");
+        myName = name;
     }
     
     /**
@@ -105,28 +126,59 @@ public class GameEditorController extends JFrame {
 
     /**
      * adds a projectile to the XML file.
+     * @param parent is the parent element
+     * @param name is the game element's name
+     * @param path is the image path
+     * @param attributes is the map of attribute name to value
+     * @param actions is the map of action name to value
      */
-    public void addProjectileToGame () {
-        // TODO: implement
-
+    public void addProjectileToGame(String name, String path, Map<String, String> attributes, Map<String, String> actions) {
+        addGameElementToGame(myProjectileParent, name, path, attributes, actions);
+        System.out.println("added projectile to game");
     }
 
     /**
      * adds a unit to the XML file.
+     * @param parent is the parent element
+     * @param name is the game element's name
+     * @param path is the image path
+     * @param attributes is the map of attribute name to value
+     * @param actions is the map of action name to value
      */
-    public void addUnitToGame () {
-        // TODO: implement
-        //update myCreatedUnits to contain the new unit
-        
+    public void addUnitToGame(String name, String path, Map<String, String> attributes, Map<String, String> actions) {
+        addGameElementToGame(myUnitParent, name, path, attributes, actions);
+        System.out.println("added unit to game");        
+    }
+    
+    /**
+     * adds a tower to the XML file.
+     * @param parent is the parent element
+     * @param name is the game element's name
+     * @param path is the image path
+     * @param attributes is the map of attribute name to value
+     * @param actions is the map of action name to value
+     */
+    public void addTowerToGame(String name, String path, Map<String, String> attributes, Map<String, String> actions) {
+        addGameElementToGame(myTowerParent, name, path, attributes, actions);
+        System.out.println("added tower to game");
     }
     
     /**
      * adds a game element to the XML file.
+     * @param parent is the parent element
+     * @param name is the game element's name
+     * @param path is the image path
+     * @param attributes is the map of attribute name to value
+     * @param actions is the map of action name to value
      */
-    public void addGameElementToGame() {
-        //TODO: make xml file for an element. use this
-        //    method for other parts. 
-        // update myCreatedUnits to contain the new unit
+    private void addGameElementToGame(Element parent, String name, String path, Map<String, String> attributes, Map<String, String> actions) {
+        Element unitElement = myXMLDoc.makeElement(name);
+        myXMLDoc.addChildElement(parent, unitElement);
+        myXMLDoc.addChild(unitElement, IMAGE_TAG, path);
+        Element attributeElement = myXMLDoc.makeElementsFromMap(ATTRIBUTES_TAG, attributes);
+        myXMLDoc.addChildElement(unitElement, attributeElement);
+        Element actionElement = myXMLDoc.makeElementsFromMap(ACTIONS_TAG, actions);
+        myXMLDoc.addChildElement(unitElement, actionElement);
     }
 
     /**
@@ -150,14 +202,7 @@ public class GameEditorController extends JFrame {
     public List<Wave> getWaves () {
         return myCreatedWaves;
     }
-
-    /**
-     * adds a tower to the XML file.
-     */
-    public void addTowerToGame () {
-        // TODO: implement
-    }
-
+    
     /**
      * adds a view to the XML file.
      */
@@ -177,8 +222,7 @@ public class GameEditorController extends JFrame {
     }
 
     public Dimension getMapSize () {
-        // return myMapSize; // TODO FIX THIS
-        return new Dimension(500, 500);
+        return myMapSize;
     }
 
     /**
@@ -194,6 +238,13 @@ public class GameEditorController extends JFrame {
         }
         return images;
     }
+    
+    /**
+     * write the xml file.
+     */
+    public void writeFile() {
+        myXMLDoc.writeFile(myName + ".xml");
+    }
 
     /**
      * uses reflection to display the next screen in the sequence.
@@ -207,15 +258,20 @@ public class GameEditorController extends JFrame {
                                                          NoSuchMethodException,
                                                          IllegalArgumentException,
                                                          InvocationTargetException {
-        Class[] args = { Dimension.class, GameEditorController.class };
-        Class theClass = Class.forName(nextScreenName);
-        Constructor cons = theClass.getConstructor(args);
-        GameEditorScreen screen = (GameEditorScreen) cons.newInstance(mySize, this);
-        getContentPane().add(screen);
-        screen.display();
-
-        pack();
-        setVisible(true);
+        if (nextScreenName != null) {
+            Class[] args = { Dimension.class, GameEditorController.class };
+            Class theClass = Class.forName(nextScreenName);
+            Constructor cons = theClass.getConstructor(args);
+            GameEditorScreen screen = (GameEditorScreen) cons.newInstance(mySize, this);
+            getContentPane().add(screen);
+            screen.display();
+    
+            pack();
+            setVisible(true);
+        }
+        else {
+            System.exit(0);
+        }
     }
 
     /**

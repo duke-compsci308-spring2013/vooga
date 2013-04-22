@@ -3,6 +3,7 @@ package vooga.towerdefense.model;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.List;
+
 import vooga.towerdefense.controller.Controller;
 import vooga.towerdefense.gameElements.Wave;
 import vooga.towerdefense.model.shop.Shop;
@@ -70,6 +71,9 @@ public class GameModel {
 //            startNextWave();
     }
 
+    /**
+     * Jumps to the next wave on the list.
+     */
     public void startNextWave () {
         if (myWaves.iterator().hasNext()) {
             myCurrentWave = myWaves.iterator().next();

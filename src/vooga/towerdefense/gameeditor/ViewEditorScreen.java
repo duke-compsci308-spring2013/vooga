@@ -3,9 +3,11 @@ package vooga.towerdefense.gameeditor;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 
@@ -24,11 +26,15 @@ public class ViewEditorScreen extends GameEditorScreen {
     /**
      * next screen constant.
      */
-    private static final String NEXT_SCREEN_NAME = "MapEditorScreen";
+    private static final String NEXT_SCREEN_NAME = "mapeditor.MapEditorScreen";
     /**
      * package name for the available game screens.
      */
     private static final String SCREEN_PACKAGE_PATH = "vooga.towerdefense.view.gamescreens";
+    /**
+     * the name of the class the represents multiple panels.
+     */
+    private static final String MULTIPLE_PANEL_NAME = "MultiplePanelScreen";
     /**
      * title constant.
      */
@@ -116,6 +122,7 @@ public class ViewEditorScreen extends GameEditorScreen {
         catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        JOptionPane.showMessageDialog(null, "Note: you must contain a mapscreen\nand shopscreen in your view");
     }
     
     private void makeScreen() throws IOException, ClassNotFoundException {
@@ -164,9 +171,33 @@ public class ViewEditorScreen extends GameEditorScreen {
     @Override
     public void addElementToGame () {
         // TODO Auto-generated method stub
-        // TODO: get rid of this magic number
-        getController().setMapSize(new Dimension(500, 600));
+        getController().setMapSize(getMapDimension());
         getController().addViewToGame();
+    }
+    
+    /**
+     * helper method to get the map dimension from the string.
+     * @return dimension of the map screen
+     */
+    private Dimension getMapDimension() {
+        String dimension = "";
+        if (myNorthPanel.getSelectedItem().equals("MapScreen")) {
+            dimension += myNorthSize.getText();
+        }
+        else if (mySouthPanel.getSelectedItem().equals("MapScreen")) {
+            dimension += mySouthSize.getText();
+        }
+        else if (myCenterPanel.getSelectedItem().equals("MapScreen")) {
+            dimension += myCenterSize.getText();
+        }
+        else if (myEastPanel.getSelectedItem().equals("MapScreen")) {
+            dimension += myEastSize.getText();
+        }
+        else {
+            dimension += myWestSize.getText();
+        }
+        String[] dim = dimension.split(", ");
+        return (new Dimension(Integer.parseInt(dim[0]), Integer.parseInt(dim[1])));
     }
 
     /**
@@ -177,7 +208,14 @@ public class ViewEditorScreen extends GameEditorScreen {
      */
     @Override
     public void addAdditionalMouseBehavior (MouseEvent e) {
-        // TODO Auto-generated method stub
-
+        List<String> screens = new ArrayList<String>();
+        screens.add((String)myNorthPanel.getSelectedItem());
+        screens.add((String)mySouthPanel.getSelectedItem());
+        screens.add((String)myCenterPanel.getSelectedItem());
+        screens.add((String)myEastPanel.getSelectedItem());
+        screens.add((String)myWestPanel.getSelectedItem());
+        if (screens.contains(MULTIPLE_PANEL_NAME)) {
+            
+        }
     }
 }

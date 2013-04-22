@@ -1,7 +1,6 @@
-package vooga.towerdefense.gameeditor;
+package vooga.towerdefense.gameeditor.mapeditor;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -12,9 +11,12 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import vooga.towerdefense.gameeditor.GameEditorController;
+import vooga.towerdefense.gameeditor.GameEditorScreen;
 import vooga.towerdefense.model.tiles.GrassTile;
 import vooga.towerdefense.model.tiles.PathTile;
 import vooga.towerdefense.model.tiles.Tile;
@@ -23,8 +25,11 @@ import vooga.towerdefense.util.Pixmap;
 
 
 /**
- * MapEditorScreen is responsible for helping
- * the game developer make maps.
+ * The MapEditorScreen is responsible for helping
+ * the game developer make maps. It contains three components: a JTextArea where
+ * the game developer specifies the size of each tile; a panel with the different
+ * types of tiles that the developer can drag into the map area; and a panel where
+ * the developer actually places their map on.
  * 
  * @author Angelica Schwartz
  * @author Leonard K. Ng'eno
@@ -36,8 +41,15 @@ public class MapEditorScreen extends GameEditorScreen {
     private static final String NEXT_SCREEN_NAME = "ProjectileEditorScreen";
     private static final String TITLE_NAME = "MAP ";
     private static final String TILE_IMAGES_CLASS_PATH = "vooga.towerdefense.images.map";
-
-    private MapMaker myMapMakerBox;
+    private static final String GRASS_TILE_NAME = "grass_tile.png";
+    private static final String PATH_TILE_NAME = "path_tile.png";
+    private static final Location DEFAULT_LOCATION = new Location(0,0);
+    private static final Dimension DEFAULT_SIZE = new Dimension(50,50);
+    private static final Dimension TILE_PANEL_SIZE = new Dimension (200, 70);
+    private static final Pixmap GRASS_PIXMAP = new Pixmap(GRASS_TILE_NAME);
+    private static final Pixmap PATH_PIXMAP = new Pixmap (PATH_TILE_NAME);
+    
+    private MapMakerScreen myMapMakerBox;
     private Dimension myMapMakerSize;
     private JTextField myTextField;
     private final int FIELD_SIZE = 10;
@@ -45,7 +57,6 @@ public class MapEditorScreen extends GameEditorScreen {
     private MouseAdapter myTileBuilderListener;
     private int myTileSize;
     private TilePanel myTilePainter;
-    private JPanel myPathEraser;
     private Tile myTileToBuild;
 
     /**
@@ -58,18 +69,18 @@ public class MapEditorScreen extends GameEditorScreen {
         super(size, controller, TITLE_NAME, NEXT_SCREEN_NAME);
         makeListeners();
         myMapMakerSize = getController().getMapSize();
-        this.add(makeMapBox(myMapMakerSize), BorderLayout.NORTH);
-        this.add(makeLabelText("TILE SIZE"), BorderLayout.EAST);
-        this.add(makeTextField(), BorderLayout.EAST);
-        this.add(makeLabelText("MAP TILES"), BorderLayout.SOUTH);
-        this.add(makePathTilePainter(), BorderLayout.SOUTH);
+        add(makeMapBox(myMapMakerSize), BorderLayout.NORTH);
+        add(makeLabelText("TILE SIZE"), BorderLayout.EAST);
+        add(makeTextField(), BorderLayout.EAST);
+        add(makeLabelText("MAP TILES"), BorderLayout.SOUTH);
+        add(makePathTilePainter(), BorderLayout.SOUTH);
         addMouseListener(myTileBuilderListener);
 
         setVisible(true);
     }
 
     private JPanel makeMapBox (Dimension size) {
-        myMapMakerBox = new MapMaker(size);
+        myMapMakerBox = new MapMakerScreen(size);
         return myMapMakerBox;
     }
 
@@ -81,7 +92,7 @@ public class MapEditorScreen extends GameEditorScreen {
         return myTextField;
     }
 
-    public void makeListeners () {
+    private void makeListeners () {
         myActionListener = new ActionListener() {
             @Override
             public void actionPerformed (ActionEvent e) {
@@ -94,10 +105,10 @@ public class MapEditorScreen extends GameEditorScreen {
         return new JLabel(text);
     }
 
-    // TODO make sure myTileSize is an int!! or appropriate int!!
     private void repaintGrids () {
         myTileSize = Integer.parseInt(myTextField.getText());
         myMapMakerBox.setTileSizes(myTileSize);
+        myTextField.setText("");
     }
 
     @Override
@@ -106,41 +117,41 @@ public class MapEditorScreen extends GameEditorScreen {
     }
 
     /**
-     * adds this map to the game.
+     * adds this level to the game.
      */
+    @Override
     public void addElementToGame () {
-        getController().addMapToGame();
+       // getController().addMapToGame(int TileSize, Map<String, String> tileInfo);
+       // Element mapParent = makeElement ("Map");
+       // myXMLDoc.addChildElement(myRoot, myParent);
+       // Element tileInfo = myXMLDoc.addElementFromMap ("TitleInfo", tileInfo)
+       // myXMLDoc.addChildElement(mapParent, tileInfo)
+        
     }
 
     private JPanel makePathTilePainter () {
         File[] images = getImages(TILE_IMAGES_CLASS_PATH);
         List<Pixmap> myImages = new ArrayList<Pixmap>();
         myImages = makeTileImages(images);
-
-        myTilePainter = new TilePanel(new Dimension(200, 70), myImages, this);
-
+        myTilePainter = new TilePanel(TILE_PANEL_SIZE, myImages, this);
         return myTilePainter;
     }
 
-    // TODO Fix this so that it is not hard-coded!
+    /**
+     * Method called by the TilePanel with the type of the tile that the developer has 
+     * clicked on.
+     * 
+     * @param s string representing the tile that the developer clicked on.
+     */
+    // TODO Fix this so that the tiles are not hard-coded!
     public void makeTileInstances (String s) {
-        if (s.equals("grass_tile.png")) {
-            myTileToBuild =
-                    new GrassTile(1, new Pixmap("grass_tile.png"), new Location(0, 0),
-                                  new Dimension(50, 50));
-            setTileBuildingMode();
+        if (s.equals(GRASS_TILE_NAME)) {
+            myTileToBuild = new GrassTile(0, GRASS_PIXMAP, DEFAULT_LOCATION, DEFAULT_SIZE);
         }
-        else if (s.equals("path_tile.png")) {
-            myTileToBuild =
-                    new PathTile(1, new Pixmap("path_tile.png"), new Location(0, 0),
-                                 new Dimension(50, 50));
-            setTileBuildingMode();
+        else if (s.equals(PATH_TILE_NAME)) {
+            myTileToBuild = new PathTile(1, PATH_PIXMAP, DEFAULT_LOCATION, DEFAULT_SIZE);
         }
-    }
-
-    private void setTileBuildingMode () {
         myMapMakerBox.setTile(myTileToBuild);
-        myMapMakerBox.setPaintingMode(true);
     }
 
     private List<Pixmap> makeTileImages (File[] file) {
@@ -163,21 +174,24 @@ public class MapEditorScreen extends GameEditorScreen {
         return null;
     }
 
-    public void setPainterColor (JPanel panel, Color color) {
-        panel.setBackground(color);
-    }
-
-    public JPanel getTilePainter () {
-        return myTilePainter;
-    }
-
-    public JPanel getPathEraser () {
-        return myPathEraser;
-    }
-
     @Override
     public void addAdditionalMouseBehavior (MouseEvent e) {
         // TODO Auto-generated method stub
     }
 
+    /**
+     * 
+     * @return  a mapping of the tile's position and the tile's id as strings
+     */
+    public Map<String, String> getMapRepresentation () {
+        return myMapMakerBox.getMapRepresentation();
+    }
+    
+    /**
+     * 
+     * @return  the size of each tile in the map
+     */
+    public int getTileSize () {
+        return myTileSize;
+    }
 }

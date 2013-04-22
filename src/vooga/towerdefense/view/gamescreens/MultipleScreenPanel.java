@@ -26,7 +26,7 @@ public class MultipleScreenPanel extends JPanel {
 
     /**
      * constructor.
-     * 
+     * @param Dimension
      * @param screens
      */
     public MultipleScreenPanel (Dimension size, Map<JPanel, String> screens) {

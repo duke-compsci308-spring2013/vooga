@@ -2,6 +2,7 @@ package vooga.towerdefense.factories.examples;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+
 import vooga.towerdefense.action.Action;
 import vooga.towerdefense.action.FindTargets;
 import vooga.towerdefense.action.ModifyAttributeValue;
@@ -44,7 +45,7 @@ public class ExampleAuraTowerFactory extends GameElementFactory {
         GameElement myTower;
         if (putHere != null) {
             myTower = new GameElement(tImage, putHere,
-                                      new Dimension(100, 100), AM);
+                                      new Dimension(50, 50), AM);
         }
         else {
             myTower = new GameElement(def.getImage(),

@@ -1,6 +1,7 @@
 package vooga.towerdefense.gameeditor;
 
 import java.awt.Dimension;
+import java.util.Map;
 
 
 /**
@@ -40,8 +41,7 @@ public class UnitEditorScreen extends GameElementEditorScreen {
      */
     @Override
     public void addElementToGame () {
-        // TODO: implement
-        getController().addUnitToGame();
+        getController().addUnitToGame(getName(), getImagePath(), getAttributes(), getActions());
     }
 
 }

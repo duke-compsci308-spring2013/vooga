@@ -48,7 +48,7 @@ public class StartUpScreen extends JPanel {
         setVisible(true);
         makeMouseAdapter();
         add(makeLabel(), BorderLayout.NORTH);
-        add(makeButton(), BorderLayout.CENTER);
+        add(makeStartButton(), BorderLayout.CENTER);
         add(makeGameNamingSection(), BorderLayout.SOUTH);
     }
 
@@ -89,7 +89,7 @@ public class StartUpScreen extends JPanel {
      * 
      * @return the JButton created
      */
-    private JComponent makeButton () {
+    private JComponent makeStartButton () {
         myStartButton = new JButton(START_KEYWORD);
         myStartButton.addMouseListener(myMouseAdapter);
         return myStartButton;
