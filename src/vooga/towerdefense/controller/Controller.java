@@ -337,4 +337,13 @@ public class Controller {
 		myModel.paintShop((Graphics2D) pen);
 	}
 
+	/**
+	 * Used to determine if a ghost image should be painted, it tests if a tower can be built at a particular point.
+	 * @param p
+	 * @return
+	 */
+	public boolean canBuildHere(Point p) {
+		return myModel.getMap().isBuildable(p);
+	}
+
 }

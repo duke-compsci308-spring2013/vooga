@@ -288,8 +288,8 @@ public class GameMap {
 	 * Temporarily adds an element onto the map for display only in order to aid
 	 * the user in placing a tower on the map.
 	 * 
-	 * @param itemImage 
-	 * @param location 
+	 * @param itemImage
+	 * @param location
 	 * @param size
 	 */
 	public void addGhostImage(Pixmap itemImage, Location location,
@@ -298,9 +298,19 @@ public class GameMap {
 	}
 
 	/**
-	 * Resets the ghost image so that it dissapears after the user is no longer placing a tower.
+	 * Resets the ghost image so that it dissapears after the user is no longer
+	 * placing a tower.
 	 */
 	public void resetGhostImage() {
 		myGhostImage = null;
+	}
+
+	/**
+	 * Used to determine if a ghost image should be painted, it tests if a tower can be built at a particular point.
+	 * @param p 
+	 * @return
+	 */
+	public boolean isBuildable(Point p) {
+		return getTile(p).isBuildable();
 	}
 }
