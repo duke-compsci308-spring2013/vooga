@@ -35,7 +35,8 @@ public class BuildMode extends ControlMode {
      */
     @Override
     public void handleMapClick (Point p, Controller controller) {
-       controller.fixItemOnMap(myItemToBuild, p);
+    	if(controller.canBuildHere(p))
+    		controller.fixItemOnMap(myItemToBuild, p);
     }
 
     /**
@@ -46,6 +47,7 @@ public class BuildMode extends ControlMode {
     @Override
     public void handleMapMouseDrag (Point p, Controller controller) {
     	Location snappedLocation = controller.getPointSnappedToGrid(new Location(p.getX(),p.getY()));
-        controller.paintGhostImage(myItemToBuild.getPixmap(), snappedLocation, myItemToBuild.getSize());
+    	if(controller.canBuildHere(p))
+    		controller.paintGhostImage(myItemToBuild.getPixmap(), snappedLocation, myItemToBuild.getSize());
     }
 }
