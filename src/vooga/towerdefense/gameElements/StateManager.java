@@ -5,7 +5,7 @@ import java.util.List;
 
 
 /**
- * manages states of a gameElement, need to be subclassed
+ * manages animations of a gameElement, need to be subclassed
  * 
  * @author Zhen Gou
  * 
