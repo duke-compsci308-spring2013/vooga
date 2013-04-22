@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JFrame;
 import org.w3c.dom.Element;
+import com.sun.org.apache.xalan.internal.xsltc.runtime.Parameter;
 import util.XMLTool;
 import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.gameElements.Wave;
@@ -32,14 +34,15 @@ public class GameEditorController extends JFrame {
      */
     private static final long serialVersionUID = 1L;
     private static final String TITLE_KEYWORD = "GAME EDITOR";
-    private static final String UNIT_TAG = "Unit";
-    private static final String TOWER_TAG = "Tower";
-    private static final String PROJECTILE_TAG= "Projectile";
+    private static final String GAME_ELEMENT_TAG = "GameElement";
     private static final String IMAGE_TAG = "Image";
     private static final String ATTRIBUTES_TAG = "Attributes";
     private static final String ACTIONS_TAG = "Actions";
     private static final Dimension SIZE = new Dimension(700, 700);
     private static final String RESOURCE_PATH = "vooga.src.vooga.towerdefense.resources.";
+    private static final String ACTION_PACKAGE_PATH = "vooga.towerdefense.factories.actionfactories";
+    private static final String ATTRIBUTES_CLASS_PATH =
+            "vooga.towerdefense.attributes.AttributeConstants";
     public static final String CLASS_INDICATOR_STRING = ".class";
     private Dimension mySize;
     private Dimension myMapSize;
@@ -48,9 +51,7 @@ public class GameEditorController extends JFrame {
     private String myName;
     private XMLTool myXMLDoc;
     private Element myRoot;
-    private Element myUnitParent;
-    private Element myTowerParent;
-    private Element myProjectileParent;
+    private Element myGameElementParent;
     
     /**
      * Constructor.
@@ -67,12 +68,8 @@ public class GameEditorController extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myXMLDoc = new XMLTool();
         myRoot = myXMLDoc.makeRoot("Game");
-        myUnitParent = myXMLDoc.makeElement(UNIT_TAG);
-        myTowerParent = myXMLDoc.makeElement(TOWER_TAG);
-        myProjectileParent = myXMLDoc.makeElement(PROJECTILE_TAG);
-        myXMLDoc.addChildElement(myRoot, myUnitParent);
-        myXMLDoc.addChildElement(myRoot, myTowerParent);
-        myXMLDoc.addChildElement(myRoot, myProjectileParent);       
+        myGameElementParent = myXMLDoc.makeElement(GAME_ELEMENT_TAG);
+        myXMLDoc.addChildElement(myRoot, myGameElementParent);       
         initializeGUI();
         
         //TODO: remove, this is just for testing
@@ -123,44 +120,9 @@ public class GameEditorController extends JFrame {
     public void addMapToGame () {
         // TODO: implement
     }
-
-    /**
-     * adds a projectile to the XML file.
-     * @param parent is the parent element
-     * @param name is the game element's name
-     * @param path is the image path
-     * @param attributes is the map of attribute name to value
-     * @param actions is the map of action name to value
-     */
-    public void addProjectileToGame(String name, String path, Map<String, String> attributes, Map<String, String> actions) {
-        addGameElementToGame(myProjectileParent, name, path, attributes, actions);
-        System.out.println("added projectile to game");
-    }
-
-    /**
-     * adds a unit to the XML file.
-     * @param parent is the parent element
-     * @param name is the game element's name
-     * @param path is the image path
-     * @param attributes is the map of attribute name to value
-     * @param actions is the map of action name to value
-     */
-    public void addUnitToGame(String name, String path, Map<String, String> attributes, Map<String, String> actions) {
-        addGameElementToGame(myUnitParent, name, path, attributes, actions);
-        System.out.println("added unit to game");        
-    }
     
-    /**
-     * adds a tower to the XML file.
-     * @param parent is the parent element
-     * @param name is the game element's name
-     * @param path is the image path
-     * @param attributes is the map of attribute name to value
-     * @param actions is the map of action name to value
-     */
-    public void addTowerToGame(String name, String path, Map<String, String> attributes, Map<String, String> actions) {
-        addGameElementToGame(myTowerParent, name, path, attributes, actions);
-        System.out.println("added tower to game");
+    public void addGameElementToGame(String type, String name, String path, Map<String, String> attributes, String actions) {
+        addGameElementToFile(myGameElementParent, type, name, path, attributes, actions);
     }
     
     /**
@@ -171,14 +133,15 @@ public class GameEditorController extends JFrame {
      * @param attributes is the map of attribute name to value
      * @param actions is the map of action name to value
      */
-    private void addGameElementToGame(Element parent, String name, String path, Map<String, String> attributes, Map<String, String> actions) {
+    private void addGameElementToFile(Element parent, String type, String name, String path, Map<String, String> attributes, String actions) {
         Element unitElement = myXMLDoc.makeElement(name);
         myXMLDoc.addChildElement(parent, unitElement);
         myXMLDoc.addChild(unitElement, IMAGE_TAG, path);
         Element attributeElement = myXMLDoc.makeElementsFromMap(ATTRIBUTES_TAG, attributes);
         myXMLDoc.addChildElement(unitElement, attributeElement);
-        Element actionElement = myXMLDoc.makeElementsFromMap(ACTIONS_TAG, actions);
-        myXMLDoc.addChildElement(unitElement, actionElement);
+        //TODO: fix this for actions 
+        //Element actionElement = myXMLDoc.makeElementsFromMap(ACTIONS_TAG, actions);
+        //myXMLDoc.addChildElement(unitElement, actionElement);
     }
 
     /**
@@ -273,6 +236,43 @@ public class GameEditorController extends JFrame {
             System.exit(0);
         }
     }
+    
+    /**
+     * returns the parameters of the constructor in the desired class.
+     * @param className the class path
+     * @return a list of parameters as strings
+     * @throws ClassNotFoundException
+     */
+    public List<String> getParametersForAction(String className) throws ClassNotFoundException {
+        List<String> parameters = new ArrayList<String>();
+        //TODO: get rid of magic string
+        Class c = Class.forName(ACTION_PACKAGE_PATH + "." + className + "Factory");
+        Constructor cons = c.getConstructors()[0];
+        Class[] parameterClasses = cons.getParameterTypes();
+        Annotation[] annotations = cons.getDeclaredAnnotations();
+        for (Class parameterClass: parameterClasses) {
+            parameters.add(parameterClass.getSimpleName().toString());
+        }
+        return parameters;
+    }
+    
+    /**
+     * gets the available actions for the gam developer.
+     * @param actionPackageName is the package where the action factories are.
+     * @return 
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public List<String> getAvailableActions() throws IOException, ClassNotFoundException {
+        List<String> actions = new ArrayList<String>();
+        List<Class> actionClasses = getClassesInPackage(ACTION_PACKAGE_PATH);
+        for (Class actionClass : actionClasses) {
+            String action = actionClass.getSimpleName().toString();
+            action = action.substring(0, action.length()-"Factory".length());
+            actions.add(action);
+        }
+        return actions;        
+    }
 
     /**
      * Get the classes in this package.
@@ -329,12 +329,21 @@ public class GameEditorController extends JFrame {
             names.add(c.getName().substring(packageName.length() + 1,
                                             c.getName().length()));
         }
-
-        // TODO: get rid of this general term
-        if (names.contains("Action")) {
-            names.remove("Action");
-        }
         return names;
+    }
+    
+    /**
+     * gets the attributes as strings for the game developer.
+     * @return the attributes as a list of strings
+     * @throws ClassNotFoundException
+     */
+    public List<String> getAttributes() throws ClassNotFoundException {
+        List<String> fields = new ArrayList<String>();
+        Field[] fieldList = getFieldsInClass(ATTRIBUTES_CLASS_PATH);
+        for (Field field : fieldList) {
+            fields.add(field.getName());
+        }
+        return fields;
     }
 
     /**
@@ -345,13 +354,9 @@ public class GameEditorController extends JFrame {
      * @throws ClassNotFoundException
      */
     @SuppressWarnings("rawtypes")
-    public List<String> getFieldsInClass (String className) throws ClassNotFoundException {
-        List<String> fields = new ArrayList<String>();
+    private Field[] getFieldsInClass (String className) throws ClassNotFoundException {
         Class attributesClass = Class.forName(className);
         Field fieldList[] = attributesClass.getDeclaredFields();
-        for (Field field : fieldList) {
-            fields.add(field.getName());
-        }
-        return fields;
+        return fieldList;
     }
 }

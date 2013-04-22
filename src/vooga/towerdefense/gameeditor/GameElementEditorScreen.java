@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import com.sun.xml.internal.ws.util.StringUtils;
 
 
 /**
@@ -25,7 +27,7 @@ import javax.swing.JTextField;
  * 
  * @author Angelica Schwartz
  */
-public abstract class GameElementEditorScreen extends GameEditorScreen {
+public class GameElementEditorScreen extends GameEditorScreen {
 
     /**
      * default serialized id.
@@ -36,6 +38,14 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
      */
     private static final String USER_DIR = "user.dir";
     /**
+     * title of this screen.
+     */
+    private static final String TITLE = "GAME ELEMENT ";
+    /**
+     * the next screen is the wave editor screen.
+     */
+    private static final String NEXT_SCREEN_NAME = "WaveEditorScreen";;
+    /**
      * constant for text area width.
      */
     private static final int TEXT_AREA_WIDTH = 10;
@@ -44,15 +54,6 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
      */
     private static final int TEXT_AREA_HEIGHT = 25;
     /**
-     * class path for the attribute constants interface.
-     */
-    private static final String ATTRIBUTES_CLASS_PATH =
-            "vooga.towerdefense.attributes.AttributeConstants";
-    /**
-     * package path for actions package.
-     */
-    private static final String ACTION_PACKAGE_PATH = "vooga.towerdefense.action";
-    /**
      * constant for the attribute selector button.
      */
     private static final String ATTRIBUTES_ADD_BUTTON_TEXT = "Add attribute";
@@ -60,6 +61,10 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
      * constant for the action selector button.
      */
     private static final String ACTION_ADD_BUTTON_TEXT = "Add action";
+    /**
+     * constant for follow up action button. 
+     */
+    private static final String FOLLOW_UP_ACTION_TEXT = "Add follow up action";
     /**
      * constant for the action delete button.
      */
@@ -85,19 +90,43 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
      */
     private static final String IMAGE_SELECTOR_KEYWORD = "Select Image From File";
     /**
+     * keyword for units.
+     */
+    private static final String UNIT_TYPE = "Unit";
+    /**
+     * keyword for towers.
+     */
+    private static final String TOWER_TYPE = "Tower";
+    /**
+     * keyword for projectiles.
+     */
+    private static final String PROJECTILE_TYPE = "Projectile";
+    /**
+     * text on button to add a new type.
+     */
+    private static final String ADD_NEW_TYPE_TEXT = "Add new type";
+    /**
      * used to choose file in the directory.
      */
     private JFileChooser myFileChooser;
     /**
-     * box to enter the name of the tower.
+     * box to enter the type of the game element.
+     */
+    private JComboBox myTypeBox;
+    /**
+     * button add a new type of game element.
+     */
+    private JButton myAddTypeButton;
+    /**
+     * box to enter the name of the game element.
      */
     private JTextField myNameBox;
     /**
-     * box to enter the image of the tower.
+     * box to enter the image of the game element.
      */
     private JTextField myImageBox;
     /**
-     * button to get the image of the tower from the file system.
+     * button to get the image of the game element from the file system.
      */
     private JButton myImageSelector;
     /**
@@ -105,11 +134,11 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
      */
     private JComboBox myAttributesBox;
     /**
-     * button to add attributes to this tower.
+     * button to add attributes to this game element.
      */
     private JButton myAddAttributeButton;
     /**
-     * button to delete attributes from this tower.
+     * button to delete attributes from this game element.
      */
     private JButton myDeleteAttributeButton;
     /**
@@ -126,17 +155,25 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
      */
     private JComboBox myActionsBox;
     /**
-     * button to add actions to this tower.
+     * button to add actions to this game element.
      */
     private JButton myAddActionButton;
     /**
-     * button to delete actions from this tower.
+     * button to add follow up actions to the selected action.
+     */
+    private JButton myAddFollowUpActionButton;
+    /**
+     * button to delete actions from this game element.
      */
     private JButton myDeleteActionButton;
     /**
      * area where actions the user has selected are displayed.
      */
     private JTextArea myActionsSelected;
+    /**
+     * arraylist with the default available types.
+     */
+    private List<String> myAvailableTypes;
 
     /**
      * Constructor.
@@ -145,17 +182,19 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
      * @param controller
      */
     public GameElementEditorScreen (Dimension size,
-                                    GameEditorController controller,
-                                    String title,
-                                    String nextScreen) {
-        super(size, controller, title, nextScreen);
+                                    GameEditorController controller) {
+        super(size, controller, TITLE, NEXT_SCREEN_NAME);
         myFileChooser = new JFileChooser(System.getProperties().getProperty(USER_DIR));
+        myAvailableTypes = new ArrayList<String>();
+        myAvailableTypes.add(UNIT_TYPE);
+        myAvailableTypes.add(TOWER_TYPE);
+        myAvailableTypes.add(PROJECTILE_TYPE);
         makeScreen();
     }
 
     /**
      * helper method to create all the parts of
-     * the TowerEditorScreen.
+     * the game elementEditorScreen.
      */
     private void makeScreen () {
         addCharacteristicsPanel();
@@ -227,7 +266,7 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
     }
     
     /**
-     * clears all fields in the TowerEditorScreen.
+     * clears all fields in the game elementEditorScreen.
      */
     @Override
     public void clearScreen () {
@@ -243,6 +282,17 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
      */
     private void addCharacteristicsPanel () {
         JPanel characteristicsPanel = new JPanel();
+        myTypeBox = new JComboBox();
+        for (String type : myAvailableTypes) {
+            myTypeBox.addItem(type);
+        }
+        JPanel typePanel = new JPanel(new BorderLayout());
+        typePanel.add(new JLabel("Type: "), BorderLayout.NORTH);
+        myAddTypeButton = new JButton(ADD_NEW_TYPE_TEXT);
+        myAddTypeButton.addMouseListener(getMouseAdapter());
+        typePanel.add(myTypeBox, BorderLayout.CENTER);
+        typePanel.add(myAddTypeButton, BorderLayout.SOUTH);
+        add(typePanel);
         myNameBox = new JTextField(TEXT_AREA_WIDTH);
         myImageBox = new JTextField(TEXT_AREA_WIDTH);
         myImageSelector = new JButton(IMAGE_SELECTOR_KEYWORD);
@@ -266,7 +316,7 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
         JPanel westSide = new JPanel(new BorderLayout());
         westSide.add(new JLabel(ACTION_TITLE), BorderLayout.NORTH);
         myActionsBox = new JComboBox();
-        List<String> actions = getController().getClassNamesInPackage(ACTION_PACKAGE_PATH);
+        List<String> actions = getController().getAvailableActions();
         for (String a : actions) {
             myActionsBox.addItem(a);
         }
@@ -278,6 +328,9 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
         myAddActionButton.addMouseListener(getMouseAdapter());
         JPanel optionsSubPanel = new JPanel(new BorderLayout());
         optionsSubPanel.add(myAddActionButton, BorderLayout.NORTH);
+        myAddFollowUpActionButton = new JButton(FOLLOW_UP_ACTION_TEXT);
+        myAddFollowUpActionButton.addMouseListener(getMouseAdapter());
+        optionsSubPanel.add(myAddFollowUpActionButton, BorderLayout.CENTER);
         myDeleteActionButton = new JButton(ACTION_DELETE_BUTTON_TEXT);
         myDeleteActionButton.addMouseListener(getMouseAdapter());
         optionsSubPanel.add(myDeleteActionButton, BorderLayout.SOUTH);
@@ -298,7 +351,7 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
         JPanel optionsSubPanel1 = new JPanel(new BorderLayout());
         optionsSubPanel1.add(new JLabel(ATTRIBUTE_TITLE), BorderLayout.NORTH);
         myAttributesBox = new JComboBox();
-        List<String> attributes = getController().getFieldsInClass(ATTRIBUTES_CLASS_PATH);
+        List<String> attributes = getController().getAttributes();
         attributes.add(NEW_TEXT);
         for (String a : attributes) {
             myAttributesBox.addItem(a);
@@ -329,7 +382,12 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
      */
     @Override
     public void addAdditionalMouseBehavior (MouseEvent e) {
-        if (e.getSource().equals(myImageSelector)) {
+        if (e.getSource().equals(myAddTypeButton)) {
+            String newType = JOptionPane.showInputDialog("Enter your new type");
+            myTypeBox.addItem(newType);
+            myTypeBox.setSelectedItem(newType);
+        }
+        else if (e.getSource().equals(myImageSelector)) {
             int response = myFileChooser.showOpenDialog(null);
             if (response == JFileChooser.APPROVE_OPTION) {
                 File file = myFileChooser.getSelectedFile();
@@ -351,8 +409,22 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
             }
         }
         else if (e.getSource().equals(myAddActionButton)) {
-            myActionsSelected.setText(myActionsSelected.getText()
-                    + myActionsBox.getSelectedItem().toString() + "\n");
+            myActionsSelected.setText(myActionsSelected.getText() + addAction());
+        }
+        else if (e.getSource().equals(myAddFollowUpActionButton)) {
+            String parentAction = myActionsSelected.getSelectedText();
+            String childAction = addAction();
+            for (char c : parentAction.toCharArray()) {
+                if (c == '\t') {
+                    childAction = "\t" + childAction;
+                }
+            }
+            childAction = "\t" + childAction;
+            myActionsSelected.setText(myActionsSelected.getText().substring(0, myActionsSelected.getText().indexOf(parentAction))
+                                      + parentAction + "\n" + childAction
+                                      + myActionsSelected.getText().substring(myActionsSelected.getText().indexOf(parentAction) 
+                                                                              + parentAction.length()+1, myActionsSelected.getText().length()));
+            
         }
         else if (e.getSource().equals(myDeleteAttributeButton)) {
             myAttributesSelected.replaceSelection("");
@@ -361,13 +433,50 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
             myActionsSelected.replaceSelection("");
         }
     }
+    
+    /**
+     * returns the action as a string.
+     * @return
+     */
+    private String addAction() {
+        List<String> valuesToPromptFor;
+        try {
+            valuesToPromptFor = getController().getParametersForAction(myActionsBox.getSelectedItem().toString());
+            String display = myActionsBox.getSelectedItem().toString();
+            for (String value: valuesToPromptFor) {
+                display += " " + JOptionPane.showInputDialog("Enter a " + value + " for this action");
+            }
+            return display + "\n";
+        }
+        catch (ClassNotFoundException e1) {
+            e1.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * adds a game element to the game.
-     * @param name is the name of the element
-     * @param path is the image path
-     * @param attributes is the map of the attribute name to the value
-     * @param actionsis the map of the action name to the value
      */
-    public abstract void addElementToGame ();
+    public void addElementToGame () {
+        getController().addGameElementToGame(myTypeBox.getSelectedItem().toString(), myNameBox.getText(),
+                                             myImageBox.getText(),
+                                             makeMap(myAttributesSelected.getText()),
+                                             myActionsSelected.getText());
+    }
+    
+    /**
+     * helper method to make a map from the string from a text area.
+     * @param s is a string from a text area.
+     */
+    private Map<String, String> makeMap(String s) {
+        Map<String, String> map = new HashMap<String, String>();
+        String[] subParts = s.split("\n");
+        for (String subPart : subParts) {
+            while (!subPart.equals("")) {
+                String[] nameAndValue = subPart.split(" ");
+                map.put(nameAndValue[0], nameAndValue[1]);
+            }
+        }
+        return map;
+    }
 }

@@ -33,7 +33,7 @@ public class MapEditorScreen extends GameEditorScreen {
 
     private static final long serialVersionUID = 1L;
     public static final String CLASS_INDICATOR_STRING = ".png";
-    private static final String NEXT_SCREEN_NAME = "ProjectileEditorScreen";
+    private static final String NEXT_SCREEN_NAME = "GameElementEditorScreen";
     private static final String TITLE_NAME = "MAP ";
     private static final String TILE_IMAGES_CLASS_PATH = "vooga.towerdefense.images.map";
 
