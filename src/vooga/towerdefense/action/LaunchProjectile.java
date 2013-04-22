@@ -39,7 +39,6 @@ public class LaunchProjectile extends Action {
      */
     @Override
     public void executeAction (double elapsedTime) {
-    	System.out.print("shooted!!!");
         GameElement projectile = myProjectileFactory.createProjectile(myStart, myTarget);
         projectile.addAction(new MoveToDestination(myStart.getCenter(), myTarget.getCenter(), 
     			projectile.getAttributeManager().getAttribute(AttributeConstants.MOVE_SPEED)));

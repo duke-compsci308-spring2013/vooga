@@ -71,7 +71,6 @@ public class ExampleUnitFactory extends GameElementFactory {
         myDeath.addFollowUpAction(new RemoveGameElement(myGameMap, myGameElement));
         actions.add(myDeath);
         myGameElement.addActions(actions);
-        System.out.println("TROOOOOLLS IN THE DUNGEON!");  //Yeah, its late...
         return myGameElement;
     }
 

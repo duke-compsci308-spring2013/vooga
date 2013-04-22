@@ -94,7 +94,6 @@ public class GameEditorController extends JFrame {
      */
     public void addLevelToGame () {
         // TODO: implement
-        System.out.println("added level to game");
     }
 
     /**
@@ -102,7 +101,6 @@ public class GameEditorController extends JFrame {
      */
     public void addMapToGame () {
         // TODO: implement
-        System.out.println("added map to game");
     }
 
     /**
@@ -110,7 +108,7 @@ public class GameEditorController extends JFrame {
      */
     public void addProjectileToGame () {
         // TODO: implement
-        System.out.println("added projectile to game");
+
     }
 
     /**
@@ -118,7 +116,6 @@ public class GameEditorController extends JFrame {
      */
     public void addUnitToGame () {
         // TODO: implement
-        System.out.println("added unit to game");
         //update myCreatedUnits to contain the new unit
         
     }
@@ -159,7 +156,6 @@ public class GameEditorController extends JFrame {
      */
     public void addTowerToGame () {
         // TODO: implement
-        System.out.println("added tower to game");
     }
 
     /**
@@ -167,7 +163,6 @@ public class GameEditorController extends JFrame {
      */
     public void addViewToGame () {
         // TODO: implement
-        System.out.println("add this view to game");
     }
 
     /**
@@ -175,7 +170,6 @@ public class GameEditorController extends JFrame {
      */
     public void addWaveToGame () {
         // TODO: implement
-        System.out.println("add wave to game");
     }
 
     public void setMapSize (Dimension mapSize) {
