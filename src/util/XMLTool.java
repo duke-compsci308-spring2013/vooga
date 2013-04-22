@@ -213,7 +213,10 @@ public class XMLTool {
         }
         return parent;
     }
-
+    
+    /*
+     * Getter methods.
+     */
     /**
      * This method returns the first element in the document with an specific tag.
      * Be careful with this method! If you have many instances of the same tag, use
@@ -223,9 +226,6 @@ public class XMLTool {
      *        the tag parameter is case-sensitive, otherwise it depends on the case-sensitivity
      *        of the mark up language in use.
      * @return The FIRST element with the tag.
-     * Getters: tag to tag operations
-     * get value of a leaf element tag as: String, integer, double, ?... sound?, Sprite?
-     * Get values of parent elements as a map, arrays of tags
      */
     public Element getElementFromTag (String tag) {
         return (Element) myDoc.getElementsByTagName(tag).item(0);
@@ -298,6 +298,20 @@ public class XMLTool {
             }
         }
         return map;
+    }
+    
+    /**
+     * Creates a map with the tag (as a map key) and the content (as a map value) of all the
+     * children elements of the first node with a particular tag.
+     * If the parent element does not contain children, this method returns an empty map.
+     * 
+     * @param parentTag The tag of the parent element node.
+     * @return a map with the tag (as a map key) and the content (as a map value) of all the
+     *         children elements of a particular node.
+     */
+    public Map<String, String> getMapFromParentTag (String parentTag) {
+        Element parent = getElementFromTag(parentTag);
+        return getMapFromParentElement(parent);
     }
     
     /**
