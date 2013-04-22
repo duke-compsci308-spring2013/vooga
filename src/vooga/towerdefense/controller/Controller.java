@@ -39,6 +39,7 @@ import vooga.towerdefense.view.TDView;
  * @author Angelica Schwartz
  * @author Erick Gonzalez
  * @author Leonard K. Ng'eno
+ * @author Jimmy Longley
  */
 public class Controller {
 
@@ -86,7 +87,6 @@ public class Controller {
 		myView = new TDView(this);
 		myControlMode = new SelectMode();
 	}
-
 
 	/**
 	 * cancels the purchase and stops painting ghost image.
@@ -258,10 +258,10 @@ public class Controller {
 	public void startNextWave() {
 		myModel.startNextWave();
 	}
-	
+
 	public Location getPointSnappedToGrid(Location location) {
 		return myModel.getMap().getTile(location).getCenter();
-		
+
 	}
 
 	/**
@@ -273,9 +273,10 @@ public class Controller {
 	 * @param itemImage
 	 *            is the image
 	 */
-	public void paintGhostImage(Pixmap itemImage, Location location, Dimension size) {
+	public void paintGhostImage(Pixmap itemImage, Location location,
+			Dimension size) {
 		displayMap();
-		myModel.getMap().addGhostImage(itemImage,location, size);
+		myModel.getMap().addGhostImage(itemImage, location, size);
 	}
 
 	/**
