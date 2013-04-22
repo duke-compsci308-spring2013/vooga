@@ -31,9 +31,7 @@ public class ModifyAttributeValue extends Action {
     public void executeAction (double elapsedTime) {
         double scaledModifier = myAppliedAttribute.getValue()*elapsedTime/1000.0;
         for (GameElement e : getTargets()) {
-            System.out.println(e.getCenter());
             Attribute toChange = e.getAttributeManager().getAttribute(myTargetAttribute);
-            System.out.println(toChange);
             if (toChange != null) {
                 toChange.modifyValue(scaledModifier);
             }

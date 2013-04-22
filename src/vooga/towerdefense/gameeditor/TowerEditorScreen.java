@@ -2,10 +2,11 @@ package vooga.towerdefense.gameeditor;
 
 import java.awt.Dimension;
 
+
 /**
  * TowerEditorScreen is responsible for helping
- *      the game developer make towers.
- *
+ * the game developer make towers.
+ * 
  * @author Angelica Schwartz
  */
 public class TowerEditorScreen extends GameElementEditorScreen {
@@ -18,9 +19,10 @@ public class TowerEditorScreen extends GameElementEditorScreen {
      * next screen constant.
      */
     private static final String NEXT_SCREEN_NAME = "UnitEditorScreen";
-    
+
     /**
      * constructor.
+     * 
      * @param size
      * @param controller
      */
@@ -32,7 +34,7 @@ public class TowerEditorScreen extends GameElementEditorScreen {
      * default serialized id.
      */
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * adds a tower to the game.
      */

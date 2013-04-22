@@ -2,10 +2,11 @@ package vooga.towerdefense.gameeditor;
 
 import java.awt.Dimension;
 
+
 /**
  * ProjectileEditorScreen is responsible for helping
- *      the game developer make projectiles.
- *
+ * the game developer make projectiles.
+ * 
  * @author Angelica Schwartz
  */
 public class ProjectileEditorScreen extends GameElementEditorScreen {
@@ -18,9 +19,10 @@ public class ProjectileEditorScreen extends GameElementEditorScreen {
      * next screen constant.
      */
     private static final String NEXT_SCREEN_NAME = "TowerEditorScreen";
-    
+
     /**
      * constructor.
+     * 
      * @param size
      * @param controller
      */

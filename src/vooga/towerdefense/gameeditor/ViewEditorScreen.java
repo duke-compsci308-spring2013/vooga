@@ -8,10 +8,11 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+
 /**
  * ViewEditorScreen is responsible for helping
- *      the game developer make the view.
- *
+ * the game developer make the view.
+ * 
  * @author Angelica Schwartz
  */
 public class ViewEditorScreen extends GameEditorScreen {
@@ -32,6 +33,7 @@ public class ViewEditorScreen extends GameEditorScreen {
      * title constant.
      */
     private static final String TITLE_NAME = "VIEW ";
+
     /**
      * north constant.
      */
@@ -99,10 +101,11 @@ public class ViewEditorScreen extends GameEditorScreen {
     
     /**
      * Constructor.
+     * 
      * @param size
      * @param controller
      */
-    public ViewEditorScreen(Dimension size, GameEditorController controller) {
+    public ViewEditorScreen (Dimension size, GameEditorController controller) {
         super(size, controller, TITLE_NAME, NEXT_SCREEN_NAME);
         try {
             makeScreen();
@@ -161,19 +164,20 @@ public class ViewEditorScreen extends GameEditorScreen {
     @Override
     public void addElementToGame () {
         // TODO Auto-generated method stub
-        // TODO: get rid of this magic number 
-        getController().setMapSize(new Dimension (500, 600));
+        // TODO: get rid of this magic number
+        getController().setMapSize(new Dimension(500, 600));
         getController().addViewToGame();
     }
 
     /**
      * adds additional mouse behavior specific
-     *          to the ViewEditorScreen.
+     * to the ViewEditorScreen.
+     * 
      * @param e is the MouseEvent
      */
     @Override
     public void addAdditionalMouseBehavior (MouseEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
 }

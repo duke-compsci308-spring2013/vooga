@@ -3,9 +3,10 @@ package vooga.towerdefense.gameeditor;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 
+
 /**
  * temporary placeholder. Will edit soon!
- *
+ * 
  * @author Angelica Schwartz
  */
 public class FinishScreen extends GameEditorScreen {
@@ -26,13 +27,13 @@ public class FinishScreen extends GameEditorScreen {
     @Override
     public void addElementToGame () {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void addAdditionalMouseBehavior (MouseEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

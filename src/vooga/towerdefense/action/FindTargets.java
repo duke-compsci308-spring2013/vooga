@@ -37,7 +37,6 @@ public class FindTargets extends Action {
                    myMap.getTargetsWithinRadius(
                                                 mySource, 
                                                 myScanningRadius.getValue());
-        System.out.println(newTargets);
         for (GameElement e : newTargets) {
             if (e != null) {
                 setTargets(newTargets);

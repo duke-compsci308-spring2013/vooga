@@ -39,7 +39,7 @@ public class ProjectileFactory extends GameElementFactory {
                 new GameElement(DEFAULT_IMAGE, initiator.getCenter(), DEFAULT_SIZE,
                                 DEFAULT_ATTRIBUTE_MANAGER);
         projectile.addActions(DEFAULT_ACTIONS);
-        System.out.println("fireball created!+++++++++++++");
+
 
         List<Action> actions = new ArrayList<Action>();
         actions.add(new MoveToDestination(projectile.getCenter(),

@@ -17,7 +17,8 @@ public abstract class Tile extends Sprite {
     private boolean myIsWalkable;
     private boolean myIsBuildable;
     private int myId;
-
+    private Pixmap myPixmap;
+    
     /**
      * 
      * @param id a tile id
@@ -28,6 +29,7 @@ public abstract class Tile extends Sprite {
     public Tile (int id, Pixmap image, Location center, Dimension size) {
         super(image, center, size);
         myId = id;
+        myPixmap = image;
     }
 
 
@@ -77,5 +79,9 @@ public abstract class Tile extends Sprite {
     
     public void deleteTower() {
         myElement = null;
+    }
+    
+    public Pixmap getPixmap () {
+        return myPixmap;
     }
 }
