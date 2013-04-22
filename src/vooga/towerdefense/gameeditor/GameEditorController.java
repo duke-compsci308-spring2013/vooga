@@ -47,6 +47,7 @@ public class GameEditorController extends JFrame {
     private List<Wave> myCreatedWaves;
     private String myName;
     private XMLTool myXMLDoc;
+    private Element myRoot;
     private Element myUnitParent;
     private Element myTowerParent;
     private Element myProjectileParent;
@@ -65,13 +66,13 @@ public class GameEditorController extends JFrame {
         setPreferredSize(mySize);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myXMLDoc = new XMLTool();
-        Element root = myXMLDoc.makeRoot("Game");
+        myRoot = myXMLDoc.makeRoot("Game");
         myUnitParent = myXMLDoc.makeElement(UNIT_TAG);
         myTowerParent = myXMLDoc.makeElement(TOWER_TAG);
         myProjectileParent = myXMLDoc.makeElement(PROJECTILE_TAG);
-        myXMLDoc.addChildElement(root, myUnitParent);
-        myXMLDoc.addChildElement(root, myTowerParent);
-        myXMLDoc.addChildElement(root, myProjectileParent);       
+        myXMLDoc.addChildElement(myRoot, myUnitParent);
+        myXMLDoc.addChildElement(myRoot, myTowerParent);
+        myXMLDoc.addChildElement(myRoot, myProjectileParent);       
         initializeGUI();
         
         //TODO: remove, this is just for testing
@@ -258,15 +259,20 @@ public class GameEditorController extends JFrame {
                                                          NoSuchMethodException,
                                                          IllegalArgumentException,
                                                          InvocationTargetException {
-        Class[] args = { Dimension.class, GameEditorController.class };
-        Class theClass = Class.forName(nextScreenName);
-        Constructor cons = theClass.getConstructor(args);
-        GameEditorScreen screen = (GameEditorScreen) cons.newInstance(mySize, this);
-        getContentPane().add(screen);
-        screen.display();
-
-        pack();
-        setVisible(true);
+        if (nextScreenName != null) {
+            Class[] args = { Dimension.class, GameEditorController.class };
+            Class theClass = Class.forName(nextScreenName);
+            Constructor cons = theClass.getConstructor(args);
+            GameEditorScreen screen = (GameEditorScreen) cons.newInstance(mySize, this);
+            getContentPane().add(screen);
+            screen.display();
+    
+            pack();
+            setVisible(true);
+        }
+        else {
+            System.exit(0);
+        }
     }
 
     /**

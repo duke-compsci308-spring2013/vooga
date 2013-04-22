@@ -18,11 +18,12 @@ public class FinishScreen extends GameEditorScreen {
     private static final long serialVersionUID = 1L;
     private static final String FINISH_TEXT = "Finish & save file";
     private static final String TITLE_NAME = "FINISH";
+    private static final String NEXT_SCREEN_NAME = null;
     private JButton myFinishButton;
 
     public FinishScreen (Dimension size,
                          GameEditorController controller) {
-        super(size, controller, title, nextScreenName);
+        super(size, controller, TITLE_NAME, NEXT_SCREEN_NAME);
         myFinishButton = new JButton(FINISH_TEXT);
         myFinishButton.addMouseListener(getMouseAdapter());
         add(myFinishButton);
