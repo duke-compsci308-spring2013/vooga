@@ -36,7 +36,7 @@ public abstract class Game{
      * and we need to generate a gamedata object. If you dont plan on using gameData objects
      * then you dont need to implement this method, but if you don't then you cant 
      *  call getGameData from ArcadeInteraction
-     * @return the specific subclass of UserGameData for each game.
+     * @return the specific subclass of GameData for each game.
      */
     public abstract GameData generateNewGameProfile();
     /**

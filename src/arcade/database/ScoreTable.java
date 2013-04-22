@@ -34,33 +34,10 @@ public class ScoreTable extends Table {
      * Constructor but eventually I want to make this part of the abstract class
      */
     public ScoreTable() {
-        establishConnectionToDatabase();
+        myConnection=establishConnectionToDatabase();
+        myPreparedStatement=null;
+        myResultSet=null;
     }
-
-    void establishConnectionToDatabase() {
-
-        try {
-            Class.forName("org.postgresql.Driver");
-        }
-        catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        String url = "jdbc:postgresql://cgi.cs.duke.edu/nrc10";
-        String user = "nrc10";
-        String password = "aUsg5xj2f";
-
-        try {
-            myConnection = DriverManager.getConnection(url, user, password);
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-        myPreparedStatement = null; 
-        myResultSet = null;
-
-    }
-
     /**
      * Closes Connection, ResultSet, and PreparedStatements once done with database
      */
@@ -87,14 +64,14 @@ public class ScoreTable extends Table {
      * @param userid is user id
      * @param highscore of the game
      */
-    public void addNewHighScore (String gameid, String userid, String highscore) {
+    public void addNewHighScore (String gameid, String userid, int highscore) {
         
         String stm = "INSERT INTO scores(gameid, userid, highscore) VALUES (?, ?, ?)";
         try {
             myPreparedStatement = myConnection.prepareStatement(stm);
             myPreparedStatement.setString(GAMEID_COLUMN_INDEX, gameid);
             myPreparedStatement.setString(USERID_COLUMN_INDEX, userid);
-            myPreparedStatement.setString(HIGHSCORE_COLUMN_INDEX, highscore);
+            myPreparedStatement.setInt(HIGHSCORE_COLUMN_INDEX, highscore);
             myPreparedStatement.executeUpdate();
         }
         catch (SQLException e) {
@@ -111,7 +88,7 @@ public class ScoreTable extends Table {
             while (myResultSet.next()) {
                 System.out.print(myResultSet.getString(GAMEID_COLUMN_INDEX) + TABLE_SEPARATOR);
                 System.out.print(myResultSet.getString(USERID_COLUMN_INDEX) + TABLE_SEPARATOR);                
-                System.out.print(myResultSet.getString(HIGHSCORE_COLUMN_INDEX) + TABLE_SEPARATOR);
+                System.out.print(myResultSet.getInt(HIGHSCORE_COLUMN_INDEX) + TABLE_SEPARATOR);
                 System.out.println(myResultSet.getString(SCOREID_COLUMN_INDEX) + TABLE_SEPARATOR);
             }
         }

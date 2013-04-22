@@ -1,6 +1,6 @@
 import java.util.ResourceBundle;
 import arcade.model.Model;
-import arcade.view.LoginView;
+import arcade.view.forms.LoginView;
 
 /**
  * The one class that starts the entire project.

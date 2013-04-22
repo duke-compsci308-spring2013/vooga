@@ -1,0 +1,337 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body bgcolor="white">
+<p>
+This package is part of the CompSci 308 VOOGA Game Engine Project.
+
+
+<p>
+This package contains all of the views for the arcade.  High-level design is explained here.
+
+
+<!-- Fill this in with your high-level design and API examples -->
+
+<p>
+<b> public class MainView extends JFrame </b> <br>
+This represents the main view of the arcade.  The functionality of this class is
+ to switch between which mode is being displayed (Game Center, Social Center, 
+ Game Store, etc.).  These modes are organized using the CardLayout LayoutManager.
+   If we wished to add more modes to the arcade (such as an administration interface),
+   then additional classes that extend JPanel can be created and added to this object.
+<ul>
+<li> public void changeViewPanel(ArcadeMode mode)
+<ul><li> sets the current mode being displayed on the screen.</ul>
+</ul>
+
+<br>
+
+<b> public Enum ArcadeMode </b> <br>
+Used for switching which mode is currently being displayed in MainView
+<ul>
+<li>GAMECENTER
+<li>SOCIALCENTER
+<li>STORE
+</ul>
+
+<br>
+
+<b> public class ButtonPanel extends JPanel </b> <br>
+Contains buttons for switching which mode is being shown in the main view.
+
+<br><br>
+
+<b> public class GameCenterPanel extends JPanel </b> <br>
+Displays all the SnapShots on the screen for which games have been purchased by 
+the user.
+
+<br><br>
+
+<b> public class SnapShot extends JPanel </b> <br>
+Represents the name, rating, and thumbnail picture of a game. When a SnapShot is
+ clicked, launches a DetailView of the game.
+
+<br><br>
+
+<img src = http://people.duke.edu/~ej48/files/MainView.png> <br>
+
+This entire window is the MainView.  The left pane is the ButtonPanel, and the
+center-right pane contains the current mode being displayed, which is the 
+GameCenter in this picture.  This GameCenter is currently displaying two SnapShots.
+(SnapShots will later be refactored to look nicer)
+
+<br> <br>
+
+<b> public class DetailView extends JFrame </b> <br>
+After clicking on a Snapshot, this DetailView is displayed.  The DetailView 
+displays information about the game such as its name, author, a bigger picture,
+the average rating, a description for the game, and comments for the game.  
+There is also the option for users to add ratings and comments here.  By clicking
+on the Play button, the game represented by this DetailView will be launched.
+If more game specific view stuff should be added (e.g. a network parlor, 
+level editors), launching those capabilities should go into this View.
+  (This will be made more apparent how to do, as an inheritance hierarchy 
+  for DetailView will likely be created soon)
+
+<br><br>
+
+<img src = http://people.duke.edu/~ej48/files/DetailView.png> <br>
+The DetailView in this picture is not completely developed.  The label for 
+the rating will later be a picture of how many stars instead of just a number.
+The comment section here is currently just placeholders for values to be pulled
+in when the database is ready.  Also, the ability to add new comments is not 
+present yet.
+
+<br><br>
+
+<b> public class SocialCenterPanel extends JPanel </b> <br>
+This is not implemented yet.
+
+<br><br>
+
+<b> public class StorePanel extends JPanel </b> <br>
+This view is very similar to that of the GameCenterPanel, except SnapShots for
+all games available are visible here, instead of only those purchased.  Clicking
+on these SnapShots will show a DetailView with an option to buy the game.  The
+StorePanel also has a Publish button for adding new games.  This view is not 
+developed enough to show a screenshot of yet.
+
+<br><br>
+
+<br><br>
+
+<br><br>
+
+<b> Forms subpackage </b> <br>
+It turns out there are a lot of forms to fill out in the Vooga arcade.  These are the login,
+register new user, publish new game, select payment option for buying a game,
+and filling in payment details for the selected payment option.  
+
+<br><br>
+
+<img src = http://people.duke.edu/~ej48/files/FormHierarchy.png> <br>
+The inheritance hierarchy for forms.
+
+<br><br>
+
+<b> public abstract class Form extends JFrame </b> <br>
+This class represents a form that a user can fill out. Defines some useful 
+utility methods that can be used by subclasses for creating common fields in forms.
+
+<ul>
+<li>
+List &lt;JComponent&gt; makeComponents () <br>
+<ul><li>Looks up the file src/arcade/resources/forms/ThisClassName and reads out 
+which components are to be created in what order.  The form then adds those 
+components onto the window.  If an additional subclass of Form is to be created, 
+then an additional resource file needs to be added as well so Form can fill the 
+correct components.
+<li> an example resource file for LoginView: <br>
+createLogo <br>
+createUsernameField <br>
+createPasswordField <br>
+createMessageArea <br>
+createButtons</ul>
+
+<li>
+JComponent createMessageArea()
+<ul><li> Create a message area in the form where an error message can be 
+displayed if the user puts in an invalid input.</ul>
+
+<li>
+void sendMessage(String message)
+<ul><li>Display the provided message as an error to the user.</ul>
+
+
+<li>
+JComponent createInstruction(String instructionKeyword)
+<ul><li>Creates an instruction message in the form.  The parameter is a keyword 
+in the resource bundle corresponding to the message to be displayed. </ul>
+
+<li>
+JPanel createTextPanel(String descriptionKeyword, JTextField inputField)
+<ul><li>Create a description defined by a descriptionKeyword in the resource
+ bundle, and this description labels the provided input text field.</ul>
+
+<li>
+JComponent createImageSelector(String descriptionKeyword, String buttonKeyword, 
+final FileChooserAction action)
+<ul><li>Create a description defined by a descriptionKeyword in the resource
+ bundle, and a button with a label defined by the buttonKeyword in the resource 
+ bundle.  Clicking this button pops up a FileChooser dialog box.  The result of
+ this dialog box is dealt with by the provided FileChooserAction. 
+  A FileChooserAction is a single function interface that has a method for 
+  approve(FileChooser chooser).</ul>
+
+<li>
+JComponent createCheckBox (String checkBoxMessageKeyword, final String instructionKeyword, 
+int width, final FileChooserAction action)
+<ul><li> Create a check box with the label defined by checkBoxMessageKeyword in
+ the resource bundle.  The provided width is used to separate the box and the 
+ label.  Upon checking the box, a dialog box pops up displaying an instruction 
+ defined by instructionKeyword in the resource bundle and prompts the user to 
+ select a file in the FileChooser.  The file chosen is dealt with appropriately 
+ by the provided FileChooserAction.</ul>
+
+<li>
+JComponent createButton(String buttonKeyword, ActionListener action)
+<ul><li>Create a button with a label defined by a buttonKeyword in the resource 
+bundle and an action to be performed if the button is clicked.</ul>
+
+</ul>
+
+<b> public abstract class Account extends Form </b> <br>
+has creation of fields for username and password.  Any form that represents an 
+account with a username and password should extend this class.
+
+<br><br>
+
+<b>public class LoginView extends Account </b> <br>
+The initial view when the arcade is launched.  Gives the user the option to 
+login or create a new account.  
+<ul>
+<li>void login()
+<ul><li>sends username and password to be authenticated.  If a LoginErrorException 
+is thrown, then displays an error message on the screen.  If successful,
+then the MainView of the arcade is opened. </ul>
+</ul>
+
+<img src = http://people.duke.edu/~ej48/files/Login.png> <br>
+Trying to login in
+
+<br><br><br>
+
+<img src = http://people.duke.edu/~ej48/files/LoginFailure.png> <br>
+Was not a valid account, so got an error message
+
+<br><br>
+
+<b> public class RegisterView extends Account </b> <br>
+This view is created when the register button is hit in the LoginView.  The 
+RegisterView is a form allowing a new user to create an account.
+<ul>
+<li> void registerNewUser()
+<ul><li> is called upon hitting register button.  Tries to register a new user.  
+Some exception handling is dealt with: UsernameFormatException if username is not 
+a valid format, DOBFormatException if date of birth formatted incorrectly, 
+UsernameTakenException if the desired username has already been taken.  
+If successful, then logs in and MainView is displayed. </ul> 
+</ul>
+
+<img src = http://people.duke.edu/~ej48/files/Register.png> <br>
+Trying to register a new account for myself.
+
+<br><br><br>
+
+<img src = http://people.duke.edu/~ej48/files/RegisterFailureInvalidName.png> <br>
+If I try to register with an invalid username such as an empty string, the 
+UsernameFormatException gets thrown, and I get this error message.
+
+<br><br><br>
+
+<img src = http://people.duke.edu/~ej48/files/RegisterFailureTaken.png> <br>
+If I try to register with a username that's already taken, the UsernameTakenException
+is thrown and I get this error message.
+
+<br><br><br>
+
+<img src = http://people.duke.edu/~ej48/files/RegisterFailureInvalidDOB.png> <br>
+If I try to register with a improperly formatted date of birth, the DOBFormatException
+is thrown and I get the error message and a reminder of how to format that field.
+
+<br><br>
+ 
+<b>public class PublishView extends Form </b><br>
+This view is created by clicking the publish button in the game store. 
+ Allows a game programmer to graphically enter all the required fields to 
+ publish a game and display it in the arcade game store.
+ 
+<ul>
+<li>void publish
+<ul><li>Try to publish a new game.  Invalid inputs are dealt with through
+exception handling </ul>
+</ul>
+
+<img src = http://people.duke.edu/~ej48/files/Publish.png> <br>
+Filling out the publish view.
+
+<br><br><br>
+
+<img src = http://people.duke.edu/~ej48/files/PublishDescription.png> <br>
+Clicking on the enter a description button expands the window to include a new
+text field.
+
+<br><br><br>
+
+<img src = http://people.duke.edu/~ej48/files/PublishAboutToFail.png>
+<img src = http://people.duke.edu/~ej48/files/PublishFail.png>
+<br>
+If I try to publish a game with an invalid price, an InvalidPriceException is thrown,
+and I get this error message, asking me to try it again.
+
+<br><br><br>
+
+<img src = http://people.duke.edu/~ej48/files/PublishAboutToFail1.png>
+<img src = http://people.duke.edu/~ej48/files/PublishFail1.png>
+<br>
+If I try to publish a game with an invalid age rating, an AgeException is thrown,
+and I get this error message.
+
+<br><br>
+
+<b>public class PaymentSelection extends Form</b><br>
+A view for choosing which payment method to use for buying a game. This view
+is created upon clicking the buy button from the GameStore. Choosing an option 
+will create the appropriate PaymentView to fill in the corresponding 
+payment information. To add additional options, write the classpath of the 
+PaymentView to create in the arcade/resources/PaymentOptions file, and in the 
+ResourceBundle, enter a key as the PaymentView class name, and as the 
+locale-specific translation for that payment option as its value.
+
+<br><br>
+<img src = http://people.duke.edu/~ej48/files/PaymentSelection.png><br>
+Currently, only the Duke Card payment option has been added to the arcade.
+
+<br><br>
+
+<b> public abstract class PaymentView extends Form </b> <br>
+This is where a user can enter his/her payment
+ information to buy a game.  Different types of payment systems (e.g. 
+ credit card, PayPal, Bitcoin) should 
+ subclass this view to tailor which fields they need.  This view defines 
+ only a Buy button which calls the abstract performTransaction() method
+
+<ul>
+<li>abstract void performTransaction()
+<ul><li>gets all of the payment information entered by the user and submits it 
+to be processed</ul>
+</ul>
+
+<b>public class DukePaymentView extends PaymentView</b><br>
+The view where a user can enter his/her payment information to buy a game, 
+tailored for the DukePaymentManager.  This does not actually do anything.
+
+<br><br>
+<img src = http://people.duke.edu/~ej48/files/DukePaymentView.png><br>
+The view to enter the Duke FLEX payment information.
+
+
+<br><br><br><br>
+
+<b> Payment design </b> <br>
+<img src = http://people.duke.edu/~ej48/files/Payment.png>
+A PaymentView represents a form of payment information to be filled out.
+The DukePaymentView is a specific implementation of PaymentView, requiring
+payment information of name and Duke Card number.  After filling out the 
+PaymentView, the Model is given sufficient information to instantiate the appropriate
+PaymentManager to deal with the request and hands the request off to its 
+PaymentManager.  The PaymentManager then attempts to do the transaction.  If it
+fails to go through, an InvalidPaymentException is thrown back to the PaymentView
+so that it can inform the user. Otherwise, the game is successfully purchased
+and added to the Game Center.
+
+
+</body>
+</html>
+

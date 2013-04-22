@@ -36,34 +36,10 @@ public class UserGameDataTable extends Table {
      * Constructor, eventually want this to be in superclass
      */
     public UserGameDataTable() {
-        establishConnectionToDatabase();
+        myConnection=establishConnectionToDatabase();
+        myPreparedStatement=null;
+        myResultSet=null;
     }
-
-    void establishConnectionToDatabase() {
-
-        try {
-            Class.forName("org.postgresql.Driver");
-        }
-        catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        String url = "jdbc:postgresql://cgi.cs.duke.edu/nrc10";
-        String user = "nrc10";
-        String password = "aUsg5xj2f";
-
-
-        try {
-            myConnection = DriverManager.getConnection(url, user, password);
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-        myPreparedStatement = null; 
-        myResultSet = null;
-
-    }
-
     /**
      * Closes Connection, ResultSet, and PreparedStatements once done with database
      */
@@ -88,7 +64,11 @@ public class UserGameDataTable extends Table {
      * Add new user game data to table 
      * @param gameid is game id
      * @param userid is user id
+
      * @param highscore of the game
+
+     * @param highscore of the game
+
      */
     public void createNewUserGameData (String gameid, String userid) {
         
@@ -105,12 +85,14 @@ public class UserGameDataTable extends Table {
         }
     }
     
+
     /**
      * Updates a high score given userid and gameid
      * @param gameid is game id
      * @param userid is user id
      * @param highscore of the game
      */
+
     public void updateHighScore(String userid, String gameid, String highscore) {
         String stm = "UPDATE usergamedata SET highscore = '" + highscore + "' WHERE userid = '" + userid + "' AND gameid = '" + gameid + "'" ;
         try {

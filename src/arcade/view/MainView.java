@@ -1,113 +1,98 @@
-
 package arcade.view;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.util.Collection;
-import java.util.List;
 import java.util.ResourceBundle;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import arcade.games.GameInfo;
 import arcade.model.Model;
-import arcade.view.panels.ButtonPanel;
-import arcade.view.panels.GameCenterPanel;
-import arcade.view.panels.SocialCenterPanel;
-import arcade.view.panels.StorePanel;
+import arcade.view.modes.ArcadeMode;
+import arcade.view.modes.GameCenterPanel;
+import arcade.view.modes.SocialCenterPanel;
+import arcade.view.modes.StorePanel;
+
+
 /**
+ * The main view of the arcade. From here, buttons in its ButtonPanel can be clicked
+ * to switch which mode is currently visible.
  * 
- * @author David Liu
- *
+ * @author David Liu, Ellango Jothimurugesan
+ * 
  */
 @SuppressWarnings("serial")
-
 public class MainView extends JFrame {
-	private static String TITLE = "The Awesome Vooga Center";
-	private static final int WINDOW_WIDTH = 800;
-	private static final int WINDOW_HEIGHT = 620;
-	private static final String GAMECENTER = "Game Center";
-	private static final String SOCIALCENTER = "Social Center";
-	private static final String STORE = "Game Store";
-	private static final String[] centers = { GAMECENTER, SOCIALCENTER, STORE };
-	private JPanel myButtonPanel, myViewPanel;
-	private JPanel[] myViewPanelList;
-	private JPanel myContentPanel;
-	private Model myModel;
-	private ResourceBundle myResources;
+    private static final int WINDOW_WIDTH = 800;
+    private static final int WINDOW_HEIGHT = 600;
+    private JPanel myViewPanel;
+    private Model myModel;
+    private ResourceBundle myResources;
 
+    /**
+     * Creates the MainView with the provided Model and ResourceBundle
+     * 
+     * @param model
+     * @param rb
+     */
+    public MainView (Model model, ResourceBundle rb) {
+        myModel = model;
+        myResources = rb;
 
+        JPanel contentPane = (JPanel) getContentPane();
+        contentPane.setBackground(Color.WHITE);
+        contentPane.setLayout(new BorderLayout());
+        contentPane.add(new ButtonPanel(this, myResources), BorderLayout.WEST);
+        contentPane.add(makeViewPanel(), BorderLayout.CENTER);
 
+        setTitle(rb.getString(TextKeywords.TITLE));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }    
 
-	/**
-	 * 
-	 * @param model
-	 * @param rb
-	 */
-	public MainView (Model model, ResourceBundle rb) {
-		myModel = model;
-		myResources = rb;
-		setTitle(TITLE);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, WINDOW_WIDTH, WINDOW_HEIGHT);
-		myContentPanel = (JPanel) getContentPane();
-		myContentPanel.setBackground( Color.WHITE );
-		myContentPanel.setLayout(null);
+    /**
+     * Makes the panel where the mode will be showing.
+     */
+    private JPanel makeViewPanel () {
+        myViewPanel = new JPanel(new CardLayout());
+        
+        myViewPanel.add(new GameCenterPanel(myModel, myResources), ArcadeMode.GAMECENTER.name());
+        myViewPanel.add(new SocialCenterPanel(), ArcadeMode.SOCIALCENTER.name());
+        myViewPanel.add(new StorePanel(myModel, myResources), ArcadeMode.STORE.name());
+        
+        changeViewPanel(ArcadeMode.GAMECENTER);
+        return myViewPanel;
+    }
 
-		// Panels
-		myButtonPanel = new ButtonPanel(this);
-		myButtonPanel.setBounds(0, 0, 140, WINDOW_HEIGHT);
-		myContentPanel.add(myButtonPanel);
+    /**
+     * Change which mode is currently showing in myViewPanel
+     */
+    public void changeViewPanel (ArcadeMode mode) {
+        CardLayout cards = (CardLayout) (myViewPanel.getLayout());
+        cards.show(myViewPanel, mode.name());
+    }
 
-		createViewPanel();
-		// Buttons
-
-		
-		setVisible(true);
-	}
-
-	/**
-	 * 
-	 */
-	private void createViewPanel () {
-		myViewPanelList = new JPanel[3];
-		myViewPanelList[0] = new GameCenterPanel(this, myModel);
-		myViewPanelList[1] = new SocialCenterPanel();
-		myViewPanelList[2] = new StorePanel(myModel, myResources);
-
-		myViewPanel = new JPanel(new CardLayout());
-		myViewPanel.setBounds(150, 0, 650, 600);
-		myViewPanel.add(myViewPanelList[0], GAMECENTER);
-		myViewPanel.add(myViewPanelList[1], SOCIALCENTER);
-		myViewPanel.add(myViewPanelList[2], STORE);
-		initializeViewPanel();
-		myContentPanel.add(myViewPanel);
-	}
-
-	/**
-	 * 
-	 */
-	private void initializeViewPanel () {
-		changeViewPanel(0);
-	}
-
-	/**
-	 * 
-	 * @param index
-	 */
-	public void changeViewPanel (int index) {
-		// Second trial
-		CardLayout temp = (CardLayout) (myViewPanel.getLayout());
-		temp.show(myViewPanel, centers[index]);
-	}
-
-	public Collection<GameInfo> getGameList () {
-		return myModel.getGameList();
-	}
-	
-	public ResourceBundle getResources() {
-	    return myResources;
-	}
+    /**
+     * When a game is done being played, pop up a dialog box with their score,
+     * high scores, and an option to share on social networks.
+     * 
+     */
+    public void showEndGameView () {
+        
+    }
+    
+//    public static void main (String[] args) {
+//        ResourceBundle resources = ResourceBundle.getBundle("arcade.resources.English");
+//        
+//        new MainView(new Model(resources, "English"),resources);
+//        
+////      List<GameInfo> games = new ArrayList<GameInfo>();
+////      for (int i = 0; i < 13; i++) 
+////      {
+////          games.add(new GameInfo("example", "examplegenre", "English", this));
+////      }
+////      return games;
+//    }
 
 }
-
