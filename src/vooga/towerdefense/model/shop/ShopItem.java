@@ -12,7 +12,7 @@ import vooga.towerdefense.util.Location;
  * sprite and a factory corresponding to what item it is.
  * 
  * @author Erick Gonzalez
- * @author Leonard Ng'ono
+ * @author Leonard Ng'eno
  * @author JLongley
  * 
  */
