@@ -38,7 +38,6 @@ public class LevelEditorScreen extends GameEditorScreen {
     /**
      * adds this level to the game.
      */
-    @Override
     public void addElementToGame () {
         // TODO Auto-generated method stub
         getController().addLevelToGame();

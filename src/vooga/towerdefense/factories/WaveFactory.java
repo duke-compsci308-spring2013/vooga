@@ -1,8 +1,11 @@
 package vooga.towerdefense.factories;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
+import vooga.towerdefense.action.Action;
+import vooga.towerdefense.action.SpawnEnemy;
 import vooga.towerdefense.factories.examples.ExampleUnitFactory;
 import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.gameElements.Wave;
@@ -25,13 +28,13 @@ public class WaveFactory {
         
         Location spawnLocation = new Location(spawnTile.getCenter().getX(),
                                               spawnTile.getCenter().getY());
-        List<GameElement> units = new ArrayList<GameElement>();
-        for (int i = 0; i < numUnits; i++) {
-
-            units.add(ElementFactory.createElement(spawnLocation));
-        }
-        return new Wave(gameMap, units, spawnTile, spawnDelay, duration);
-
+        Action spawnEnemies = new SpawnEnemy(ElementFactory,
+                                             gameMap, spawnLocation,
+                                             numUnits, spawnDelay);
+        Map<Boolean, Action> waveConditions =
+                new HashMap<Boolean, Action>();
+        waveConditions.put(true, spawnEnemies);
+        return new Wave(gameMap, waveConditions);
     }
 
     //FIXME: I set these to example unit factories for testing

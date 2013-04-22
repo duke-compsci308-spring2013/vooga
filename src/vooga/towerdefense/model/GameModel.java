@@ -65,8 +65,9 @@ public class GameModel {
      */
     public void updateWave (double elapsedTime) {
         myCurrentWave.update(elapsedTime);
-        if (myCurrentWave.waveCompleted())
-            startNextWave();
+//        myCurrentWave.update(elapsedTime);
+//        if (myCurrentWave.waveCompleted())
+//            startNextWave();
     }
 
     public void startNextWave () {
@@ -75,7 +76,6 @@ public class GameModel {
         }
         else {
             // TODO: add win behavior
-            System.out.println("you win!");
         }
     }
 

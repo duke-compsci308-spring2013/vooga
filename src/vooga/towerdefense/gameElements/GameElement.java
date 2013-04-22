@@ -73,7 +73,7 @@ public class GameElement extends Sprite {
     public void paint (Graphics2D pen) {
         super.paint(pen);
 
-        // FIXME: Hardcoded healthbars
+        // FIXME: Hardcoded healthbars 
         Attribute health = getAttributeManager().getAttribute(AttributeConstants.HEALTH);
         if (health != null) {
             pen.setColor(Color.red);

@@ -106,9 +106,8 @@ public class MapEditorScreen extends GameEditorScreen {
     }
 
     /**
-     * adds this level to the game.
+     * adds this map to the game.
      */
-    @Override
     public void addElementToGame () {
         getController().addMapToGame();
     }

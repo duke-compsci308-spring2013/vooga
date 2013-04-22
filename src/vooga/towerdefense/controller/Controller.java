@@ -78,21 +78,15 @@ public class Controller {
 		GameElement duvallTheMighty = codeStyleGenerator
 				.createElement(new Location(450, 200));
 		map.addGameElement(duvallTheMighty);
-		// MergeConflictTower buildMorePylons = new MergeConflictTower(map,
-		// "RAGE", null);
-		// buildMorePylons.initialize(map);
-		// GameElement github = buildMorePylons.createElement(new Location(250,
-		// 400));
-		// map.addGameElement(github);
 		waves.add(WaveFactory.createWave(new ExampleUnitFactory("Troll",
 				new TrollUnitDefinition(), map), 25, map, map
 				.getTile(new Point(25, 275))));
-
 		setLanguage(language);
 		myModel = new GameModel(this, waves, map, new Shop(map));
 		myView = new TDView(this);
 		myControlMode = new SelectMode();
 	}
+
 
 	/**
 	 * cancels the purchase and stops painting ghost image.
