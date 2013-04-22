@@ -39,7 +39,7 @@ public class TowerEditorScreen extends GameElementEditorScreen {
     @Override
     public void addElementToGame () {
         // TODO Auto-generated method stub
-        getController().addTowerToGame();
+        getController().addTowerToGame(getName(), getImagePath(), getAttributes(), getActions());
     }
 
 }

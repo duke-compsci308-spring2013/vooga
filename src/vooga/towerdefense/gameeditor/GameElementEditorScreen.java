@@ -5,7 +5,9 @@ import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -163,6 +165,57 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
     }
     
     /**
+     * gets the name of this game element.
+     * @return a string of the name
+     */
+    public String getName() {
+        return myNameBox.getText();
+    }
+    
+    /**
+     * gets the image path for this game element.
+     * @return a string of the image path
+     */
+    public String getImagePath() {
+        return myImageBox.getText();
+    }
+    
+    /**
+     * gets the attribute map of name to value.
+     * @return a map of string to string
+     */
+    public Map<String, String> getAttributes() {
+        Map<String, String> attributeMap = new HashMap<String, String>();
+        String fullAttributes = myAttributesSelected.getText();
+        while (!fullAttributes.equals("")) {
+            int index = fullAttributes.indexOf("\n");
+            String attribute = fullAttributes.substring(0, index);
+            String[] nameAndValue = attribute.split(" ");
+            attributeMap.put(nameAndValue[0], nameAndValue[1]);
+            fullAttributes = fullAttributes.substring(index+1);
+        }
+        return attributeMap;
+    }
+    
+    /**
+     * gets the action map of name to value.
+     * @return a map of string to string
+     */
+    //TODO: get rid of null values
+    public Map<String, String> getActions() {
+        Map<String, String> actionMap = new HashMap<String, String>();
+        String fullActions = myActionsSelected.getText();
+        while (!fullActions.equals("")) {
+            int index = fullActions.indexOf("\n");
+            String action = fullActions.substring(0, index);
+            String[] nameAndValue = action.split(" ");
+            actionMap.put(nameAndValue[0], "value");
+            fullActions = fullActions.substring(index+1);
+        }
+        return actionMap;
+    }
+    
+    /**
      * clears all fields in the TowerEditorScreen.
      */
     public void clearScreen() {
@@ -171,12 +224,6 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
         myAttributesSelected.setText("");
         myActionsSelected.setText("");
     }
-    
-    /**
-     * adds this element to the game.
-     */
-    @Override
-    public abstract void addElementToGame ();
 
     /**
      * helper method to make the text boxes for
@@ -275,13 +322,13 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
             }
         }
         else if (e.getSource().equals(myAddAttributeButton)) {
-            myAttributesSelected.setText(myAttributesSelected.getText() + "\n"
+            myAttributesSelected.setText(myAttributesSelected.getText()
                     + myAttributesBox.getSelectedItem().toString()
-                    + " = " + myAttributeValue.getText());
+                    + " " + myAttributeValue.getText() + "\n");
         }
         else if (e.getSource().equals(myAddActionButton)) {
-            myActionsSelected.setText(myActionsSelected.getText() + "\n"
-                    + myActionsBox.getSelectedItem().toString());   
+            myActionsSelected.setText(myActionsSelected.getText()
+                    + myActionsBox.getSelectedItem().toString() + "\n");   
         }
         else if (e.getSource().equals(myDeleteAttributeButton)) {
             myAttributesSelected.replaceSelection("");
@@ -290,5 +337,14 @@ public abstract class GameElementEditorScreen extends GameEditorScreen {
             myActionsSelected.replaceSelection("");
         }
     }
+
+    /**
+     * adds a game element to the game.
+     * @param name is the name of the element
+     * @param path is the image path
+     * @param attributes is the map of the attribute name to the value
+     * @param actionsis the map of the action name to the value
+     */
+    public abstract void addElementToGame ();
 }
 

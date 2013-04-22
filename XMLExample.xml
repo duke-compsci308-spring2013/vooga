@@ -1,10 +1,9 @@
-<Life>
-<Human>
-<occupation>Writing good code</occupation>
-<species>Homo Sapiens</species>
+<Earth>
+<Human>Homo sapiens<Robert>
+<occupation>writing good code</occupation>
 <fingers>10</fingers>
 <language>Java</language>
 <eyes>2</eyes>
-<name>Robert C. Duvall</name>
+</Robert>
 </Human>
-</Life>
+</Earth>

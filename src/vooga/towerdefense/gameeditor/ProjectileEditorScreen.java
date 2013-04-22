@@ -39,7 +39,7 @@ public class ProjectileEditorScreen extends GameElementEditorScreen {
     @Override
     public void addElementToGame () {
         // TODO Auto-generated method stub
-        getController().addProjectileToGame();
+        getController().addProjectileToGame(getName(), getImagePath(), getAttributes(), getActions());
     }
 
 }
