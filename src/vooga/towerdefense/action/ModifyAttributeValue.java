@@ -1,7 +1,5 @@
 package vooga.towerdefense.action;
 
-import java.util.ArrayList;
-import java.util.List;
 import vooga.towerdefense.attributes.Attribute;
 import vooga.towerdefense.gameElements.GameElement;
 

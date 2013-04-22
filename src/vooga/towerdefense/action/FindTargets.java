@@ -2,14 +2,11 @@
 package vooga.towerdefense.action;
 
 import java.util.List;
+
 import vooga.towerdefense.attributes.Attribute;
-import vooga.towerdefense.attributes.AttributeConstants;
-import vooga.towerdefense.factories.ProjectileFactory;
-import vooga.towerdefense.factories.examples.ExampleProjectileFactory;
 import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.model.GameMap;
 import vooga.towerdefense.util.Location;
-import vooga.towerdefense.util.Vector;
 
 
 /**

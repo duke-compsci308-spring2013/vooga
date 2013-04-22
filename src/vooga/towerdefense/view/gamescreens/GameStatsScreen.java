@@ -10,6 +10,7 @@ import vooga.towerdefense.util.ValueText;
 
 
 /**
+ * Heads Up Display of the game statistics
  * 
  * @author Leonard K. Ng'eno
  * 
