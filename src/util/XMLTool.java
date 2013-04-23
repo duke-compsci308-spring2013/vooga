@@ -26,35 +26,38 @@ import org.xml.sax.SAXException;
 /**
  * This utility creates an XML document.
  * 
- * It must handle creation/addition, addition to point, removal of Elements and Contents from Maps,
- * Trees.
- * It must provide the user feedback of what has been changed in the file (getters)
- * It must be able to inform the user about its content.
- * 
- * The element operations consist of creating element trees.
- * The use of attributes is avoided because they are more difficult to read
+ * The use of attributes is avoided in this utility because they are more difficult to read
  * and to maintain. (Reference: w3schools.com)
  * 
- * TODO: Create an easy way to store multiple values in an Element?
- * 
- * @WARNING: This code is not yet fully implemented.
- * 
  * @author Yoshida
- * 
  */
 public class XMLTool {
     
     private static final String XML_PARAM_YES = "yes";
-    private static final String RUNTIME_EXP_MESSAGE =
+    private static final String DOC_CREATION_EXCEPTION =
             "Could not create a new instance of a Document.";
+    private static final String INDENT_REFERENCE = "{http://xml.apache.org/xslt}indent-amount";
+    private static final String CLOSE_EXCEPTION = "The writer could not be closed";
+    private static final String CONVERSION_EXCEPTION =
+            "The document could not be converted into a string";
+    private static final String WRITING_EXCEPTION = "File could not be written.";
     private Document myDoc;
     
     /**
      * The constructor of this XML file builder automatically creates a buffered
-     * document with the destination of the argument path, ready to receive elements. *
+     * document with the destination of the argument path, ready to receive elements.
      */
     public XMLTool () {
         makeDoc();
+    }
+    
+    /**
+     * This constructor reads in an XML file from an XMLFilePath
+     * 
+     * @param xmlFilePath The relative OS independent file path from the project folder.
+     */
+    public XMLTool (String xmlFilePath) {
+        readDoc(xmlFilePath);
     }
     
     /**
@@ -66,17 +69,16 @@ public class XMLTool {
             myDoc = dbFactory.newDocumentBuilder().newDocument();
         }
         catch (ParserConfigurationException e) {
-            throw new RuntimeException(RUNTIME_EXP_MESSAGE, e);
+            throw new RuntimeException(DOC_CREATION_EXCEPTION, e);
         }
     }
     
     /**
-     * Sets a new document from an XML file.
-     * This is an XML reader.
+     * Reads a new document from an XML file.
      * 
      * @param path The path with the filename of an XML formatted file.
      */
-    public void setDoc (String path) {
+    public void readDoc (String path) {
         File file = new File(path);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         try {
@@ -87,7 +89,7 @@ public class XMLTool {
             throw new RuntimeException("Could not open file.", e);
         }
         catch (ParserConfigurationException e) {
-            throw new RuntimeException(RUNTIME_EXP_MESSAGE, e);
+            throw new RuntimeException(DOC_CREATION_EXCEPTION, e);
         }
         catch (SAXException e) {
             throw new RuntimeException("XML document is corrupted.", e);
@@ -167,7 +169,7 @@ public class XMLTool {
      * @param child The element to be added as a child
      * @return The recently modified parent.
      */
-    public Element addChildElement (Element parent, Element child) {
+    public Element addChild (Element parent, Element child) {
         parent.appendChild(child);
         return parent;
     }
@@ -179,9 +181,9 @@ public class XMLTool {
      * @param tag The tag of the child node
      * @return The recently modified parent.
      */
-    public Element addChildTag (Element parent, String tag) {
+    public Element addChild (Element parent, String tag) {
         Element child = makeElement(tag);
-        return addChildElement(parent, child);
+        return addChild(parent, child);
     }
     
     /**
@@ -194,7 +196,7 @@ public class XMLTool {
      */
     public Element addChild (Element parent, String tag, String value) {
         Element child = makeElement(tag, value);
-        return addChildElement(parent, child);
+        return addChild(parent, child);
     }
     
     /**
@@ -217,35 +219,48 @@ public class XMLTool {
     /*
      * Getter methods.
      */
+    
     /**
      * This method returns the first element in the document with an specific tag.
      * Be careful with this method! If you have many instances of the same tag, use
-     * getElementsListByTagName, which will return a list of elements.
+     * getElementsListByTagName, which will return a list of elements with that same tag, in the
+     * top-down reading order.
      * 
      * @param tag The name of the tag to match on. The special value "*" matches all tags. For XML,
      *        the tag parameter is case-sensitive, otherwise it depends on the case-sensitivity
      *        of the mark up language in use.
      * @return The FIRST element with the tag.
      */
-    public Element getElementFromTag (String tag) {
+    public Element getElement (String tag) {
         return (Element) myDoc.getElementsByTagName(tag).item(0);
     }
     
     /**
-     * Returns a list of elements with the tag.
+     * Returns a list of elements with the tag from an specific element.
+     * 
+     * @param parent The parent element from which the element
+     * @param tag The name of the tag to match on. The special value "*" matches all tags. For XML,
+     *        the tag parameter is case-sensitive, otherwise it depends on the case-sensitivity
+     *        of the mark up language in use.
+     * 
+     * @return A list of elements with the tag.
+     */
+    public List<Element> getElementList (Element parent, String tag) {
+        NodeList nodes = parent.getElementsByTagName(tag);
+        return convertNodeList(nodes);
+    }
+    
+    /**
+     * Returns a list of elements with the tag from the XML document.
      * 
      * @param tag The name of the tag to match on. The special value "*" matches all tags. For XML,
      *        the tag parameter is case-sensitive, otherwise it depends on the case-sensitivity
      *        of the mark up language in use.
      * @return A list of elements with the tag.
      */
-    public List<Element> getElementListByTagName (String tag) {
-        List<Element> nodeList = new ArrayList<Element>();
+    public List<Element> getElementList (String tag) {
         NodeList nodes = myDoc.getElementsByTagName(tag);
-        for (int i = 0; i < nodes.getLength(); i++) {
-            nodeList.add((Element) myDoc.getElementsByTagName(tag).item(i));
-        }
-        return nodeList;
+        return convertNodeList(nodes);
     }
     
     /**
@@ -270,13 +285,49 @@ public class XMLTool {
     
     /**
      * Gets the content of the FIRST element associated with the referent tag.
-     * If the tag refers to a non-leaf node, it concatenates all the values from its children.
+     * If the tag refers to a non-leaf node, it appends all the values from its children.
      * 
      * @param tag A string with the tag of the element.
      * @return the content(value) of the element.
      */
-    public String getContentFromTag (String tag) {
-        return getContent(getElementFromTag(tag));
+    public String getContent (String tag) {
+        return getContent(getElement(tag));
+    }
+    
+    /**
+     * Creates a map with the child tag (as a map key) and a child element (as a map value) of all
+     * the
+     * children elements of a particular parent element.
+     * If the parent element does not contain children, this method returns an empty map.
+     * 
+     * @param parent The parent element node from which the children elements will be created.
+     * @return a map with the child tag (as a map key) and a child element (as a map value) of all
+     *         the children elements of a particular parent element.
+     */
+    public Map<String, Element> getChildrenElementMap (Element parent) {
+        Map<String, Element> map = new HashMap<String, Element>();
+        NodeList nodes = parent.getChildNodes();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            if (nodes.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                Element node = (Element) nodes.item(i);
+                map.put(node.getTagName(), node);
+            }
+        }
+        return map;
+    }
+    
+    /**
+     * Creates a map with the child tag (as a map key) and a child element (as a map value) of all
+     * the children elements of a particular parent element tag.
+     * If the parent element does not contain children, this method returns an empty map.
+     * 
+     * @param parentTag The tag of the parent element node.
+     * @return a map with the child tag (as a map key) and a child element (as a map value) of all
+     *         the children elements of a particular parent element.
+     */
+    public Map<String, Element> getChildrenElementMap (String parentTag) {
+        Element parent = getElement(parentTag);
+        return getChildrenElementMap(parent);
     }
     
     /**
@@ -288,7 +339,7 @@ public class XMLTool {
      * @return a map with the tag (as a map key) and the content (as a map value) of all the
      *         children elements of a particular node.
      */
-    public Map<String, String> getMapFromParentElement (Element parent) {
+    public Map<String, String> getChildrenStringMap (Element parent) {
         Map<String, String> map = new HashMap<String, String>();
         NodeList nodes = parent.getChildNodes();
         for (int i = 0; i < nodes.getLength(); i++) {
@@ -309,9 +360,9 @@ public class XMLTool {
      * @return a map with the tag (as a map key) and the content (as a map value) of all the
      *         children elements of a particular node.
      */
-    public Map<String, String> getMapFromParentTag (String parentTag) {
-        Element parent = getElementFromTag(parentTag);
-        return getMapFromParentElement(parent);
+    public Map<String, String> getChildrenStringMap (String parentTag) {
+        Element parent = getElement(parentTag);
+        return getChildrenStringMap(parent);
     }
     
     /**
@@ -327,13 +378,34 @@ public class XMLTool {
      *         children content as a value. Map<key, value> = Map<childTag, childValue> =
      *         Map<String, String>;
      */
-    public List<Map<String, String>> getMapListFromTag (String parentsTag) {
-        List<Element> nodeList = getElementListByTagName(parentsTag);
-        List<Map<String, String>> listOfMaps = new ArrayList<Map<String, String>>(nodeList.size());
+    public List<Map<String, Element>> getMapList (String parentsTag) {
+        List<Element> nodeList = getElementList(parentsTag);
+        List<Map<String, Element>> listOfMaps =
+                new ArrayList<Map<String, Element>>(nodeList.size());
         for (int i = 0; i < nodeList.size(); i++) {
-            listOfMaps.add(getMapFromParentElement(nodeList.get(i)));
+            listOfMaps.add(getChildrenElementMap(nodeList.get(i)));
         }
         return listOfMaps;
+    }
+    
+    /*
+     * Other functionalities
+     */
+    
+    /**
+     * Converts a NodeList into a list of Elements.
+     * 
+     * @param nodeList NodeList containing elements
+     * @return A list with the elements of nodeList.
+     */
+    public List<Element> convertNodeList (NodeList nodeList) {
+        List<Element> elementList = new ArrayList<Element>();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                elementList.add((Element) nodeList.item(i));
+            }
+        }
+        return elementList;
     }
     
     /*
@@ -354,6 +426,7 @@ public class XMLTool {
         Transformer transformer = factory.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, XML_PARAM_YES);
         transformer.setOutputProperty(OutputKeys.INDENT, XML_PARAM_YES);
+        transformer.setOutputProperty(INDENT_REFERENCE, "4");
         
         StringWriter sw = new StringWriter();
         StreamResult result = new StreamResult(sw);
@@ -380,12 +453,13 @@ public class XMLTool {
                 writer.close();
             }
             catch (IOException e1) {
-                throw new RuntimeException("The writer could not be closed", e);
+                throw new RuntimeException(CLOSE_EXCEPTION, e);
             }
-            throw new RuntimeException("The document could not be converted into a string", e);
+            throw new RuntimeException(CONVERSION_EXCEPTION, e);
         }
         catch (IOException e) {
-            throw new RuntimeException("File could not be written.", e);
+            throw new RuntimeException(WRITING_EXCEPTION, e);
         }
     }
+    
 }

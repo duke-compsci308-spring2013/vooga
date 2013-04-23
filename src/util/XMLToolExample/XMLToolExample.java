@@ -8,9 +8,9 @@ import util.XMLTool;
 
 /**
  * This is example code shows how to use the XMLtool.
- * 
+ *
  * @author Yoshida
- * 
+ *
  */
 public class XMLToolExample {
     private static XMLTool myDoc;
@@ -18,7 +18,7 @@ public class XMLToolExample {
     
     /**
      * Loads the XMLTool tester methods.
-     * 
+     *
      * @param args
      */
     public static void main (String args[]) {
@@ -59,28 +59,28 @@ public class XMLToolExample {
         Element duvallElement = myDoc.makeElementsFromMap("Robert", duvallMap);
         
         // Add/append Elements
-        myDoc.addChildElement(earth, humanElement);
-        myDoc.addChildElement(humanElement, duvallElement);
+        myDoc.addChild(earth, humanElement);
+        myDoc.addChild(humanElement, duvallElement);
         
     }
     
     private static void readFile () {
         myReadDoc = new XMLTool();
-        myReadDoc.setDoc("XMLExample.xml");
+        myReadDoc.readDoc("XMLExample.xml");
         
         // getting one unique element form the XML file.
-        Element bobElement = myReadDoc.getElementFromTag("Robert");
-        Element languageElement = myReadDoc.getElementFromTag("language");
+        Element bobElement = myReadDoc.getElement("Robert");
+        Element languageElement = myReadDoc.getElement("language");
         // getting the value from an element.
         System.out.println("The content of the element " + languageElement.getTagName() + " is: " +
                            languageElement.getTextContent());
         // It is also possible to get the content of an element using the XMLTool.
         // Note that the XMLTool has a slightly different implementation.
         System.out.println("The content of the element " + "language" + " is: " +
-                           myReadDoc.getContentFromTag("language"));
+                           myReadDoc.getContent("language"));
         // The XMLTool also lets you get a Map that was initially added to the file.
         Map<String, String> bobMap = new HashMap<String, String>();
-        bobMap = myReadDoc.getMapFromParentElement(bobElement);
+        bobMap = myReadDoc.getStringMapFromParent(bobElement);
         System.out.println(bobMap.toString());
         
     }
