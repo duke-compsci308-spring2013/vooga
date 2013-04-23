@@ -1,8 +1,9 @@
-package vooga.rts.networking.logger;
+package util.logger;
 
 
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.SimpleFormatter;
 
 
@@ -13,43 +14,42 @@ import java.util.logging.SimpleFormatter;
  * @author Henrique Moraes
  * 
  */
-public class HandlerTxt implements IHandlerFormat {
+public class HandlerTxt implements IVoogaHandler {
     private static final String TXT_EXT = ".txt";
     private static final String ERROR_MESSAGE =
             "Error in creating txt format handler";
+    private static final String EXTENSION_ERROR =
+            "Not a valid extension";
     private String myFileName;
     private String myExtension = TXT_EXT;
-
-    /**
-     * Constructor
-     * 
-     * @param fileName name of the file to be written to
-     */
-    public HandlerTxt (String fileName) {
-        myFileName = fileName;
-    }
-    
-    /**
-     * Constructor
-     * 
-     * @param fileName name of the file to be written to
-     * @param ext extension to be used for the file
-     */
-    public HandlerTxt (String fileName, String ext) {
-        myFileName = fileName;
-        myExtension = ext;
-    }
 
     /**
      * Constructor
      * Sets the file output name to a default value
      */
     public HandlerTxt () {
-        myFileName = LoggerSetup.DEFAULT_NAME;
+        myFileName = NetworkLogger.DEFAULT_FILE_NAME;
+    }
+    
+    public String getFileName() {
+    	return myFileName;
+    }
+    
+    public void setFileName(String file) {
+    	myFileName = file.replace("\\s+", "");
+    }
+    
+    public void setExtension (String ext) {
+    	if (ext.charAt(0) == '.') {
+    		myExtension = ext;
+    	}
+    	else {
+    		NetworkLogger.logMessage(Level.INFO, EXTENSION_ERROR);
+    	}
     }
 
     @Override
-    public Handler getFormatHandler () {
+    public Handler getHandler () {
         Handler handler = null;
         try {
             handler = new FileHandler(myFileName + myExtension);

@@ -1,4 +1,4 @@
-package vooga.rts.networking.logger;
+package util.logger;
 
 
 import java.io.OutputStream;
@@ -13,7 +13,7 @@ import java.util.logging.StreamHandler;
  * @author Henrique Moraes
  * 
  */
-public class HandlerStream implements IHandlerFormat {
+public class HandlerStream implements IVoogaHandler {
     private static final String ERROR_MESSAGE =
             "Error in creating stream format handler";
     private OutputStream myOutputStream;
@@ -37,9 +37,13 @@ public class HandlerStream implements IHandlerFormat {
     public HandlerStream () {
         myOutputStream = System.out;
     }
+    
+    public void setOutputStream (OutputStream out) {
+    	myOutputStream = out;
+    }
 
     @Override
-    public Handler getFormatHandler () {
+    public Handler getHandler () {
         Handler handler = null;
         try {
             handler = new StreamHandler(myOutputStream, new SimpleFormatter());

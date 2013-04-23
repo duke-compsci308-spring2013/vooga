@@ -1,4 +1,4 @@
-package vooga.rts.networking.logger;
+package util.logger;
 
 
 import java.util.logging.Handler;
@@ -10,12 +10,12 @@ import java.util.logging.Handler;
  * @author Henrique Moraes
  * 
  */
-public interface IHandlerFormat {
+public interface IVoogaHandler {
 
     /**
      * Sets a handler for the input
      * 
      * @param log the logger being used for the programm
      */
-    public Handler getFormatHandler ();
+    public Handler getHandler ();
 }

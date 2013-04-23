@@ -1,4 +1,4 @@
-package vooga.rts.networking.logger;
+package util.logger;
 
 
 import java.util.logging.FileHandler;
@@ -13,7 +13,7 @@ import java.util.logging.XMLFormatter;
  * @author Henrique Moraes
  * 
  */
-public class HandlerXML implements IHandlerFormat {
+public class HandlerXML implements IVoogaHandler {
     private static final String XML_EXT = ".xml";
     private static final String ERROR_MESSAGE =
             "Error in creating XML format handler";
@@ -33,11 +33,15 @@ public class HandlerXML implements IHandlerFormat {
      * Sets the file output name to a default value
      */
     public HandlerXML () {
-        myFileName = LoggerSetup.DEFAULT_NAME;
+        myFileName = NetworkLogger.DEFAULT_FILE_NAME;
+    }
+    
+    public void setFileName (String file) {
+    	myFileName = file;
     }
 
     @Override
-    public Handler getFormatHandler () {
+    public Handler getHandler () {
         Handler handler = null;
         try {
             handler = new FileHandler(myFileName + XML_EXT);

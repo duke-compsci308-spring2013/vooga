@@ -1,4 +1,4 @@
-package vooga.rts.networking.logger;
+package util.logger;
 
 
 import java.util.logging.ConsoleHandler;
@@ -13,12 +13,12 @@ import java.util.logging.SimpleFormatter;
  * @author Henrique Moraes
  * 
  */
-public class HandlerConsole implements IHandlerFormat {
+public class HandlerConsole implements IVoogaHandler {
     private static final String ERROR_MESSAGE =
             "Error in creating Console based handler";
 
     @Override
-    public Handler getFormatHandler () {
+    public Handler getHandler () {
         Handler handler = null;
         try {
             handler = new ConsoleHandler();
