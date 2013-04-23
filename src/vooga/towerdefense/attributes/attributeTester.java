@@ -12,7 +12,6 @@ public class attributeTester {
 		//attributeSet.add(new NumericalAttribute("fuck",2.0));
 		AttributeManager AM = new AttributeManager(attributeSet);
 		//double test = (Double) AM.getAttribute("fuck").getValue();
-		System.out.println((Double) (AM.getAttribute("fuck").getValue()) + 2.0);
 	}
 
 }

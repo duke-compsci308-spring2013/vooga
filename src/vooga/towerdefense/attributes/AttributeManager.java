@@ -1,11 +1,9 @@
-
 package vooga.towerdefense.attributes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-
 import vooga.towerdefense.factories.GameElementFactory;
 import vooga.towerdefense.factories.ProjectileFactory;
 
@@ -20,27 +18,37 @@ import vooga.towerdefense.factories.ProjectileFactory;
  * @author Zhen Gou
  */
 public class AttributeManager {
-    private HashMap<String,Attribute> myAttributes;
-    private HashMap<String,GameElementFactory> myFactories;
+    private HashMap<String, Attribute> myAttributes;
+    private HashMap<String, GameElementFactory> myFactories;
+    private HashMap<String, GameElementFactory> myUpgrades;
     private ProjectileFactory myProjectileFactory;
 
     public AttributeManager () {
-        myAttributes = new HashMap<String,Attribute>();
+        myAttributes = new HashMap<String, Attribute>();
         myFactories = new HashMap<String, GameElementFactory>();
-//        myProjectileFactory=new ProjectileFactory();
+        myUpgrades = new HashMap<String, GameElementFactory>();
+        // myProjectileFactory=new ProjectileFactory();
     }
-    
+
     /**
      * Creates an attribute manager based on a set of attributes
+     * 
      * @param attributes
      */
     public AttributeManager (HashSet<Attribute> attributes) {
-    	new AttributeManager();
+        new AttributeManager();
         for (Attribute a : attributes) {
             myAttributes.put(a.getName(), a);
-        }        
+        }
     }
-    
+
+    /**
+     * currently the update will reset all attribute's temporary buff. So this method should
+     * be called before executing actions.
+     */
+    public void update () {
+        resetAllAttributesTemporaryBuff();
+    }
 
     /**
      * Returns stats information requested by View components.
@@ -55,8 +63,8 @@ public class AttributeManager {
         }
         return info;
     }
-    
-    public String toString() {
+
+    public String toString () {
         String returnValue = "";
         for (String s : getAttributesInfo()) {
             returnValue += s + "\n";
@@ -64,13 +72,13 @@ public class AttributeManager {
         return returnValue;
     }
 
-    
     /**
      * Gets a specific attribute based on name
+     * 
      * @param name
      * @return attribute if it exists, otherwise returns null
      */
-    public Attribute getAttribute(String name) {
+    public Attribute getAttribute (String name) {
         return myAttributes.get(name);
     }
 
@@ -80,32 +88,54 @@ public class AttributeManager {
     public void addAttribute (Attribute newAttribute) {
         myAttributes.put(newAttribute.getName(), newAttribute);
     }
-    
-    public void addAttributes(List<Attribute> newAttributes){
-    	for (Attribute a: newAttributes){
-    		addAttribute(a);
-    	}
+
+    public void addAttributes (List<Attribute> newAttributes) {
+        for (Attribute a : newAttributes) {
+            addAttribute(a);
+        }
     }
-    
+
     /**
      * Resets all attributes to default values
      */
-    
-    public void resetAllAttributes(){
-    	for (Attribute attr:myAttributes.values()){
-    		attr.reset();
-    	}
-    }
-    
 
-    public GameElementFactory getGameElementFactories(String name){
-    	return myFactories.get(name);
-    }
-    
-    public ProjectileFactory getProjectileFactory(){
-    	return myProjectileFactory;
+    public void resetAllAttributes () {
+        for (Attribute attr : myAttributes.values()) {
+            attr.reset();
+        }
     }
 
+    /**
+     * reset buff value of all attributes
+     */
+    public void resetAllAttributesTemporaryBuff () {
+        for (Attribute attr : myAttributes.values()) {
+            attr.resetBuffValue();
+        }
+    }
+    
+    public void addUpgrade (String upgradeName, GameElementFactory upgrade) {
+        myUpgrades.put(upgradeName, upgrade);
+    }
+
+    public boolean hasUpgrades () {
+        return !myUpgrades.isEmpty();
+    }
+
+    public HashMap<String, GameElementFactory> getUpgrades () {
+        return myUpgrades;
+    }
+
+    public GameElementFactory getGameElementFactories (String name) {
+        return myFactories.get(name);
+    }
+
+    public ProjectileFactory getProjectileFactory () {
+        return myProjectileFactory;
+    }
+
+    public void setProjectileFactory (ProjectileFactory projectileFactory) {
+        myProjectileFactory = projectileFactory;
+    }
 
 }
-

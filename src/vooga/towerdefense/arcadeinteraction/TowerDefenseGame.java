@@ -1,6 +1,6 @@
 package vooga.towerdefense.arcadeinteraction;
 import vooga.towerdefense.controller.Controller;
-import vooga.towerdefense.model.GameController;
+import vooga.towerdefense.model.GameLoop;
 import arcade.games.ArcadeInteraction;
 import arcade.games.Game;
 import arcade.games.UserGameData;
@@ -32,7 +32,7 @@ public class TowerDefenseGame extends Game {
      */
     @Override
     public void run () {
-        GameController game = new GameController(new Controller("English"));
+        GameLoop game = new GameLoop(new Controller("English"));
         game.start();
     }
 

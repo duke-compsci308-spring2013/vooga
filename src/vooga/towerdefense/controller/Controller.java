@@ -8,7 +8,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -17,18 +16,19 @@ import vooga.towerdefense.attributes.AttributeManager;
 import vooga.towerdefense.controller.modes.BuildMode;
 import vooga.towerdefense.controller.modes.ControlMode;
 import vooga.towerdefense.controller.modes.SelectMode;
-import vooga.towerdefense.factories.ExampleUnitFactory;
-import vooga.towerdefense.factories.TrollUnitDefinition;
+import vooga.towerdefense.factories.GameElementFactory;
 import vooga.towerdefense.factories.WaveFactory;
+import vooga.towerdefense.factories.examples.ExampleAuraTowerFactory;
+import vooga.towerdefense.factories.examples.ExampleUnitFactory;
+import vooga.towerdefense.factories.examples.TrollUnitDefinition;
 import vooga.towerdefense.gameElements.GameElement;
-import vooga.towerdefense.gameElements.Tower;
 import vooga.towerdefense.gameElements.Wave;
-import vooga.towerdefense.model.GameController;
+import vooga.towerdefense.model.GameLoop;
 import vooga.towerdefense.model.GameMap;
 import vooga.towerdefense.model.GameModel;
-import vooga.towerdefense.model.Tile;
-import vooga.towerdefense.shop.Shop;
-import vooga.towerdefense.shop.ShopItem;
+import vooga.towerdefense.model.shop.Shop;
+import vooga.towerdefense.model.shop.ShopItem;
+import vooga.towerdefense.model.tiles.Tile;
 import vooga.towerdefense.util.Location;
 import vooga.towerdefense.util.Pixmap;
 import vooga.towerdefense.view.TDView;
@@ -39,6 +39,7 @@ import vooga.towerdefense.view.TDView;
  * @author Angelica Schwartz
  * @author Erick Gonzalez
  * @author Leonard K. Ng'eno
+ * @author Jimmy Longley
  */
 public class Controller {
 
@@ -71,12 +72,18 @@ public class Controller {
 		List<Wave> waves = new ArrayList<Wave>();
 
 		GameMap map = new GameMap(null, 800, 600, null);
+		// FIXME: Hardcoded for testing trolls
+		ExampleAuraTowerFactory codeStyleGenerator = new ExampleAuraTowerFactory(
+				map, "Tree of Doom", null);
+		codeStyleGenerator.initialize(map);
+		GameElement duvallTheMighty = codeStyleGenerator
+				.createElement(new Location(450, 200));
+		map.addGameElement(duvallTheMighty);
 		waves.add(WaveFactory.createWave(new ExampleUnitFactory("Troll",
 				new TrollUnitDefinition(), map), 25, map, map
 				.getTile(new Point(25, 275))));
-
 		setLanguage(language);
-		myModel = new GameModel(this, waves, map, new Shop());
+		myModel = new GameModel(this, waves, map, new Shop(map));
 		myView = new TDView(this);
 		myControlMode = new SelectMode();
 	}
@@ -85,6 +92,7 @@ public class Controller {
 	 * cancels the purchase and stops painting ghost image.
 	 */
 	public void cancelPurchaseFromShop() {
+		myModel.getMap().resetGhostImage();
 		myControlMode = new SelectMode();
 		setVisibilityOfShopCancelButton(false);
 	}
@@ -105,9 +113,11 @@ public class Controller {
 			myView.getGameElementInfoScreen().displayInformation(
 					"Stuff about my clicked tower");
 			// myView.getTowerInfoScreen().displayInformation(e.getAttributes().toString());
-			if (e instanceof Tower) {
+			if (e.getAttributeManager().hasUpgrades()) {
+				List<String> upgrades = new ArrayList<String>(e
+						.getAttributeManager().getUpgrades().keySet());
 				myView.getGameElementInfoScreen().displayUpgradesAndButton(
-						((Tower) e).getUpgrades());
+						upgrades);
 			}
 		} else {
 			myView.getGameElementInfoScreen().clearScreen();
@@ -172,41 +182,45 @@ public class Controller {
 	public String getStringFromResources(String s) {
 		return myResourceBundle.getString(s);
 	}
-    
-    /**
-     * 
-     * @param item      Object to create new instance of
-     * @return  new instance of item
-     */
-    private GameElement createNewElement(GameElement item) {
-        try {
-            Class<? extends GameElement> myClass = item.getClass();
-            @SuppressWarnings("rawtypes")
-            Class[] types = {Pixmap.class, Location.class, Dimension.class, AttributeManager.class, List.class};
-            Constructor<? extends GameElement> constructor = myClass.getConstructor(types);
-            Object[] parameters = {item.getPixmap(), item.getCenter(), item.getSize(), item.getAttributeManager(), item.getActions()};
-            Object myNewItem = constructor.newInstance(parameters); 
-            return (GameElement) myNewItem;
-        }
-        catch(InvocationTargetException e) {
-            //??
-        }
-        
-        catch(Exception e) {
-            //??
-        }
-        return null;
-    }
 
-    /**
-     * handles a click to the map appropriately depending
-     * on the mode.
-     * 
-     * @param p is the location of the click
-     */
-    public void handleMapMouseDrag (Point p) {
-        myControlMode.handleMapMouseDrag(p, this);
-    }
+	/**
+	 * 
+	 * @param item
+	 *            Object to create new instance of
+	 * @return new instance of item
+	 */
+	private GameElement createNewElement(GameElement item) {
+		try {
+			Class<? extends GameElement> myClass = item.getClass();
+			@SuppressWarnings("rawtypes")
+			Class[] types = { Pixmap.class, Location.class, Dimension.class,
+					AttributeManager.class, List.class };
+			Constructor<? extends GameElement> constructor = myClass
+					.getConstructor(types);
+			Object[] parameters = { item.getPixmap(), item.getCenter(),
+					item.getSize(), item.getAttributeManager(),
+					item.getActions() };
+			Object myNewItem = constructor.newInstance(parameters);
+			return (GameElement) myNewItem;
+		} catch (InvocationTargetException e) {
+			// ??
+		}
+
+		catch (Exception e) {
+			// ??
+		}
+		return null;
+	}
+
+	/**
+	 * handles a click to the map appropriately depending on the mode.
+	 * 
+	 * @param p
+	 *            is the location of the click
+	 */
+	public void handleMapMouseDrag(Point p) {
+		myControlMode.handleMapMouseDrag(p, this);
+	}
 
 	/**
 	 * handles a mouse drag on the map appropriately depending on the mode.
@@ -225,22 +239,30 @@ public class Controller {
 	 * @param itemName
 	 *            is the name of the item the user wants to buy
 	 */
-    public void handleShopClickOnItem (Point p) {
-       // System.out.println("lol");
-       // ShopItem itemToBuy = myModel.getShopItem(p);
-        List<Action> actions = new ArrayList<Action>();
-        Tower t = new Tower(new Pixmap("tower.gif"), new Location(p.getX(), p.getY()), new Dimension(50, 50), null, actions);
-        BuildMode myNewMode = new BuildMode();
-        myNewMode.setItemToBuild(t);    
-        myControlMode = myNewMode;
-    }
-    
-    /**
-     * starts the next wave in the model.
-     */
-    public void startNextWave() {
-    	myModel.startNextWave();
-    }
+	public void handleShopClickOnItem(Point p) {
+		ShopItem itemToBuy = myModel.getShopItem(p);
+		if (itemToBuy == null)
+			return;
+
+		List<Action> actions = new ArrayList<Action>();
+		GameElementFactory factory = itemToBuy.getFactory();
+		GameElement t = factory.createElement(new Location(p.getX(), p.getY()));
+		BuildMode myNewMode = new BuildMode();
+		myNewMode.setItemToBuild(t);
+		myControlMode = myNewMode;
+	}
+
+	/**
+	 * starts the next wave in the model.
+	 */
+	public void startNextWave() {
+		myModel.startNextWave();
+	}
+
+	public Location getPointSnappedToGrid(Location location) {
+		return myModel.getMap().getTile(location).getCenter();
+
+	}
 
 	/**
 	 * paints the ghost image of the item on the MapScreen on the mouse's
@@ -251,9 +273,10 @@ public class Controller {
 	 * @param itemImage
 	 *            is the image
 	 */
-	public void paintGhostImage(Point p, Pixmap itemImage) {
+	public void paintGhostImage(Pixmap itemImage, Location location,
+			Dimension size) {
 		displayMap();
-		myView.getMapScreen().paintGhostImage(p, itemImage);
+		myModel.getMap().addGhostImage(itemImage, location, size);
 	}
 
 	/**
@@ -279,10 +302,10 @@ public class Controller {
 	 * 
 	 * @param upgradeName
 	 */
+	// TODO: Fix for game elements to be towers. -matthew
 	public void upgradeSelectedItemTo(String upgradeName) {
-		Tower t = (Tower) ((SelectMode) myControlMode)
-				.getCurrentlySelectedItem();
-		t.upgrade(upgradeName);
+		GameElement t = ((SelectMode) myControlMode).getCurrentlySelectedItem();
+		// t.upgrade(upgradeName);
 		// TODO: implement upgrade stuff on backend (ask unit team for tower
 		// upgrade info!)
 	}
@@ -302,16 +325,25 @@ public class Controller {
 		}
 	}
 
-    /**
-     * Start the game controller.
-     */
-    public void start () {
-        GameController game = new GameController(this);
-        game.start();
-    }
-    
-    public void paintShop(Graphics pen) {
-        myModel.paintShop((Graphics2D) pen);
-    }
-    
+	/**
+	 * Start the game controller.
+	 */
+	public void start() {
+		GameLoop game = new GameLoop(this);
+		game.start();
+	}
+
+	public void paintShop(Graphics pen) {
+		myModel.paintShop((Graphics2D) pen);
+	}
+
+	/**
+	 * Used to determine if a ghost image should be painted, it tests if a tower can be built at a particular point.
+	 * @param p
+	 * @return
+	 */
+	public boolean canBuildHere(Point p) {
+		return myModel.getMap().isBuildable(p);
+	}
+
 }

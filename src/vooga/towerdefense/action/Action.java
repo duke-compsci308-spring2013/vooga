@@ -1,5 +1,8 @@
-
 package vooga.towerdefense.action;
+
+import java.util.ArrayList;
+import java.util.List;
+import vooga.towerdefense.gameElements.GameElement;
 
 
 /**
@@ -11,49 +14,109 @@ package vooga.towerdefense.action;
  * @author Zhen Gou
  * 
  */
-
 public abstract class Action {
-    private boolean enabled;
-    private boolean complete;
+    private boolean myEnabledState;
+    private List<Action> myFollowUpActions;
+    private List<GameElement> myTargets;
 
     public Action () {
+        myFollowUpActions = new ArrayList<Action>();
+        myTargets = new ArrayList<GameElement>();
+        myEnabledState = true;
     }
 
-    public void initAction () {
-        enabled = true;
-        // initialize resources
-    }
+    /**
+     * Executes action after update clears the execute condition.
+     */
+    public abstract void executeAction (double elapsedTime);
     
     /**
      * Executes action after update clears the execute condition.
      */
-    public abstract void executeAction (double elapseTime);
+    public void updateFollowupActions(double elapsedTime) {
+        for (Action a : getFollowUpActions()) {
+            a.update(elapsedTime);
+        }
+    }
 
     /**
-     * Update action status
+     * Update action status and executes action if it needs to
+     * 
      * @param elapsedTime
      */
-    public abstract void update (double elapsedTime);
+    public void update (double elapsedTime) {
+        if (isEnabled()) {
+            executeAction(elapsedTime);
+            updateFollowupActions(elapsedTime);
+        }
+    }
+
+    /**
+     * Adds a new action to occur after action is done executing
+     * @param action
+     */
+    public void addFollowUpAction (Action action) {
+        myFollowUpActions.add(action);
+    }
+
+    public void addFollowUpActions (List<Action> action) {
+        myFollowUpActions.addAll(action);
+    }
+
+    /**
+     * Adds a game element to the current list of targets
+     * 
+     * @param target
+     */
+    public void addTarget (GameElement target) {
+        myTargets.add(target);
+    }
+
+    /**
+     * Adds a list of targets to the current targets of this action
+     * 
+     * @param targets
+     */
+    public void addTarget (List<GameElement> targets) {
+        myTargets.addAll(targets);
+    }
+
+    /**
+     * Sets the target list to a new target
+     * 
+     * @param newTargets
+     */
+    public void setTargets (GameElement newTarget) {
+        myTargets.clear();
+        myTargets.add(newTarget);
+    }
     
-    public boolean isComplete () {
-        enabled = false;
-        return complete;
+    public List<GameElement> getTargets() {
+        return myTargets;
     }
 
-    public void markComplete () {
-        complete = true;
+    /**
+     * Sets the target list to a new list
+     * 
+     * @param newTargets
+     */
+    public void setTargets (List<GameElement> newTargets) {
+        myTargets = newTargets;
     }
 
+    /**
+     * Returns list of followup actions
+     * @return
+     */
+    public List<Action> getFollowUpActions () {
+        return myFollowUpActions;
+    }
 
     public boolean isEnabled () {
-        return enabled;
+        return myEnabledState;
     }
 
     public void setEnabled (boolean isEnabled) {
-        enabled = isEnabled;
+        myEnabledState = isEnabled;
     }
 }
-
-
-
-

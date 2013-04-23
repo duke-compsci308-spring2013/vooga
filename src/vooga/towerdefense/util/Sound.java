@@ -145,16 +145,25 @@ public class Sound {
         }
         
         private void play () {
-            try {
+            
                 Line.Info linfo = new Line.Info(Clip.class);
-                Line line = AudioSystem.getLine(linfo);
-                myClip = (Clip) line;
-                myClip.open(myAudio);
-            }
-            catch (LineUnavailableException | IOException e) {
-                System.err.printf("The audio could not be played because" +
-                                  " a music file has not been loaded!");
-            }
+                Line line;
+                try {
+                    line = AudioSystem.getLine(linfo);
+                    myClip = (Clip) line;
+                    myClip.open(myAudio);
+                }
+                catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                    System.err.printf("The audio could not be played because" +
+                                      " a music file has not been loaded!");
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                    System.err.printf("The audio could not be played because" +
+                            " a music file has not been loaded!");
+                }
+            
             myClip.start();
             
             /*

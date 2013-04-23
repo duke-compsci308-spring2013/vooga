@@ -4,8 +4,16 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import vooga.towerdefense.model.tiles.Tile;
 import vooga.towerdefense.util.Location;
 
+/**
+ * Generates paths based on what tiles are eligible to walk on in the map using
+ * graph algorithms.
+ * 
+ * @author JLongley
+ * 
+ */
 public class Pathfinder {
 
 	private Tile[][] myGrid;
@@ -38,6 +46,16 @@ public class Pathfinder {
 		}
 	}
 
+	/**
+	 * Returns a path object corresponding to the shortest path between points
+	 * (x1,y1) and (x2,y2) on the map.
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return the shortest path between (x1,y1) and (x2,y2) 
+	 */
 	public Path getShortestPath(int x1, int y1, int x2, int y2) {
 
 		// TODO: implement dijkrstra's algoritm to make smart pathfinding

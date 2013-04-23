@@ -11,20 +11,18 @@ import vooga.towerdefense.util.Vector;
  * @author Matthew Roy
  * @author Jimmy Longley
  * @author Xu Rui
+ * @author Zhen Gou
  *
  */
 public class Move extends Action {
-	//private static final AttributeConstants ATTRIBUTE_CONSTANTS = new AttributeConstants();//used for testing
-    private Vector myHeading;
     private Location myCenter;
     private Attribute mySpeed;
     private Attribute myDirection;
 
-    public Move ( Location location, Attribute movespeed, Attribute direction) {
+    public Move (Location location, Attribute movespeed, Attribute direction) {
     	mySpeed = movespeed;
     	myCenter = location;
     	myDirection = direction;
-        myHeading = new Vector(movespeed.getValue(), direction.getValue());
     }
     
     @Override
@@ -34,10 +32,5 @@ public class Move extends Action {
         myCenter.translate(v);
     }
 
-	@Override
-	public void update(double elapsedTime) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
