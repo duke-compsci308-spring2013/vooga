@@ -63,7 +63,6 @@ public class Projectile extends GameEntity {
 		final Projectile toDestroy = this;
 		myTimer = new DelayedTask(getHealth(), new Runnable() {
 			Projectile p = toDestroy;
-
 			public void run() {
 				p.die();
 			}
@@ -106,7 +105,7 @@ public class Projectile extends GameEntity {
 	@Override
 	public void update(double elapsedTime) {
 		super.update(elapsedTime);
-		this.move(myTarget.getWorldLocation());
+		//this.move(myTarget.getWorldLocation());
 		myTimer.update(elapsedTime);
 		if (this.intersects(myTarget.getWorldLocation())) {
 			attack(myTarget);
@@ -143,6 +142,6 @@ public class Projectile extends GameEntity {
 	public Projectile copy(Projectile other, Location3D shootFrom) {
 		return new Projectile(new Pixmap(other.getImage()), new Location3D(
 				shootFrom), new Dimension(other.getSize()),
-				other.getPlayerID(), other.getDamage(), other.getHealth(), getSpeed());
+				other.getPlayerID(), other.getDamage(), other.getHealth(), other.getSpeed());
 	}
 }
