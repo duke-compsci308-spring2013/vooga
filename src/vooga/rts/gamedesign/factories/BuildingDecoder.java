@@ -26,10 +26,6 @@ import vooga.rts.util.Sound;
  */
 public class BuildingDecoder extends Decoder{
 	
-	private static final String HEAD_TAG = "buildings";
-	private static final String TYPE_TAG = "building";
-	
-	private int DEFAULTTEAM = 0;
 	
 	private Factory myFactory;
 
@@ -38,13 +34,11 @@ public class BuildingDecoder extends Decoder{
 	}
 
 	@Override
-	public void create(Document doc, String tag) {
+	public void create(Document doc, String type) {
 		//there is some duplicate code between decoders that should be factored out. 
-		String path = doc.getElementsByTagName(HEAD_TAG).item(0).getAttributes().getNamedItem(SOURCE_TAG).getTextContent();	
-		
-	
-		
-		NodeList nodeLst = doc.getElementsByTagName(TYPE_TAG);
+		String path = doc.getElementsByTagName(type).item(0).getAttributes().getNamedItem(SOURCE_TAG).getTextContent();	
+		String subtype = type.substring(0, type.length()-1);
+		NodeList nodeLst = doc.getElementsByTagName(subtype);
 		for(int i = 0 ; i < nodeLst.getLength() ; i++){
 			Element nElement = (Element) nodeLst.item(i);
 			String name = getElement(nElement, NAME_TAG);
@@ -54,22 +48,19 @@ public class BuildingDecoder extends Decoder{
 			double buildTime = Double.parseDouble(getElement(nElement, TIME_TAG));
 			Building building = (Building) ReflectionHelper.makeInstance(path, 
 																			new Pixmap(img),
-																  			new Location3D(0,0,0),
-																			  new Dimension(50,50),
-																			  new Sound(sound),
-																			  DEFAULTTEAM,
-																			  health,
-																			  buildTime);
+																			 new Sound(sound),
+																			 health,
+																			 buildTime);
 			
 			myFactory.put(name, building);
 			//Load Production Dependencies now
-			String [] nameCanProduce = nElement.getElementsByTagName(PRODUCE_TAG).item(0).getTextContent().split("\\s+");
+			String [] nameCanProduce = getElement(nElement, PRODUCE_TAG).split("\\s+");
 			if(nameCanProduce[0] != ""){
 				myFactory.putProductionDependency(name, nameCanProduce);
 			}
 			//Load Strategy Dependencies now
 			String[] strategies = new String[3];
-			strategies[1] = nElement.getElementsByTagName(OCCUPY_TAG).item(0).getTextContent();
+			strategies[1] = getElement(nElement, OCCUPY_TAG);
 			myFactory.putStrategyDependency(name, strategies);
 			
 			

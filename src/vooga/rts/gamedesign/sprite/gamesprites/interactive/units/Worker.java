@@ -43,7 +43,7 @@ public class Worker extends Unit {
 	 */
 	public Worker(Pixmap image, Location3D center, Dimension size, Sound sound,
 			int playerID, int health, int gatherAmount, double buildTime) {
-		super(image, center, size, sound, playerID, health, buildTime);
+		super(image, center, size, sound, playerID, health, buildTime, 80);
 		myGatherAmount = gatherAmount;
 		myGatherStrategy = new CanGather(DEFUALT_GATHER_INTERVAL, gatherAmount);
 

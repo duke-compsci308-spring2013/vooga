@@ -1,14 +1,12 @@
 package vooga.rts.gamedesign.sprite.gamesprites.interactive.units;
 
 import java.awt.Dimension;
-import java.util.List;
+
 import vooga.rts.action.InteractiveAction;
 import vooga.rts.commands.ClickCommand;
 import vooga.rts.commands.Command;
-import vooga.rts.gamedesign.sprite.gamesprites.GameSprite;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 import vooga.rts.gamedesign.strategy.gatherstrategy.GatherStrategy;
-import vooga.rts.gamedesign.strategy.occupystrategy.OccupyStrategy;
 import vooga.rts.util.Camera;
 import vooga.rts.util.Location3D;
 import vooga.rts.util.Pixmap;
@@ -28,12 +26,14 @@ import vooga.rts.util.Sound;
  * 
  */
 public class Unit extends InteractiveEntity {
+	
+	public static final Dimension DEFAULT_SIZE = new Dimension(50,50);
 
     private GatherStrategy myGatherStrategy;
 
     public Unit () {
         this(new Pixmap("images/sprites/soldier.png"), new Location3D(), new Dimension(0, 0), null,
-             0, 100, InteractiveEntity.DEFAULT_BUILD_TIME);
+             0, 100, InteractiveEntity.DEFAULT_BUILD_TIME, 150);
     }
 
     /**
@@ -59,9 +59,15 @@ public class Unit extends InteractiveEntity {
                  Sound sound,
                  int playerID,
                  int health,
-                 double buildTime) {
+                 double buildTime, int speed) {
         super(image, center, size, sound, playerID, health, buildTime);
+        setSpeed(speed);
         addActions();
+    }
+    
+    public Unit(Pixmap image, Sound sound, int health, double buildTime, int speed){
+    	this(image, InteractiveEntity.DEFAULT_LOCATION, DEFAULT_SIZE, sound, InteractiveEntity.DEFAULT_PLAYERID, health, buildTime, speed);
+    	
     }
 
     @Override
@@ -89,7 +95,7 @@ public class Unit extends InteractiveEntity {
     @Override
     public InteractiveEntity copy () {
         return new Unit(getImage(), getWorldLocation(), getSize(), getSound(), getPlayerID(),
-                        getHealth(), getBuildTime());
+                        getHealth(), getBuildTime(), getSpeed());
     }
 
 	public void setGatherStrategy(GatherStrategy gatherStrategy) {

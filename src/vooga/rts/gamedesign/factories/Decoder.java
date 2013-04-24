@@ -30,6 +30,12 @@ public abstract class Decoder {
 	protected static final String PRODUCE_TAG = "produce";
 	protected static final String GATHER_TAG = "gather";
 	protected static final String SOURCE_TAG = "src";
+	protected static final String SPEED_TAG = "speed";
+	protected static final String RANGE_TAG = "range";
+	protected static final String COOLDOWN_TAG = "cooldown";
+	protected static final String MYPROJECTILE_TAG = "myprojectile";
+	protected static final String DAMAGE_TAG = "damage";
+	protected static final String LIFESPAN_TAG = "lifespan";
 	
 	
 	/**

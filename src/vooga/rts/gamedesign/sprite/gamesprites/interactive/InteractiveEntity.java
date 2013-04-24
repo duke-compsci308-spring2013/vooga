@@ -32,6 +32,7 @@ import vooga.rts.gamedesign.state.MovementState;
 import vooga.rts.gamedesign.state.UnitState;
 import vooga.rts.gamedesign.strategy.attackstrategy.AttackStrategy;
 import vooga.rts.gamedesign.strategy.attackstrategy.CannotAttack;
+import vooga.rts.gamedesign.strategy.gatherstrategy.CannotGather;
 import vooga.rts.gamedesign.strategy.gatherstrategy.GatherStrategy;
 import vooga.rts.gamedesign.strategy.occupystrategy.CannotBeOccupied;
 import vooga.rts.gamedesign.strategy.occupystrategy.OccupyStrategy;
@@ -67,8 +68,10 @@ import vooga.rts.util.Information;
 public abstract class InteractiveEntity extends GameEntity implements
 		IAttackable, IActOn {
 
-	private static final int LOCATION_OFFSET = 20;
-	private static int DEFAULT_INTERACTIVEENTITY_SPEED = 150;
+	public static final int LOCATION_OFFSET = 20;
+	public static int DEFAULT_INTERACTIVEENTITY_SPEED = 150;
+	public static final Location3D DEFAULT_LOCATION = new Location3D(0,0,0);
+	public static final int DEFAULT_PLAYERID = 0;
 	private boolean isSelected;
 	private UpgradeTree myUpgradeTree;
 	private Sound mySound;
@@ -76,6 +79,7 @@ public abstract class InteractiveEntity extends GameEntity implements
 	private ProductionStrategy myProductionStrategy;
 	private UpgradeStrategy myUpgradeStrategy;
 	private OccupyStrategy myOccupyStrategy;
+	private GatherStrategy myGatherStrategy;
 	private int myArmor;
 	private Map<String, Action> myActions;
 	private Map<String, Information> myInfos;
@@ -113,9 +117,10 @@ public abstract class InteractiveEntity extends GameEntity implements
 		myActions = new HashMap<String, Action>();
 		myInfos = new HashMap<String, Information>();
 		isSelected = false;
-		myTasks = new ArrayList<DelayedTask>();
+		myTasks = new ArrayList<DelayedTask>();		
 		myBuildTime = buildTime;
 		myOccupyStrategy = new CannotBeOccupied();
+		myGatherStrategy = new CannotGather();
 		myProducables = new ArrayList<InteractiveEntity>();
 		setSpeed(DEFAULT_INTERACTIVEENTITY_SPEED);
 	}

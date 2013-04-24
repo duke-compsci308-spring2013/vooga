@@ -86,7 +86,6 @@
 			<sound>pikachu.wav</sound>
 			<health>1000</health>
 			<buildtime>100</buildtime>
-			<attack>cannotattack</attack>
 			<occupy>cannotbeoccupied</occupy>
 			<produce>worker soldier</produce>
 		</building>
@@ -101,7 +100,7 @@
 			<sound>pikachu.wav</sound>
 			<health>100</health>
 			<buildtime>100</buildtime>
-			<attack>canattack</attack>
+			<speed>180</speed>
 			<gather>cannotgather</gather>
 			<occupy>cannotbeoccupied</occupy>
 			<produce></produce>
@@ -112,7 +111,7 @@
 			<sound>pikachu.wav</sound>
 			<health>100</health>
 			<buildtime>100</buildtime>
-			<attack>cannotattack</attack>
+			<speed>140</speed>
 			<gather>cangather</gather>
 			<occupy>cannotbeoccupied</occupy>
 			<produce>home</produce>
@@ -121,6 +120,25 @@
 			<name>soldier</name>
 		</customunit>
 	</units>
+	<weapons src = "vooga.rts.gamedesign.weapon.Weapon">
+			<weapon>
+				<name>gun</name>
+				<myprojectile>bullet</myprojectile>
+				<range>500<range>
+				<cooldown>1<cooldown>
+			</weapon>
+	</weapons>
+	<projectiles>
+		<projectile>
+			<name>bullet</name>
+			<img>bullet.png</img>
+			<damage>10</damage>
+			<lifespan>100</lifespan>
+			<speed>200</speed>
+		</projectile>
+	</projectiles>
+	
+	
 </GameElements>
 
 
