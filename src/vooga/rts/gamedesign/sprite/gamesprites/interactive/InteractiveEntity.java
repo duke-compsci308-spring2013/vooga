@@ -25,6 +25,8 @@ import vooga.rts.gamedesign.sprite.gamesprites.Projectile;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.buildings.Building;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Unit;
 import vooga.rts.gamedesign.state.AttackingState;
+import vooga.rts.gamedesign.state.MovementState;
+import vooga.rts.gamedesign.state.UnitState;
 import vooga.rts.gamedesign.strategy.attackstrategy.AttackStrategy;
 import vooga.rts.gamedesign.strategy.attackstrategy.CannotAttack;
 import vooga.rts.gamedesign.strategy.occupystrategy.CannotBeOccupied;
@@ -166,7 +168,16 @@ public abstract class InteractiveEntity extends GameEntity implements
 								.getY(), 2));
 		if (!this.isDead()) {
 			// getEntityState().setAttackingState(AttackingState.ATTACKING);
-
+			if (myAttackStrategy.getCurrentWeapon() != null) {
+				if (getEntityState().getUnitState() == UnitState.ATTACK
+						&& myAttackStrategy.getCurrentWeapon().inRange(
+								(InteractiveEntity) attackable, distance)
+						&& getEntityState().getAttackingState() != AttackingState.WAITING
+						&& getEntityState().getAttackingState() != AttackingState.ATTACKING) {
+					getEntityState().setMovementState(MovementState.STATIONARY);
+					getEntityState().attack();
+				}
+			}
 			if (getEntityState().getAttackingState() != AttackingState.WAITING
 					&& getEntityState().getAttackingState() != AttackingState.ATTACKING) {
 				getEntityState().attack();
@@ -371,12 +382,12 @@ public abstract class InteractiveEntity extends GameEntity implements
 	 *            - the other InteractiveEntity
 	 */
 	public void recognize(InteractiveEntity other) {
-		if (other instanceof Building) {
-			// occupy or do something
-		}
 		if (isEnemy(other)) {
-			// switch to attack state
+			getEntityState().setUnitState(UnitState.ATTACK);
+		} else if (other instanceof Building) {
+			getEntityState().setUnitState(UnitState.OCCUPY);
 		}
+
 		move(other.getWorldLocation());
 	}
 

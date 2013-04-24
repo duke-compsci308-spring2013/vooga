@@ -22,6 +22,7 @@ public class EntityState {
     private ProducingState myProducingState;
     private MovementState myMovementState;
     private DetectableState myDetectableState;
+    private UnitState myUnitState;
 
     private double myAttackingCooldown;
     private DelayedTask myAttackingDelay;
@@ -40,6 +41,7 @@ public class EntityState {
         myMovementState = MovementState.STATIONARY;
         myDetectableState = DetectableState.DETECTABLE;
         myAttackingCooldown = DEFAULT_ATTACKING_INTERVAL;
+        myUnitState = UnitState.NOTHING;
     }
 
     public AttackingState getAttackingState () {
@@ -109,6 +111,14 @@ public class EntityState {
     public boolean canMove () {
         return myMovementState == MovementState.MOVING;
     }
+    
+    public UnitState getUnitState() {
+    	return myUnitState;
+    }
+    
+    public void setUnitState(UnitState unitState) {
+    	myUnitState = unitState;
+    }
 
     public boolean canSelect () {
         return myOccupyState == OccupyState.NOT_OCCUPYING;
@@ -122,7 +132,7 @@ public class EntityState {
      *         false if the entity cannot attack
      */
     public boolean canAttack () {
-        return myAttackingState == AttackingState.ATTACKING;
+        return myAttackingState == AttackingState.ATTACKING && myUnitState == UnitState.ATTACK;
     }
 
     /**
@@ -147,6 +157,7 @@ public class EntityState {
      */
     public void attack () {
         myAttackingState = AttackingState.WAITING;
+        myUnitState = UnitState.ATTACK;
         myAttackingDelay = new DelayedTask(myAttackingCooldown, new Runnable() {
             @Override
             public void run () {
