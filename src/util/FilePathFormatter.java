@@ -30,12 +30,14 @@ public class FilePathFormatter {
     }
 
     public String formatClassFilePath (String path) {
-        if (path == null) return null;
+        if (path == null || path.equals("")) return null;
         return replaceFileSeparatorWithDots(makePathRelativeToSrc(removeFileExtension(path)));
     }
 
     private String removeFileExtension (String filepath) {
-        return filepath.substring(0, filepath.lastIndexOf("."));
+        System.out.println("this is the filepath" + filepath);
+        System.out.println(filepath.indexOf('.'));
+            return filepath.substring(0, filepath.indexOf("."));
     }
 
     private String makePathRelativeToSrc (String path) {

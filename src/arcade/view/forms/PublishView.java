@@ -14,9 +14,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import arcade.controller.Controller;
+import arcade.controller.GameSpecificData;
 import arcade.exceptions.AgeException;
+import arcade.exceptions.InvalidGameFileException;
 import arcade.exceptions.InvalidPriceException;
-import arcade.model.Model;
 import arcade.view.TextKeywords;
 
 
@@ -26,16 +29,14 @@ import arcade.view.TextKeywords;
  * @author Ellango
  * 
  */
-@SuppressWarnings({"serial", "unused"})
+@SuppressWarnings({ "serial", "unused" })
 public class PublishView extends Form {
     private static final int DESCRIPTION_HEIGHT = 300;
     private static final int DESCRIPTION_WIDTH = 280;
-    private static final int SINGLEPLAYER_WIDTH = 43;
-    private static final int MULTIPLAYER_WIDTH = 54;
     private static final String DEFAULT_IMAGE =
-            new File(System.getProperty("user.dir") + "/src/arcade/resources/images/NoImage.jpg")
+            new File(System.getProperty("user.dir")
+                     + "/src/arcade/resources/images/NoImage.gif")
                     .getPath();
-
     private JTextField myNameTextField;
     private JTextField myGenreTextField;
     private JTextField myAuthorTextField;
@@ -44,20 +45,16 @@ public class PublishView extends Form {
     private JTextArea myDescriptionTextField = new JTextArea();
     private String mySmallImagePath = DEFAULT_IMAGE;
     private String myLargeImagePath = DEFAULT_IMAGE;
-    private String mySinglePlayerPath;
-    private boolean isSinglePlayer;
-    private String myMultiPlayerPath;
-    private boolean isMultiPlayer;
+    private String myGameFilePath = "";
 
     /**
-     * Constructs the publish view dialog box with a Model and ResourceBundle.
+     * Constructs the publish view dialog box with a Controller and ResourceBundle.
      * 
-     * @param model
+     * @param controller
      * @param resources
      */
-    public PublishView (Model model, ResourceBundle resources) {
-        super(model, resources);
-
+    public PublishView (Controller controller, ResourceBundle resources) {
+        super(controller, resources);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
@@ -141,43 +138,18 @@ public class PublishView extends Form {
                                    });
     }
 
-    /**
-     * Creates the field to check if the game is single player, and if so,
-     * select the file that extends Game.
-     * 
-     * @return
-     */
-    private JComponent createSinglePlayerCheckBox () {
-        return createCheckBox(TextKeywords.SINGLE_PLAYER,
-                              TextKeywords.SINGLE_PLAYER_INSTRUCTION,
-                              SINGLEPLAYER_WIDTH,
-                              new FileChooserAction() {
-                                  @Override
-                                  public void approve (JFileChooser chooser) {
-                                      isSinglePlayer = true;
-                                      mySinglePlayerPath = chooser.getSelectedFile().getPath();
-                                  }
-                              });
-
-    }
-
-    /**
-     * Creates the field to check if the game is multiplayer, and if so,
-     * select the file that extends MultiPlayerGame.
-     * 
-     * @return
-     */
-    private JComponent createMultiPlayerCheckBox () {
-        return createCheckBox(TextKeywords.MULTIPLAYER,
-                              TextKeywords.MULTIPLAYER_INSTRUCTION,
-                              MULTIPLAYER_WIDTH,
-                              new FileChooserAction() {
-                                  @Override
-                                  public void approve (JFileChooser chooser) {
-                                      isMultiPlayer = true;
-                                      myMultiPlayerPath = chooser.getSelectedFile().getPath();
-                                  }
-                              });
+    private JComponent createGameFileSelector () {
+        return createFileSelector(TextKeywords.GAME_INSTRUCTION,
+                                  TextKeywords.FILE_SELECT,
+                                  new FileChooserAction() {
+                                      @Override
+                                      public void approve (JFileChooser chooser) {
+                                          myGameFilePath = chooser.getSelectedFile().getPath();
+                                      }
+                                  },
+                                  new FileNameExtensionFilter(getResources()
+                                          .getString(TextKeywords.JAVA),
+                                                              "java"));
     }
 
     /**
@@ -238,23 +210,23 @@ public class PublishView extends Form {
     }
 
     /**
-     * Try telling model to publish a new game.  Inform the user if invalid 
+     * Try telling controller to publish a new game. Inform the user if invalid
      * inputs.
      */
     private void publish () {
         try {
-            getModel().publish(myNameTextField.getText(),
-                               myGenreTextField.getText(),
-                               myAuthorTextField.getText(),
-                               getPrice(),
-                               mySinglePlayerPath,
-                               myMultiPlayerPath,
-                               getAgeRating(),
-                               isSinglePlayer,
-                               isMultiPlayer,
-                               mySmallImagePath,
-                               myLargeImagePath,
-                               myDescriptionTextField.getText());
+            getController().publish(myNameTextField.getText(),
+                                  myGenreTextField.getText(),
+                                  myAuthorTextField.getText(),
+                                  getPrice(),
+                                  getGameFilePath(),
+                                  "",
+                                  getAgeRating(),
+                                  true,
+                                  false,
+                                  mySmallImagePath,
+                                  myLargeImagePath,
+                                  myDescriptionTextField.getText());
             dispose();
         }
         catch (InvalidPriceException e) {
@@ -265,14 +237,18 @@ public class PublishView extends Form {
             sendMessage(getResources().getString(TextKeywords.AGE_ERROR));
             myAgeTextField.setText("");
         }
+        catch (InvalidGameFileException e) {
+            sendMessage(getResources().getString(TextKeywords.GAME_FILE_ERROR));
+        }
     }
-    
+
     /**
      * Gets the price entered by the user.
+     * 
      * @return
      * @throws InvalidPriceException if not valid.
      */
-    private double getPrice() throws InvalidPriceException {
+    private double getPrice () throws InvalidPriceException {
         try {
             double price = Double.parseDouble(myPriceTextField.getText());
             if (price < 0) throw new InvalidPriceException();
@@ -282,13 +258,14 @@ public class PublishView extends Form {
             throw new InvalidPriceException();
         }
     }
-    
+
     /**
-     * Gets the age rating entered by the user. 
+     * Gets the age rating entered by the user.
+     * 
      * @return
-     * @throws AgeException
+     * @throws AgeException if not a valid age.
      */
-    private int getAgeRating() throws AgeException {
+    private int getAgeRating () throws AgeException {
         try {
             int age = Integer.parseInt(myAgeTextField.getText());
             if (age < 0) throw new AgeException();
@@ -297,5 +274,16 @@ public class PublishView extends Form {
         catch (NumberFormatException e) {
             throw new AgeException();
         }
+    }
+
+    /**
+     * Gets the game file path selected by the user.
+     * 
+     * @return
+     * @throws InvalidGameFileException if not a valid file path
+     */
+    private String getGameFilePath () throws InvalidGameFileException {
+        if (myGameFilePath.isEmpty()) { throw new InvalidGameFileException(); }
+        return myGameFilePath;
     }
 }
