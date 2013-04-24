@@ -20,7 +20,7 @@ public class Player implements Controller, IGameLoop {
     private int myTeamID;
 
     public Player (int id) {
-        myManager = new Manager();
+        myManager = new Manager(id);
         myTeamID = id;
     }
 
@@ -34,6 +34,7 @@ public class Player implements Controller, IGameLoop {
     }
 
     public void add (InteractiveEntity unit) {
+    	unit.setPlayerID(myTeamID);
         myManager.add(unit);
     }
 

@@ -39,6 +39,8 @@ import vooga.rts.gamedesign.strategy.upgradestrategy.UpgradeStrategy;
 import vooga.rts.gamedesign.upgrades.UpgradeNode;
 import vooga.rts.gamedesign.upgrades.UpgradeTree;
 import vooga.rts.gamedesign.weapon.Weapon;
+import vooga.rts.state.GameState;
+import vooga.rts.state.MainState;
 import vooga.rts.util.Camera;
 import vooga.rts.util.DelayedTask;
 import vooga.rts.util.Location3D;
@@ -59,7 +61,7 @@ import vooga.rts.util.Information;
  */
 
 public abstract class InteractiveEntity extends GameEntity implements
-		IAttackable, IActOn {
+IAttackable, IActOn {
 
 	private static final int LOCATION_OFFSET = 20;
 	private static int DEFAULT_INTERACTIVEENTITY_SPEED = 150;
@@ -165,22 +167,23 @@ public abstract class InteractiveEntity extends GameEntity implements
 		double distance = Math.sqrt(Math
 				.pow(getWorldLocation().getX()
 						- ((InteractiveEntity) attackable).getWorldLocation()
-								.getX(), 2)
-				+ Math.pow(getWorldLocation().getY()
-						- ((InteractiveEntity) attackable).getWorldLocation()
+						.getX(), 2)
+						+ Math.pow(getWorldLocation().getY()
+								- ((InteractiveEntity) attackable).getWorldLocation()
 								.getY(), 2));
 		if (!this.isDead()) {
 			// getEntityState().setAttackingState(AttackingState.ATTACKING);
-			if (myAttackStrategy.getCurrentWeapon() != null) {
-				if (getEntityState().getUnitState() == UnitState.ATTACK
-						&& myAttackStrategy.getCurrentWeapon().inRange(
-								(InteractiveEntity) attackable, distance)
-						&& getEntityState().getAttackingState() != AttackingState.WAITING
-						&& getEntityState().getAttackingState() != AttackingState.ATTACKING) {
-					getEntityState().setMovementState(MovementState.STATIONARY);
-					getEntityState().attack();
-				}
-			}
+			//			if (myAttackStrategy.getCurrentWeapon() != null) {
+			//				if (getEntityState().getUnitState() == UnitState.ATTACK
+			//						&& myAttackStrategy.getCurrentWeapon().inRange(
+			//								(InteractiveEntity) attackable, distance)
+			//						&& getEntityState().getAttackingState() != AttackingState.WAITING
+			//						&& getEntityState().getAttackingState() != AttackingState.ATTACKING) {
+			//					getEntityState().setMovementState(MovementState.STATIONARY);
+			//					stopMoving();
+			//					getEntityState().attack();
+			//				}
+			//			}
 			if (getEntityState().getAttackingState() != AttackingState.WAITING
 					&& getEntityState().getAttackingState() != AttackingState.ATTACKING) {
 				getEntityState().attack();
@@ -347,11 +350,11 @@ public abstract class InteractiveEntity extends GameEntity implements
 		Rectangle2D healthBar = new Rectangle2D.Double(
 				(int) selectLocation.getX() - LOCATION_OFFSET,
 				(int) (selectLocation.getY() - 5 * LOCATION_OFFSET), 50
-						* getHealth() / getMaxHealth(), 5);
+				* getHealth() / getMaxHealth(), 5);
 		float width = (float) (healthBar.getWidth() * (getHealth() / getMaxHealth()));
 		pen.setPaint(new GradientPaint((float) healthBar.getX() - width,
 				(float) healthBar.getMaxY(), Color.RED, (float) healthBar
-						.getMaxX(), (float) healthBar.getMaxY(), Color.GREEN));
+				.getMaxX(), (float) healthBar.getMaxY(), Color.GREEN));
 		pen.fill(healthBar);
 		pen.setColor(Color.black);
 
@@ -363,7 +366,8 @@ public abstract class InteractiveEntity extends GameEntity implements
 		}
 		super.paint(pen);
 		if (myAttackStrategy.hasWeapon()) {
-			for (Projectile p : myAttackStrategy.getCurrentWeapon().getProjectiles()) {
+			for (Projectile p : myAttackStrategy.getCurrentWeapon()
+					.getProjectiles()) {
 				p.paint(pen);
 			}
 		}
@@ -421,8 +425,9 @@ public abstract class InteractiveEntity extends GameEntity implements
 
 	/**
 	 * Sets the attack strategy for an interactive. Can set the interactive to
-	 * CanAttack or to CannotAttack and then can specify how it would attack. Also updates
-	 * the weapons of the strategy to be at the same location of this entity. 
+	 * CanAttack or to CannotAttack and then can specify how it would attack.
+	 * Also updates the weapons of the strategy to be at the same location of
+	 * this entity.
 	 * 
 	 * @param newStrategy
 	 *            is the new attack strategy that the interactive will have
@@ -470,9 +475,13 @@ public abstract class InteractiveEntity extends GameEntity implements
 		}
 
 		if (myAttackStrategy.hasWeapon()) {
-			
-			myAttackStrategy.getCurrentWeapon().update(elapsedTime);
-			
+			Weapon weapon = myAttackStrategy.getCurrentWeapon();
+			List<InteractiveEntity> enemies = GameState.getMap().<InteractiveEntity>getInArea(getWorldLocation(), weapon.getRange(), this, getPlayerID(), false);
+			if(!enemies.isEmpty()) {
+				enemies.get(0).getAttacked(this);
+			}
+			weapon.update(elapsedTime);
+
 		}
 		getEntityState().update(elapsedTime);
 
@@ -520,14 +529,15 @@ public abstract class InteractiveEntity extends GameEntity implements
 	public void setChanged() {
 		super.setChanged();
 	}
-	
+
 	/**
 	 * Sets the current gather strategy to other
+	 * 
 	 * @param other
 	 */
-    public void setGatherStrategy(GatherStrategy other) {
-    	myGatherStrategy = other;
-    }
+	public void setGatherStrategy(GatherStrategy other) {
+		myGatherStrategy = other;
+	}
 
 	/**
 	 * Gets the occupy strategy of the entity (either CanBeOccupied or

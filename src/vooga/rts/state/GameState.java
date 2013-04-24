@@ -21,6 +21,7 @@ import vooga.rts.gamedesign.sprite.gamesprites.interactive.buildings.Garrison;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Soldier;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Unit;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Worker;
+import vooga.rts.gamedesign.state.UnitState;
 import vooga.rts.gamedesign.strategy.production.CanProduce;
 import vooga.rts.gamedesign.weapon.Weapon;
 import vooga.rts.map.GameMap;
@@ -257,12 +258,12 @@ public class GameState extends SubState implements Controller {
     private void yuckyUnitUpdate (double elapsedTime) {
         List<InteractiveEntity> p1 = myTeams.get(1).getUnits();
         List<InteractiveEntity> p2 = myTeams.get(2).getUnits();
-        for (InteractiveEntity u1 : p1) {
-            for (InteractiveEntity u2 : p2) {
-                u2.getAttacked(u1);
-                u1.getAttacked(u2);
-            }
-        }
+//		for (InteractiveEntity u1 : p1) {
+//			for (InteractiveEntity u2 : p2) {
+//				u2.getAttacked(u1);
+//				u1.getAttacked(u2);
+//			}
+//		}
 
         for (DelayedTask dt : myTasks) {
             dt.update(elapsedTime);
