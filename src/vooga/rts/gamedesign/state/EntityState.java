@@ -43,7 +43,11 @@ public class EntityState {
         myAttackingCooldown = DEFAULT_ATTACKING_INTERVAL;
         myUnitState = UnitState.NOTHING;
     }
-
+    
+    /**
+     * Returns the attacking state of the game entity.
+     * @return the attacking state of the entity
+     */
     public AttackingState getAttackingState () {
         return myAttackingState;
     }
@@ -112,14 +116,28 @@ public class EntityState {
         return myMovementState == MovementState.MOVING;
     }
     
+    /**
+     * returns the unit's state.
+     * @return the state of the unit
+     */
     public UnitState getUnitState() {
     	return myUnitState;
     }
     
+    /**
+     * Sets the state of the unit.
+     * @param unitState is the state of the unit
+     */
     public void setUnitState(UnitState unitState) {
     	myUnitState = unitState;
     }
 
+    /**
+     * Returns whether or not a unit can be selected.  A unit cannot be 
+     * selected if it is currently occupying a building.
+     * @return true if the unit can be selected (it is not occupying a
+     * building) and false if it can not be selected (it is in a building)
+     */
     public boolean canSelect () {
         return myOccupyState == OccupyState.NOT_OCCUPYING;
     }
