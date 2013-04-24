@@ -29,6 +29,7 @@ import vooga.rts.gamedesign.state.MovementState;
 import vooga.rts.gamedesign.state.UnitState;
 import vooga.rts.gamedesign.strategy.attackstrategy.AttackStrategy;
 import vooga.rts.gamedesign.strategy.attackstrategy.CannotAttack;
+import vooga.rts.gamedesign.strategy.gatherstrategy.GatherStrategy;
 import vooga.rts.gamedesign.strategy.occupystrategy.CannotBeOccupied;
 import vooga.rts.gamedesign.strategy.occupystrategy.OccupyStrategy;
 import vooga.rts.gamedesign.strategy.production.CannotProduce;
@@ -37,6 +38,7 @@ import vooga.rts.gamedesign.strategy.upgradestrategy.CanUpgrade;
 import vooga.rts.gamedesign.strategy.upgradestrategy.UpgradeStrategy;
 import vooga.rts.gamedesign.upgrades.UpgradeNode;
 import vooga.rts.gamedesign.upgrades.UpgradeTree;
+import vooga.rts.gamedesign.weapon.Weapon;
 import vooga.rts.util.Camera;
 import vooga.rts.util.DelayedTask;
 import vooga.rts.util.Location3D;
@@ -67,6 +69,7 @@ public abstract class InteractiveEntity extends GameEntity implements
 	private AttackStrategy myAttackStrategy;
 	private ProductionStrategy myProductionStrategy;
 	private OccupyStrategy myOccupyStrategy;
+	private GatherStrategy myGatherStrategy;
 	private int myArmor;
 	private Map<String, Action> myActions;
 	private Map<String, Information> myInfos;
@@ -359,10 +362,8 @@ public abstract class InteractiveEntity extends GameEntity implements
 			pen.fill(selectedCircle);
 		}
 		super.paint(pen);
-		if (myAttackStrategy.getCanAttack()
-				&& !getAttackStrategy().getWeapons().isEmpty()) {
-			for (Projectile p : myAttackStrategy.getWeapons()
-					.get(myAttackStrategy.getWeaponIndex()).getProjectiles()) {
+		if (myAttackStrategy.hasWeapon()) {
+			for (Projectile p : myAttackStrategy.getCurrentWeapon().getProjectiles()) {
 				p.paint(pen);
 			}
 		}
@@ -420,12 +421,14 @@ public abstract class InteractiveEntity extends GameEntity implements
 
 	/**
 	 * Sets the attack strategy for an interactive. Can set the interactive to
-	 * CanAttack or to CannotAttack and then can specify how it would attack.
+	 * CanAttack or to CannotAttack and then can specify how it would attack. Also updates
+	 * the weapons of the strategy to be at the same location of this entity. 
 	 * 
 	 * @param newStrategy
 	 *            is the new attack strategy that the interactive will have
 	 */
 	public void setAttackStrategy(AttackStrategy newStrategy) {
+		newStrategy.setWeaponLocation(getWorldLocation());
 		myAttackStrategy = newStrategy;
 	}
 
@@ -466,13 +469,10 @@ public abstract class InteractiveEntity extends GameEntity implements
 			}
 		}
 
-		if (myAttackStrategy.getCanAttack()
-				&& !getAttackStrategy().getWeapons().isEmpty()) {
-			myAttackStrategy.getWeapons()
-					.get(myAttackStrategy.getWeaponIndex())
-					.setCenter(getWorldLocation());
-			myAttackStrategy.getWeapons()
-					.get(myAttackStrategy.getWeaponIndex()).update(elapsedTime);
+		if (myAttackStrategy.hasWeapon()) {
+			
+			myAttackStrategy.getCurrentWeapon().update(elapsedTime);
+			
 		}
 		getEntityState().update(elapsedTime);
 
@@ -520,6 +520,14 @@ public abstract class InteractiveEntity extends GameEntity implements
 	public void setChanged() {
 		super.setChanged();
 	}
+	
+	/**
+	 * Sets the current gather strategy to other
+	 * @param other
+	 */
+    public void setGatherStrategy(GatherStrategy other) {
+    	myGatherStrategy = other;
+    }
 
 	/**
 	 * Gets the occupy strategy of the entity (either CanBeOccupied or
