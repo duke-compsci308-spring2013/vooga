@@ -3,11 +3,12 @@ package vooga.rts.networking.server;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
+import util.logger.NetworkLogger;
+import vooga.rts.networking.NetworkBundle;
 import vooga.rts.networking.communications.ExpandedLobbyInfo;
 import vooga.rts.networking.communications.LobbyInfo;
 import vooga.rts.networking.communications.Message;
 import vooga.rts.networking.communications.clientmessages.ClientInfoMessage;
-import vooga.rts.networking.logger.NetworkLogger;
 
 
 /**
@@ -48,11 +49,11 @@ public abstract class AbstractThreadContainer implements IThreadContainer, IMess
     }
 
     @Override
-    public void leaveLobby (ConnectionThread thread) {
+    public void leaveLobby (ConnectionThread thread, ExpandedLobbyInfo lobbyInfo) {
     }
 
     @Override
-    public void startGameServer (ConnectionThread thread) {
+    public void requestGameStart (ConnectionThread thread) {
     }
 
     @Override
@@ -62,9 +63,14 @@ public abstract class AbstractThreadContainer implements IThreadContainer, IMess
     @Override
     public void startLobby (ConnectionThread thread, LobbyInfo lobbyInfo) {
     }
-    
+
     @Override
-    public void updateLobbyInfo (ConnectionThread thread, ExpandedLobbyInfo myLobbyInfo){
+    public void updateLobbyInfo (ConnectionThread thread, ExpandedLobbyInfo myLobbyInfo) {
+    }
+
+    @Override
+    public void clientIsReadyToStart (ConnectionThread thread) {
+
     }
 
     @Override
@@ -81,7 +87,8 @@ public abstract class AbstractThreadContainer implements IThreadContainer, IMess
      */
     @Override
     public void receiveMessageFromClient (Message message, ConnectionThread thread) {
-        NetworkLogger.logMessage(Level.FINEST, "Message received from " + thread.getID());
+        NetworkLogger.getLogger().log(Level.FINEST, NetworkBundle.getString("MessageReceived") +
+                                                    thread.getID());
         stampMessage(message);
         if (message instanceof ClientInfoMessage) {
             ClientInfoMessage systemMessage = (ClientInfoMessage) message;
@@ -91,7 +98,7 @@ public abstract class AbstractThreadContainer implements IThreadContainer, IMess
 
     /**
      * Overridable method for stamping this message called by receiveMessageFromClient.
-     * ]
+     * 
      */
     protected void stampMessage (Message message) {
         message.stampTime();
@@ -135,4 +142,7 @@ public abstract class AbstractThreadContainer implements IThreadContainer, IMess
         myConnectionThreads.clear();
     }
 
+    protected int getNumberOfConnections () {
+        return myConnectionThreads.size();
+    }
 }

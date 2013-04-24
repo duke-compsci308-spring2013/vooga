@@ -3,6 +3,7 @@ package vooga.rts.map;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.List;
 import vooga.rts.IGameLoop;
@@ -11,6 +12,7 @@ import vooga.rts.ai.PathFinder;
 import vooga.rts.gamedesign.sprite.gamesprites.GameEntity;
 import vooga.rts.gamedesign.sprite.gamesprites.GameSprite;
 import vooga.rts.gamedesign.sprite.gamesprites.Resource;
+import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 import vooga.rts.gamedesign.sprite.map.Terrain;
 import vooga.rts.resourcemanager.ResourceManager;
 import vooga.rts.util.Camera;
@@ -38,6 +40,7 @@ public class GameMap implements IGameLoop {
     private TileMap myTiles;
     private GameSpriteManager<Terrain> myTerrain;
     private GameSpriteManager<Resource> myResources;
+    private Dimension mySize;
 
     /**
      * calculates how many nodes there are
@@ -45,8 +48,9 @@ public class GameMap implements IGameLoop {
      * @param mapSize This is the size of the map in pixels
      */
     public GameMap (Dimension size) {
+        mySize = size;
         NodeFactory factory = new NodeFactory();
-        Dimension dou = new Dimension((int)size.getWidth(), (int)(size.getHeight() * 2));
+        Dimension dou = new Dimension((int) size.getWidth(), (int) (size.getHeight() * 2));
         myNodeMap = factory.makeMap(Node.NODE_SIZE, size);
 
         myTerrain = new GameSpriteManager<Terrain>();
@@ -54,6 +58,11 @@ public class GameMap implements IGameLoop {
 
         Camera.instance().setMapSize(size);
         randomGenMap(dou);
+    }
+
+    public GameMap (Dimension tileSize, int width, int height) {
+        this(new Dimension((int) tileSize.getWidth() * width, (int) tileSize.getHeight() * height));
+        myTiles = new TileMap(tileSize, width, height);
     }
 
     /**
@@ -122,18 +131,34 @@ public class GameMap implements IGameLoop {
         myNodeMap.paint(pen);
     }
 
+    /**
+     * Returns an Interactive Entity that is at the specified location.
+     * 
+     * @param loc The location to search for an interactive entity.
+     * @return The Interactive Entity if it exists, otherwise null.
+     */
+    public InteractiveEntity getEntity (Location3D loc) {
+        Node n = myNodeMap.getNode(loc);
+        for (GameSprite gs : n.getContents()) {
+            if (gs instanceof InteractiveEntity) {
+                if (gs.intersects(loc)) {
+                    return (InteractiveEntity) gs;
+                }
+            }
+        }
+        return null;
+    }
+
     private void randomGenMap (Dimension size) {
         int tileWidth = 64;
         int tileHeight = 64;
-        int tilesX = (int) size.getWidth() / tileWidth;        
+        int tilesX = (int) size.getWidth() / tileWidth;
         int tilesY = (int) size.getHeight() / tileHeight;
-        
-        
+
         myTiles = new TileMap(new Dimension(tileWidth, tileHeight), tilesX, tilesY);
 
         BufferedImage banana =
-                ResourceManager
-                        .getInstance()
+                ResourceManager.getInstance()
                         .<BufferedImage> getFile("images/tiles/iso-64x64-outside.png",
                                                  BufferedImage.class);
 
@@ -151,5 +176,13 @@ public class GameMap implements IGameLoop {
             }
         }
         Camera.instance().setMapSize(size);
+    }
+
+    public void setTileMap (TileMap map) {
+        myTiles = map;
+    }
+
+    public Dimension getSize () {
+        return mySize;
     }
 }

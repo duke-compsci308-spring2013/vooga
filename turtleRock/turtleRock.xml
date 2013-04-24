@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Map>
 <MapInfo>
-<Name>CIEMAS</Name>
-<Desc> our RTS is the best one !</Desc>
-<Players number="4">
-<Player ID="1" X="1" Y="2"/>
-<Player ID="2" X="2" Y="3"/>
-<Player ID="3" X="3" Y="4"/>
-<Player ID="4" X="5" Y="7"/>
+<Name>TestMap</Name>
+<Desc>This is a test map</Desc>
+<Players number="vooga.rts.leveleditor.components.EditableMap@3d721ae2">
+<Player ID="1" X="20" Y="20"/>
 </Players>
 </MapInfo>
 <Resourceinfo>
@@ -16,19 +13,17 @@
 <tileamount X="10" Y="10"/>
 </SizeInfo>
 <tileindex>
-<tiletype ID="3" image="Concrete1.jpg" name="Concrete1"/>
-<tiletype ID="2" image="Bricks1.jpg" name="Bricks1"/>
-<tiletype ID="1" image="Brush1.jpg" name="Brush1"/>
-<tiletype ID="7" image="Metal1.jpg" name="Metal1"/>
-<tiletype ID="6" image="Mesh1.jpg" name="Mesh1"/>
-<tiletype ID="5" image="Etiles1.jpg" name="Etiles1"/>
-<tiletype ID="4" image="Crops1.jpg" name="Crops1"/>
-<tiletype ID="8" image="rock1.jpg" name="Rock1"/>
+<tiletype ID="1" image="Bricks1.jpg" name="bricks"/>
+<tiletype ID="3" image="Concrete1.jpg" name="concrete"/>
+<tiletype ID="2" image="Brush1.jpg" name="brush"/>
 </tileindex>
 <terrainindex>
-<terraintype ID="2" image="Terrain2.jpg" name="Terrain2" walkAbility="2"/>
-<terraintype ID="1" image="Terrain1.jpg" name="Terrain1" walkAbility="4"/>
+<terraintype ID="1" image="Terrain1.jpg" name="ter1" walkAbility="2"/>
+<terraintype ID="2" image="Terrain2.jpg" name="ter2" walkAbility="4"/>
+<resourcetype ID="1" image="gas1.png" name="gas" walkAbility="0"/>
+<resourcetype ID="2" image="mineral1.png" name="mineral" walkAbility="0"/>
 </terrainindex>
+<resourceIndex/>
 </Resourceinfo>
 <tiles>
 <tile ID="0"/>
@@ -53,11 +48,6 @@
 <tile ID="0"/>
 <tile ID="0"/>
 <tile ID="0"/>
-<tile ID="2"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
 <tile ID="0"/>
 <tile ID="0"/>
 <tile ID="0"/>
@@ -69,6 +59,18 @@
 <tile ID="0"/>
 <tile ID="0"/>
 <tile ID="0"/>
+<tile ID="1"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="3"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="1"/>
 <tile ID="0"/>
 <tile ID="0"/>
 <tile ID="0"/>
@@ -79,6 +81,29 @@
 <tile ID="0"/>
 <tile ID="0"/>
 <tile ID="0"/>
+<tile ID="2"/>
+<tile ID="0"/>
+<tile ID="3"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="2"/>
+<tile ID="0"/>
+<tile ID="3"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="0"/>
+<tile ID="2"/>
 <tile ID="0"/>
 <tile ID="0"/>
 <tile ID="0"/>
@@ -89,37 +114,7 @@
 <tile ID="0"/>
 <tile ID="0"/>
 <tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
-<tile ID="0"/>
+<tile ID="2"/>
 <tile ID="0"/>
 <tile ID="0"/>
 <tile ID="0"/>
@@ -133,16 +128,13 @@
 <tile ID="0"/>
 </tiles>
 <terrains>
-<layer level="1"/>
-<layer level="2">
-<terrain ID="2" X="3" Y="3"/>
-</layer>
-<layer level="3">
-<terrain ID="1" X="2" Y="2"/>
-</layer>
+<terrain ID="1" X="20" Y="20" Z="0"/>
+<terrain ID="1" X="40" Y="40" Z="0"/>
+<terrain ID="2" X="60" Y="60" Z="0"/>
+<terrain ID="2" X="80" Y="80" Z="0"/>
 </terrains>
 <Resources>
-<resource ID="1" X="7" Y="7"/>
-<resource ID="2" X="8" Y="8"/>
+<resource ID="1" X="80" Y="20" Z="0" amount="0"/>
+<resource ID="2" X="50" Y="10" Z="0" amount="0"/>
 </Resources>
 </Map>

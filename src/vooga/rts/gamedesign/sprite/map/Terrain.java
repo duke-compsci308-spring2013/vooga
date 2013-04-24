@@ -16,7 +16,7 @@ import vooga.rts.util.Pixmap;
  * @author Wenshun Liu 
  *
  */
-public abstract class Terrain extends GameSprite {
+public class Terrain extends GameSprite {
 
     public int myHeight;
     public int myLevel;

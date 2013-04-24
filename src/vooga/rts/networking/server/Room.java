@@ -31,6 +31,7 @@ public class Room extends AbstractThreadContainer {
      * Creates a Room with ID and GameContainer while copying in all current connections from the
      * other room, removing that room's connections, removing that room from the container, and
      * adding this room to the container.
+     * A room can either be a game that is running, or a lobby waiting to become an active game.
      * 
      * @param id room number
      * @param container GameContainer
@@ -39,7 +40,7 @@ public class Room extends AbstractThreadContainer {
     public Room (int id, GameContainer container, Room room) {
         super(room);
         setIDandContainer(id, container);
-        myLobbyModel = room.getLobbyModel();
+        myLobbyModel = room.getLobbyInfo();
         room.removeAllConnections();
         container.removeRoom(room);
     }
@@ -61,8 +62,12 @@ public class Room extends AbstractThreadContainer {
         return myID;
     }
 
-    protected ExpandedLobbyInfo getLobbyModel () {
+    protected ExpandedLobbyInfo getLobbyInfo () {
         return myLobbyModel;
+    }
+    
+    protected int getMaxConnections () {
+        return myLobbyModel.getMaxPlayers();
     }
 
 }

@@ -12,7 +12,6 @@ import java.util.List;
 import vooga.rts.gamedesign.sprite.gamesprites.GameEntity;
 import vooga.rts.gamedesign.sprite.gamesprites.GameSprite;
 import vooga.rts.util.Camera;
-import vooga.rts.util.Location;
 import vooga.rts.util.Location3D;
 
 /**

@@ -5,6 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import util.logger.NetworkLogger;
+import vooga.rts.networking.NetworkBundle;
 import vooga.rts.networking.communications.Message;
 
 
@@ -18,7 +21,8 @@ import vooga.rts.networking.communications.Message;
  * 
  */
 public class Client extends Thread implements IClient {
-    private static final int PORT = 55309;
+
+    private static final int PORT = 55308;
     private static final String HOST = "localhost";
     private ObjectInputStream myInput;
     private ObjectOutputStream myOutput;
@@ -36,20 +40,20 @@ public class Client extends Thread implements IClient {
             myInput = new ObjectInputStream(mySocket.getInputStream());
         }
         catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            NetworkLogger.getLogger().log(Level.WARNING,
+                                          NetworkBundle.getString("InitialConnectionFailed"));
         }
         catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            NetworkLogger.getLogger().log(Level.WARNING,
+                                          NetworkBundle.getString("InitialConnectionFailed"));
         }
+        start();
     }
 
     /**
      * Creates the sockets and streams for this client
      */
     public void run () {
-        // TODO refactor
         myRunning = true;
         while (myRunning) {
             try {
@@ -59,12 +63,12 @@ public class Client extends Thread implements IClient {
                 }
             }
             catch (ClassNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                NetworkLogger.getLogger().log(Level.WARNING,
+                                              NetworkBundle.getString("ConnectionFailedClassEx"));
             }
             catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                NetworkLogger.getLogger().log(Level.WARNING,
+                                              NetworkBundle.getString("ConnectionFailedIO"));
                 myRunning = false;
             }
         }
@@ -76,7 +80,8 @@ public class Client extends Thread implements IClient {
             myOutput.writeObject(message);
         }
         catch (IOException e) {
-            System.out.println("Exception writing to server: " + e);
+            NetworkLogger.getLogger().log(Level.WARNING,
+                                          NetworkBundle.getString("ExceptionServer") + e);
         }
     }
 
@@ -94,14 +99,9 @@ public class Client extends Thread implements IClient {
             mySocket.close();
         }
         catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            NetworkLogger.getLogger().log(Level.WARNING,
+                                          NetworkBundle.getString("ClosingConnectionsFailed"));
         }
-    }
-
-    @Override
-    public void beginAcceptingConnections () {
-        start();
     }
 
 }

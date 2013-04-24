@@ -28,13 +28,13 @@ public class ExpandedLobbyInfo extends LobbyInfo {
      * @param lobbyName name of lobby
      * @param mapName name of map
      * @param maxPlayers max players
-     * @param ID id
+     * @param id id
      */
     public ExpandedLobbyInfo (String lobbyName,
                               String mapName,
                               int maxPlayers,
-                              int ID) {
-        super(lobbyName, mapName, maxPlayers, ID);
+                              int id) {
+        super(lobbyName, mapName, maxPlayers, id);
         myMaxTeams = maxPlayers;
         myPlayers = new Player[maxPlayers];
     }
@@ -46,7 +46,7 @@ public class ExpandedLobbyInfo extends LobbyInfo {
      */
     public ExpandedLobbyInfo (LobbyInfo lobbyInfo) {
         this(lobbyInfo.getLobbyName(), lobbyInfo.getMapName(), lobbyInfo.getMaxPlayers(), lobbyInfo
-                .getID());
+                .getId());
     }
 
     /**
@@ -107,9 +107,10 @@ public class ExpandedLobbyInfo extends LobbyInfo {
             }
         }
     }
-    
+
     /**
      * Gets the player in the given position
+     * 
      * @param position of player
      * @return player
      */
@@ -134,23 +135,20 @@ public class ExpandedLobbyInfo extends LobbyInfo {
     public Player[] getPlayers () {
         return Arrays.copyOf(myPlayers, myPlayers.length);
     }
-    
+
     /**
      * Returns if the game is startable.
+     * 
      * @return true if game can be started
      */
     public boolean canStartGame () {
         for (int i = 0; i < myPlayers.length; i++) {
-            if (myPlayers[i] == null) {
-                return false;
-            }
+            if (myPlayers[i] == null) { return false; }
         }
-        
+
         int team1 = myPlayers[0].getTeam();
         for (int i = 0; i < myPlayers.length; i++) {
-            if (myPlayers[i].getTeam() != team1) {
-                return true;
-            }
+            if (myPlayers[i].getTeam() != team1) { return true; }
         }
         return false;
     }

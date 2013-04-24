@@ -3,6 +3,7 @@ package vooga.rts.leveleditor.gui;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -11,7 +12,8 @@ import util.input.Input;
 import util.input.InputClassTarget;
 import util.input.InputMethodTarget;
 import util.input.PositionObject;
-import vooga.rts.leveleditor.components.Resource;
+import vooga.rts.leveleditor.components.EditableResource;
+import vooga.rts.util.Pixmap;
 
 
 /**
@@ -27,9 +29,9 @@ public class ResourceButton extends JToggleButton {
 
     public static final String INPUT_DIR = "vooga.rts.resources.properties.Input";
 
-    private Resource myResource;
+    private EditableResource myResource;
     private ResourcePanel myOwner;
-    private Image myIcon;
+    private Pixmap myIcon;
     private Input myInput;
     private boolean isInitialized;
 
@@ -37,18 +39,20 @@ public class ResourceButton extends JToggleButton {
      * Constructor for this class
      * 
      * @param r : the Resource which the button represents
+     * @param image 
      * @param owner : the ResourcePanel which holds this button;
      */
-    public ResourceButton (Resource r, ResourcePanel owner) {
-        myResource = r;
-        myIcon = r.getMyImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+    public ResourceButton (EditableResource editableResource, BufferedImage image, ResourcePanel owner) {
+        myResource = editableResource;
+        myIcon = editableResource.getImage();
+        Image image2 = image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         myOwner = owner;
         myInput = new Input(INPUT_DIR, this);
         myInput.addListenerTo(this);
         isInitialized = false;
 
-        setToolTipText(r.getMyName());
-        setIcon(new ImageIcon(myIcon));
+        setToolTipText(editableResource.getType());
+        setIcon(new ImageIcon(image2));
         setMargin(new Insets(2, 2, 2, 2));
     }
 

@@ -245,8 +245,7 @@ public class Manager extends Observable implements State, IActOn, Observer {
      * 
      * @param entity
      */
-    public void select (InteractiveEntity entity) {
-        
+    public void select (InteractiveEntity entity) {        
         deselectAll();
         if (!mySelectedEntities.contains(entity)) {
             if (myEntities.contains(entity)) {
@@ -362,7 +361,6 @@ public class Manager extends Observable implements State, IActOn, Observer {
                 sent.setVisible(false);
                 deselect(sent);
             }
-
         }
         else
             if (state instanceof Integer) {

@@ -22,6 +22,7 @@ import vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Soldier;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Unit;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Worker;
 import vooga.rts.gamedesign.state.UnitState;
+import vooga.rts.gamedesign.sprite.map.Terrain;
 import vooga.rts.gamedesign.strategy.production.CanProduce;
 import vooga.rts.gamedesign.weapon.Weapon;
 import vooga.rts.map.GameMap;
@@ -155,8 +156,7 @@ public class GameState extends SubState implements Controller {
         addPlayer(1);
 
         Unit worker =
-                new Worker(new Pixmap(ResourceManager.getInstance()
-                        .<BufferedImage> getFile("images/scv.gif", BufferedImage.class)),
+                new Worker(new Pixmap("images/scv.gif"),
                            new Location3D(100, 100, 0), new Dimension(75, 75), null, 1, 200, 40, 5);
         Information i1 =
                 new Information("Worker",
@@ -166,8 +166,7 @@ public class GameState extends SubState implements Controller {
         myHumanPlayer.add(worker);
         Unit a = new Soldier();
         Projectile proj =
-                new Projectile(new Pixmap(ResourceManager.getInstance()
-                        .<BufferedImage> getFile("images/bullet.png", BufferedImage.class)),
+                new Projectile(new Pixmap("images/bullet.png"),
                                a.getWorldLocation(), new Dimension(30, 30), 2, 10, 6);
         a.getAttackStrategy().addWeapons(new Weapon(proj, 400, a.getWorldLocation(), 1));
         Information i2 =
@@ -198,10 +197,19 @@ public class GameState extends SubState implements Controller {
         myHumanPlayer.add(b);
 
         for (int j = 0; j < 10; j++) {
-            getMap().getResources().add(new Resource(new Pixmap("mineral.gif"),
+            getMap().getResources().add(new Resource(new Pixmap("images/mineral.gif"),
                                                      new Location3D(200 + j * 15, 300 + j * 10, 0),
                                                      new Dimension(50, 50), 0, 200, "mineral"));
         }
+        
+        /*
+        for (int j = 0; j < 10; j++) {
+            getMap().getTerrain().add(new Terrain(new Pixmap("gold.png"),
+                                                     new Location3D(100, 100, j*25),
+                                                     new Dimension(50, 50)));
+        }
+        */
+        
         Garrison garrison =
                 new Garrison(new Pixmap(ResourceManager.getInstance()
                         .<BufferedImage> getFile("images/barracks.jpeg", BufferedImage.class)),
@@ -282,5 +290,9 @@ public class GameState extends SubState implements Controller {
 
     public static GameMap getMap () {
         return myMap;
+    }
+    
+    public static void setMap(GameMap map) {
+        myMap = map;
     }
 }

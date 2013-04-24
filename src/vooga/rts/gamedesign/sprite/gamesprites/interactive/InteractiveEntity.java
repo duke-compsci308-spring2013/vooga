@@ -17,6 +17,9 @@ import java.util.Map;
 import java.util.Set;
 import vooga.rts.action.Action;
 import vooga.rts.action.IActOn;
+import vooga.rts.ai.AstarFinder;
+import vooga.rts.ai.Path;
+import vooga.rts.ai.PathFinder;
 import vooga.rts.commands.Command;
 import vooga.rts.commands.InformationCommand;
 import vooga.rts.gamedesign.sprite.gamesprites.GameEntity;
@@ -38,6 +41,7 @@ import vooga.rts.gamedesign.strategy.upgradestrategy.CanUpgrade;
 import vooga.rts.gamedesign.strategy.upgradestrategy.UpgradeStrategy;
 import vooga.rts.gamedesign.upgrades.UpgradeNode;
 import vooga.rts.gamedesign.upgrades.UpgradeTree;
+
 import vooga.rts.gamedesign.weapon.Weapon;
 import vooga.rts.state.GameState;
 import vooga.rts.state.MainState;
@@ -61,7 +65,7 @@ import vooga.rts.util.Information;
  */
 
 public abstract class InteractiveEntity extends GameEntity implements
-IAttackable, IActOn {
+		IAttackable, IActOn {
 
 	private static final int LOCATION_OFFSET = 20;
 	private static int DEFAULT_INTERACTIVEENTITY_SPEED = 150;
@@ -70,8 +74,8 @@ IAttackable, IActOn {
 	private Sound mySound;
 	private AttackStrategy myAttackStrategy;
 	private ProductionStrategy myProductionStrategy;
+	private UpgradeStrategy myUpgradeStrategy;
 	private OccupyStrategy myOccupyStrategy;
-	private GatherStrategy myGatherStrategy;
 	private int myArmor;
 	private Map<String, Action> myActions;
 	private Map<String, Information> myInfos;
@@ -105,6 +109,7 @@ IAttackable, IActOn {
 		mySound = sound;
 		myAttackStrategy = new CannotAttack();
 		myProductionStrategy = new CannotProduce();
+		myUpgradeStrategy = new CanUpgrade();
 		myActions = new HashMap<String, Action>();
 		myInfos = new HashMap<String, Information>();
 		isSelected = false;
@@ -137,6 +142,14 @@ IAttackable, IActOn {
 		return myInfo;
 	}
 
+	public void setUpgradeTree(UpgradeTree upgradeTree) {
+		myUpgradeStrategy.setUpgradeTree(upgradeTree, this);
+	}
+
+	public UpgradeTree getUpgradeTree() {
+		return myUpgradeStrategy.getUpgradeTree();
+	}
+
 	/**
 	 * returns the list of producables
 	 */
@@ -167,23 +180,24 @@ IAttackable, IActOn {
 		double distance = Math.sqrt(Math
 				.pow(getWorldLocation().getX()
 						- ((InteractiveEntity) attackable).getWorldLocation()
-						.getX(), 2)
-						+ Math.pow(getWorldLocation().getY()
-								- ((InteractiveEntity) attackable).getWorldLocation()
+								.getX(), 2)
+				+ Math.pow(getWorldLocation().getY()
+						- ((InteractiveEntity) attackable).getWorldLocation()
 								.getY(), 2));
 		if (!this.isDead()) {
 			// getEntityState().setAttackingState(AttackingState.ATTACKING);
-			//			if (myAttackStrategy.getCurrentWeapon() != null) {
-			//				if (getEntityState().getUnitState() == UnitState.ATTACK
-			//						&& myAttackStrategy.getCurrentWeapon().inRange(
-			//								(InteractiveEntity) attackable, distance)
-			//						&& getEntityState().getAttackingState() != AttackingState.WAITING
-			//						&& getEntityState().getAttackingState() != AttackingState.ATTACKING) {
-			//					getEntityState().setMovementState(MovementState.STATIONARY);
-			//					stopMoving();
-			//					getEntityState().attack();
-			//				}
-			//			}
+			// if (myAttackStrategy.getCurrentWeapon() != null) {
+			// if (getEntityState().getUnitState() == UnitState.ATTACK
+			// && myAttackStrategy.getCurrentWeapon().inRange(
+			// (InteractiveEntity) attackable, distance)
+			// && getEntityState().getAttackingState() != AttackingState.WAITING
+			// && getEntityState().getAttackingState() !=
+			// AttackingState.ATTACKING) {
+			// getEntityState().setMovementState(MovementState.STATIONARY);
+			// stopMoving();
+			// getEntityState().attack();
+			// }
+			// }
 			if (getEntityState().getAttackingState() != AttackingState.WAITING
 					&& getEntityState().getAttackingState() != AttackingState.ATTACKING) {
 				getEntityState().attack();
@@ -313,16 +327,6 @@ IAttackable, IActOn {
 	}
 
 	/**
-	 * Returns the upgrade tree for the interactive entity.
-	 * 
-	 * @return the upgrade tree for the interactive entity
-	 */
-
-	public UpgradeTree getUpgradeTree() {
-		return myUpgradeTree;
-	}
-
-	/**
 	 * Sees whether the passed in InteractiveEntity is an enemy by checking if
 	 * player IDs do not match
 	 * 
@@ -350,11 +354,11 @@ IAttackable, IActOn {
 		Rectangle2D healthBar = new Rectangle2D.Double(
 				(int) selectLocation.getX() - LOCATION_OFFSET,
 				(int) (selectLocation.getY() - 5 * LOCATION_OFFSET), 50
-				* getHealth() / getMaxHealth(), 5);
+						* getHealth() / getMaxHealth(), 5);
 		float width = (float) (healthBar.getWidth() * (getHealth() / getMaxHealth()));
 		pen.setPaint(new GradientPaint((float) healthBar.getX() - width,
 				(float) healthBar.getMaxY(), Color.RED, (float) healthBar
-				.getMaxX(), (float) healthBar.getMaxY(), Color.GREEN));
+						.getMaxX(), (float) healthBar.getMaxY(), Color.GREEN));
 		pen.fill(healthBar);
 		pen.setColor(Color.black);
 
@@ -476,8 +480,10 @@ IAttackable, IActOn {
 
 		if (myAttackStrategy.hasWeapon()) {
 			Weapon weapon = myAttackStrategy.getCurrentWeapon();
-			List<InteractiveEntity> enemies = GameState.getMap().<InteractiveEntity>getInArea(getWorldLocation(), weapon.getRange(), this, getPlayerID(), false);
-			if(!enemies.isEmpty()) {
+			List<InteractiveEntity> enemies = GameState.getMap()
+					.<InteractiveEntity> getInArea(getWorldLocation(),
+							weapon.getRange(), this, getPlayerID(), false);
+			if (!enemies.isEmpty()) {
 				enemies.get(0).getAttacked(this);
 			}
 			weapon.update(elapsedTime);
