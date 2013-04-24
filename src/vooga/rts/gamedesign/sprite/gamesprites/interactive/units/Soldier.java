@@ -31,7 +31,7 @@ public class Soldier extends Unit {
     public static Sound DEFAULT_SOUND = null;
     public static int DEFAULT_PLAYERID = 2;
     public static int DEFAULT_HEALTH = 100;
-    public static int DEFAULT_SPEED;
+    public static int DEFAULT_SPEED = 100;
 
     // private int myHealth; //TESTING PURPOSE
     public Soldier() {
