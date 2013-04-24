@@ -375,8 +375,7 @@ public abstract class InteractiveEntity extends GameEntity implements
 		}
 		super.paint(pen);
 		if (myAttackStrategy.hasWeapon()) {
-			for (Projectile p : myAttackStrategy.getCurrentWeapon()
-					.getProjectiles()) {
+			for (Projectile p : myAttackStrategy.getCurrentWeapon().getProjectiles()) {
 				p.paint(pen);
 			}
 		}

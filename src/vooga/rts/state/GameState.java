@@ -167,7 +167,7 @@ public class GameState extends SubState implements Controller {
         Unit a = new Soldier();
         Projectile proj =
                 new Projectile(new Pixmap("images/bullet.png"),
-                               a.getWorldLocation(), new Dimension(30, 30), 2, 10, 6, 100);
+                               a.getWorldLocation(), new Dimension(30, 30), 2, 10, 6, 500);
         a.getAttackStrategy().addWeapons(new Weapon(proj, 400, a.getWorldLocation(), 1));
         Information i2 =
                 new Information("Marine", "I am a soldier of Nunu.", null, "buttons/marine.png");
