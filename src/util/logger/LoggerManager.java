@@ -20,37 +20,33 @@ import java.util.logging.Logger;
  * 
  * @author Henrique Moraes
  */
-public class NetworkLogger {
-    public static final Logger LOGGER =
-            Logger.getLogger(NetworkLogger.class.getName());
-    private static final String TXT_EXT = ".txt";
+public class LoggerManager {
+	/**
+	 * This logger serves as a quick reference in case the user
+	 * wants to log a message in one line of code
+	 * The logger used was initialized with this class' name
+	 */
+	public static final Logger DEFAULT_LOGGER = 
+			Logger.getLogger(LoggerManager.class.getName());
+	
     private static final String LOG_EXT = ".log";
     public static final String DEFAULT_FILE_NAME = "Logger";
-    
-    private HandlerConsole myConsoleHandler = new HandlerConsole();
-    private HandlerSocket mySocketHandler = new HandlerSocket();
-    private HandlerStream myStreamHandler = new HandlerStream();;
-    private HandlerTxt myTxtHandler = new HandlerTxt();
-    private HandlerXML myXMLHandler = new HandlerXML();
-    private HandlerMemory myMemoryHandler = new HandlerMemory();
 
-    private static NetworkLogger instance = new NetworkLogger();
+    private Logger myLogger;
 
     /**
-     * 
-     * @return instance of this Network Logger
+     * Constructor
+     * Sets a logger using reflection to find the name of the calling class
+     * The Logger is initialized with the name of the calling class
+     * By default, a console handler is set
      */
-    public static NetworkLogger getInstance () {
-        return instance;
-    }
-
-    /**
-     * Private constructor of this singleton
-     */
-    private NetworkLogger () {
-        LOGGER.setUseParentHandlers(false);
-        LOGGER.setLevel(Level.ALL);
-        addHandler(myConsoleHandler);
+    public LoggerManager () {
+    	StackTraceElement[] element = Thread.currentThread().getStackTrace();
+    	//Gets the name of the caller
+    	myLogger = Logger.getLogger(element[2].getClassName());
+        myLogger.setUseParentHandlers(false);
+        myLogger.setLevel(Level.ALL);
+        addConsoleHandler();     
     }
 
     /**
@@ -63,8 +59,8 @@ public class NetworkLogger {
      */
     public void addHandler (IVoogaHandler hand) {
     	Handler handler = hand.getHandler();
-    	handler.setLevel(NetworkLogger.LOGGER.getLevel());
-        LOGGER.addHandler(handler);
+    	handler.setLevel(myLogger.getLevel());
+        myLogger.addHandler(handler);
     }
 
     /**
@@ -84,8 +80,7 @@ public class NetworkLogger {
      * level is issued
      */
     public void addMemoryHandler (IVoogaHandler handler, int size, Level pushLevel) {
-    	myMemoryHandler.setProperties(handler, size, pushLevel);
-        addHandler(myMemoryHandler);
+        addHandler(new HandlerMemory(handler, size, pushLevel));
     }
     
     /**
@@ -101,8 +96,9 @@ public class NetworkLogger {
      * @param handler the type of handler to have records pushed to
      */
     public void addMemoryHandler (IVoogaHandler handler) {
-    	myMemoryHandler.setHandler(handler);
-        addHandler(myMemoryHandler);
+    	HandlerMemory memory = new HandlerMemory();
+    	memory.setHandler(handler);
+        addHandler(memory);
     }
     
     /**
@@ -110,15 +106,16 @@ public class NetworkLogger {
      * Adds a handler that sends log records to the Console
      */
     public void addConsoleHandler () {
-        addHandler(myConsoleHandler);
+        addHandler(new HandlerConsole());
     }
     
     /**
      * 
-     * Adds a handler that records messages in a txt file
+     * Adds a handler that records messages in a txt file with a 
+     * default file name
      */
     public void addTxtHandler () {
-    	addCustomExtensionHandler(myTxtHandler.getFileName(), TXT_EXT);
+    	addHandler(new HandlerTxt());
     }
     
     /**
@@ -128,8 +125,7 @@ public class NetworkLogger {
      * @param fileName Name of the file to have records written to
      */
     public void addTxtHandler (String fileName) {
-    	myTxtHandler.setFileName(fileName);
-    	addHandler(myTxtHandler);
+    	addHandler(new HandlerTxt(fileName));
     }
     
     /**
@@ -139,9 +135,8 @@ public class NetworkLogger {
      * @param fileName Name of the file to have records written to
      * @param ext The extension of the file
      */
-    public void addCustomExtensionHandler (String fileName, String ext) {
-    	myTxtHandler.setExtension(ext);
-    	addTxtHandler(fileName);
+    public void addCustomExtensionFileHandler (String fileName, String ext) {
+    	addHandler(new HandlerTxt(fileName, ext));
     }
     
     /**
@@ -151,7 +146,7 @@ public class NetworkLogger {
      * @param fileName Name of the file to have records written to
      */
     public void addLogHandler (String fileName) {
-    	addCustomExtensionHandler (fileName, LOG_EXT);
+    	addCustomExtensionFileHandler (fileName, LOG_EXT);
     }
     
     /**
@@ -161,8 +156,7 @@ public class NetworkLogger {
      * @param fileName Name of the file to have records written to
      */
     public void addXMLHandler (String fileName) {
-    	myXMLHandler.setFileName(fileName);
-    	addXMLHandler();
+    	addHandler(new HandlerXML(fileName));
     }
     
     /**
@@ -170,7 +164,7 @@ public class NetworkLogger {
      * Adds a handler that records messages in an XML file
      */
     public void addXMLHandler () {
-    	addHandler (myXMLHandler);
+    	addHandler (new HandlerXML());
     }
 
     /**
@@ -180,16 +174,16 @@ public class NetworkLogger {
      * @param out Outputstream that this handler should write to
      */
     public void addStreamHandler (OutputStream out) {
-        myStreamHandler.setOutputStream(out);
-        addStreamHandler();
+        addHandler(new HandlerStream(out));
     }
     
     /**
      * 
      * Adds a handler that sends log records across a given stream
+     * If no stream is given, the manager chooses System.out by default
      */
     public void addStreamHandler () {
-        LOGGER.addHandler(myStreamHandler.getHandler());
+        addHandler(new HandlerStream());
     }
 
     /**
@@ -200,8 +194,7 @@ public class NetworkLogger {
      * @param port number of the port to be used
      */
     public void addSocketHandler (String host, int port) {
-        mySocketHandler.setSocket(host, port);
-        addHandler(mySocketHandler);
+        addHandler(new HandlerSocket(host,port));
     }
     
     /**
@@ -224,9 +217,9 @@ public class NetworkLogger {
      * 
      * @param level
      */
-    public static void setLevel (Level level) {
-        LOGGER.setLevel(level);
-        for (Handler h : LOGGER.getHandlers()) {
+    public void setLevel (Level level) {
+        myLogger.setLevel(level);
+        for (Handler h : myLogger.getHandlers()) {
             h.setLevel(level);
         }
     }
@@ -235,8 +228,17 @@ public class NetworkLogger {
      * 
      * @return The logger associated with this API
      */
-    public static Logger getLogger() {
-    	return LOGGER;
+    public Logger getLogger() {
+    	return myLogger;
+    }
+    
+    /**
+     * Removes all handlers from the current logger of this manager
+     */
+    public void clearHandlers() {
+    	for (Handler h : myLogger.getHandlers()) {
+            myLogger.removeHandler(h);
+        }
     }
 
 }
