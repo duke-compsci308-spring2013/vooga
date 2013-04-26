@@ -27,7 +27,7 @@ public class RightClickAction extends ManagerAction {
     public void apply () {
         if (myLocation != null) {
             for (InteractiveEntity ie : getManager().getSelected()) {
-                ie.move(myLocation); // This should be handled by the units move action.
+                ie.move(myLocation); 
             }
         }
     }
@@ -36,7 +36,6 @@ public class RightClickAction extends ManagerAction {
     public void update (Command command) {
         ClickCommand click = (ClickCommand) command;
         myLocation = Camera.instance().viewtoWorld(click.getPosition());
-        // TODO : Check outside of bounds of map
         if (myLocation.getX() < 0 || myLocation.getY() < 0) {
             myLocation = null;
         }

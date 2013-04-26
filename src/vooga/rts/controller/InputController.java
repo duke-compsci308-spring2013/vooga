@@ -1,7 +1,7 @@
 package vooga.rts.controller;
 
-<<<<<<< HEAD
 import java.awt.geom.Rectangle2D;
+import util.Location;
 import util.input.*;
 import vooga.rts.commands.ClickCommand;
 import vooga.rts.commands.Command;
@@ -9,11 +9,6 @@ import vooga.rts.commands.DragCommand;
 import vooga.rts.commands.PositionCommand;
 import vooga.rts.state.State;
 import vooga.rts.util.Camera;
-import vooga.rts.util.Location;
-import vooga.rts.util.Location3D;
-=======
-import util.input.*;
->>>>>>> input
 
 
 /**
@@ -88,7 +83,7 @@ public class InputController implements Controller {
 
     @InputMethodTarget(name = "onMouseDrag")
     public void onMouseDrag (PositionObject o) {
-        if (!myLeftMouse.equals(null)) {
+        if (!(myLeftMouse == null)) {
             double uX = o.getX() > myLeftMouse.getX() ? myLeftMouse.getX() : o.getX();
             double uY = o.getY() > myLeftMouse.getY() ? myLeftMouse.getY() : o.getY();
             double width = Math.abs(o.getX() - myLeftMouse.getX());

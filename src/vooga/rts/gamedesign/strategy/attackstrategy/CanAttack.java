@@ -22,9 +22,10 @@ import vooga.rts.util.Location3D;
  */
 public class CanAttack implements AttackStrategy {
 
+	private static final Location3D DEFAULTLOCATION = new Location3D(0,0,0);
+	private static final int DEFAULTTEAM = 0;
     private List<Weapon> myWeapons;
     private int myWeaponIndex;
-    private boolean myCanAttack = true;
     
     /**
      * Creates a new attack strategy that represents an entity that can attack.
@@ -39,12 +40,16 @@ public class CanAttack implements AttackStrategy {
         Weapon defaultWeapon =
                 new Weapon(new Projectile(Projectile.DEFAULT_PIC, worldLocation,
                                           Projectile.DEFAULT_DIMENSION, PlayerID,
-                                          Projectile.DEFAULT_DAMAGE, Projectile.DEFAULT_HEALTH),
+                                          Projectile.DEFAULT_DAMAGE, Projectile.DEFAULT_HEALTH,800),
                            Weapon.DEFAULT_RANGE, worldLocation, Weapon.DEFAULT_COOLDOWN_TIME);
         myWeapons.add(defaultWeapon);
         myWeaponIndex = 0;
     }
 
+    public CanAttack() {
+    	this(DEFAULTLOCATION, DEFAULTTEAM);
+    }
+    
     /**
      * Attacks the given IAttackable object by first judging whether the Weapon
      * is in range for the attack action.
@@ -58,6 +63,12 @@ public class CanAttack implements AttackStrategy {
         }
     }
 
+    
+    public void setWeaponLocation(Location3D newLocation) {
+    	for(Weapon weapon : myWeapons) {
+    		weapon.setCenter(newLocation);
+    	}
+    }
     /**
      * Determines if the IAttackable object is in the range of the currently
      * activated Weapon.
@@ -68,12 +79,7 @@ public class CanAttack implements AttackStrategy {
      *         activated Weapon.
      */
     private boolean inWeaponRange (InteractiveEntity enemy, double distance) {
-        // ellipse thing doesnt seem to be working very well.
-        if (!myWeapons.isEmpty() && distance < myWeapons.get(myWeaponIndex).getRange()) {
-            return true;
-        }
-        // buggy :( myWeapons.get(myWeaponIndex).inRange(enemy)
-        return false;
+        return (!myWeapons.isEmpty() && myWeapons.get(myWeaponIndex).inRange(enemy, distance));
     }
 
     /**
@@ -105,34 +111,22 @@ public class CanAttack implements AttackStrategy {
         myWeaponIndex = weaponIndex;
     }
 
-    /**
-     * Determines if this CanAttack object currently has Weapon stored.
-     * 
-     * @return
-     */
-    public boolean hasWeapon () {
-        return !myWeapons.isEmpty();
-    }
 
     /**
      * Adds a Weapon to the list of Weapons belonged to this AttackStrategy.
      * 
      * @param weapon the new Weapon to be added into the list.
      */
-    public void addWeapons (Weapon weapon) {
+    public void addWeapon (Weapon weapon) {
         myWeapons.add(weapon);
     }
 
-    /**
-     * Determines whether this CanAttack is able to attack.
-     * 
-     * @return Whether this CanAttack is able to attack.
-     */
-    public boolean getCanAttack () {
-        return myCanAttack;
-    }
 
     public Weapon getCurrentWeapon () {
         return myWeapons.get(myWeaponIndex);
+    }
+    
+    public boolean hasWeapon(){
+    	return true;
     }
 }
