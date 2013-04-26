@@ -1,13 +1,11 @@
 package vooga.rts.leveleditor.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -16,10 +14,11 @@ import javax.swing.JPanel;
 /**
  * This class is the superclass for Tile, Terrain and Resouce Panels
  * 
- * @author Patrick
+ * @author Ziqiang Huang
  *
  */
 
+@SuppressWarnings("serial")
 public abstract class MapComponentPanel extends JPanel {
     
     public static final String USER_DIR = "user.dir";
@@ -39,13 +38,14 @@ public abstract class MapComponentPanel extends JPanel {
         myChooser.setMultiSelectionEnabled(true);
         myPanel.setLayout(new GridLayout(0,4));
         add(myPanel, BorderLayout.NORTH);
-        //test import
-        add(importButtonPanel(),BorderLayout.SOUTH);
-        
+        add(importButtonPanel(),BorderLayout.SOUTH);       
         this.setPreferredSize(DEFAULT_DIMENSION);
-        setResourceBundle();
-        //addButton();
+
     }
+    
+    /**
+     * create the import button for this panel
+     */
     
     public JPanel importButtonPanel() {
         JPanel p = new JPanel();
@@ -60,7 +60,6 @@ public abstract class MapComponentPanel extends JPanel {
                     }
                 }
                 catch (Exception exception) {
-                    //TODO
                 }
                 myCanvas.repaint();
             }
@@ -68,13 +67,18 @@ public abstract class MapComponentPanel extends JPanel {
         p.add(b);
         return p;
     }
+    
+    /**
+     * 
+     * @return the canvas that holds the panel
+     */
 
     public Canvas getCanvas() {
         return myCanvas;
      }
-
-
-    public abstract void setResourceBundle();
-
+    
+    /**
+     * abstract method that to be overwritten by subclasses
+     */
     public abstract void addButton(); 
 }

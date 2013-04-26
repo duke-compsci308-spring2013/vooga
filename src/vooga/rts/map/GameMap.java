@@ -3,11 +3,19 @@ package vooga.rts.map;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.ObjectInputStream.GetField;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import vooga.rts.IGameLoop;
 import vooga.rts.ai.Path;
 import vooga.rts.ai.PathFinder;
+import vooga.rts.gamedesign.sprite.gamesprites.GameEntity;
+import vooga.rts.gamedesign.sprite.gamesprites.GameSprite;
+import vooga.rts.gamedesign.sprite.gamesprites.Resource;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
+import vooga.rts.gamedesign.sprite.map.Terrain;
 import vooga.rts.resourcemanager.ResourceManager;
 import vooga.rts.util.Camera;
 import vooga.rts.util.Location;
@@ -30,50 +38,57 @@ import vooga.rts.util.Location3D;
 
 public class GameMap implements IGameLoop {
 
-    private int myNodeSize;
     private NodeMap myNodeMap;
     private TileMap myTiles;
-    private TerrainManager myTerrain;
+    private GameSpriteManager<Terrain> myTerrain;
+    private GameSpriteManager<Resource> myResources;
+    private Dimension mySize;
 
     /**
      * calculates how many nodes there are
      * 
      * @param mapSize This is the size of the map in pixels
      */
-    public GameMap (int node, Dimension size) {
+    public GameMap (Dimension size) {
+        mySize = size;
         NodeFactory factory = new NodeFactory();
-        myTerrain = new TerrainManager();
-        myNodeSize = node;
-        myNodeMap = factory.makeMap(myNodeSize, size);
+        myNodeMap = factory.makeMap(Node.NODE_SIZE, size);
+        myTerrain = new GameSpriteManager<Terrain>();
+        myResources = new GameSpriteManager<Resource>();
         Camera.instance().setMapSize(size);
-        randomGenMap();
+    }
+
+    public GameMap (Dimension size, boolean random) {
+        this(size);
+        Dimension dou = new Dimension((int) size.getWidth(), (int) (size.getHeight() * 2));
+        randomGenMap(dou);
+    }
+
+    public GameMap (Dimension tileSize, int width, int height) {
+        this(new Dimension((int) tileSize.getWidth() * width, (int) tileSize.getHeight() * height));
+        myTiles = new TileMap(tileSize, width, height);
     }
 
     /**
-     * @return the terrain
+     * @return The Terrain manager
      */
-    public TerrainManager getTerrain () {
+    public GameSpriteManager<Terrain> getTerrain () {
         return myTerrain;
     }
 
     /**
-     * @param terrain the terrain to set
+     * @return The Resource manager
      */
-    public void setTerrain (TerrainManager terrain) {
-        myTerrain = terrain;
+    public GameSpriteManager<Resource> getResources () {
+        return myResources;
     }
 
-    public Node getNode (Location location) {
-        int x = (int) location.x / myNodeSize;
-        int y = (int) location.y / myNodeSize;
-        return myNodeMap.get(x, y);
+    public Path getPath (PathFinder finder, Location3D start, Location3D finish) {
+        return finder.calculatePath(getNodeMap().getNode(start), getNodeMap().getNode(finish),
+                                    myNodeMap);
     }
 
-    public Path getPath (PathFinder finder, Location start, Location finish) {
-        return finder.calculatePath(getNode(start), getNode(finish), myNodeMap);
-    }
-
-    public NodeMap getMap () {
+    public NodeMap getNodeMap () {
         return myNodeMap;
     }
 
@@ -83,50 +98,80 @@ public class GameMap implements IGameLoop {
      * 
      * @param loc The Location to search from
      * @param radius The radius of the circle to search in
+     * @param type The type of unit to search for. This will compare on the name of the unit.
+     * @param teamID The player ID.
+     * @param same Whether to search for things of the same player ID or different one.
      * @return
      */
-    public List<InteractiveEntity> getUnitsInArea (Location3D loc, double radius) {
-        return null;
+    public <T extends GameEntity> List<T> getInArea (Location3D loc,
+                                                     double radius,
+                                                     T type,
+                                                     int teamID,
+                                                     boolean same) {
+        List<T> inRange = new ArrayList<T>();
+        List<Node> nodesinArea = myNodeMap.getNodesinArea(loc, radius);
+        for (Node n : nodesinArea) {
+            // TODO: team id
+            // TODO: whether same or different
+            inRange.addAll(n.<T> filterGameSprites(n.getContents(), type, teamID, same));
+        }
+
+        final Location3D loca = loc;
+        Collections.sort(inRange, new Comparator<T>() {
+            @Override
+            public int compare (T o1, T o2) {
+                double value1 = o1.getWorldLocation().getDistance(loca);
+                double value2 = o2.getWorldLocation().getDistance(loca);
+                return (int) (value1 - value2);
+            }
+        });
+        return inRange;
     }
 
     @Override
     public void update (double elapsedTime) {
-        myTiles.update(elapsedTime);
+        // myTiles.update(elapsedTime);
     }
 
     @Override
     public void paint (Graphics2D pen) {
         myTiles.paint(pen);
+        myNodeMap.paint(pen);
     }
 
-    private void randomGenMap () {
+    /**
+     * Returns an Interactive Entity that is at the specified location.
+     * 
+     * @param loc The location to search for an interactive entity.
+     * @return The Interactive Entity if it exists, otherwise null.
+     */
+    public InteractiveEntity getEntity (Location3D loc) {
+        Node n = myNodeMap.getNode(loc);
+        for (GameSprite gs : n.getContents()) {
+            if (gs instanceof InteractiveEntity) {
+                if (gs.intersects(loc)) {
+                    return (InteractiveEntity) gs;
+                }
+            }
+        }
+        return null;
+    }
 
-        int tilesX = 256;
-        int tilesY = 256;
+    private void randomGenMap (Dimension size) {
+        int tileWidth = 64;
+        int tileHeight = 64;
+        int tilesX = (int) size.getWidth() / tileWidth;
+        int tilesY = (int) size.getHeight() / tileHeight;
 
-        int tileWidthX = 60;
-        int tileWidthY = 42;
-        myTiles = new TileMap(new Dimension(tileWidthX, tileWidthY), tilesX, tilesY);
-
-        /*
-         * BufferedImage banana =
-         * ResourceManager.getInstance()
-         * .<BufferedImage> getFile("images/tiles/iso-64x64-outside.png",
-         * BufferedImage.class);
-         * 
-         * 
-         * myTiles.addTileType(1, banana.getSubimage(0, 0, 64, 64));
-         * myTiles.addTileType(2, banana.getSubimage(2 * 64, 0, 64, 64));
-         */
+        myTiles = new TileMap(new Dimension(tileWidth, tileHeight), tilesX, tilesY);
 
         BufferedImage banana =
-                ResourceManager
-                        .getInstance()
-                        .<BufferedImage> getFile("images/tiles/isometric_new_tiles_by_spasquini.png",
+                ResourceManager.getInstance()
+                        .<BufferedImage> getFile("images/tiles/iso-64x64-outside.png",
                                                  BufferedImage.class);
 
-        myTiles.addTileType(1, banana.getSubimage(6 * tileWidthX, 0, tileWidthX, tileWidthY));
-        myTiles.addTileType(2, banana.getSubimage(7 * tileWidthX, 0, tileWidthX, tileWidthY));
+        myTiles.addTileType(1, banana.getSubimage(6 * tileWidth, 0, tileWidth, tileHeight));
+        myTiles.addTileType(2, banana.getSubimage(4 * tileWidth, 0, tileWidth, tileHeight));
 
         for (int i = 0; i < tilesX; i++) {
             for (int j = 0; j < tilesY; j++) {
@@ -138,7 +183,14 @@ public class GameMap implements IGameLoop {
                 }
             }
         }
-        System.out.println("Map Made");
-        Camera.instance().setMapSize(new Dimension(tilesX * tileWidthX, tilesY * tileWidthY));
+        Camera.instance().setMapSize(size);
+    }
+
+    public void setTileMap (TileMap map) {
+        myTiles = map;
+    }
+
+    public Dimension getSize () {
+        return mySize;
     }
 }

@@ -43,10 +43,29 @@ public class LoggerManager {
     public LoggerManager () {
     	StackTraceElement[] element = Thread.currentThread().getStackTrace();
     	//Gets the name of the caller
-    	myLogger = Logger.getLogger(element[2].getClassName());
+    	setLogger(element[2].getClassName());           
+    }
+    
+    /**
+     * Constructor
+     * Sets a logger according to the name given
+     * By default, a console handler is set
+     * @param loggerName Sets a logger with the given name
+     * the name should be a class name
+     */
+    public LoggerManager (String loggerName) {
+    	setLogger(loggerName);     
+    }
+    
+    /**
+     * Sets the logger with default values
+     * @param loggerName name of logger
+     */
+    private void setLogger(String loggerName) {
+    	myLogger = Logger.getLogger(loggerName);
         myLogger.setUseParentHandlers(false);
         myLogger.setLevel(Level.ALL);
-        addConsoleHandler();     
+        addConsoleHandler();
     }
 
     /**
