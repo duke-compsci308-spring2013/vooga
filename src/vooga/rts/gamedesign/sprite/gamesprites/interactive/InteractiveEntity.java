@@ -89,7 +89,8 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
     private PathFinder myFinder;
     private Path myPath;
     private InteractiveEntity myTargetEntity;
-
+    private int myId;
+    public static final double DEFAULT_BUILD_TIME = 5;
     /**
      * Creates a new interactive entity.
      * 
@@ -692,6 +693,7 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
     public void setId(int id) {
         myId = id;
     }
+    
     public int getId () {
         return myId;
     }

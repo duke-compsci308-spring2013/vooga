@@ -305,4 +305,10 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
     public void initializeGameOver () {
         isGameOver = true;
     }
+
+    @Override
+    public void connectionClosed () {
+        // TODO Auto-generated method stub
+        
+    }
 }
