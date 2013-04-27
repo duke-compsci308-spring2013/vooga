@@ -171,12 +171,15 @@ public class ClientModel extends Observable implements IClientModel, IModel {
 
     @Override
     public void loadGame (ExpandedLobbyInfo lobbyInfo) {
+        System.out.println("GAME LOADED CALLED");
         myGame.loadGame(lobbyInfo, myPlayer);
         myClient.sendData(new ReadyToStartGameMessage());
+        System.out.println("GAME LOADED ENDED");
     }
 
     @Override
     public void startGame () {
+        System.out.println("GAME STARTED CALLED");
         myGame.startGame(myClient);
     }
 
