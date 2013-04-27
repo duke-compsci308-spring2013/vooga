@@ -44,7 +44,6 @@ public class MainState implements State, Observer, NetworkedGame {
     public MainState () {
         myReady = false;
         myStates = new HashMap<SubState, SubState>();
-
         myWindow = new Window();
         myWindow.setFullscreen(true);
         LoadingState loader = new LoadingState(this); 
