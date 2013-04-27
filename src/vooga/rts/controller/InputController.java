@@ -1,6 +1,8 @@
 package vooga.rts.controller;
 
 import java.awt.geom.Rectangle2D;
+import java.util.LinkedList;
+import java.util.Queue;
 import util.Location;
 import util.input.*;
 import vooga.rts.commands.ClickCommand;
@@ -37,19 +39,24 @@ public class InputController implements Controller {
 
     private Rectangle2D myDrag;
 
+    // Use this to store commands that are only processed on a frame update.
+    private Queue<Command> myProcessQueue;
+
     public InputController (State state) {
         myState = state;
+        myProcessQueue = new LinkedList<Command>();
     }
 
     @Override
     public void sendCommand (Command command) {
-        myState.receiveCommand(command);
+        myProcessQueue.add(command);
     }
 
     /*
      * All the following methods are called via reflection by the Input class,
      * based on the Input.properties file, and send the appropriate command.
      */
+
     @InputMethodTarget(name = "onLeftMouseDown")
     public void onLeftMouseDown (PositionObject o) {
         myLeftMouse = new Location(o.getPoint2D());
@@ -61,11 +68,10 @@ public class InputController implements Controller {
             sendCommand(new ClickCommand(ClickCommand.LEFT_CLICK, o));
         }
         else {
-            myLeftMouse = null;
-            myDrag = null;
             sendCommand(new DragCommand(null, null));
-
         }
+        myLeftMouse = null;
+        myDrag = null;
     }
 
     @InputMethodTarget(name = "onRightMouseUp")
@@ -90,6 +96,12 @@ public class InputController implements Controller {
             double height = Math.abs(o.getY() - myLeftMouse.getY());
             myDrag = new Rectangle2D.Double(uX, uY, width, height);
             sendCommand(new DragCommand(Camera.instance().viewtoWorld(myDrag), myDrag));
+        }
+    }
+
+    public void processCommands () {
+        while (myProcessQueue.size() > 0) {
+            myState.receiveCommand(myProcessQueue.poll());
         }
     }
 

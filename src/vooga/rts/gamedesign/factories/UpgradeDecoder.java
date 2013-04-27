@@ -123,7 +123,7 @@ public class UpgradeDecoder extends Decoder {
 			}
 		}
 		for (UpgradeNode u: upgradeTree.getCurrentUpgrades()) {
-			System.out.println("Current Upgradss: " + u.getUpgradeName());
+			System.out.println("Current Upgrades: " + u.getUpgradeName());
 		}
 	}
 }

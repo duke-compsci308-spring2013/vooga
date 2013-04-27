@@ -222,6 +222,9 @@ public class NodeMap implements Observer {
                 cur = newNode;
             }
         }
+        if (cur == null) {
+            return;
+        }
 
         // if it's updating with its new location
         if (arg1 instanceof Location3D) {

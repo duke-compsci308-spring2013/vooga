@@ -3,7 +3,7 @@
 
 <XMLMatchUp>
 	<pair>
-		<type>Upgrade</type>
+		<type>upgrade</type>
 		<path>vooga.rts.gamedesign.factories.UpgradeDecoder</path>
 	</pair>
 	<pair>

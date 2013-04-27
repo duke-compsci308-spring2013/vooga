@@ -120,6 +120,9 @@ public class GameMap implements IGameLoop {
         Collections.sort(inRange, new Comparator<T>() {
             @Override
             public int compare (T o1, T o2) {
+                if (o1 != null && o2 != null) {
+                    return 0;
+                }
                 double value1 = o1.getWorldLocation().getDistance(loca);
                 double value2 = o2.getWorldLocation().getDistance(loca);
                 return (int) (value1 - value2);

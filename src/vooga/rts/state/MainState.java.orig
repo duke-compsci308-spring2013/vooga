@@ -33,9 +33,14 @@ public class MainState implements State, Observer, NetworkedGame {
     private final static String DEFAULT_INPUT_LOCATION = "vooga.rts.resources.properties.Input";
     private static IClient myClient;
     private Window myWindow;
+<<<<<<< HEAD
     private Map<SubState, SubState> myStates; 
     private LoadingState myLoadScreen;
     private GameState myGame;
+=======
+    private Map<SubState, SubState> myStates;
+
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
     private SubState myActiveState;
     private Timer myTimer;
     private InputController myController;
@@ -43,8 +48,8 @@ public class MainState implements State, Observer, NetworkedGame {
 
     public MainState () {
         myReady = false;
-        myStates = new HashMap<SubState, SubState>();
-
+<<<<<<< HEAD
+        myStates = new HashMap<SubState, SubState>();             
         myWindow = new Window();
         myWindow.setFullscreen(true);
         LoadingState loader = new LoadingState(this); 
@@ -52,11 +57,27 @@ public class MainState implements State, Observer, NetworkedGame {
         MenuState menu = new MenuState(this, getWindow().getJFrame()); 
         setActiveState(menu);
         render();   
+=======
+        myStates = new HashMap<SubState, SubState>();
+
+        myWindow = new Window();
+        myWindow.setFullscreen(true);
+        LoadingState loader = new LoadingState(this);
+        setActiveState(loader);
+        render();
+
+        MenuState menu = new MenuState(this, getWindow().getJFrame());
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         myStates.put(loader, menu);
         GameState game = new GameState(this);
         myGame = game;
         myStates.put(menu, game);
+<<<<<<< HEAD
         myStates.put(game, menu);  
+=======
+        myStates.put(game, menu);
+
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         Input input = new Input(DEFAULT_INPUT_LOCATION, myWindow.getCanvas());
         myController = new InputController(this);
         input.addListenerTo(myController);

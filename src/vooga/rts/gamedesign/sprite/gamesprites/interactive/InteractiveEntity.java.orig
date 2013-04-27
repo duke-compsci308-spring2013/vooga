@@ -63,22 +63,38 @@ import vooga.rts.util.Sound;
  * 
  */
 
+<<<<<<< HEAD
+public abstract class InteractiveEntity extends GameEntity implements
+IAttackable, IActOn {
+=======
 public abstract class InteractiveEntity extends GameEntity implements IAttackable, IActOn {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
 
     public static final Location3D DEFAULT_LOCATION = new Location3D(0, 0, 0);
     public static final int DEFAULT_PLAYERID = 0;
     private static final int LOCATION_OFFSET = 20;
     private static int DEFAULT_INTERACTIVEENTITY_SPEED = 150;
+<<<<<<< HEAD
     private boolean isSelected;
     private UpgradeTree myUpgradeTree;
     private Sound mySound;
+=======
+    public static final double DEFAULT_BUILD_TIME = 5;
+    private boolean isSelected;
+    private Sound mySound;
+    private UpgradeTree myUpgradeTree;
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
     private AttackStrategy myAttackStrategy;
     private ProductionStrategy myProductionStrategy;
     private UpgradeStrategy myUpgradeStrategy;
     private OccupyStrategy myOccupyStrategy;
     private GatherStrategy myGatherStrategy;
     private int myArmor;
+<<<<<<< HEAD
     private Map<String, InteractiveAction> myActions;
+=======
+    private Map<String, Action> myActions;
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
     private Map<String, Information> myInfos;
     private List<DelayedTask> myTasks;
     private double myBuildTime;
@@ -86,13 +102,40 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
     private Information myInfo;
     private PathFinder myFinder;
     private Path myPath;
+<<<<<<< HEAD
     private int myId;
     public static final double DEFAULT_BUILD_TIME = 5;
+=======
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
 
     /**
      * Creates a new interactive entity.
      * 
      * @param image
+<<<<<<< HEAD
+     *            is the image of the interactive entity
+     * @param center
+     *            is the location of the interactive entity
+     * @param size
+     *            is the dimension of the interactive entity
+     * @param sound
+     *            is the sound the interactive entity makes
+     * @param teamID
+     *            is the ID of the team that the interactive entity is on
+     * @param health
+     *            is the health of the interactive entity
+     */
+    public InteractiveEntity(Pixmap image, Location3D center, Dimension size,
+                             Sound sound, int playerID, int health, double buildTime) {
+        super(image, center, size, playerID, health);
+        // myMakers = new HashMap<String, Factory>(); //WHERE SHOULD THIS GO?
+        mySound = sound;
+        myAttackStrategy = new CannotAttack();
+        myProductionStrategy = new CannotProduce();
+        myUpgradeStrategy = new CanUpgrade();
+        myGatherStrategy = new CannotGather();
+        myActions = new HashMap<String, InteractiveAction>();
+=======
      *        is the image of the interactive entity
      * @param center
      *        is the location of the interactive entity
@@ -118,7 +161,8 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
         myProductionStrategy = new CannotProduce();
         myUpgradeStrategy = new CannotUpgrade();
         myGatherStrategy = new CannotGather();
-        myActions = new HashMap<String, InteractiveAction>();
+        myActions = new HashMap<String, Action>();
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         myInfos = new HashMap<String, Information>();
         isSelected = false;
         myTasks = new ArrayList<DelayedTask>();
@@ -130,7 +174,43 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
         setSpeed(DEFAULT_INTERACTIVEENTITY_SPEED);
     }
 
-    public void addAction (String command, InteractiveAction action) {
+<<<<<<< HEAD
+    public void addAction(String command, InteractiveAction action) {
+        myActions.put(command, action);
+    }
+
+    public void removeAction(String command) {
+        myActions.remove(command);
+    }
+
+    public abstract void addActions();
+
+    public void addTask(DelayedTask dt) {
+        myTasks.add(dt);
+    }
+
+    public void setInfo(Information info) {
+        myInfo = info;
+    }
+
+    public Information getInfo() {
+        return myInfo;
+    }
+
+    public void setUpgradeTree(UpgradeTree upgradeTree) {
+        myUpgradeStrategy.setUpgradeTree(upgradeTree, this);
+    }
+
+    public UpgradeTree getUpgradeTree() {
+        return myUpgradeStrategy.getUpgradeTree();
+    }
+
+    /**
+     * returns the list of producables
+     */
+    public List<InteractiveEntity> getProducables() {
+=======
+    public void addAction (String command, Action action) {
         myActions.put(command, action);
     }
 
@@ -138,7 +218,7 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
         myActions.remove(command);
     }
 
-    public Map<String, InteractiveAction> getActions () {
+    public Map<String, Action> getActions () {
         return myActions;
     }
 
@@ -153,7 +233,7 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
         return myActions.get(command.getMethodName());
     }
 
-    public void setActions (Map<String, InteractiveAction> actions) {
+    public void setActions (Map<String, Action> actions) {
         myActions = actions;
     }
 
@@ -204,6 +284,7 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * returns the list of producables
      */
     public List<InteractiveEntity> getProducables () {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         return myProducables;
     }
 
@@ -213,7 +294,11 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * @param command
      * @param info
      */
+<<<<<<< HEAD
+    public void addInfo(String command, Information info) {
+=======
     public void addInfo (String command, Information info) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         myInfos.put(command, info);
     }
 
@@ -224,9 +309,15 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * IAttackable if the state of the interactive entity lets it attack.
      * 
      * @param attackable
+<<<<<<< HEAD
+     *            is the IAttackable that is being attacked.
+     */
+    public void attack(IAttackable attackable) {
+=======
      *        is the IAttackable that is being attacked.
      */
     public void attack (IAttackable attackable) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         double distance = distance(attackable);
         if (!this.isDead()) {
             if (!getEntityState().isAttacking()) {
@@ -247,6 +338,18 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * another entity.
      * 
      * @param attackable
+<<<<<<< HEAD
+     *            is an enemy entity
+     * @param distance
+     *            is the distance an enemy entity is away
+     * @return true if the entity should stop and attack the enemy and false if
+     *         it should not
+     */
+    private boolean attackInRange(IAttackable attackable, double distance) {
+        return getEntityState().getUnitState() == UnitState.ATTACK
+                && this.getAttackStrategy().getCurrentWeapon()
+                .inRange((InteractiveEntity) attackable, distance);
+=======
      *        is an enemy entity
      * @param distance
      *        is the distance an enemy entity is away
@@ -257,12 +360,33 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
         return getEntityState().getUnitState() == UnitState.ATTACK &&
                this.getAttackStrategy().getCurrentWeapon()
                        .inRange((InteractiveEntity) attackable, distance);
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
     }
 
     /**
      * Calculates the distance that an enemy is away from this entity.
      * 
      * @param attackable
+<<<<<<< HEAD
+     *            is an enemy entity
+     * @return the distance that the enemy is away
+     */
+    private double distance(IAttackable attackable) {
+        return Math.sqrt(Math
+                         .pow(getWorldLocation().getX()
+                              - ((InteractiveEntity) attackable).getWorldLocation()
+                              .getX(), 2)
+                              + Math.pow(getWorldLocation().getY()
+                                         - ((InteractiveEntity) attackable).getWorldLocation()
+                                         .getY(), 2));
+    }
+
+    public int calculateDamage(int damage) {
+        return damage * (1 - (myArmor / (myArmor + 100)));
+    }
+
+    public boolean containsInput(Command command) {
+=======
      *        is an enemy entity
      * @return the distance that the enemy is away
      */
@@ -278,12 +402,26 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
     }
 
     public boolean containsInput (Command command) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         return myActions.containsKey(command.getMethodName());
     }
 
     /**
      * Creates a copy of an interactive entity.
      **/
+<<<<<<< HEAD
+    public abstract InteractiveEntity copy();
+
+    /**
+     * Returns the action that corresponds to a command.
+     * 
+     * @param command
+     *            is a command that was entered by the player
+     * @return the action the is mapped to the command
+     */
+    public InteractiveAction getAction(Command command) {
+        return myActions.get(command.getMethodName());
+=======
     public abstract InteractiveEntity copy ();
 
     /**
@@ -296,13 +434,18 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
         for (Strategy s : getStrategies()) {
             s.affect(toOther);
         }
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
     }
 
     /**
      * returns all the actions this interactive entity is capable of doing
      * 
      */
+<<<<<<< HEAD
+    public Set<InformationCommand> getCommands() {
+=======
     public Set<InformationCommand> getCommands () {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         Set<InformationCommand> infoCommands = new HashSet<InformationCommand>();
         if (myActions.isEmpty())
             return null; // this needs to be fixed
@@ -320,7 +463,11 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
         return infoCommands;
     }
 
+<<<<<<< HEAD
+    public void getOccupied(Unit occupier) {
+=======
     public void getOccupied (Unit occupier) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         if (occupier.collidesWith(this)) {
             myOccupyStrategy.getOccupied(this, occupier);
         }
@@ -331,10 +478,17 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * it calls the attack method of the interactive entity on itself.
      * 
      * @param interactiveEntity
+<<<<<<< HEAD
+     *            is the interactive entity that is attacking this interactive
+     *            entity
+     */
+    public void getAttacked(InteractiveEntity interactiveEntity) {
+=======
      *        is the interactive entity that is attacking this interactive
      *        entity
      */
     public void getAttacked (InteractiveEntity interactiveEntity) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         interactiveEntity.attack(this);
     }
 
@@ -343,7 +497,11 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * 
      * @return the current attack strategy
      */
+<<<<<<< HEAD
+    public AttackStrategy getAttackStrategy() {
+=======
     public AttackStrategy getAttackStrategy () {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         return myAttackStrategy;
     }
 
@@ -352,7 +510,12 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * 
      * @return the sound of the interactive entity
      */
+<<<<<<< HEAD
+
+    public Sound getSound() {
+=======
     public Sound getSound () {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         return mySound;
     }
 
@@ -362,6 +525,12 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * 
      * @return the production strategy of the entity
      */
+<<<<<<< HEAD
+    public ProductionStrategy getProductionStrategy() {
+        return myProductionStrategy;
+    }
+
+=======
     public ProductionStrategy getProductionStrategy () {
         return myProductionStrategy;
     }
@@ -402,14 +571,21 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
         return myGatherStrategy;
     }
 
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
     /**
      * Sets the production strategy of the entity to CanProduce or
      * CannotProduce.
      * 
      * @param productionStrategy
+<<<<<<< HEAD
+     *            is the production strategy the entity will have
+     */
+    public void setProductionStrategy(ProductionStrategy productionStrategy) {
+=======
      *        is the production strategy the entity will have
      */
     public void setProductionStrategy (ProductionStrategy productionStrategy) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         myProductionStrategy = productionStrategy;
     }
 
@@ -418,21 +594,47 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * player IDs do not match
      * 
      * @param InteractiveEntity
+<<<<<<< HEAD
+     *            other - the other InteractiveEntity to compare
+     * @return whether the other InteractiveEntity is an enemy
+     */
+    public boolean isEnemy(InteractiveEntity other) {
+=======
      *        other - the other InteractiveEntity to compare
      * @return whether the other InteractiveEntity is an enemy
      */
     public boolean isEnemy (InteractiveEntity other) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         return getPlayerID() != other.getPlayerID();
     }
 
     @Override
+<<<<<<< HEAD
+    public void paint(Graphics2D pen) {
+=======
     public void paint (Graphics2D pen) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         if (!isVisible()) {
             return;
         }
         // pen.rotate(getVelocity().getAngle());
 
         // should probably use the getBottom, getHeight etc...implement them
+<<<<<<< HEAD
+        Point2D selectLocation = Camera.instance().worldToView(
+                                                               getWorldLocation());
+
+        pen.drawRect((int) selectLocation.getX() - LOCATION_OFFSET,
+                     (int) (selectLocation.getY() - 5 * LOCATION_OFFSET), 50, 5);
+        Rectangle2D healthBar = new Rectangle2D.Double(
+                                                       (int) selectLocation.getX() - LOCATION_OFFSET,
+                                                       (int) (selectLocation.getY() - 5 * LOCATION_OFFSET), 50
+                                                       * getHealth() / getMaxHealth(), 5);
+        float width = (float) (healthBar.getWidth() * (getHealth() / getMaxHealth()));
+        pen.setPaint(new GradientPaint((float) healthBar.getX() - width,
+                                       (float) healthBar.getMaxY(), Color.RED, (float) healthBar
+                                       .getMaxX(), (float) healthBar.getMaxY(), Color.GREEN));
+=======
         Point2D selectLocation = Camera.instance().worldToView(getWorldLocation());
 
         pen.drawRect((int) selectLocation.getX() - LOCATION_OFFSET,
@@ -445,23 +647,62 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
         pen.setPaint(new GradientPaint((float) healthBar.getX() - width, (float) healthBar
                 .getMaxY(), Color.RED, (float) healthBar.getMaxX(), (float) healthBar.getMaxY(),
                                        Color.GREEN));
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         pen.fill(healthBar);
         pen.setColor(Color.black);
 
         if (isSelected) {
+<<<<<<< HEAD
+            Ellipse2D.Double selectedCircle = new Ellipse2D.Double(
+                                                                   selectLocation.getX() - LOCATION_OFFSET,
+                                                                   selectLocation.getY() + LOCATION_OFFSET, 50, 30);
+=======
             Ellipse2D.Double selectedCircle =
                     new Ellipse2D.Double(selectLocation.getX() - LOCATION_OFFSET,
                                          selectLocation.getY() + LOCATION_OFFSET, 50, 30);
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
             pen.fill(selectedCircle);
         }
         super.paint(pen);
         if (myAttackStrategy.hasWeapon()) {
+<<<<<<< HEAD
+            for (Projectile p : myAttackStrategy.getCurrentWeapon()
+                    .getProjectiles()) {
+=======
             for (Projectile p : myAttackStrategy.getCurrentWeapon().getProjectiles()) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
                 p.paint(pen);
             }
         }
     }
 
+<<<<<<< HEAD
+    public void put(String name, InteractiveAction action) { // Might just use a putter
+        myActions.put(name, action);
+    }
+
+    /**
+     * If the passed in parameter is another InteractiveEntity, checks to see if
+     * it is a Building and can be occupied, checks to see if it is an enemy,
+     * and if so, switches to attack state. Defaults to move to the center of
+     * the other InteractiveEntity
+     * 
+     * @param other
+     *            - the other InteractiveEntity
+     */
+    public void recognize(InteractiveEntity other) {
+        if (isEnemy(other)) {
+            getEntityState().setUnitState(UnitState.ATTACK);
+        }
+        if (other instanceof Building) {
+            getEntityState().setUnitState(UnitState.OCCUPY);
+        }
+        getEntityState().setUnitState(UnitState.NOTHING);
+        move(other.getWorldLocation());
+    }
+
+=======
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
     // below are the recognize methods to handle different input parameters from
     // controller
     /**
@@ -469,16 +710,26 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * InteractiveEntity to that location
      * 
      * @param location
+<<<<<<< HEAD
+     *            - the location to move to
+     */
+    public void recognize(Location3D location) {
+=======
      *        - the location to move to
      */
     public void recognize (Location3D location) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         move(location);
     }
 
     /***
      * Sets the isSelected boolean to the passed in bool value.
      */
+<<<<<<< HEAD
+    public boolean select(boolean selected) {
+=======
     public boolean select (boolean selected) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
 
         if (selected && getState().canSelect()) {
             isSelected = selected;
@@ -496,9 +747,15 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * this entity.
      * 
      * @param newStrategy
+<<<<<<< HEAD
+     *            is the new attack strategy that the interactive will have
+     */
+    public void setAttackStrategy(AttackStrategy newStrategy) {
+=======
      *        is the new attack strategy that the interactive will have
      */
     public void setAttackStrategy (AttackStrategy newStrategy) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         newStrategy.setWeaponLocation(getWorldLocation());
         myAttackStrategy = newStrategy;
     }
@@ -508,22 +765,38 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * upgrade tree and player ID that are passed in.
      * 
      * @param upgradeTree
+<<<<<<< HEAD
+     *            is the new upgrade tree that the entity will have
+     * @param playerID
+     *            is the team that the upgrade is for
+     */
+    public void setUpgradeTree(UpgradeTree upgradeTree, int playerID) {
+=======
      *        is the new upgrade tree that the entity will have
      * @param playerID
      *        is the team that the upgrade is for
      */
     public void setUpgradeTree (UpgradeTree upgradeTree, int playerID) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         myUpgradeTree = upgradeTree;
     }
 
     @Override
+<<<<<<< HEAD
+    public void update(double elapsedTime) {
+=======
     public void update (double elapsedTime) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         if (myPath != null) {
             if (myPath.size() == 0) {
                 setVelocity(getVelocity().getAngle(), 0);
                 getEntityState().stop();
+<<<<<<< HEAD
+            } else {
+=======
             }
             else {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
                 super.move(myPath.getNext());
             }
         }
@@ -540,6 +813,13 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
         }
         if (myAttackStrategy.hasWeapon()) {
             Weapon weapon = myAttackStrategy.getCurrentWeapon();
+<<<<<<< HEAD
+            List<InteractiveEntity> enemies = GameState.getMap()
+                    .<InteractiveEntity> getInArea(getWorldLocation(),
+                                                   weapon.getRange(), this,
+                                                   GameState.getPlayers().getTeamID(getPlayerID()),
+                                                   false);
+=======
             List<InteractiveEntity> enemies =
                     GameState
                             .getMap()
@@ -548,6 +828,7 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
                                                            this,
                                                            GameState.getPlayers()
                                                                    .getTeamID(getPlayerID()), false);
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
             if (!enemies.isEmpty()) {
                 enemies.get(0).getAttacked(this);
             }
@@ -562,6 +843,24 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
     /*
      * Test method to add an interactive entity to
      */
+<<<<<<< HEAD
+    public void addProducable(InteractiveEntity i) {
+        myProducables.add(i);
+    }
+
+    @Override
+    public void updateAction(Command command) {
+        if (myActions.containsKey(command.getMethodName())) {
+            Action action = myActions.get(command.getMethodName());
+            action.update(command);
+        }
+    }
+
+    /**
+     * Sets the object to be in the changed state for the observer pattern.
+     */
+    public void setChanged() {
+=======
     public void addProducable (InteractiveEntity i) {
         myProducables.add(i);
     }
@@ -570,6 +869,7 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * Sets the object to be in the changed state for the observer pattern.
      */
     public void setChanged () {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         super.setChanged();
     }
 
@@ -579,7 +879,11 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * 
      * @return
      */
+<<<<<<< HEAD
+    public OccupyStrategy getOccupyStrategy() {
+=======
     public OccupyStrategy getOccupyStrategy () {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         return myOccupyStrategy;
     }
 
@@ -588,9 +892,15 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * CannotBeOccupied.
      * 
      * @param occupyStrategy
+<<<<<<< HEAD
+     *            is the occupy strategy that the entity is being set to
+     */
+    public void setOccupyStrategy(OccupyStrategy occupyStrategy) {
+=======
      *        is the occupy strategy that the entity is being set to
      */
     public void setOccupyStrategy (OccupyStrategy occupyStrategy) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         myOccupyStrategy = occupyStrategy;
     }
 
@@ -599,7 +909,11 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * 
      * @return how long it takes to make the entity
      */
+<<<<<<< HEAD
+    public double getBuildTime() {
+=======
     public double getBuildTime () {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         return myBuildTime;
     }
 
@@ -607,13 +921,29 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      * Sets how long the build time is for the entity.
      * 
      * @param time
+<<<<<<< HEAD
+     *            is the amount of time it will take to create the entity
+     */
+    public void setBuildTime(double time) {
+=======
      *        is the amount of time it will take to create the entity
      */
     public void setBuildTime (double time) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         myBuildTime = time;
     }
 
     @Override
+<<<<<<< HEAD
+    public void move(Location3D loc) {
+        myPath = GameState.getMap().getPath(myFinder, getWorldLocation(), loc);
+        if (myPath != null) {
+            super.move(myPath.getNext());
+        }
+    }
+
+    public void addWeapon(Weapon toAdd) {
+=======
     public void move (Location3D loc) {
         myPath = GameState.getMap().getPath(myFinder, getWorldLocation(), loc);
         if (myPath != null) {
@@ -624,14 +954,15 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
     }
 
     public void addWeapon (Weapon toAdd) {
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
         myAttackStrategy.addWeapon(toAdd);
 
     }
 
-    public void setUpgradeStrategy (UpgradeStrategy upgradeStrategy) {
+<<<<<<< HEAD
+    public void setUpgradeStrategy(UpgradeStrategy upgradeStrategy) {
         myUpgradeStrategy = upgradeStrategy;
     }
-    
 
     public void setId(int id) {
         myId = id;
@@ -639,5 +970,10 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
     public int getId () {
         return myId;
     }
+=======
+    public void setUpgradeStrategy (UpgradeStrategy upgradeStrategy) {
+        myUpgradeStrategy = upgradeStrategy;
+    }
 
+>>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
 }

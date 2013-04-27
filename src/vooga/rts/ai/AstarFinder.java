@@ -23,7 +23,10 @@ import vooga.rts.map.NodeMap;
 public class AstarFinder implements PathFinder {
 
     @Override
-    public Path calculatePath (Node start, Node finish, NodeMap map) {
+    public Path calculatePath (Node start, Node finish, NodeMap map) {  
+        if (start == null || finish == null) {
+            return null;
+        }
         Path result = null;
         List<Node> close = new ArrayList<Node>();
         List<Node> open = new ArrayList<Node>();
