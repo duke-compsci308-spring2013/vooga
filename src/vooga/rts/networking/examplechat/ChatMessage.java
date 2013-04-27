@@ -1,7 +1,7 @@
 package vooga.rts.networking.examplechat;
 
-import vooga.rts.networking.communications.GameMessage;
 import vooga.rts.networking.communications.UserTimeStamp;
+import vooga.rts.networking.communications.gamemessage.GameMessage;
 
 
 /**

@@ -1,6 +1,5 @@
 package vooga.rts.action;
 
-import vooga.rts.commands.Command;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 
 /**
@@ -12,7 +11,7 @@ import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
  * @author Challen Herzberg-Brovold
  */
 public abstract class InteractiveAction implements Action {
-
+    
     private InteractiveEntity myEntity;
 
     public InteractiveAction (InteractiveEntity ie) {
@@ -26,20 +25,8 @@ public abstract class InteractiveAction implements Action {
     public InteractiveEntity getEntity () {
         return myEntity;
     }
-
-    public void apply(InteractiveEntity i) {
-    	return;
-    }
     
-	@Override
-	public void apply() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(Command command) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void setEntity (InteractiveEntity ie) { // this will be called by unit manager right before it applies it. 
+        myEntity = ie;
+    }
 }

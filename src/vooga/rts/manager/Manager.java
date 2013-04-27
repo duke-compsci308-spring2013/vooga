@@ -3,6 +3,7 @@ package vooga.rts.manager;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -42,20 +43,18 @@ import vooga.rts.util.Location3D;
 
 public class Manager extends Observable implements State, IActOn, Observer {
 
-    private List<InteractiveEntity> myEntities;
+    private Map<Integer, InteractiveEntity> myEntities;
     private List<InteractiveEntity> mySelectedEntities;
     private Map<Integer, List<InteractiveEntity>> myGroups;
     private boolean myMultiSelect;
     private Map<String, Action> myActions;
-
     private Queue<InteractiveEntity> myAddQueue;
     private int myPlayer;
-
     Iterator<InteractiveEntity> myUpdateIterator;
 
     public Manager (int playerID) {
     	myPlayer = playerID;
-        myEntities = new ArrayList<InteractiveEntity>();
+        myEntities = new HashMap<Integer, InteractiveEntity>();
         mySelectedEntities = new ArrayList<InteractiveEntity>();
         myGroups = new HashMap<Integer, List<InteractiveEntity>>();
         myMultiSelect = false;
@@ -66,16 +65,16 @@ public class Manager extends Observable implements State, IActOn, Observer {
 
     @Override
     public void paint (Graphics2D pen) {
-        for (InteractiveEntity u : myEntities) {
+        for (InteractiveEntity u : myEntities.values()) {
             u.paint(pen);
         }
     }
 
     @Override
     public void update (double elapsedTime) {
-        myEntities.addAll(myAddQueue);
+        addAll(myAddQueue);
         myAddQueue.clear();
-        myUpdateIterator = myEntities.iterator();
+        myUpdateIterator = myEntities.values().iterator();
         while (myUpdateIterator.hasNext()) {
             InteractiveEntity u = myUpdateIterator.next();
             u.update(elapsedTime);
@@ -139,6 +138,7 @@ public class Manager extends Observable implements State, IActOn, Observer {
         entity.addObserver(this);
         entity.setChanged();
         entity.notifyObservers(entity.getWorldLocation());
+        entity.setId(myEntities.size()); // sets the id of the entity correctly
         myAddQueue.add(entity);
     }
 
@@ -159,14 +159,11 @@ public class Manager extends Observable implements State, IActOn, Observer {
      * @param location at which to deselect the unit.
      */
     public void deselect (Location3D location) {
-        for (int i = getAllEntities().size() - 1; i >= 0; i--) {
-            InteractiveEntity ie = getAllEntities().get(i);
-            if (ie.intersects(location)) {
-                deselect(ie);
-                return;
+        for (InteractiveEntity i: myEntities.values()) {
+            if (i.intersects(location)) {
+                deselect(i);
             }
         }
-        deselectAll();
     }
 
     private void notifyDeselect () {
@@ -205,8 +202,8 @@ public class Manager extends Observable implements State, IActOn, Observer {
      * 
      * @return List of all entities
      */
-    public List<InteractiveEntity> getAllEntities () {
-        return myEntities;
+    public Collection<InteractiveEntity> getAllEntities () {
+        return myEntities.values();
     }
 
     /**
@@ -215,7 +212,7 @@ public class Manager extends Observable implements State, IActOn, Observer {
      * @param entityList
      */
     public void setAllEntities (List<InteractiveEntity> entityList) {
-        myEntities = entityList;
+       // myEntities = entityList;
     }
 
     /**
@@ -245,7 +242,7 @@ public class Manager extends Observable implements State, IActOn, Observer {
     public void select (InteractiveEntity entity) {
         deselectAll();
         if (!mySelectedEntities.contains(entity)) {
-            if (myEntities.contains(entity)) {
+            if (myEntities.values().contains(entity)) {
                 if (entity.select(true)) {
                     mySelectedEntities.add(entity);
                 }
@@ -267,13 +264,19 @@ public class Manager extends Observable implements State, IActOn, Observer {
      */
     public void select (Location3D loc) {
         deselectAll();
-        for (int i = getAllEntities().size() - 1; i >= 0; i--) {
-            InteractiveEntity ie = getAllEntities().get(i);
-            if (ie.intersects(loc)) {
-                select(ie);
+        for(InteractiveEntity i: myEntities.values()) {
+            if(i.intersects(loc)) {
+                select(i);
                 return;
             }
         }
+//        for (int i = getAllEntities().size() - 1; i >= 0; i--) {
+//            InteractiveEntity ie = getAllEntities().get(i);
+//            if (ie.intersects(loc)) {
+//                select(ie);
+//                return;
+//            }
+//        }
     }
 
     /**
@@ -287,7 +290,7 @@ public class Manager extends Observable implements State, IActOn, Observer {
         deselectAll();
         boolean multi = myMultiSelect;
         setMultiSelect(true);
-        for (InteractiveEntity ie : myEntities) {
+        for (InteractiveEntity ie : myEntities.values()) {
             if (area.intersects(ie.getBounds()) || area.contains(ie.getBounds())) {
                 select(ie);
             }
@@ -351,7 +354,7 @@ public class Manager extends Observable implements State, IActOn, Observer {
         // While Shepherds watch their flocks by night.
         if (state instanceof InteractiveEntity) {
             InteractiveEntity sent = (InteractiveEntity) state;
-            if (!myEntities.contains(sent)) {
+            if (!myEntities.values().contains(sent)) {
                 add(sent);
             }
         }
@@ -369,6 +372,11 @@ public class Manager extends Observable implements State, IActOn, Observer {
                 unit.getEntityState().setMovementState(MovementState.STATIONARY);
             }
         }
-
+    }
+    
+    private void addAll (Queue<InteractiveEntity> addQueue) {
+        while (addQueue.size() > 0) {
+            myEntities.put(myEntities.size(), addQueue.poll());
+        }
     }
 }

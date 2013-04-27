@@ -21,5 +21,5 @@ public abstract class SubState extends Observable implements State {
         addObserver(observer);
     }
     
-    public abstract void activate();
+    public abstract void activate(); // Needed?
 }

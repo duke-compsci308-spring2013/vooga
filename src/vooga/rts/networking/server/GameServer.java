@@ -4,8 +4,8 @@ import java.util.logging.Level;
 
 import util.logger.LoggerManager;
 import vooga.rts.networking.NetworkBundle;
-import vooga.rts.networking.communications.GameMessage;
 import vooga.rts.networking.communications.Message;
+import vooga.rts.networking.communications.gamemessage.GameMessage;
 
 
 /**

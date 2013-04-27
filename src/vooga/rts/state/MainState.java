@@ -3,11 +3,9 @@ package vooga.rts.state;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 import util.input.Input;
@@ -16,6 +14,10 @@ import vooga.rts.controller.InputController;
 import vooga.rts.game.RTSGame;
 import vooga.rts.gui.Window;
 import vooga.rts.gui.menus.MultiMenu;
+import vooga.rts.networking.client.IClient;
+import vooga.rts.networking.client.NetworkedGame;
+import vooga.rts.networking.communications.ExpandedLobbyInfo;
+import vooga.rts.networking.communications.PlayerInfo;
 
 
 /**
@@ -26,12 +28,13 @@ import vooga.rts.gui.menus.MultiMenu;
  * 
  */
 
-public class MainState implements State, Observer {
+public class MainState implements State, Observer, NetworkedGame {
 
     private final static String DEFAULT_INPUT_LOCATION = "vooga.rts.resources.properties.Input";
     private Window myWindow;
-    private Map<SubState, SubState> myStates;
-    
+    private Map<SubState, SubState> myStates; 
+    private LoadingState myLoadScreen;
+    private GameState myGame;
     private SubState myActiveState;
     private Timer myTimer;
     private InputController myController;
@@ -39,20 +42,19 @@ public class MainState implements State, Observer {
 
     public MainState () {
         myReady = false;
-        myStates = new HashMap<SubState, SubState>();       
-        
+        myStates = new HashMap<SubState, SubState>();             
         myWindow = new Window();
         myWindow.setFullscreen(true);
-        LoadingState loader = new LoadingState(this);        
+        LoadingState loader = new LoadingState(this); 
+        myLoadScreen = loader;
         setActiveState(loader);
-        render();
-        
+        render();       
         MenuState menu = new MenuState(this, getWindow().getJFrame());        
         myStates.put(loader, menu);
         GameState game = new GameState(this);
+        myGame = game;
         myStates.put(menu, game);
-        myStates.put(game, menu);        
-
+        myStates.put(game, menu);  
         Input input = new Input(DEFAULT_INPUT_LOCATION, myWindow.getCanvas());
         myController = new InputController(this);
         input.addListenerTo(myController);
@@ -76,7 +78,7 @@ public class MainState implements State, Observer {
     @Override
     public void update (Observable o, Object arg) {
         if (arg == null) {
-            setActiveState(myStates.get(o));
+            //setActiveState(myStates.get(o));
         }
     }
 
@@ -145,5 +147,16 @@ public class MainState implements State, Observer {
 
     public void stop () {
         myTimer.cancel();
+    }
+
+    @Override
+    public void loadGame (ExpandedLobbyInfo info, PlayerInfo userPlayer) {
+        myGame.setUp(info, userPlayer);
+        setActiveState(myLoadScreen);
+    }
+
+    @Override
+    public void startGame (IClient client) {
+        setActiveState(myGame);       
     }
 }

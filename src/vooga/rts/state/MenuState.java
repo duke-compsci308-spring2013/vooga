@@ -81,7 +81,7 @@ public class MenuState extends SubState implements Observer {
         getCurrentMenu().paint(pen);
     }
 
-    public void activate () {
+    public void activate () { // Does set menu's need to be done here?
         setMenu(0);
     }
 

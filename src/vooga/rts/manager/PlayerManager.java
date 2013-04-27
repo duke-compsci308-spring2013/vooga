@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import vooga.rts.networking.communications.PlayerInfo;
 import vooga.rts.player.HumanPlayer;
 import vooga.rts.player.Player;
 import vooga.rts.player.Team;
@@ -37,23 +38,19 @@ public class PlayerManager {
         myTeams.put(teamID, new Team(teamID));
     }
 
+    public void addHuman (PlayerInfo info) {
+        addPlayer(new HumanPlayer(info.getId(), info.getTeam()), info.getTeam());
+    }
     /**
      * Creates a new player with the specified team ID
      * 
      * @param teamID the team ID of the player.
      */
-    public void addPlayer (int teamID) {
-        Player result;
-        if (myPlayers.size() == 0) {
-            myHuman = new HumanPlayer(0, teamID);
-            result = myHuman;
-        }
-        else {
-            result = new Player(myPlayers.size(), teamID);
-        }
-        addPlayer(result, teamID);
+    public void addPlayer (PlayerInfo info) {
+        addPlayer(new Player(info.getId(), info.getTeam()), info.getTeam());
     }
-
+    
+   
     /**
      * Returns a team corresponding to the team ID
      * 
