@@ -28,11 +28,11 @@ public class MenuState extends SubState implements Observer {
     private Map<Integer, Menu> myMenus;
     private int myCurrentMenu;
 
-    public MenuState (Observer observer, JFrame f) {
-        super(observer);
+    public MenuState (MainState state, JFrame f) {
+        super(state);
         myMenus = new HashMap<Integer, Menu>();
         addMenu(0, new MainMenu());
-        addMenu(1, new MultiMenu(f));
+        addMenu(1, new MultiMenu(f, state));
         addMenu(2, new SetupMenu());
     }
     

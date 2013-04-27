@@ -13,6 +13,7 @@ import javax.swing.JInternalFrame;
 import vooga.rts.gui.Menu;
 import vooga.rts.gui.Window;
 import vooga.rts.networking.client.ClientModel;
+import vooga.rts.networking.client.NetworkedGame;
 import vooga.rts.networking.communications.ExpandedLobbyInfo;
 import vooga.rts.networking.server.MatchmakerServer;
 import vooga.rts.state.MainState;
@@ -23,7 +24,7 @@ public class MultiMenu extends Menu implements Observer {
     private JFrame myFrame;
     private ClientModel myClientModel;
 
-    public MultiMenu (JFrame f) {
+    public MultiMenu (JFrame f, NetworkedGame game) {
         myFrame = f;
         List<String> factions = new ArrayList<String>();
         factions.add("protoss");
@@ -34,7 +35,7 @@ public class MultiMenu extends Menu implements Observer {
         List<Integer> maxPlayers = new ArrayList<Integer>();
         maxPlayers.add(4);
         maxPlayers.add(6);
-        myClientModel = new ClientModel(null, "Test Game", "User 1", factions, maps, maxPlayers);
+        myClientModel = new ClientModel(game, "Test Game", "User 1", factions, maps, maxPlayers);
 
     }
 

@@ -144,7 +144,7 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
         return myActions;
     }
 
-    public void setActions (Map<String, Action> actions) {
+    public void setActions (Map<String, InteractiveAction> actions) {
         myActions = actions;
     }
 
@@ -297,7 +297,7 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      *        is a command that was entered by the player
      * @return the action the is mapped to the command
      */
-    public Action getAction (Command command) {
+    public InteractiveAction getAction (Command command) {
         return myActions.get(command.getMethodName());
     }
 

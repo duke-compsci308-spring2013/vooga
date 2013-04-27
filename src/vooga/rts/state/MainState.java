@@ -177,4 +177,10 @@ public class MainState implements State, Observer, NetworkedGame {
     public static IClient getClient () {
         return myClient;
     }
+
+    @Override
+    public void serverBrowserClosed () {
+        // TODO Auto-generated method stub
+        
+    }
 }
