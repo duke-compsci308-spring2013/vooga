@@ -276,13 +276,6 @@ public class Manager extends Observable implements State, IActOn, Observer {
                 return;
             }
         }
-//        for (int i = getAllEntities().size() - 1; i >= 0; i--) {
-//            InteractiveEntity ie = getAllEntities().get(i);
-//            if (ie.intersects(loc)) {
-//                select(ie);
-//                return;
-//            }
-//        }
     }
 
     /**
@@ -388,5 +381,6 @@ public class Manager extends Observable implements State, IActOn, Observer {
     public void getMessage(GameMessage message) {
         InteractiveAction action = message.getAction();
         action.setEntity(myEntities.get(action.getEntity().getId())); // Not sure how well this will go through the network and can be changed if necessary.
+        action.apply();
     }
 }
