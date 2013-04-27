@@ -7,10 +7,11 @@ import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import util.State;
+import util.StateParameterDisabledException;
 import vooga.fighter.model.mode.MenuMode;
 import vooga.fighter.model.ModelConstants;
 import vooga.fighter.model.objects.MenuObject;
-import vooga.fighter.model.utils.State;
 import vooga.fighter.model.utils.UpdatableLocation;
 
 /**
@@ -73,11 +74,15 @@ public class MenuGridLoader extends ObjectLoader {
                     for (Object s : menuobject.getStates().values()) {
                         State state = (State) s;
                         for (int k = 0; k < state.getNumFrames(); k++) {
-                            Dimension size = new Dimension(xSize, ySize);
-                            state.populateSize(size, k);
-                            Rectangle rect = new Rectangle(xCoord, yCoord, xSize, ySize);
-                            state.populateRectangle(rect, k);
-                            state.populateAllDelays(ModelConstants.FOUR_TICKS);
+                            try {
+                                Dimension size = new Dimension(xSize, ySize);
+                                state.populateSize(size, k);
+                                Rectangle rect = new Rectangle(xCoord, yCoord, xSize, ySize);
+                                state.populateHitbox(rect, k);
+                                state.populateAllDelays(ModelConstants.FOUR_TICKS);
+                            } catch (StateParameterDisabledException e) {
+                                // TODO: add exception handling here
+                            }
                         }
                     }
                     int gridnum = Integer.parseInt(getAttributeValue(node1, getResourceBundle().getString("GridNum")));

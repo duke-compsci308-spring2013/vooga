@@ -8,9 +8,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import util.Pixmap;
+import util.State;
+import util.StateParameterDisabledException;
 import vooga.fighter.model.ModelConstants;
 import vooga.fighter.model.objects.MouseObject;
-import vooga.fighter.model.utils.State;
 
 /**
  * Loads the resources necessary for MouseObjects. Reads the data from the file designated
@@ -51,14 +52,18 @@ public class MouseLoader extends ObjectLoader {
 		NodeList frames = node.getElementsByTagName(getResourceBundle().getString("Frame"));
 		State newState = new State(myMouse, frames.getLength());
 		Element node1 = (Element) frames.item(0);
-		String imagepathway = getAttributeValue(node1, myMouse.getImageTag()+getResourceBundle().getString("Image"));
-		newState.populateImage(new Pixmap(imagepathway), 0);
-		int width = Integer.parseInt((getAttributeValue(node1, getResourceBundle().getString("Width"))));
-		int height = Integer.parseInt((getAttributeValue(node1, getResourceBundle().getString("Height"))));
-		Dimension dim = new Dimension(width,height);
-		Rectangle rect = new Rectangle(width,height);
-		newState.populateAllSizes(dim);
-		newState.populateRectangle(rect, 0);
+		try {
+        		String imagepathway = getAttributeValue(node1, myMouse.getImageTag()+getResourceBundle().getString("Image"));
+        		newState.populateImage(new Pixmap(imagepathway), 0);
+        		int width = Integer.parseInt((getAttributeValue(node1, getResourceBundle().getString("Width"))));
+        		int height = Integer.parseInt((getAttributeValue(node1, getResourceBundle().getString("Height"))));
+        		Dimension dim = new Dimension(width,height);
+        		Rectangle rect = new Rectangle(width,height);
+        		newState.populateAllSizes(dim);
+        		newState.populateHitbox(rect, 0);
+		} catch (StateParameterDisabledException e) {
+		    // TODO: add exception handling here
+		}
 		myMouse.addState(Statename, newState);
 		myMouse.defineDefaultState(Statename);
 		myMouse.setToDefaultState();

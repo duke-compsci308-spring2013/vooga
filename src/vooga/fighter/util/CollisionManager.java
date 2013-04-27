@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import util.StateParameterDisabledException;
 import vooga.fighter.model.objects.AttackObject;
 import vooga.fighter.model.objects.CharacterObject;
 import vooga.fighter.model.objects.EnvironmentObject;
@@ -43,11 +44,15 @@ public class CollisionManager {
                 GameObject o1 = myObjects.get(i);
                 GameObject o2 = myObjects.get(j);
                 if (!(o1 instanceof MapObject || o2 instanceof MapObject)){
-                	Rectangle o1Rect = o1.getCurrentState().getCurrentRectangle();
-                	Rectangle o2Rect = o2.getCurrentState().getCurrentRectangle();
-	                if (myCollisionDetector.quickDetectCollision(o1Rect, o2Rect)) {
-	                    handleCollisions(o1, o2);
-	                }
+                    	try {
+                    	    Rectangle o1Rect = o1.getCurrentState().getCurrentHitbox();                	
+                    	    Rectangle o2Rect = o2.getCurrentState().getCurrentHitbox();
+                    	    if (myCollisionDetector.quickDetectCollision(o1Rect, o2Rect)) {
+                    	        handleCollisions(o1, o2);
+                    	    }
+                	} catch (StateParameterDisabledException e) {
+                	    // TODO: add exception handling here
+                	}
                 }
             }
         }
@@ -126,10 +131,14 @@ public class CollisionManager {
      * Handles collisions between an environment object and a character object.
      */
     public void collide (EnvironmentObject o1, CharacterObject o2) {
-        Rectangle o1Rect = o1.getCurrentState().getCurrentRectangle();
-        Rectangle o2Rect = o2.getCurrentState().getCurrentRectangle();
-        if (myCollisionDetector.hitBottom(o2Rect, o1Rect)) {
-            o2.moveBack();
+        try {
+            Rectangle o1Rect = o1.getCurrentState().getCurrentHitbox();
+            Rectangle o2Rect = o2.getCurrentState().getCurrentHitbox();
+            if (myCollisionDetector.hitBottom(o2Rect, o1Rect)) {
+                o2.moveBack();
+            }
+        } catch (StateParameterDisabledException e) {
+            // TODO: add exception handling here
         }
     }
 

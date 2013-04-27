@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import util.Location;
+import util.State;
 import util.Vector;
 import vooga.fighter.model.ModelConstants;
 import vooga.fighter.model.loaders.AttackObjectLoader;
 import vooga.fighter.model.utils.Counter;
 import vooga.fighter.model.utils.Effect;
-import vooga.fighter.model.utils.State;
 import vooga.fighter.model.utils.UpdatableLocation;
 
 /**

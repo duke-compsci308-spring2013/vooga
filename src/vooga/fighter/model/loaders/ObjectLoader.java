@@ -13,8 +13,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import util.Pixmap;
+import util.State;
+import util.StateParameterDisabledException;
 import vooga.fighter.model.objects.GameObject;
-import vooga.fighter.model.utils.State;
 
 /**
  * Abstract class with shared methods that all ObjectLoader-derived classes may need.
@@ -154,16 +155,20 @@ public abstract class ObjectLoader {
 	protected void getFrameProperties(NodeList frameNodes, State newState){
 		for (int j = 0; j < frameNodes.getLength(); j++) {
 			Element frame = (Element) frameNodes.item(j);
-			if (frame.getAttributes().getNamedItem(getResourceBundle().getString("Image")) != null){
-				newState.populateImage(new Pixmap(getAttributeValue(frame, getResourceBundle().getString("Image"))), j);
-			} else {
-				newState.populateImage(new Pixmap(getResourceBundle().getString("Blank")), j);
-			}
-			NodeList hitboxNodes = frame.getElementsByTagName(getResourceBundle().getString("Hitbox")); 
-			for (int k=0; k<hitboxNodes.getLength(); k++){
-				newState.populateRectangle(new Rectangle(Integer.parseInt(getAttributeValue(hitboxNodes.item(k), getResourceBundle().getString("CornerX"))),
-						Integer.parseInt(getAttributeValue(hitboxNodes.item(k), getResourceBundle().getString("CornerY"))), Integer.parseInt(getAttributeValue(hitboxNodes.item(k), getResourceBundle().getString("Width"))),
-						Integer.parseInt(getAttributeValue(hitboxNodes.item(k), getResourceBundle().getString("Height")))), j);
+			try {
+        			if (frame.getAttributes().getNamedItem(getResourceBundle().getString("Image")) != null){
+        				newState.populateImage(new Pixmap(getAttributeValue(frame, getResourceBundle().getString("Image"))), j);
+        			} else {
+        				newState.populateImage(new Pixmap(getResourceBundle().getString("Blank")), j);
+        			}
+        			NodeList hitboxNodes = frame.getElementsByTagName(getResourceBundle().getString("Hitbox")); 
+        			for (int k=0; k<hitboxNodes.getLength(); k++){
+        				newState.populateHitbox(new Rectangle(Integer.parseInt(getAttributeValue(hitboxNodes.item(k), getResourceBundle().getString("CornerX"))),
+        						Integer.parseInt(getAttributeValue(hitboxNodes.item(k), getResourceBundle().getString("CornerY"))), Integer.parseInt(getAttributeValue(hitboxNodes.item(k), getResourceBundle().getString("Width"))),
+        						Integer.parseInt(getAttributeValue(hitboxNodes.item(k), getResourceBundle().getString("Height")))), j);
+        			}
+			} catch (StateParameterDisabledException e) {
+			    // TODO: add exception handling here
 			}
 		}
 	}

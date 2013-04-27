@@ -4,9 +4,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import util.Pixmap;
+import util.State;
+import util.StateParameterDisabledException;
 import vooga.fighter.model.ModelConstants;
 import vooga.fighter.model.objects.MenuObject;
-import vooga.fighter.model.utils.State;
 
 /**
  * Loads the resources necessary for selectable Menu objects. Reads the data from the file designated
@@ -53,10 +54,14 @@ public class MenuLoader extends ObjectLoader {
                     NodeList frames = state.getElementsByTagName(getResourceBundle().getString("Frame"));
                     State newState = new State(myMenuObject, frames.getLength());
                     for (int k = 0; k < frames.getLength(); k++) {
-                        Element node1 = (Element) frames.item(k);
-                        String imagepathway = getAttributeValue(node1, getResourceBundle().getString("Image"));
-                        Pixmap image = new Pixmap(imagepathway);
-                        newState.populateImage(image, k);
+                        try {
+                            Element node1 = (Element) frames.item(k);
+                            String imagepathway = getAttributeValue(node1, getResourceBundle().getString("Image"));
+                            Pixmap image = new Pixmap(imagepathway);
+                            newState.populateImage(image, k);
+                        } catch (StateParameterDisabledException e) {
+                            // TODO: add exception handling here
+                        }
                     }
                     myMenuObject.addState(stateName, newState);
                     newState.setLooping(true);
