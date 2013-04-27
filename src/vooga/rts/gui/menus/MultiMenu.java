@@ -15,6 +15,7 @@ import vooga.rts.gui.Window;
 import vooga.rts.networking.client.ClientModel;
 import vooga.rts.networking.communications.ExpandedLobbyInfo;
 import vooga.rts.networking.server.MatchmakerServer;
+import vooga.rts.state.MainState;
 
 
 public class MultiMenu extends Menu implements Observer {
@@ -35,7 +36,7 @@ public class MultiMenu extends Menu implements Observer {
         List<Integer> maxPlayers = new ArrayList<Integer>();
         maxPlayers.add(4);
         maxPlayers.add(6);
-        myClientModel = new ClientModel(null, "Test Game", "User 1", factions, maps, maxPlayers);
+        myClientModel = new ClientModel(new MainState(), "Test Game", "User 1", factions, maps, maxPlayers);
 
     }
 
