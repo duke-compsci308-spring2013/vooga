@@ -1,7 +1,7 @@
 package vooga.rts.gui.menus;
 
 import java.awt.Color;
-import java.awt.Dimension;
+import vooga.rts.util.SDimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -17,7 +17,7 @@ public class MainMenu extends Menu {
 
     public static final String DEFAULT_BGIMAGE_LOCATION = "images/backgrounds/menu_bg.png";
     public BufferedImage myBGImage;
-    private Dimension myDefaultButtonDimension = new Dimension(500, 122);
+    private SDimension myDefaultButtonSDimension = new SDimension(500, 122);
 
     private Location myDefaultButtonLocation = new Location(678, 500);
 
@@ -38,14 +38,14 @@ public class MainMenu extends Menu {
         setBGImage(myBGImage);
 
         mySingleButton =
-                new MainMenuButton("Single Player", myDefaultButtonDimension,
+                new MainMenuButton("Single Player", myDefaultButtonSDimension,
                                    myDefaultButtonLocation, 0);
         setScaledButton(mySingleButton);
 
         addButton(mySingleButton);
 
         myMultiButton =
-                new MainMenuButton("Multi Player", myDefaultButtonDimension,
+                new MainMenuButton("Multi Player", myDefaultButtonSDimension,
                                    new Location(myDefaultButtonLocation.getX(),
                                                 (myDefaultButtonLocation.getY() + ySpacing)), 1);
 
@@ -55,11 +55,11 @@ public class MainMenu extends Menu {
     }
 
     public void setScaledButton (MainMenuButton b) {
-        myX = Window.SCREEN_SIZE.getWidth();
-        myY = Window.SCREEN_SIZE.getHeight();
+        myX = Window.D_X;
+        myY = Window.D_Y;
         double xFactor = myX / myBGImage.getWidth();
         double yFactor = myY / myBGImage.getHeight();
-        b.setSize(new Dimension((int) (b.getSize().getWidth() * xFactor),
+        b.setSize(new SDimension((int) (b.getSize().getWidth() * xFactor),
                                 (int) (b.getSize().getHeight() * yFactor)));
 
         b.setPos(new Location((int) (b.getPos().getX() * xFactor),

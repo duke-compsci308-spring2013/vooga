@@ -41,10 +41,16 @@ public class HumanPlayer extends Player implements Observer {
 
     private GameMenu myGameMenu;
 
+<<<<<<< HEAD
 
     public HumanPlayer (int id, int teamID) {
         super(id, teamID);
         
+=======
+    public HumanPlayer (int id) {
+        super(id);
+
+>>>>>>> da65f910f3b18cd6676cb9b67f1292918754077d
         myGameMenu = new GameMenu();
         myGameMenu.addObserver(this);
         myManager.addObserver(myGameMenu);
@@ -126,9 +132,12 @@ public class HumanPlayer extends Player implements Observer {
         if (a instanceof InformationCommand) {
             InformationCommand i = (InformationCommand) a;
             getManager().receiveCommand(i);
+        } else {
+            setChanged();
+            notifyObservers();
         }
-
+        
+       
     }
-
 
 }

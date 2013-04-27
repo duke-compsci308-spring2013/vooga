@@ -16,6 +16,7 @@ import vooga.rts.util.Location;
 
 public abstract class Menu extends Observable implements IGameLoop, Observer {
 
+    
     protected List<Button> myButtons;
     protected Image myImage;
     protected AffineTransform myTransform;

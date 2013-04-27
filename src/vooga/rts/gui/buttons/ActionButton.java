@@ -1,16 +1,8 @@
 package vooga.rts.gui.buttons;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import vooga.rts.util.SDimension;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import vooga.rts.commands.InformationCommand;
-import vooga.rts.gui.Button;
-import vooga.rts.util.Information;
 import vooga.rts.util.Location;
 
 
@@ -18,12 +10,12 @@ public class ActionButton extends ImageButton {
     
     private InformationCommand myInfoCommand;
 
-    public ActionButton (String image, Dimension size, Location pos, InformationCommand c) {
+    public ActionButton (String image, SDimension size, Location pos, InformationCommand c) {
         super(image, size, pos);
         myInfoCommand = c;
     }
     
-    public ActionButton (InformationCommand c, Dimension size, Location pos) {
+    public ActionButton (InformationCommand c, SDimension size, Location pos) {
         super(c.getInfo().getButtonImage(), size, pos);
         myInfoCommand = c;
     }

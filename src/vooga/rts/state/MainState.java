@@ -80,8 +80,21 @@ public class MainState implements State, Observer, NetworkedGame {
 
     @Override
     public void update (Observable o, Object arg) {
+<<<<<<< HEAD
         if (arg == null) {
             //setActiveState(myStates.get(o));
+=======
+        if (o instanceof LoadingState) {
+            MenuState m = new MenuState(this, myWindow.getJFrame());
+            setActiveState(m);
+            m.setMenu(0);
+            
+        }
+        else if (o instanceof MenuState) {
+            setActiveState(new GameState(this));
+        } else if (o instanceof GameState) {
+            setActiveState(new GameOverState(this));
+>>>>>>> da65f910f3b18cd6676cb9b67f1292918754077d
         }
     }
 

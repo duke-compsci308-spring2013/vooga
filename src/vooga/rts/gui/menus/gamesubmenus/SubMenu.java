@@ -1,6 +1,6 @@
 package vooga.rts.gui.menus.gamesubmenus;
 
-import java.awt.Dimension;
+import vooga.rts.util.SDimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
@@ -15,14 +15,11 @@ public abstract class SubMenu extends Observable implements Observer {
 
     protected InteractiveEntity mySelectedEntity;
     private BufferedImage myBGImage;
-    private Dimension mySize;
+    private SDimension mySize;
     private Location myPos;
     private boolean isFocused;
 
-    protected static final int S_X = (int) Window.SCREEN_SIZE.getWidth();
-    protected static final int S_Y = (int) Window.SCREEN_SIZE.getHeight();
-
-    public SubMenu (String image, Dimension size, Location pos) {
+    public SubMenu (String image, SDimension size, Location pos) {
         myBGImage =
                 ResourceManager.getInstance().<BufferedImage> getFile(image,
                                                                       BufferedImage.class);
@@ -36,7 +33,7 @@ public abstract class SubMenu extends Observable implements Observer {
 
     public void paint (Graphics2D pen) {
         if (myBGImage != null) {
-            pen.drawImage(myBGImage, (int) myPos.x, (int) myPos.y, mySize.width, mySize.height, null);
+            pen.drawImage(myBGImage, (int) myPos.getX(), (int) myPos.getY(), (int) mySize.getWidth(), (int) mySize.getHeight(), null);
         }
     }
 

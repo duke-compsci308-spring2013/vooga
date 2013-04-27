@@ -101,24 +101,7 @@ public class Unit extends InteractiveEntity {
 
     @Override
     public void addActions () {
-<<<<<<< HEAD
-        put(ClickCommand.LEFT_CLICK, new MoveAction(this));
-=======
-        addAction(ClickCommand.LEFT_CLICK, new InteractiveAction(this) {
-            private Location3D myLocation;
-
-            @Override
-            public void apply () {
-                getEntity().move(myLocation);
-            }
-
-            @Override
-            public void update (Command command) {
-                ClickCommand click = (ClickCommand) command;
-                myLocation = Camera.instance().viewtoWorld(click.getPosition());
-            }
-        });
->>>>>>> 9c5e9dde89a798fb8a3b6cd7f28a0a6b18f0c6ad
+        addAction(ClickCommand.LEFT_CLICK, new MoveAction(this));
     }
 
     public void occupy (InteractiveEntity i) {
@@ -126,6 +109,7 @@ public class Unit extends InteractiveEntity {
     }
 
     @Override
+<<<<<<< HEAD
     public InteractiveEntity copy () {
     	Unit copyUnit = new Unit(getImage(), getWorldLocation(), getSize(), getSound(), getPlayerID(),
                 getHealth(), getBuildTime(), getSpeed());
@@ -137,6 +121,17 @@ public class Unit extends InteractiveEntity {
     public void updateAction (Command command) {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public void addAction (String input, Action action) {
+        // TODO Auto-generated method stub
+        
+=======
+    public Unit copy () {
+        return new Unit(getImage(), getWorldLocation(), getSize(), getSound(), getPlayerID(),
+                        getHealth(), getBuildTime(), getSpeed());
+>>>>>>> da65f910f3b18cd6676cb9b67f1292918754077d
     }
 
 	

@@ -73,6 +73,8 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
     private Rectangle2D myDrag;
     private Factory myFactory;
 
+    private boolean isGameOver;
+
     public GameState (Observer observer) {
         super(observer);
         myFactory = new Factory();
@@ -97,6 +99,10 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
 
     @Override
     public void update (double elapsedTime) {
+        if (isGameOver) {
+            setChanged();
+            notifyObservers();
+        }
         myMap.update(elapsedTime);
         getPlayers().update(elapsedTime);
 
@@ -294,5 +300,22 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
     public void getMessage (Message message) {
         RTSMessage gMessage = (RTSMessage) message;
         myPlayers.getPlayer(gMessage.getPlayerID()).getManager().getMessage(gMessage);
+    }
+
+    public void initializeGameOver () {
+        isGameOver = true;
+    }
+
+    public static GameMap getMap () {
+        return myMap;
+    }
+
+    @Override
+    public void update (Observable arg0, Object arg1) {
+        initializeGameOver();
+    }
+
+    public static void setMap (GameMap map) {
+        myMap = map;
     }
 }

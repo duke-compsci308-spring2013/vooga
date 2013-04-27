@@ -20,6 +20,7 @@ import vooga.rts.action.InteractiveAction;
 import vooga.rts.ai.AstarFinder;
 import vooga.rts.ai.Path;
 import vooga.rts.ai.PathFinder;
+import vooga.rts.commands.ClickCommand;
 import vooga.rts.commands.Command;
 import vooga.rts.commands.InformationCommand;
 import vooga.rts.gamedesign.sprite.gamesprites.GameEntity;
@@ -308,14 +309,11 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
             return null; // this needs to be fixed
         for (String s : myActions.keySet()) {
             // need to check what type it is...eg it cant be a left click
-            String isMake = s.split(" ")[0];
-            if (isMake.equals("make")) { // very buggy
+            String actionType = s.split(" ")[0];
+            if (!actionType.equals(ClickCommand.LEFT_CLICK ) && !actionType.equals(ClickCommand.RIGHT_CLICK)) { 
                 infoCommands.add(new InformationCommand(s, myInfos.get(s)));
             }
 
-        }
-        if (infoCommands.isEmpty()) {
-            return null;
         }
         return infoCommands;
     }
@@ -427,9 +425,7 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
 
     @Override
     public void paint (Graphics2D pen) {
-        if (!isVisible()) {
-            return;
-        }
+        if (!isVisible()) { return; }
         // pen.rotate(getVelocity().getAngle());
 
         // should probably use the getBottom, getHeight etc...implement them
@@ -564,6 +560,14 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      */
     public void addProducable (InteractiveEntity i) {
         myProducables.add(i);
+    }
+
+    @Override
+    public void updateAction (Command command) {
+        if (myActions.containsKey(command.getMethodName())) {
+            Action action = myActions.get(command.getMethodName());
+            action.update(command);
+        }
     }
 
     /**

@@ -1,7 +1,7 @@
 package vooga.rts.gui.buttons;
 
 import java.awt.Color;
-import java.awt.Dimension;
+import vooga.rts.util.SDimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -20,7 +20,7 @@ public class TextButton extends Button {
 	private int myYPadding = 10;
 
 
-	public TextButton(String text, Color c, Color d, int f, Dimension size, Location pos) {
+	public TextButton(String text, Color c, Color d, int f, SDimension size, Location pos) {
 		super(null, size, pos);
 		myText = text;
 		myBGColor = c;

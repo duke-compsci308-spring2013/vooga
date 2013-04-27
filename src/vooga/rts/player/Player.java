@@ -1,6 +1,7 @@
 package vooga.rts.player;
 
 import java.awt.Graphics2D;
+import java.util.Observable;
 import vooga.rts.IGameLoop;
 import vooga.rts.commands.Command;
 import vooga.rts.controller.Controller;
@@ -18,7 +19,7 @@ import vooga.rts.util.Location3D;
  * @author challenherzberg-brovold
  * 
  */
-public class Player implements Controller, IGameLoop {
+public class Player extends Observable implements Controller, IGameLoop {
 
     protected Manager myManager;
     private IndividualResourceManager myResources;

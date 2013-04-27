@@ -24,6 +24,7 @@ import java.util.List;
  */
 public class CanProduce implements ProductionStrategy {
 
+<<<<<<< HEAD
 	private List<InteractiveEntity> myProducables;
 	private Location3D myRallyPoint;
 	
@@ -55,6 +56,38 @@ public class CanProduce implements ProductionStrategy {
 	}
 	
 	
+=======
+    private List<InteractiveEntity> myProducables;
+    private Location3D myRallyPoint;
+
+    /**
+     * Creates a new production strategy that represents an entity that can
+     * produce other entities. It is created with a list of entities that
+     * it can produce and a rally point (where all the units created by this
+     * entity will go).
+     */
+    public CanProduce (Building building) {
+        myProducables = new ArrayList<InteractiveEntity>();
+        myRallyPoint = new Location3D();
+        setRallyPoint(building);
+    }
+
+    /**
+     * Sets the rally point of the entity that can produce so that units
+     * will move to that point after they are created by the entity.
+     * 
+     * @param rallyPoint is the location where the units will go when they
+     *        are created
+     */
+    public void setRallyPoint (Location3D rallyPoint) {
+        myRallyPoint = rallyPoint;
+    }
+
+    public void setRallyPoint (Building building) {
+        myRallyPoint = new Location3D(building.getWorldLocation().getX(),
+                                      building.getWorldLocation().getY() + 50, 0);
+    }
+>>>>>>> da65f910f3b18cd6676cb9b67f1292918754077d
 
     /**
      * Adds an interactive entity that can be produced to the list of this
@@ -75,6 +108,7 @@ public class CanProduce implements ProductionStrategy {
                 public void update (Command command) {
                 }
 
+<<<<<<< HEAD
 				@Override
 				public void apply() {
 					// check for resources
@@ -89,17 +123,35 @@ public class CanProduce implements ProductionStrategy {
 							producer.setChanged();
 							producer.notifyObservers(f);
 							f.move(myRallyPoint);
+=======
+                @Override
+                public void apply () {
+                    // check for resources
+                    final InteractiveEntity unit = producable;
+                    //producer.getEntityState().setProducingState(PR);
+                    DelayedTask dt = new DelayedTask(5, new Runnable() {
+                        @Override
+                        public void run () {
+                            
+                            InteractiveEntity f = ((InteractiveEntity) unit)
+                                    .copy();
+                            f.setWorldLocation(producer.getWorldLocation());
+                            f.setAttackStrategy(new CanAttack(f.getWorldLocation(), f.getPlayerID()));
+                            producer.setChanged();
+                            producer.notifyObservers(f);
+                            f.move(myRallyPoint);
+                            //producer.getEntityState()
+                        }
+                    });
+                    producer.addTask(dt);
+                    
+                }
+            });
+            producer.addInfo(commandName, producable.getInfo());
+        }
+    }
+>>>>>>> da65f910f3b18cd6676cb9b67f1292918754077d
 
-						}
-					});
-					producer.addTask(dt);
-				}
-			});
-			System.out.println(producable.getInfo());
-			producer.addInfo(commandName, producable.getInfo());
-		}
-	}
-	
     public void paint (Graphics2D pen) {
         for (int i = 0; i < myProducables.size(); i++) {
             myProducables.get(i).paint(pen);

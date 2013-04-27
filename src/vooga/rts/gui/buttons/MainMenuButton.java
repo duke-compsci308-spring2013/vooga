@@ -1,7 +1,7 @@
 package vooga.rts.gui.buttons;
 
 import java.awt.Color;
-import java.awt.Dimension;
+import vooga.rts.util.SDimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import vooga.rts.gui.Button;
@@ -19,7 +19,7 @@ public class MainMenuButton extends Button {
     public String myText;
     public int myType;
 
-    public MainMenuButton (String t, Dimension size, Location pos, int i) {
+    public MainMenuButton (String t, SDimension size, Location pos, int i) {
         super(null, size, pos);
         myText = t;
         myType = i;

@@ -1,6 +1,6 @@
 package vooga.rts.gui;
 
-import java.awt.Dimension;
+import vooga.rts.util.SDimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
@@ -12,26 +12,28 @@ import vooga.rts.util.Location;
 public abstract class Button extends Observable implements IGameLoop {
 
     private BufferedImage myImage;
-    protected Dimension mySize;
+    protected SDimension mySize;
     protected Location myPos;
     protected boolean isFocused;
-    
-    protected static final int S_X = (int) Window.SCREEN_SIZE.getWidth();
-    protected static final int S_Y = (int) Window.SCREEN_SIZE.getHeight();
+
+    protected static final int S_X = (int) Window.D_X;
+    protected static final int S_Y = (int) Window.D_Y;
 
     /*
      * TODO: Add onFocus behavior for each button.
      */
 
-    public Button (String image, Dimension size, Location pos) {
+    public Button (String image, SDimension size, Location pos) {
         if (image != null) {
-            myImage = ResourceManager.getInstance().<BufferedImage> getFile(image, BufferedImage.class);
+            myImage =
+                    ResourceManager.getInstance().<BufferedImage> getFile(image,
+                                                                          BufferedImage.class);
         }
         mySize = size;
         myPos = pos;
         isFocused = false;
     }
-    
+
     public void setImage (BufferedImage i) {
         myImage = i;
     }
@@ -54,11 +56,15 @@ public abstract class Button extends Observable implements IGameLoop {
         return (x > myPos.x && y > myPos.y && x < (myPos.x + mySize.width) && y < (myPos.y + mySize.height));
     }
 
-    public Dimension getSize () {
+    public boolean checkWithinBounds (Location l) {
+        return checkWithinBounds((int) l.getX(), (int) l.getY());
+    }
+
+    public SDimension getSize () {
         return mySize;
     }
 
-    public void setSize (Dimension s) {
+    public void setSize (SDimension s) {
         mySize = s;
     }
 
