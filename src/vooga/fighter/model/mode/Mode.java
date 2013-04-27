@@ -1,4 +1,4 @@
-package vooga.fighter.model;
+package vooga.fighter.model.mode;
 
 import java.awt.Dimension;
 import java.util.ArrayList;

@@ -1,27 +1,23 @@
 package vooga.fighter.controller;
 
-import util.Location;
-import util.input.AlertObject;
-import util.input.Input;
 import util.input.InputClassTarget;
 import util.input.InputMethodTarget;
 import util.input.PositionObject;
 import vooga.fighter.controller.Controller;
 import vooga.fighter.controller.ControllerDelegate;
 import vooga.fighter.controller.GameInfo;
-import vooga.fighter.controller.OneVOneController;
-import vooga.fighter.model.*;
 import vooga.fighter.model.objects.MouseClickObject;
-import vooga.fighter.util.HUDVariable;
-import vooga.fighter.util.Paintable;
 import vooga.fighter.view.Canvas;
+import vooga.fighter.view.ScoreScreenLayout;
 
-import java.awt.Dimension;
-import java.util.List;
-import java.util.ResourceBundle;
 
 
 /**
+ * Details a controller for displaying scores and goes back to menu
+ * 
+ * Extends a menucontroller, because has menu objects. Only addition 
+ * functionality wise is displaying info
+ * 
  * 
  * @author Jerry Li
  * 
@@ -29,28 +25,42 @@ import java.util.ResourceBundle;
 
 @InputClassTarget
 public class ScoreController extends MenuController {
-        
-    private ResourceBundle myResources;
-    
-    
-  
-    
+
+
+    /**
+     * Initial constructor
+     */
     public ScoreController () {
         super();
     }
-        
-    public ScoreController(String name, Canvas frame, ControllerDelegate manager, 
-                GameInfo gameinfo) {
-        super(name, frame, manager, gameinfo);
-        ScoreInfo scoreInfo = new ScoreInfo(filepath);
+
+    /**
+     * Concrete constructor;
+     * @param name      name of controller
+     * @param frame     canvas
+     * @param manager   controllermanager
+     * @param gameinfo  GameInfo
+     * @param filePath  file path
+     */
+    public ScoreController(String name, Canvas frame, ControllerDelegate manager,
+                           GameInfo gameinfo, String filePath) {
+        super(name, frame, manager, gameinfo, filePath);
+        ScoreInfo scoreInfo = new ScoreInfo(filePath);
         scoreInfo.setWinners(gameinfo.getWinners());
+        this.getView().setLayout(new ScoreScreenLayout());
+        scoreInfo.setWinners(getGameInfo().getWinners());
+
     }
-    
-    public Controller getController(String name, Canvas frame, ControllerDelegate manager, GameInfo gameinfo) {
-        Controller controller = new ScoreController(name, frame, manager, gameinfo);
+
+    /**
+     * Returns concrete constructor
+     */
+    public Controller getController(String name, Canvas frame, ControllerDelegate manager, GameInfo gameinfo,
+                                    String filepath) {
+        Controller controller = new ScoreController(name, frame, manager, gameinfo, filepath);
         return controller;
     }
-    
+
     /**
      * Checks this controller's end conditions
      */
@@ -60,21 +70,21 @@ public class ScoreController extends MenuController {
     	getGameInfo().getCharacters().clear();
     	getManager().notifyEndCondition(getMode().getMenusNext(choice));
         }
-    
-    @InputMethodTarget(name = "continue")
-    public void mouseclick(PositionObject pos)  {
-        super.getMode().addObject(new MouseClickObject(pos.getPoint2D()));
-    }
-    
 
+    /**
+     * Remove input
+     */
     public void removeListener(){
-    	super.removeListener();
-    	getInput().removeListener(this);
+        super.removeListener();
+        getInput().removeListener(this);
     }
 
+    /**
+     * check modeconditions
+     */
     public void checkConditions(){
-    	for(ModeCondition condition: getConditions()){
-    		if(condition.checkCondition(getMode())) notifyEndCondition(getMode().peekChoice());
-    }
+        for(ModeCondition condition: getConditions()){
+            if(condition.checkCondition(getMode())) notifyEndCondition(getMode().peekChoice());
+        }
     }
 }

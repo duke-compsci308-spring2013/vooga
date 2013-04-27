@@ -1,6 +1,6 @@
 package vooga.fighter.controller;
 
-import vooga.fighter.model.Mode;
+import vooga.fighter.model.mode.Mode;
 
 /**
  * 
@@ -11,6 +11,6 @@ import vooga.fighter.model.Mode;
 public interface ModeCondition {
 
 
-	public boolean checkCondition(Mode mode);
+    public boolean checkCondition(Mode mode);
 
 }

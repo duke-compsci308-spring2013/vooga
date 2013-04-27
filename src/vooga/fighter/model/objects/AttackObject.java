@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import util.Location;
+import util.State;
 import util.Vector;
 import vooga.fighter.model.ModelConstants;
 import vooga.fighter.model.loaders.AttackObjectLoader;
 import vooga.fighter.model.utils.Counter;
 import vooga.fighter.model.utils.Effect;
-import vooga.fighter.model.utils.State;
 import vooga.fighter.model.utils.UpdatableLocation;
 
 /**
@@ -54,7 +54,7 @@ public class AttackObject extends GameObject{
     	copyStates(other);
     	setCurrentState(other.getCurrentStateKey());
     	addStartingAcceleration();
-        setImageData(); 
+        setImageData();
     }
 
     /**
@@ -66,6 +66,7 @@ public class AttackObject extends GameObject{
     	for (String key : otherStates.keySet()) {
     		State otherState = otherStates.get(key);
     		State newState = new State(otherState);
+    		newState.setOwner(this);
     		addState(key, newState);
     	}
     }

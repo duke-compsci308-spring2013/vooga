@@ -24,6 +24,7 @@ public class GameInfo extends UserGameData{
     private List<String> myCharacters;
     private Integer myNumCharacters;
     private List<Integer> myScores;
+    private List<Integer> myTotalScores;
     private List<String> myMapsPlayed;
     private List<String> myMapNames;
     private Score myHighScores;
@@ -39,6 +40,7 @@ public class GameInfo extends UserGameData{
         myCharacters = new ArrayList<String>();
         myMapsPlayed = new ArrayList<String>();
         myScores = new ArrayList<Integer>();
+        myTotalScores = new ArrayList<Integer>();
         myGameMode = "Fighting Game";
         myMapNames = mapNames;
         myWinners = new ArrayList<Integer>();
@@ -56,7 +58,7 @@ public class GameInfo extends UserGameData{
         myCharacters = characters;
         myMapName = map;
     }
-    
+
     /**
      * Sets the game loop info
      * @param info gameloopinfo
@@ -64,7 +66,7 @@ public class GameInfo extends UserGameData{
     public void setGameLoopInfo(GameLoopInfo info) {
         myGameLoopInfo = info;
     }
-    
+
     /**
      * Sets the mode name
      * @param name the mode name
@@ -72,7 +74,7 @@ public class GameInfo extends UserGameData{
     public void setModeName(String name) {
         myModeName = name;
     }
-   
+
     /**
      * Set list of scores
      * @param scores    list of scores
@@ -89,7 +91,7 @@ public class GameInfo extends UserGameData{
     public int getScore(int index) {
         return myScores.get(index);
     }
-    
+
     /**
      * Reset all information
      */
@@ -101,12 +103,19 @@ public class GameInfo extends UserGameData{
     }
 
     /**
-     * sets score at index
-     * @param index     index
+     * adds score
      * @param score     score
      */
-    public void setScore(int index, int score) {
-        myScores.set(index, score);
+    public void addScore(int score) {
+        myScores.add(score) ;
+    }
+    
+    /**
+     * add score at index
+     * @param score     score
+     */
+    public void addTotalScore(int index, int score){
+    	myTotalScores.set(index, myTotalScores.get(index)+score);
     }
 
     /**
@@ -114,7 +123,7 @@ public class GameInfo extends UserGameData{
      */
     public List<Double> getScores() {
         List<Double> myArcadeScores = new ArrayList<Double>();
-        for(Integer i : myScores){
+        for(Integer i : myTotalScores){
             myArcadeScores.add((double) i);
         }
         return myArcadeScores;
@@ -153,10 +162,10 @@ public class GameInfo extends UserGameData{
         return myMapName;
     }
 
-   /**
-    * Set map name
-    * @param map name
-    */
+    /**
+     * Set map name
+     * @param map name
+     */
     public void setMapName (String map) {
         myMapName = map;
     }
@@ -166,9 +175,13 @@ public class GameInfo extends UserGameData{
      * @return
      */
     public List<String> getCharacters () {
+    	myScores.clear();
+    	for(int i = 0; i< myCharacters.size() ; i++){
+    	if(myTotalScores.size()<4)myTotalScores.add(0);
+    	}
         return myCharacters;
     }
-    
+
     /**
      * Add character to list
      * @param character
@@ -176,7 +189,7 @@ public class GameInfo extends UserGameData{
     public void addCharacters(String character) {
         myCharacters.add(character);
     }
-    
+
     /**
      * set character at index
      * @param index     index
@@ -185,7 +198,7 @@ public class GameInfo extends UserGameData{
     public void setCharacter (int index, String character) {
         myCharacters.set(index, character);
     }
-    
+
     /**
      * set list of characters
      * @param characters
@@ -210,7 +223,7 @@ public class GameInfo extends UserGameData{
         myNumCharacters = numCharacters;
     }
 
-    
+
     /**
      * Return number of maps
      * @return
@@ -218,7 +231,7 @@ public class GameInfo extends UserGameData{
     public int getMapCount(){
         return myMapNames.size();
     }
-    
+
     /**
      * Get the maps played
      * @return
@@ -226,7 +239,7 @@ public class GameInfo extends UserGameData{
     public List<String> getMapsPlayed(){
         return myMapsPlayed;
     }
-    
+
     /**
      * Return list of map names
      * @return
@@ -234,7 +247,7 @@ public class GameInfo extends UserGameData{
     public List<String> getMapNames(){
         return myMapNames;
     }
-    
+
     public void setHighScores(Score highscores){
     	myHighScores = highscores;
     }
@@ -242,7 +255,7 @@ public class GameInfo extends UserGameData{
     public Score getHighScores(){
     	return myHighScores;
     }
-    
+
     /**
      * Get list of winners (by player id)
      * @return
@@ -250,7 +263,7 @@ public class GameInfo extends UserGameData{
     public List<Integer> getWinners() {
         return myWinners;
     }
-    
+
     /**
      * set winners 
      * @param winners
@@ -258,7 +271,7 @@ public class GameInfo extends UserGameData{
     public void setWinners(List<Integer> winners) {
         myWinners = winners;
     }
-    
+
     /**
      * Add a winner
      * @param winner

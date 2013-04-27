@@ -12,27 +12,32 @@ import vooga.fighter.model.ModelConstants;
 import vooga.fighter.model.objects.EnvironmentObject;
 
 /**
- * Loads data associated with a environment object to be passed to EnvironmentObject.
- * 
+ * Loads the resources necessary for EnvironmentObjects. Reads the data from the file designated
+ * in the path ModelConstants.ENVIRONMENTLOADER_PATH_TAG.
  * @author alanni, David Le
- *
- *
  */
 public class EnvironmentObjectLoader extends ObjectLoader {
 	
+	/**
+	 * The EnvironmentObject which will be modified
+	 */
 	private EnvironmentObject myEnvironmentObject;
 
 	/**
-	 * Constructor used when trying to read the environment objects data directly such as wanting to retrieve
-	 * all environment objects.
+	 * Constructs the environment object loader to be used for reading the designated environment
+	 * object file; used by level editor to find all available environment objects.
+	 * @param pathHierarchy The path to the folder containing the game's resources
 	 */
 	public EnvironmentObjectLoader (String pathHierarchy) {
 		super(ModelConstants.ENVIRONMENTLOADER_PATH_TAG, pathHierarchy);
 	}
 	
 	/**
-	 * Constructs the environment object loader with the id to be loaded and the environment object which the
-	 * loader will modify.
+	 * Constructs the environment object loader with the name to be loaded and the environment object
+	 * which the loader will modify.
+	 * @param enviroObjectName The name of the environment object to be matched in the xml file
+	 * @param enviroObject The EnvironmentObject to modify
+	 * @param pathHierarchy The path to the folder containing the game's resources
 	 */
 	public EnvironmentObjectLoader (String enviroObjectName, EnvironmentObject enviroObject, String pathHierarchy) {
 		super(ModelConstants.ENVIRONMENTLOADER_PATH_TAG, pathHierarchy);
@@ -42,6 +47,7 @@ public class EnvironmentObjectLoader extends ObjectLoader {
 	
 	/**
 	 * Retrieves information of all environment objects; used for level editor.
+     * @param pathHierarchy The path to the folder containing the game's resources
 	 */
 	public List<EnvironmentObject> getEnvironmentObjects(String pathHierarchy) {
 		Document doc = getDocument();
@@ -58,6 +64,8 @@ public class EnvironmentObjectLoader extends ObjectLoader {
 	
 	/**
 	 * Loads the environment object associated with the id
+	 * @param enviroObjectName The environment object name tag to be matched in the xml
+ 	 * @param pathHierarchy The path to the folder containing the game's resources
 	 */
 	protected void load(String enviroObjectName, String pathHierarchy) {
 		Document doc = getDocument();

@@ -7,31 +7,50 @@ import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import vooga.fighter.model.MenuGrid;
-import vooga.fighter.model.MenuMode;
+import util.State;
+import util.StateParameterDisabledException;
+import vooga.fighter.model.mode.MenuMode;
 import vooga.fighter.model.ModelConstants;
 import vooga.fighter.model.objects.MenuObject;
-import vooga.fighter.model.utils.State;
 import vooga.fighter.model.utils.UpdatableLocation;
 
-
+/**
+ * Loads the resources necessary for Menu layouts and item selection. Reads the data from the file designated
+ * in the path ModelConstants.MENUGRIDLOADER_PATH_TAG.
+ * @author Jack Matteucci, David Le
+ */
 public class MenuGridLoader extends ObjectLoader {
 
 
+	/**
+	 * Contains a list of available menu object selection choices
+	 */
     private List<MenuObject> myMenuObjects;
+    /**
+     * Points towards the correct delegate.
+     */
     private MenuMode myDelegate;
     private MenuObject myObject;
 
-    public MenuGridLoader (String menuname, MenuGrid grid, MenuMode delegate, String pathHierarchy) {
+    /**
+     * Constructs the MenuGridLoader and initializes instance variables, sets the correct
+     * data path, and begins loading process.
+     * @param menuname Menu layout to be loaded
+     * @param delegate Delegate to send info to
+     * @param pathHierarchy The path to the folder containing the game's resources
+     */
+    public MenuGridLoader (String menuname, MenuMode delegate, String pathHierarchy) {
         super(ModelConstants.MENUGRIDLOADER_PATH_TAG, pathHierarchy);
         myDelegate = delegate;
         myMenuObjects = new ArrayList<MenuObject>();
         load(menuname, pathHierarchy);
     }
 
-    /**
-     * Loads map from xml data
-     */
+	/**
+	 * Loads resources for the appropriate attack object matched by the param attackName
+	 * @param attackName Name tag of the attack to be loaded in the xml file
+	 * @param pathHierarchy The path to the folder containing the game's resources
+	 */
     protected void load (String menuname, String pathHierarchy) {
         Document doc = getDocument();
         NodeList menugridNodes = doc.getElementsByTagName(getResourceBundle().getString("MenuMode"));
@@ -55,11 +74,15 @@ public class MenuGridLoader extends ObjectLoader {
                     for (Object s : menuobject.getStates().values()) {
                         State state = (State) s;
                         for (int k = 0; k < state.getNumFrames(); k++) {
-                            Dimension size = new Dimension(xSize, ySize);
-                            state.populateSize(size, k);
-                            Rectangle rect = new Rectangle(xSize, ySize);
-                            state.populateRectangle(rect, k);
-                            state.populateAllDelays(ModelConstants.FOUR_TICKS);
+                            try {
+                                Dimension size = new Dimension(xSize, ySize);
+                                state.populateSize(size, k);
+                                Rectangle rect = new Rectangle(xCoord, yCoord, xSize, ySize);
+                                state.populateHitbox(rect, k);
+                                state.populateAllDelays(ModelConstants.FOUR_TICKS);
+                            } catch (StateParameterDisabledException e) {
+                                // TODO: add exception handling here
+                            }
                         }
                     }
                     int gridnum = Integer.parseInt(getAttributeValue(node1, getResourceBundle().getString("GridNum")));
@@ -79,10 +102,18 @@ public class MenuGridLoader extends ObjectLoader {
 
     }
 
+    /**
+     * Returns the list of menu objects contained in this menu grid.
+     * @return myMenuObjects list of menu objects
+     */
     public List<MenuObject> getMenuObjects () {
         return myMenuObjects;
     }
 
+    /**
+     * Returns first menu object in this menu grid.
+     * @return myObject first object
+     */
     public MenuObject getFirstMenuObject () {
         return myObject;
     }

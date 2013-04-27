@@ -23,9 +23,9 @@ public class MapWriter {
 	private MapObject myWriteSource;
 	private XMLTool myXMLWriter;
 	private Element myRoot;
-	//sound in maps has not yet been implemented
 	private String mySoundFilePath;
 	private List<String> myBackgroundFilePaths;
+    private String myFilePath;
 	
 	/**
 	 * constructor
@@ -33,7 +33,8 @@ public class MapWriter {
 	 * @param soundFilePath
 	 * @param backgroundFilePaths
 	 */
-	public MapWriter(MapObject map, String soundFilePath, List<String> backgroundFilePaths) {
+	public MapWriter(MapObject map, String soundFilePath, List<String> backgroundFilePaths, String filepath) {
+		myFilePath= filepath;
 		myWriteSource = map;
 		myXMLWriter = new XMLTool();
 		myBackgroundFilePaths = backgroundFilePaths;
@@ -126,7 +127,7 @@ public class MapWriter {
 	 * If the map already exists, overwrites that data, if not, adds a new map.
 	 */
 	private void writeToFile() {
-		MapLoader loader = new MapLoader();
+		MapLoader loader = new MapLoader(myFilePath);
 		Document doc = loader.getDocument();
 		Element root = doc.getDocumentElement();
 		NodeList mapNodes = doc.getElementsByTagName("map");

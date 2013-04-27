@@ -2,31 +2,20 @@ package vooga.fighter.controller;
 
 
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-import javax.swing.Timer;
-
-import util.Location;
-import util.input.*;
-import vooga.fighter.model.LevelMode;
-import vooga.fighter.model.Mode;
-import vooga.fighter.model.objects.AttackObject;
+import vooga.fighter.model.mode.LevelMode;
+import vooga.fighter.model.mode.Mode;
 import vooga.fighter.model.objects.CharacterObject;
 import vooga.fighter.model.objects.EnvironmentObject;
 import vooga.fighter.model.objects.MapObject;
-import vooga.fighter.model.LevelMode;
-import vooga.fighter.model.Mode;
-import vooga.fighter.model.objects.CharacterObject;
+
 import vooga.fighter.model.utils.UpdatableLocation;
 import vooga.fighter.util.CollisionManager;
-import vooga.fighter.util.Paintable;
 import vooga.fighter.view.Canvas;
 
-//Two EnvironmentObjects collided!
 
 /**
  * 
@@ -43,20 +32,28 @@ import vooga.fighter.view.Canvas;
  */
 
 public abstract class LevelController extends Controller {
-    private static final String INPUT_PATHWAY = "vooga.fighter.config.leveldefault";
+    private static final String INPUT_PATHWAY = "config.leveldefault";
+    private static final String SCORE_PATHWAY = "config.score";
+    private static final String SCORE = "ScoreScreen";
     private List<CharacterObject> myInputObjects;
     private List<ModeCondition> myWinConditions;
     private List<ModeCondition> myUniqueConditions;
+    String myInputPathway;
+    String myScorePathway;
+    private ResourceBundle myResource;
 
     public LevelController () {
         super();
     }
 
     public LevelController(String name, Canvas frame, ControllerDelegate manager, 
-                GameInfo gameinfo) {
-        super(name, frame, manager, gameinfo);
+                           GameInfo gameinfo, String filePath) {
+        super(name, frame, manager, gameinfo, filePath);
         setInput(manager.getInput());
-        getInput().replaceMappingResourcePath(INPUT_PATHWAY);
+        myInputPathway = getHardFilePath() + INPUT_PATHWAY;
+        myScorePathway = getHardFilePath() + SCORE_PATHWAY;
+        myResource = ResourceBundle.getBundle(myScorePathway);
+        getInput().replaceMappingResourcePath(myInputPathway);
         getInput().addListenerTo(this);
         GameLoopInfo gameLoopInfo = new GameLoopInfo((LevelMode) getMode());
         setLoopInfo(gameLoopInfo);
@@ -82,18 +79,18 @@ public abstract class LevelController extends Controller {
         loadCharacters(getGameInfo().getCharacters(), getMode().getMap().getStartPositions());
         loadHealth();
     }
-    
+
     /**
      * returns the current objects that inputs directly act upon
      */
     protected List<CharacterObject> getInputObjects(){
-    	return myInputObjects;
+        return myInputObjects;
     }
     /**
      * returns the Current Level Mode
      */
     public LevelMode getMode(){
-    	return (LevelMode) super.getMode();
+        return (LevelMode) super.getMode();
     }
     /**
      * returns this controller
@@ -105,14 +102,14 @@ public abstract class LevelController extends Controller {
      * removes listener from this and super class
      */
     public void removeListener(){
-    	super.removeListener();
-    	getInput().removeListener(this);
+        super.removeListener();
+        getInput().removeListener(this);
     }
     /**
      * Adds a condition to the winning Conditions variable
      */
     protected void addWinCondition(ModeCondition condition){
-    	myWinConditions.add(condition);
+        myWinConditions.add(condition);
     }
     /**
      * adds a unique Condition to the Unique Condition variable, these can really 
@@ -120,57 +117,61 @@ public abstract class LevelController extends Controller {
      * and add handling this in the checkConditions
      */
     protected void addUniqueCondition(ModeCondition condition){
-    	myUniqueConditions.add(condition);
+        myUniqueConditions.add(condition);
     }
     /**
      * Returns the current Win Conditions
      */
     protected List<ModeCondition> getWinConditions(){
-    	return myWinConditions;
+        return myWinConditions;
     }
-    
+
     /**
      * returns the current Unique Conditions, which will only be used if this class is 
      * subclassed
      */
     protected List<ModeCondition> getUniqueConditions(){
-    	return myUniqueConditions;
+        return myUniqueConditions;
     }
-    
+
     /**
      * Sets up the Winning Conditions.  While there is a default set, this method is to
      * be overridden by the developer, as it is called in the Level Controller constructor;
      */
     public void setupConditions(){
-    	addWinCondition(wincondition);
+        addWinCondition(wincondition);
     }
-    
+
     /**
      * Method that is called in the Controller loop, meant to cycle through the all 
      * sets of conditions that could possible apply and execute appropriately 
      * depending on the condition
      */
     public void checkConditions(){
-    	for(ModeCondition condition : getWinConditions()){
-    		if(condition.checkCondition(getMode())) getManager().notifyEndCondition("ScoreScreen");
-    	}
+        for(ModeCondition condition : getWinConditions()){
+            if(condition.checkCondition(getMode())) getManager().notifyEndCondition(myResource.getString(SCORE));
+        }
     }
-    
+
     /**
      * Anonymous Class that is fed into the winConditions via setupConditions
      */
     ModeCondition wincondition = new ModeCondition() {
     	public boolean checkCondition(Mode mode) {
     		LevelMode levelmode = (LevelMode) mode;
+    		boolean change = false;
     		    for (int i = 0; i < levelmode.getCharacterObjects().size(); i++) {
-			//for(CharacterObject character: levelmode.getCharacterObjects()){
 				if(!levelmode.getCharacterObjects().get(i).hasHealthRemaining()) {
-				    
-				    getGameInfo().addWinners(i);
-				    return true;
+					change = true;
+					for(int j = 0; j < levelmode.getCharacterObjects().size(); j++){
+						if(j!=i) getGameInfo().addWinners(j);
+						getGameInfo().addScore(levelmode.getCharacterObjects().get(j).getHealth().getHealth());
+						getGameInfo().addTotalScore(j, getGameInfo().getScore(j));
+					}
+					break;
 				}
 			}
-			return false;
+    		    return change;
 		}
     };
 
@@ -181,8 +182,8 @@ public abstract class LevelController extends Controller {
      */
     protected void developerUpdate(){
     }
-    
-    
+
+
     /**
      * Loads the health of the characters
      */
@@ -196,10 +197,10 @@ public abstract class LevelController extends Controller {
      * Loads the environment objects for a map using the ObjectLoader.
      */
     protected void loadMap(String mapName) {
-    	getMode().setMap(new MapObject(mapName));
+        getMode().setMap(new MapObject(mapName, getHardFilePath()));
         List<EnvironmentObject> mapObjects = getMode().getMap().getEnviroObjects();
         for (EnvironmentObject object : mapObjects) {
-        	getMode().addObject(object);
+            getMode().addObject(object);
         }
     }
 
@@ -210,10 +211,10 @@ public abstract class LevelController extends Controller {
         for (int i = 0; i < characterNames.size(); i++) {
             String charName = characterNames.get(i);
             UpdatableLocation start = startingPos.get(i);
-            CharacterObject newCharacter = new CharacterObject(charName, start);
+            CharacterObject newCharacter = new CharacterObject(charName, start, getHardFilePath());
             getMode().addObject(newCharacter);
             getMode().addCharacter(newCharacter);
         }
-}
+    }
 
 }

@@ -7,10 +7,78 @@
 This package is part of the CompSci 308 VOOGA Game Engine Project.
 
 <p>
-Entry points into code:  Subclassing Controller, which deals with almost all running code
-or subclassing GameManager, which is encompassed the entire code framework, above the scope of an individual controller. ÊMost changes are made via subclassing the first class, as we will describe below.
+Entry points into code:  Subclassing Controller, which deals with almost all running code (Explained below).
+Developer will also need to subclass GameManager, which is encompasses the entire code framework, and 
+is above the scope of an individual controller. 
+
+
 <p>
-To use our framework to create a game, a Game Developer would only need to subclass a controller, add that controller to the FightingManifesto file. Inside the subclassed controller, the developer would define his/her winning conditions, special conditions, and inputs. Of course, if the developer wanted to add inputs, he would add the inputs in the input file mapping. 
+To use our framework to create a game, a Game Developer should first subclass GameManager, and at the very
+least overwrite the method setFilePathway(), in order to give a new base filepath for all of resource/
+xml files to be used.  Currently, the base file path is set as vooga.fighter. so the developer will have 
+to choose accordingly. Also, when they change this file path, they have to make sure to copy over all of the xml,
+resource files to the file directory (keeping those in config in a config file, and those in images in an images file).
+They then have the freedom to change these xml/resource files as they so choose.  Changing these xml files is the 
+first level we offer for game customization, as this is how a developer would add in new characters, environmental
+objects, maps, any strings displayed, menus, and all images.
+
+<p>
+The next level of game customization comes from subclassing the controller.  Typically, one will choose to subclass 
+either MenuController, to create a new menu screen, or LevelController, to create a new fighting level. Just make sure
+to add that controller to the FightingManifesto file.
+Subclassing controller, one can:
+<p>
+Subclass the collision manager, changing the collide methods to define different interactions. Then make sure to
+overwrite the mode initialization method, in order to put in the new CollsionManager.  One can also subclass collision
+detection, in order to add in new Collision detector algorithms.
+<p>
+Change the input methods, as well as input pathway, in order to define new types of input to change the gamestate.
+One must be sure to use the metho: super.removeListener() in the Controller's constructor in order to remove the
+super class' listeners, before adding the game developer's controller to the input as a listener.
+<p>
+Change the specific objects that are loaded into the Mode, in the initialize mode method.  Therefore one can subclass
+whatever type of object they so desire, and load in these subclasses in the initialize mode method.  They can then
+subclass the collision manager to define special collide methods for these objects.
+<p>
+Change the winning conditions/add new winning conditions.  This is done by writing in line anonymous ModeCondition classes,
+which then should be added to the win conditions using the addWinConditions method.  (Method is add endCondition in MenuController)
+Also, one can define their own
+unique conditions, using the same framework, writing in the anonymous ModeCondition for *something* to be triggered
+should this condition arise.  Something is vague, because the developer had full power to change the state of what they
+have access to in the controller. Which is a lot as we're finding out!
+
+<p>
+Change the actions of the specific mode being used.  This is done by subclassing the mode class (or level/menu mode), 
+and writing your own, including an update method that does what the developer desires.  One can also just subclass one
+of these classes and add the appropriate getters and setters if they want to give their controller even more power.  Then
+they must make sure to create this mode in the Load Mode method of the controller.
+
+<p>
+In order to change the types of scores/the scores that are displayed, one needs to subclass gameloopinfo, adding in their
+desired statistics, and then overwrite the method setGameInfo in Controller to set their own info.  Then in the NotifyDelegate
+method of the controller, they should add the stats they want.  Then to display these stats they will have to subclass HUD builder
+and make it track the appropriate stats, following the framework given.  One must also annotate them as demostrated in GameLoopInfo.
+Finally, if they should want to keep track of these scores, one will need to subclass GameInfo, and then add their new scores
+to this subclass with the appropriate getters and setters, and then use the makeGameInfo method of GameManager in their 
+subclass of GameManager to change the GameInfo used.
+
+<p>
+Finally, if they want to insert something into the update loop (inside the super controller), they need only to
+overwrite the method developerUpdate, which currently does nothing.
+
+<p>
+Other customization, although this is higher level 
+includes changing the Canvas used, JFrame used (and size), GameInfo used (which stores scores, so changing scores will have
+to briefly happen here, mentioned above),ControlProgressionManager Used, and ControlManager used, one will use the documented 
+protected methods in their subclass of the GameManager. The Canvas controls the entire view, but it could be useful to
+add small methods in order to customize painting.  The controlProgressionManager just handles grabbing controllers from strings, but
+could be subclassed to include modes like a Tourney. 
+
+
+
+<p>
+In order to extend the display elements, a game developer would need to extend the HUDElement class AND override the update method (See an existing element for assistance). The new class can then be used in HUDVariable as a HUDClassName.
+HUDFactory should be passed the package name of the extended HUDElements and will find both HUDElements in the package and the default vooga package. 
 
 
 <!-- Fill this in with your high-level design and API examples -->

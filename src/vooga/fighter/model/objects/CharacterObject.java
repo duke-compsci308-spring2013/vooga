@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import vooga.fighter.model.ModelConstants;
-import vooga.fighter.model.effects.BurnEffect;
 import vooga.fighter.model.loaders.CharacterLoader;
 import vooga.fighter.model.utils.Effect;
 import vooga.fighter.model.utils.Health;

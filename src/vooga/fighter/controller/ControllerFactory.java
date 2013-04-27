@@ -1,11 +1,11 @@
 package vooga.fighter.controller;
 
+
 import util.input.*;
 
 import java.lang.reflect.Constructor;
+
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +25,9 @@ import vooga.fighter.view.Canvas;
  */
 public class ControllerFactory {
 
-    private String DEFAULT_RESOURCE_PACKAGE = "FightingManifesto";
+    private String DEFAULT_RESOURCE_PACKAGE = "config.FightingManifesto";
     private static final String PACKAGE_NAME = "controller.";
-    
+
     private Map<String, Controller> myControllerMap;
     private List<Controller> myControllerList;
     private Canvas myCanvas;
@@ -43,12 +43,12 @@ public class ControllerFactory {
     public ControllerFactory(Canvas frame, String pathway) {
         myControllerMap = new HashMap<String, Controller>();
         myControllerList = new ArrayList<Controller>();
-        myResourceName = pathway +DEFAULT_RESOURCE_PACKAGE;
+        myResourceName = pathway + DEFAULT_RESOURCE_PACKAGE;
         myPackageName = pathway + PACKAGE_NAME;
         myResources = ResourceBundle.getBundle(myResourceName);
         constructControllerMap();
     } 
-    
+
     /**
      * constructs the map of all controllers (value) associated with their names (key)
      */
@@ -58,31 +58,30 @@ public class ControllerFactory {
             myControllerMap.put(current.getName(), current);
         }
     }
-    
+
     /**
      * constructs a new controller from data in an xml file
      * @param controllerName
      * @return controller - the controller constructed from the xml
      */
     public Controller createController(String controllerName) {
-            Object controllerObject = null;
-            Controller controller = null;
-            try {
-                Class<?> controllerClass = null;
-                String filePath = myPackageName + controllerName;
-                controllerClass = Class.forName(filePath);
-                controllerObject = controllerClass.newInstance();
-                controller = (Controller) controllerObject;
-                controller.initializeName(myResources.getString(controllerName));
-                //controller.initializeName(myResources.getString(controllerName));
-                
-            }
-            catch (Exception e){
-                throw new NullPointerException("No such class");
-            }
+        Object controllerObject = null;
+        Controller controller = null;
+        try {
+            Class<?> controllerClass = null;
+            String filePath = myPackageName + controllerName;
+            controllerClass = Class.forName(filePath);
+            controllerObject = controllerClass.newInstance();
+            controller = (Controller) controllerObject;
+            controller.initializeName(myResources.getString(controllerName));
+
+        }
+        catch (Exception e){
+            throw new NullPointerException("No such class");
+        }
         return controller;
     }
-    
+
     /**
      * returns the map of names and controllers
      * @return myControllerMap - map of controller names (key) and controllers (value)
@@ -90,7 +89,7 @@ public class ControllerFactory {
     public Map<String, Controller> getMap() {
         return myControllerMap;
     }
-    
+
     /**
      * returns the list of all Controllers
      * @return myControllerList - list of all controllers
@@ -100,7 +99,7 @@ public class ControllerFactory {
     }
 
 }    
-   
+
 
 
 

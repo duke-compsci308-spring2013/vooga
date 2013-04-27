@@ -2,9 +2,11 @@ package vooga.fighter.model.objects;
 
 import util.Location;
 import util.Pixmap;
+import util.State;
+import util.StateExpiredException;
+import util.StateParameterDisabledException;
 import vooga.fighter.model.loaders.ObjectLoader;
 import vooga.fighter.model.utils.ImageDataObject;
-import vooga.fighter.model.utils.State;
 import vooga.fighter.model.utils.UpdatableLocation;
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -197,11 +199,17 @@ public abstract class GameObject {
      * returns null.
      */
     public void setImageData() {
-        Pixmap myCurrentImage = myCurrentState.getCurrentImage();
-        Dimension myCurrentSize = myCurrentState.getCurrentSize();
-        Location myCurrentLocation = myCenter.getLocation();
-        if (!(myCurrentSize == null || myCurrentImage == null || myCenter == null)) {
-        	myImageData = new ImageDataObject(myCurrentImage, myCurrentLocation, myCurrentSize, myImageEffects);
+        Pixmap myCurrentImage;
+        try {
+            myCurrentImage = myCurrentState.getCurrentImage();
+            Dimension myCurrentSize = myCurrentState.getCurrentSize();
+            Location myCurrentLocation = myCenter.getLocation();
+            if (!(myCurrentSize == null || myCurrentImage == null || myCenter == null)) {
+                myImageData = new ImageDataObject(myCurrentImage, myCurrentLocation, myCurrentSize, myImageEffects);
+            }
+        }
+        catch (StateParameterDisabledException e) {
+            
         }
     }
     
@@ -238,7 +246,12 @@ public abstract class GameObject {
      */
     public void updateState() {
         if (myCurrentState != null) {
-            myCurrentState.update();
+            try {
+                myCurrentState.update();
+            }
+            catch (StateExpiredException e) {
+                e.printStackTrace();
+            }
         }
         if (myCurrentState.hasCompleted()) {
             stateCompleteUpdate();
@@ -260,9 +273,16 @@ public abstract class GameObject {
      * Returns true if this object is colliding with another.
      */
     public boolean checkCollision(GameObject other) {
-        Rectangle thisRect = getCurrentState().getCurrentRectangle(); 
-        Rectangle otherRect = other.getCurrentState().getCurrentRectangle();
-        return thisRect.intersects(otherRect);
+        Rectangle thisRect;
+        try {
+            thisRect = getCurrentState().getCurrentHitbox();
+            Rectangle otherRect = other.getCurrentState().getCurrentHitbox();
+            return thisRect.intersects(otherRect);
+        }
+        catch (StateParameterDisabledException e) {
+            return false;
+        }         
+        
     }
     
     /**

@@ -1,8 +1,9 @@
 package vooga.fighter.controller;
+
 import java.util.List;
 import java.util.ArrayList;
-import vooga.fighter.model.LevelMode;
-import vooga.fighter.model.Mode;
+import vooga.fighter.model.mode.LevelMode;
+import vooga.fighter.model.mode.Mode;
 import vooga.fighter.model.utils.Health;
 import vooga.fighter.util.HUDVariable;
 
@@ -50,22 +51,22 @@ public class GameLoopInfo extends DisplayLoopInfo implements ViewDataSource{
                  HUDElementClass = "PlayerScoreAndHealth"
             )
     private PlayerStatus Player4Status;
-    
+
     /**
      * Constructs gameloopinfo with levelmode
      * @param mode
      */
     public GameLoopInfo(LevelMode mode) {
-    	super(mode);
-    	myLevelMode = mode;
-    	myPlayerStats = new ArrayList<PlayerStatus>();
+        super(mode);
+        myLevelMode = mode;
+        myPlayerStats = new ArrayList<PlayerStatus>();
         myHealthStats = new ArrayList<Health>();
         myScores = new ArrayList<Double>();
         myCharacterNames = new ArrayList<String>();
         myNumberPlayers = mode.getCharacterObjects().size();
         initializePlayers();
     }
-    
+
     /**
      * Returns mode
      */
@@ -73,44 +74,44 @@ public class GameLoopInfo extends DisplayLoopInfo implements ViewDataSource{
     public Mode getMode() {
         return myLevelMode;
     }
-    
+
     /**
      * Initialize player statuses to be displayed.
      * Because of how display is painted in view, method is a little messy.
      * Had to work with what we have. 
      */
     public void initializePlayers() {
-          if (myNumberPlayers == 1) {
-              Player1Status = new PlayerStatus();
-              myPlayerStats.add(Player1Status);
-          }
-          else if (myNumberPlayers == 2) {
-              Player1Status = new PlayerStatus();
-              Player2Status = new PlayerStatus();
-              myPlayerStats.add(Player1Status);
-              myPlayerStats.add(Player2Status);
-          }
-          else if (myNumberPlayers == 3) {
-              Player1Status = new PlayerStatus();
-              Player2Status = new PlayerStatus();
-              Player3Status = new PlayerStatus();
-              myPlayerStats.add(Player1Status);
-              myPlayerStats.add(Player2Status);
-              myPlayerStats.add(Player3Status);
-          }
-          else if (myNumberPlayers == 4) {
-              Player1Status = new PlayerStatus();
-              Player2Status = new PlayerStatus();
-              Player3Status = new PlayerStatus();
-              Player4Status = new PlayerStatus();
-              myPlayerStats.add(Player1Status);
-              myPlayerStats.add(Player2Status);
-              myPlayerStats.add(Player3Status);
-              myPlayerStats.add(Player4Status);
-          }
-          addHUDElements();
+        if (myNumberPlayers == 1) {
+            Player1Status = new PlayerStatus();
+            myPlayerStats.add(Player1Status);
+        }
+        else if (myNumberPlayers == 2) {
+            Player1Status = new PlayerStatus();
+            Player2Status = new PlayerStatus();
+            myPlayerStats.add(Player1Status);
+            myPlayerStats.add(Player2Status);
+        }
+        else if (myNumberPlayers == 3) {
+            Player1Status = new PlayerStatus();
+            Player2Status = new PlayerStatus();
+            Player3Status = new PlayerStatus();
+            myPlayerStats.add(Player1Status);
+            myPlayerStats.add(Player2Status);
+            myPlayerStats.add(Player3Status);
+        }
+        else if (myNumberPlayers == 4) {
+            Player1Status = new PlayerStatus();
+            Player2Status = new PlayerStatus();
+            Player3Status = new PlayerStatus();
+            Player4Status = new PlayerStatus();
+            myPlayerStats.add(Player1Status);
+            myPlayerStats.add(Player2Status);
+            myPlayerStats.add(Player3Status);
+            myPlayerStats.add(Player4Status);
+        }
+        addHUDElements();
     }
-    
+
     /**
      * Update stats and displays
      */
@@ -118,11 +119,11 @@ public class GameLoopInfo extends DisplayLoopInfo implements ViewDataSource{
     public void update() {
         super.update();
         updateStats();
-       setChanged();
-       notifyObservers();
+        setChanged();
+        notifyObservers();
     }
-    
-    
+
+
     /**
      * update the stats by getting information from 
      * mode
@@ -134,7 +135,7 @@ public class GameLoopInfo extends DisplayLoopInfo implements ViewDataSource{
             myPlayerStats.get(i).setHealth(myHealthStats.get(i));
         }
     }
-    
+
     /**
      * @return Health at list index
      */
@@ -142,7 +143,7 @@ public class GameLoopInfo extends DisplayLoopInfo implements ViewDataSource{
         return myHealthStats.get(index);
     }
 
-    
+
     /**
      * Return double score at index
      * @param index     index
@@ -152,7 +153,7 @@ public class GameLoopInfo extends DisplayLoopInfo implements ViewDataSource{
         return myScores.get(index);
     }
 
-   
+
 
     /**
      * Returns list of health
@@ -169,7 +170,7 @@ public class GameLoopInfo extends DisplayLoopInfo implements ViewDataSource{
     public void setHealthStats(List<Health> healthStats) {
         myHealthStats = healthStats;
     }
-    
+
     /**
      * Sets health at index
      * @param index     index

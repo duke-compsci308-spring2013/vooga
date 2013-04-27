@@ -14,11 +14,7 @@ import vooga.fighter.controller.ViewDataSource;
 
 /**
  * Creates an area of the screen in which the game will be drawn that supports:
- * <UL>
- * <LI>animation via the Timer
- * <LI>mouse input via the MouseListener
- * <LI>keyboard input via the KeyListener
- * </UL>
+ * Also supports some prompt generation, i.e. open prompt and string input prompt.
  * 
  * @author Robert C Duvall
  * @author Wayne You

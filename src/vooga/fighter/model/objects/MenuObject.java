@@ -1,7 +1,7 @@
 package vooga.fighter.model.objects;
 
-import vooga.fighter.model.MenuMode;
 import vooga.fighter.model.loaders.MenuLoader;
+import vooga.fighter.model.mode.MenuMode;
 
 /**
  * 

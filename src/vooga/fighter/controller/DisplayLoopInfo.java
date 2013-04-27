@@ -2,7 +2,7 @@ package vooga.fighter.controller;
 
 import java.util.List;
 
-import vooga.fighter.model.Mode;
+import vooga.fighter.model.mode.Mode;
 import vooga.fighter.model.utils.ImageDataObject;
 import vooga.fighter.util.HUDFactory;
 

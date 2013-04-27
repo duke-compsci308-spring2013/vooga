@@ -1,10 +1,11 @@
-package vooga.fighter.util;
+package vooga.fighter.test;
 
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import util.Location;
 import util.Vector;
+import vooga.fighter.util.Physics;
 
 public class Physicstester {
     private static final Vector STILL = new Vector();

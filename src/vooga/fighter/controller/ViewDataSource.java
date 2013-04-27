@@ -37,7 +37,7 @@ public interface ViewDataSource {
      * @return The size as a Dimension for the Paintable object with given index.
      */
     public Dimension getSize (int index);
-    
+
     /**
      * @param index
      * @return A list of the given effects of an object with the given index.

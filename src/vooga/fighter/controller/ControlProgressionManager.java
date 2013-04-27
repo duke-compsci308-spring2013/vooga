@@ -1,11 +1,6 @@
 package vooga.fighter.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.ResourceBundle;
 
 /**
  * Handles the logic of switching controllers
@@ -26,8 +21,7 @@ public class ControlProgressionManager {
 	 * @param controllerMap
 	 */
 	public ControlProgressionManager(Map<String, Controller> controllerMap) {
-		myControllerMap = controllerMap;
-		
+		myControllerMap = controllerMap;		
 	}
 	
 	/**

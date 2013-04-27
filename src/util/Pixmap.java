@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
  * @author Robert C. Duvall, Dagbedji F, edited by @author Yoshida, @author Xu Rui, @author
  *         Bill Muensterman and @author Wayne You added paintReverse
  */
+
 public class Pixmap {
     private java.awt.Image myImage;
     private String myFileName;
@@ -113,6 +114,13 @@ public class Pixmap {
      */
     public Image getImg () {
         return myImage;
+    }
+    
+    /**
+     * Returns the size of the image
+     */
+    public Dimension getSize() {
+            return new Dimension(myImage.getWidth(null), myImage.getHeight(null));
     }
     
 }

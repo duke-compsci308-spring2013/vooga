@@ -24,6 +24,6 @@ public class PaletteSwap {
 		g.drawImage(buffered, 0, 0, null);
 		buffered = temp;
 		g.dispose();
-		paintable = (Image) buffered;
+		paintable = (Paintable) buffered;
 	}
 }

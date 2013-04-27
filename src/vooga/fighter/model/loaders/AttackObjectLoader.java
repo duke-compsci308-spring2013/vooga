@@ -7,15 +7,25 @@ import org.w3c.dom.NodeList;
 import vooga.fighter.model.ModelConstants;
 import vooga.fighter.model.objects.AttackObject;
 
+/**
+ * Loads the resources necessary for AttackObjects. Reads the data from the file designated
+ * in the path ModelConstants.ATTACKLOADER_PATH_TAG.
+ * @author David Le, Alan Ni
+ *
+ */
 public class AttackObjectLoader extends ObjectLoader {
 
+	/**
+	 * The AttackObject which will be modified
+	 */
 	private AttackObject myAttack;
 
 	/**
 	 * Constructs the attack loader with the name to be loaded and the attack which the
 	 * loader will modify.
-	 * @param attackName
-	 * @param attack
+	 * @param attackName The name of the attack to be matched in the xml file
+	 * @param attack The AttackObject to modify
+	 * @param pathHierarchy The path to the folder containing the game's resources
 	 */
 	public AttackObjectLoader (String attackName, AttackObject attack, String pathHierarchy) {
 		super(ModelConstants.ATTACKLOADER_PATH_TAG, pathHierarchy);
@@ -24,7 +34,9 @@ public class AttackObjectLoader extends ObjectLoader {
 	}
 
 	/**
-	 * loads attack object
+	 * Loads resources for the appropriate attack object matched by the param attackName
+	 * @param attackName Name tag of the attack to be loaded in the xml file
+	 * @param pathHierarchy The path to the folder containing the game's resources
 	 */
 	protected void load(String attackName, String pathHierarchy) {
 		Document doc = getDocument();
