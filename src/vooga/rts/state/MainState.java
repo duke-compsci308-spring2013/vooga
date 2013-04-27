@@ -31,6 +31,7 @@ import vooga.rts.networking.communications.PlayerInfo;
 public class MainState implements State, Observer, NetworkedGame {
 
     private final static String DEFAULT_INPUT_LOCATION = "vooga.rts.resources.properties.Input";
+    private static IClient myClient;
     private Window myWindow;
     private Map<SubState, SubState> myStates; 
     private LoadingState myLoadScreen;
@@ -157,6 +158,11 @@ public class MainState implements State, Observer, NetworkedGame {
 
     @Override
     public void startGame (IClient client) {
-        setActiveState(myGame);       
+        setActiveState(myGame);    
+        myClient = client;
+    }
+    
+    public static IClient getClient () {
+        return myClient;
     }
 }

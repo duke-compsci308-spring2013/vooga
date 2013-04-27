@@ -33,6 +33,7 @@ import vooga.rts.networking.communications.ExpandedLobbyInfo;
 import vooga.rts.networking.communications.Message;
 import vooga.rts.networking.communications.PlayerInfo;
 import vooga.rts.networking.communications.gamemessage.GameMessage;
+import vooga.rts.networking.communications.gamemessage.RTSMessage;
 import vooga.rts.player.HumanPlayer;
 import vooga.rts.player.Player;
 import vooga.rts.player.Team;
@@ -267,7 +268,7 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
 
     @Override
     public void getMessage (Message message) {
-        GameMessage gMessage = (GameMessage) message;
+        RTSMessage gMessage = (RTSMessage) message;
         myPlayers.getPlayer(gMessage.getPlayerID()).getManager().getMessage(gMessage);
     }
 }

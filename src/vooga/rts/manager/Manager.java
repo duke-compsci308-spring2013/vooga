@@ -26,7 +26,9 @@ import vooga.rts.gamedesign.state.OccupyState;
 import vooga.rts.manager.actions.DragSelectAction;
 import vooga.rts.manager.actions.LeftClickAction;
 import vooga.rts.networking.communications.gamemessage.GameMessage;
+import vooga.rts.networking.communications.gamemessage.RTSMessage;
 import vooga.rts.state.GameState;
+import vooga.rts.state.MainState;
 import vooga.rts.state.State;
 import vooga.rts.util.Location3D;
 
@@ -103,7 +105,8 @@ public class Manager extends Observable implements State, IActOn, Observer {
             for (InteractiveEntity ie: mySelectedEntities) {
                 if(ie.containsInput(command)) {
                     ie.updateAction(command);
-                    GameMessage message = new GameMessage(ie.getAction(command), myPlayerID); // This may be sent back to Player or something. Or just sent from inside the message
+                    RTSMessage message = new RTSMessage(ie.getAction(command), myPlayerID); // This may be sent back to Player or something. Or just sent from inside the message
+                    MainState.getClient().sendData(message);
                 }
             }
         }
@@ -378,7 +381,7 @@ public class Manager extends Observable implements State, IActOn, Observer {
         }
     }
     
-    public void getMessage(GameMessage message) {
+    public void getMessage(RTSMessage message) {
         InteractiveAction action = message.getAction();
         action.setEntity(myEntities.get(action.getEntity().getId())); // Not sure how well this will go through the network and can be changed if necessary.
         action.apply();

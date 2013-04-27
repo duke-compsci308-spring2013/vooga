@@ -12,14 +12,12 @@ import vooga.rts.networking.communications.TimeStamp;
  */
 public class GameMessage extends Message {
     
-    private InteractiveAction myAction;
     private int myPlayerID;
     
     /**
      * Default constructor that calls superclass.
      */
-    public GameMessage (InteractiveAction action, int id) {
-        myAction = action;
+    public GameMessage (int id) {
         myPlayerID = id;
     }
 
@@ -29,10 +27,6 @@ public class GameMessage extends Message {
      */
     public GameMessage (TimeStamp stamp) {
         super(stamp);
-    }
-    
-    public InteractiveAction getAction () {
-        return myAction;
     }
     
     public int getPlayerID () {

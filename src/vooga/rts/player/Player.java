@@ -12,7 +12,7 @@ import vooga.rts.resourcemanager.ResourceManager;
 
 /**
  * Sends commands to its unit manager from either the human input, the network
- * input or the ai input.]
+ * input or the ai input.
  * 
  * @author challenherzberg-brovold
  * 
