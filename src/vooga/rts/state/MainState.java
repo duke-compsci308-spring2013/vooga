@@ -57,7 +57,7 @@ public class MainState implements State, Observer, NetworkedGame {
         myGame = game;
         myStates.put(menu, game);
         myStates.put(game, menu);  
-        Input input = new Input(DEFAULT_INPUT_LOCATION, myWindow.getCanvas());
+        Input input = new Input(DEFAULT_INPUT_LOCATION, myWindow.JFrame());
         myController = new InputController(this);
         input.addListenerTo(myController);
     }
@@ -80,10 +80,9 @@ public class MainState implements State, Observer, NetworkedGame {
 
     @Override
     public void update (Observable o, Object arg) {
-<<<<<<< HEAD
         if (arg == null) {
             //setActiveState(myStates.get(o));
-=======
+        }
         if (o instanceof LoadingState) {
             MenuState m = new MenuState(this, myWindow.getJFrame());
             setActiveState(m);
@@ -94,7 +93,6 @@ public class MainState implements State, Observer, NetworkedGame {
             setActiveState(new GameState(this));
         } else if (o instanceof GameState) {
             setActiveState(new GameOverState(this));
->>>>>>> da65f910f3b18cd6676cb9b67f1292918754077d
         }
     }
 

@@ -7,6 +7,7 @@ import java.awt.GraphicsEnvironment;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import vooga.rts.leveleditor.gui.Canvas;
 
 
 /**

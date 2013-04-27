@@ -305,17 +305,4 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
     public void initializeGameOver () {
         isGameOver = true;
     }
-
-    public static GameMap getMap () {
-        return myMap;
-    }
-
-    @Override
-    public void update (Observable arg0, Object arg1) {
-        initializeGameOver();
-    }
-
-    public static void setMap (GameMap map) {
-        myMap = map;
-    }
 }
