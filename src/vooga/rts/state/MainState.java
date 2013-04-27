@@ -166,12 +166,14 @@ public class MainState implements State, Observer, NetworkedGame {
     public void loadGame (ExpandedLobbyInfo info, PlayerInfo userPlayer) {
         myGame.setUp(info, userPlayer);
         setActiveState(myLoadScreen);
+        System.out.println("loadGame is called!!!");
     }
 
     @Override
     public void startGame (IClient client) {
         setActiveState(myGame);    
         myClient = client;
+        System.out.println("startGame is called!!!!");
     }
     
     public static IClient getClient () {
