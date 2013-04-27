@@ -57,7 +57,7 @@ public class MainState implements State, Observer, NetworkedGame {
         myGame = game;
         myStates.put(menu, game);
         myStates.put(game, menu);  
-        Input input = new Input(DEFAULT_INPUT_LOCATION, myWindow.JFrame());
+        Input input = new Input(DEFAULT_INPUT_LOCATION, myWindow.getCanvas());
         myController = new InputController(this);
         input.addListenerTo(myController);
     }
