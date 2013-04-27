@@ -1,20 +1,20 @@
 
 package vooga.scroller.marioGame;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import arcade.games.ArcadeInteraction;
-import java.awt.GraphicsConfiguration;
-import javax.swing.JFrame;
-import arcade.games.ArcadeInteraction;
-import arcade.games.Game;
 import arcade.games.GameData;
 import arcade.games.UserGameData;
 import util.Location;
+import vooga.scroller.level_management.splash_page.SplashPage;
+import vooga.scroller.marioGame.splash_page.MarioSplashPage;
+import vooga.scroller.marioGame.spritesDefinitions.MarioLib;
 import vooga.scroller.marioGame.spritesDefinitions.players.Mario;
 import vooga.scroller.model.ScrollerGame;
 import vooga.scroller.scrollingmanager.OmniScrollingManager;
 import vooga.scroller.scrollingmanager.ScrollingManager;
+import vooga.scroller.scrollingmanager.UniScrollingManager;
 import vooga.scroller.sprites.superclasses.Player;
+import vooga.scroller.util.Direction;
 import vooga.scroller.view.GameView;
 
 
@@ -28,6 +28,7 @@ public class MarioGame extends ScrollerGame {
     // constants
     public static final String TITLE = "Mario Demo";
     public static final String LEVELS_DIR = "src/vooga/scroller/marioGame/sampleLevels/";
+    public static final String SPLASH_DIR = "MARIO SPLASH.png";
 
 
     /**
@@ -47,7 +48,7 @@ public class MarioGame extends ScrollerGame {
 
     @Override
     protected String[] setLevelFileNames () {
-        String[] levelsFiles = {"verySimpleLevel.level", "new.level"};
+        String[] levelsFiles = {"longlevel.level"};
         return levelsFiles;
     }
 
@@ -62,16 +63,15 @@ public class MarioGame extends ScrollerGame {
 
     @Override
     protected ScrollingManager setScrollingManager () {
-        return new OmniScrollingManager();
+        return new UniScrollingManager(Direction.LEFT);
     }
 
 
 
     @Override
     protected Player setPlayer (ScrollingManager sm, GameView gameView) {
-        return new Mario(new Location(), new Dimension(32, 32), gameView, sm);
+        return new Mario(new Location(), new Dimension(20, 32), gameView, sm);
     }
-
 
 
     @Override
@@ -90,6 +90,12 @@ public class MarioGame extends ScrollerGame {
     public GameData generateNewGameProfile () {
         // TODO Auto-generated method stub
         return null;
+    }
+
+
+    @Override
+    protected SplashPage setSplashPage () {
+        return new MarioSplashPage(MarioLib.makePixmap("MARIO SPLASH.png"), 0, getDisplay(), getScrollingManager());
     }
 
 }

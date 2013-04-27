@@ -36,7 +36,7 @@ public class PathingHelper {
         if (!currentNode.equals(myNext)) {
             myNext = myPath.poll();
         }
-        return myNext.getLocation();
+        return myNext.getCenter();
     }
 
     public int size () {

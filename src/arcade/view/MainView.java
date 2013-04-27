@@ -11,22 +11,28 @@ import arcade.view.modes.GameCenterPanel;
 
 
 /**
- * The main view of the arcade. From here, buttons in its ButtonPanel can be clicked
- * to switch which mode is currently visible.
+ * The main view of the arcade. Main view is triggered after the user 
+ * successfully logged in. 
+ * 
+ * Users can access different modes from here by selecting different buttons.  
  * 
  * @author David Liu, Ellango Jothimurugesan
  * 
  */
 @SuppressWarnings("serial")
 public class MainView extends JFrame {
+	
+
     public static final String IMAGES_DIRECTORY = System.getProperty("user.dir")
                                                   + "/src/arcade/resources/images/";
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 600;
+    
     private JPanel myViewPanel;
     private Controller myController;
     private ResourceBundle myResources;
 
+    
     /**
      * Creates the MainView with the provided Controller and ResourceBundle
      * 

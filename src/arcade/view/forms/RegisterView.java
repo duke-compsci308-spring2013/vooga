@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ResourceBundle;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -153,7 +154,12 @@ public class RegisterView extends Account {
                             new ActionListener() {
                                 @Override
                                 public void actionPerformed (ActionEvent arg0) {
-                                    registerNewUser();
+                                    try {
+										registerNewUser();
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
                                 }
                             });
     }
@@ -163,9 +169,10 @@ public class RegisterView extends Account {
      * date of birth are in the correct format.
      * 
      * If register successful, logs in to the arcade.
+     * @throws IOException 
      * 
      */
-    private void registerNewUser () {
+    private void registerNewUser () throws IOException {
         try {
             if (!isUsernameCorrectFormat(getUsername())) { throw new UsernameFormatException(); }
 

@@ -1,6 +1,12 @@
 
 package arcade.controller;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -31,6 +37,16 @@ public class Controller implements ArcadeInteraction {
     // Locations
     private static final String RESOURCE_LOCATION = "arcade.resources.";
     private static final String PAYMENT_MANAGER_LOCATION = "arcade.model.payment.";
+    
+    private static final String SOURCE = "src";
+	private static final String PACKAGE_LOCATION = "arcade/resources";
+	private static final String FILENAME = "userPurchases";
+	private static final String EXTENSION = ".properties";
+	private static final String FILEWRITER_LOCATION = SOURCE + "/" + PACKAGE_LOCATION + "/" + FILENAME + "1" + EXTENSION;
+	private static final String TMP_LOCATION = SOURCE + "/" + PACKAGE_LOCATION + "/" + FILENAME + "2" + EXTENSION;
+	private static final String PURCHASE_RB_LOCATION = RESOURCE_LOCATION + FILENAME + "1";
+
+    
 
     // Messages
     public static final String DEFAULT_LOGIN_MESSAGE = "";
@@ -44,6 +60,7 @@ public class Controller implements ArcadeInteraction {
 
     // Resource
     private ResourceBundle myResources;
+    private ResourceBundle userPurchaseHistory;
 
     // Models
     private Database myDb;
@@ -70,6 +87,7 @@ public class Controller implements ArcadeInteraction {
     public Controller (String language) {
         myLanguage = language;
         myResources = ResourceBundle.getBundle(RESOURCE_LOCATION + language);
+        userPurchaseHistory = ResourceBundle.getBundle(PURCHASE_RB_LOCATION);
         myDb = new Database();
         myGameInfos = new HashMap<String, GameInfo>();
         myPurchasedGames = new ArrayList<GameInfo>();
@@ -122,17 +140,118 @@ public class Controller implements ArcadeInteraction {
      * information is eventually stored in the database.
      * 
      * @throws UsernameTakenException
+     * @throws IOException 
      */
-    public void createNewUserProfile (UserSpecificData data) throws UsernameTakenException {
+    public void createNewUserProfile (UserSpecificData data) throws UsernameTakenException, IOException {
         if (usernameInDatabase(data.getUsername())) throw new UsernameTakenException();
         myDb.createUser(data);
         try {
-            authenticate(data.getUsername(), data.getPassword());
+        	String username = data.getUsername();
+        	String password = data.getPassword();
+            authenticate(username, password);
+            if (!loginCreteriaNotSatisfied(username, password)) {
+            	System.out.println("111");
+            	recordUserInPurchaseResourceFile(username);;
+            }
         }
         catch (LoginErrorException e) {
             throw new CorruptedDatabaseException();
         }
     }
+    
+    // Personalized Game-Center methods (trying without database)
+    
+    private void closeWriters(FileWriter fw, BufferedWriter bw) throws IOException {
+		bw.close();
+		fw.close();
+	}
+	
+	private void closeReaders(FileReader fr, BufferedReader br) throws IOException {
+		br.close();
+		fr.close();
+	}
+	
+	private void writeLine(BufferedWriter bw, String line) throws IOException {
+		bw.write(line);
+		bw.newLine();
+	}
+	
+	private File createFileForLocation(String loc) {
+		File file = new File(loc);
+		if (file.exists()) {
+			try{ 
+				file.createNewFile();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return file;
+	}
+    
+	
+	private void copyFile(File origin, File target) throws IOException {
+		copyFile(origin, target, null);
+	}
+	
+	private void copyFile (File origin, File target, String newUser) throws IOException {
+		FileReader fr = new FileReader(origin);
+		BufferedReader br = new BufferedReader(fr);
+		
+		FileWriter fw = new FileWriter(target);
+		BufferedWriter bw = new BufferedWriter(fw);
+		
+		String line;
+		while ((line = br.readLine())!=null){
+			writeLine(bw, line);
+		}
+		if (newUser != null) writeLine(bw, newUser);
+		closeWriters(fw, bw);
+		closeReaders(fr, br);
+	}
+	
+	
+	private String formatUsernameForResourceFile(String username) {
+		return username + " =";
+	}
+    
+	
+	public void recordUserInPurchaseResourceFile(String username) throws IOException {
+		File file1 = createFileForLocation(FILEWRITER_LOCATION); 
+		File file2 = createFileForLocation(TMP_LOCATION);
+		copyFile(file2,file1,formatUsernameForResourceFile(username));
+		copyFile(file1,file2);
+	}
+	
+	public void recordGamePurchaseHistory(String username, String gameName) throws IOException{
+		File file1 = createFileForLocation(FILEWRITER_LOCATION); 
+		File file2 = createFileForLocation(TMP_LOCATION);
+		replaceLine(file2,file1,username,gameName);
+		copyFile(file1,file2);
+	}
+	
+	private void replaceLine(File temp, File target, String username, String gameName) throws IOException{
+		FileReader fr = new FileReader(temp);
+		BufferedReader br = new BufferedReader(fr);
+		
+		FileWriter fw = new FileWriter(target);
+		BufferedWriter bw = new BufferedWriter(fw);
+		
+		String line;
+		while ((line = br.readLine())!=null){
+			if (line.contains(username)) writeLine(bw, line + " "+ gameName);
+			else writeLine(bw,line);
+		}
+		closeWriters(fw, bw);
+		closeReaders(fr, br);
+	}
+	
+	public String[] getGamesForUser(String username){
+		String games = userPurchaseHistory.getString(username);
+		return games.split(" ");
+	}
+		
+		
 
     /*
      * public void createNewUserProfile(String username, String pw, String firstname, String
@@ -175,6 +294,7 @@ public class Controller implements ArcadeInteraction {
      * 
      * @param gameName
      * @param genre
+     * @throws IOException 
      */
     /*
      * public void publish(GameSpecificData data){
@@ -194,7 +314,7 @@ public class Controller implements ArcadeInteraction {
                          boolean multiplayer,
                          String thumbnailPath,
                          String adScreenPath,
-                         String description) {
+                         String description) throws IOException {
         // print
 //        System.out.println(extendsGame);
 //        System.out.println(extendsMultiplayerGame);
@@ -229,6 +349,7 @@ public class Controller implements ArcadeInteraction {
             Class<?> paymentManagerClass =
                     Class.forName(PAYMENT_MANAGER_LOCATION + transactionType);
             myPaymentManager = (PaymentManager) paymentManagerClass.newInstance();
+            recordGamePurchaseHistory(myCurrentUser, game.getName());
         }
         catch (ClassNotFoundException e) {
             throw new InvalidPaymentException();
@@ -238,10 +359,13 @@ public class Controller implements ArcadeInteraction {
         }
         catch (IllegalAccessException e) {
             throw new InvalidPaymentException();
-        }
+        } catch (IOException e) {
+			throw new InvalidPaymentException();
+		}
 
         myPaymentManager.doTransaction(paymentInfo);
         myPurchasedGames.add(game);
+        
     }
 
     
@@ -288,6 +412,7 @@ public class Controller implements ArcadeInteraction {
     public void playGame (GameInfo gameinfo) {
         myCurrentGameInfo = gameinfo;
         myCurrentGame = gameinfo.getGame(this);
+        myCurrentUserGameData = getUserGameData(myCurrentGame);
         myCurrentGame.run();
     }
 
@@ -338,9 +463,11 @@ public class Controller implements ArcadeInteraction {
      * @param user, game (whatever that identifies the user and the game)
      * @return
      */
+    @Override
     public UserGameData getUserGameData (Game game) {
         if (myCurrentUserGameData == null ){
-            myCurrentUserGameData =  myCurrentGameInfo.getUserGameData(game , myCurrentUser);
+            //myCurrentUserGameData =  myCurrentGameInfo.getUserGameData(game , myCurrentUser);
+            myCurrentUserGameData = myCurrentGame.generateNewProfile();
         }
         return myCurrentUserGameData;
     }
@@ -350,7 +477,7 @@ public class Controller implements ArcadeInteraction {
         int score = getCurrentUserGameData().getLastScore();
         myDb.addNewHighScore(myCurrentUser, myCurrentGameInfo.getName(),  score);
         myView.showEndGameView(score);
-        myDb.storeUserGameData(getCurrentGame(), myCurrentUser, getCurrentUserGameData());
+        //myDb.storeUserGameData(getCurrentGame(), myCurrentUser, getCurrentUserGameData());
         myCurrentGame = null;
         myCurrentGameInfo = null;
        
@@ -358,7 +485,8 @@ public class Controller implements ArcadeInteraction {
 
     
     private UserGameData getCurrentUserGameData(){
-        return myCurrentGameInfo.getUserGameData(myCurrentGame, myCurrentUser);
+        //return myCurrentGameInfo.getUserGameData(myCurrentGame, myCurrentUser);
+        return myCurrentUserGameData;
     }
     
 

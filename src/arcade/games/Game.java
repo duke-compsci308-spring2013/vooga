@@ -20,7 +20,7 @@ public abstract class Game{
      */
     public Game(ArcadeInteraction arcade) {
         myArcade = arcade;
-        myUserGameData = myArcade.getUserGameData( this );
+        //myUserGameData = myArcade.getUserGameData( this );
     }    
     
     

@@ -41,7 +41,7 @@ public class UniScrollingManager extends ScrollingManager {
     protected int upperpaintbound() {
         if (getModel() != null & getView() != null) {
             int vertical = (int) (((int) getModel().getLowerBoundary() 
-                    + getView().getHeight() * levelLowerBoundary()) % getView().getHeight());
+                    + getView().getHeight() * levelLowerBoundary()) % getBackground().getHeight(null));
             return 0 - vertical;
         }
         return 0;
@@ -50,7 +50,7 @@ public class UniScrollingManager extends ScrollingManager {
     protected int lowerpaintbound() { 
         if (getModel() != null & getView() != null) {
             int vertical = (int) (((int) getModel().getLowerBoundary() 
-                    + getView().getHeight() * levelLowerBoundary()) % getView().getHeight());
+                    + getView().getHeight() * levelLowerBoundary()) % getBackground().getHeight(null));
             return getView().getHeight() - vertical;
         }
         return 0;
@@ -60,7 +60,7 @@ public class UniScrollingManager extends ScrollingManager {
     protected int leftpaintbound() {
         if (getModel() != null & getView() != null) {
             int horizontal = (int) (((int) getModel().getRightBoundary() 
-                    + getView().getWidth() * levelRightBoundary()) % getView().getWidth());
+                    + getView().getWidth() * levelRightBoundary()) % getBackground().getWidth(null));
             return 0 - horizontal;
         }
         return 0;
@@ -69,7 +69,7 @@ public class UniScrollingManager extends ScrollingManager {
     protected int rightpaintbound() {
         if (getModel() != null & getView() != null) {
             int horizontal = (int) (((int) getModel().getRightBoundary() 
-                    + getView().getWidth() * levelRightBoundary()) % getView().getWidth());
+                    + getView().getWidth() * levelRightBoundary()) % getBackground().getWidth(null));
             return getView().getWidth() - horizontal;
         }
         return 0;
@@ -133,35 +133,37 @@ public class UniScrollingManager extends ScrollingManager {
      * @param pen The Graphics object that will be doing the painting.
      */
     public void viewPaint(Graphics pen) {
-        int leftPaintBound = leftpaintbound();
-        int upperPaintBound = upperpaintbound();
-        int rightPaintBound = rightpaintbound();
-        int lowerPaintBound = lowerpaintbound();
+        int leftpaintbound = leftpaintbound();
+        int upperpaintbound = upperpaintbound();
+        int rightpaintbound = rightpaintbound();
+        int lowerpaintbound = lowerpaintbound();
 
         if (getModel().getLeftBoundary() < levelLeftBoundary()) {
-            leftPaintBound = (int) levelLeftBoundary();
-            rightPaintBound = (int) levelRightBoundary();
+            System.out.println("##1");
+            leftpaintbound = (int) levelLeftBoundary();
+            rightpaintbound = leftpaintbound + getBackground().getWidth(null);
         }
 
         if (getModel().getRightBoundary() > levelRightBoundary()) {
-            leftPaintBound =  -((int) levelRightBoundary() 
+            System.out.println("##2");
+            rightpaintbound = getView().getWidth() - ((int) levelRightBoundary()
                     % getModel().getBackground().getWidth(null));
-            rightPaintBound = getView().getWidth() - ((int) levelRightBoundary()
-                    % getModel().getBackground().getWidth(null));
+            leftpaintbound =  rightpaintbound - getBackground().getWidth(null);
 
         }
         if (getModel().getLowerBoundary() > levelLowerBoundary()) {
-            upperPaintBound = -((int) levelLowerBoundary() 
+            System.out.println("##3");
+            lowerpaintbound = getView().getHeight()  - ((int) levelLowerBoundary() 
                     % getModel().getBackground().getHeight(null));
-            lowerPaintBound = getView().getHeight()  - ((int) levelLowerBoundary() 
-                    % getModel().getBackground().getHeight(null));
+            upperpaintbound = lowerpaintbound - getBackground().getHeight(null);
         }
         if (getModel().getUpperBoundary() < levelUpperBoundary()) {
-            upperPaintBound = (int) levelUpperBoundary();
-            lowerPaintBound = (int) levelLowerBoundary();
+            System.out.println("##4");
+            upperpaintbound = (int) levelUpperBoundary();
+            lowerpaintbound = upperpaintbound + getBackground().getHeight(null);
         }
 
-        checkScrollActivity(rightPaintBound, leftPaintBound, upperPaintBound, lowerPaintBound);
+        checkScrollActivity(rightpaintbound, leftpaintbound, upperpaintbound, lowerpaintbound);
         scrollerDrawImage(pen);
 
     }
@@ -171,6 +173,8 @@ public class UniScrollingManager extends ScrollingManager {
         int imgwidth = img.getWidth(null);
         int imgheight = img.getHeight(null);
         
+        System.out.println("Horizontal: " + myHorizontalScrollActive);
+        System.out.println("Vertical: " + myVerticalScrollActive);
         pen.drawImage(img, myLeftPaintBound, myUpperPaintBound, imgwidth, imgheight, null);
         pen.drawImage(img, myRightPaintBound, myUpperPaintBound, imgwidth, imgheight, null);
         pen.drawImage(img, myLeftPaintBound, myLowerPaintBound, imgwidth, imgheight, null);
@@ -179,17 +183,17 @@ public class UniScrollingManager extends ScrollingManager {
     }
 
 
-    private void checkScrollActivity (int rightPaintBound,
-                                      int leftPaintBound,
-                                      int upperPaintBound,
-                                      int lowerPaintBound) {
+    private void checkScrollActivity (int rightpaintbound,
+                                      int leftpaintbound,
+                                      int upperpaintbound,
+                                      int lowerpaintbound) {
         if (!myHorizontalScrollActive) {
-            myLeftPaintBound = leftPaintBound;
-            myRightPaintBound = rightPaintBound;
+            myLeftPaintBound = leftpaintbound;
+            myRightPaintBound = rightpaintbound;
         }
         if (!myVerticalScrollActive) {
-            myUpperPaintBound = upperPaintBound;
-            myLowerPaintBound = lowerPaintBound;
+            myUpperPaintBound = upperpaintbound;
+            myLowerPaintBound = lowerpaintbound;
         }        
     }
 
@@ -226,16 +230,16 @@ public class UniScrollingManager extends ScrollingManager {
         myLastPlayerPaintLocation = new Location(x, y);
         switch (myRestrictiveDirection) {
             case RIGHT:
-                myHorizontalScrollActive = true;    
+                myHorizontalScrollActive = (x > halfWidth) ? true : false;    
                 break;
             case BOTTOM: 
-                myVerticalScrollActive = true;  
+                myVerticalScrollActive = (x > halfHeight) ? true : false;   
                 break;
             case LEFT: 
-                myHorizontalScrollActive = true; 
+                myHorizontalScrollActive = (x < halfHeight) ? true : false;  
                 break;
             case TOP:  
-                myVerticalScrollActive = true;    
+                myVerticalScrollActive = (x < halfWidth)? true : false; 
                 break;
             default:
                 break;            

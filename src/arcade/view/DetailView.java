@@ -11,6 +11,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
+
 import util.ImageHelper;
 import arcade.controller.Controller;
 import arcade.games.Comment;
@@ -27,6 +29,7 @@ import arcade.view.forms.payment.PaymentSelection;
 
 /**
  * Detail View is the view to display the detailed information about a game.
+<<<<<<< HEAD
  * It serves as a extension of a game snapshot where only a thumbnail, the name
  * and the rating of the game is displayed.
  * 
@@ -39,6 +42,20 @@ import arcade.view.forms.payment.PaymentSelection;
  * Finally, the actual game is also trigger here, or it allows a user to buy
  * the game and after purchase, the game would be put into the user's game center.
  * 
+=======
+ * It serves as a extension of a game snapshot where only a thumbnail, the name 
+ * and the rating of the game is displayed. 
+ * 
+ * Detial view has a thumbnail, the game's name, author, genre, rating. It also 
+ * provides previous comments users input and a description the game programmers 
+ * write when publishing.
+ * 
+ * Furthermore, it also provides users the ability to comment and rate this game.
+ * 
+ * Finally, the actual game is also trigger here, or it allows a user to buy 
+ * the game and after purchase, the game would be put into the user's game center.
+ * 
+>>>>>>> arcade
  * 
  * @author David Liu, Ellango Jothimurugesan
  * 
@@ -310,4 +327,5 @@ public class DetailView extends JFrame {
         }
         commentPane.setText(sb.toString());
     }
+
 }

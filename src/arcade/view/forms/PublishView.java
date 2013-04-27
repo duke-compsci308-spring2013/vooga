@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ResourceBundle;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
@@ -204,7 +205,12 @@ public class PublishView extends Form {
         return createButton(TextKeywords.PUBLISH, new ActionListener() {
             @Override
             public void actionPerformed (ActionEvent arg0) {
-                publish();
+                try {
+					publish();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
     }
@@ -212,8 +218,9 @@ public class PublishView extends Form {
     /**
      * Try telling controller to publish a new game. Inform the user if invalid
      * inputs.
+     * @throws IOException 
      */
-    private void publish () {
+    private void publish () throws IOException {
         try {
             getController().publish(myNameTextField.getText(),
                                   myGenreTextField.getText(),
