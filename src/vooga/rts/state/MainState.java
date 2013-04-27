@@ -47,10 +47,10 @@ public class MainState implements State, Observer, NetworkedGame {
         myWindow = new Window();
         myWindow.setFullscreen(true);
         LoadingState loader = new LoadingState(this); 
-        myLoadScreen = loader;
-        setActiveState(loader);
-        render();       
-        MenuState menu = new MenuState(this, getWindow().getJFrame());        
+        myLoadScreen = loader;    
+        MenuState menu = new MenuState(this, getWindow().getJFrame()); 
+        setActiveState(menu);
+        render();   
         myStates.put(loader, menu);
         GameState game = new GameState(this);
         myGame = game;
