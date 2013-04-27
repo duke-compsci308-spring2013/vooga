@@ -17,6 +17,7 @@ import java.util.Set;
 
 import vooga.rts.action.Action;
 import vooga.rts.action.IActOn;
+import vooga.rts.action.InteractiveAction;
 import vooga.rts.ai.AstarFinder;
 import vooga.rts.ai.Path;
 import vooga.rts.ai.PathFinder;
@@ -77,7 +78,7 @@ IAttackable, IActOn {
     private OccupyStrategy myOccupyStrategy;
     private GatherStrategy myGatherStrategy;
     private int myArmor;
-    private Map<String, Action> myActions;
+    private Map<String, InteractiveAction> myActions;
     private Map<String, Information> myInfos;
     private List<DelayedTask> myTasks;
     private double myBuildTime;
@@ -113,7 +114,7 @@ IAttackable, IActOn {
         myProductionStrategy = new CannotProduce();
         myUpgradeStrategy = new CanUpgrade();
         myGatherStrategy = new CannotGather();
-        myActions = new HashMap<String, Action>();
+        myActions = new HashMap<String, InteractiveAction>();
         myInfos = new HashMap<String, Information>();
         isSelected = false;
         myTasks = new ArrayList<DelayedTask>();
@@ -125,7 +126,7 @@ IAttackable, IActOn {
         setSpeed(DEFAULT_INTERACTIVEENTITY_SPEED);
     }
 
-    public void addAction(String command, Action action) {
+    public void addAction(String command, InteractiveAction action) {
         myActions.put(command, action);
     }
 
@@ -251,7 +252,7 @@ IAttackable, IActOn {
      *            is a command that was entered by the player
      * @return the action the is mapped to the command
      */
-    public Action getAction(Command command) {
+    public InteractiveAction getAction(Command command) {
         return myActions.get(command.getMethodName());
     }
 
@@ -386,7 +387,7 @@ IAttackable, IActOn {
         }
     }
 
-    public void put(String name, Action action) { // Might just use a putter
+    public void put(String name, InteractiveAction action) { // Might just use a putter
         myActions.put(name, action);
     }
 

@@ -18,8 +18,9 @@ public class GameMessage extends Message {
     /**
      * Default constructor that calls superclass.
      */
-    public GameMessage () {
-        super();
+    public GameMessage (InteractiveAction action, int id) {
+        myAction = action;
+        myPlayerID = id;
     }
 
     /**
@@ -28,6 +29,14 @@ public class GameMessage extends Message {
      */
     public GameMessage (TimeStamp stamp) {
         super(stamp);
+    }
+    
+    public InteractiveAction getAction () {
+        return myAction;
+    }
+    
+    public int getPlayerID () {
+        return myPlayerID;
     }
 
     private static final long serialVersionUID = -5881860775991367901L;

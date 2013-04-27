@@ -10,6 +10,7 @@ import vooga.rts.commands.DragCommand;
 import vooga.rts.commands.PositionCommand;
 import vooga.rts.action.Action;
 import vooga.rts.action.InteractiveAction;
+import vooga.rts.action.MoveAction;
 import vooga.rts.gamedesign.sprite.gamesprites.GameEntity;
 import vooga.rts.gamedesign.sprite.gamesprites.GameSprite;
 import vooga.rts.gamedesign.sprite.gamesprites.Resource;
@@ -98,20 +99,7 @@ public class Unit extends InteractiveEntity {
 
     @Override
     public void addActions () {
-        put(ClickCommand.LEFT_CLICK, new InteractiveAction(this) {
-            private Location3D myLocation;
-
-            @Override
-            public void apply () {
-                getEntity().move(myLocation);
-            }
-
-            @Override
-            public void update (Command command) {
-                ClickCommand click = (ClickCommand) command;
-                myLocation = Camera.instance().viewtoWorld(click.getPosition());
-            }
-        });
+        put(ClickCommand.LEFT_CLICK, new MoveAction(this));
     }
 
     public void occupy (InteractiveEntity i) {

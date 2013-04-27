@@ -14,6 +14,7 @@ import java.util.Observer;
 import java.util.Queue;
 import vooga.rts.action.Action;
 import vooga.rts.action.IActOn;
+import vooga.rts.action.InteractiveAction;
 import vooga.rts.commands.ClickCommand;
 import vooga.rts.commands.Command;
 import vooga.rts.commands.DragCommand;
@@ -24,7 +25,7 @@ import vooga.rts.gamedesign.state.MovementState;
 import vooga.rts.gamedesign.state.OccupyState;
 import vooga.rts.manager.actions.DragSelectAction;
 import vooga.rts.manager.actions.LeftClickAction;
-import vooga.rts.manager.actions.RightClickAction;
+import vooga.rts.networking.communications.gamemessage.GameMessage;
 import vooga.rts.state.GameState;
 import vooga.rts.state.State;
 import vooga.rts.util.Location3D;
@@ -49,11 +50,11 @@ public class Manager extends Observable implements State, IActOn, Observer {
     private boolean myMultiSelect;
     private Map<String, Action> myActions;
     private Queue<InteractiveEntity> myAddQueue;
-    private int myPlayer;
+    private int myPlayerID;
     Iterator<InteractiveEntity> myUpdateIterator;
 
     public Manager (int playerID) {
-    	myPlayer = playerID;
+    	myPlayerID = playerID;
         myEntities = new HashMap<Integer, InteractiveEntity>();
         mySelectedEntities = new ArrayList<InteractiveEntity>();
         myGroups = new HashMap<Integer, List<InteractiveEntity>>();
@@ -92,14 +93,19 @@ public class Manager extends Observable implements State, IActOn, Observer {
      * the selected entities.
      */
     @Override
-    public void updateAction (Command command) {
+    public void updateAction (Command command) { //Maybe have this return a message and have player/gamestate send it.
         if (myActions.containsKey(command.getMethodName())) {
             Action current = myActions.get(command.getMethodName());
             current.update(command);
             current.apply();
         }
         else {
-            applyAction(command);
+            for (InteractiveEntity ie: mySelectedEntities) {
+                if(ie.containsInput(command)) {
+                    ie.updateAction(command);
+                    GameMessage message = new GameMessage(ie.getAction(command), myPlayerID); // This may be sent back to Player or something. Or just sent from inside the message
+                }
+            }
         }
     }
 
@@ -133,7 +139,7 @@ public class Manager extends Observable implements State, IActOn, Observer {
      *        The entity that is to be added.
      */
     public void add (InteractiveEntity entity) {
-    	entity.setPlayerID(myPlayer);
+    	entity.setPlayerID(myPlayerID);
         entity.addObserver(GameState.getMap().getNodeMap());
         entity.addObserver(this);
         entity.setChanged();
@@ -312,7 +318,6 @@ public class Manager extends Observable implements State, IActOn, Observer {
     public void addActions () {
         addAction(DragCommand.DRAG, new DragSelectAction(this));
         addAction(ClickCommand.LEFT_CLICK, new LeftClickAction(this));
-        addAction(ClickCommand.RIGHT_CLICK, new RightClickAction(this));
     }
 
     /**
@@ -378,5 +383,10 @@ public class Manager extends Observable implements State, IActOn, Observer {
         while (addQueue.size() > 0) {
             myEntities.put(myEntities.size(), addQueue.poll());
         }
+    }
+    
+    public void getMessage(GameMessage message) {
+        InteractiveAction action = message.getAction();
+        action.setEntity(myEntities.get(action.getEntity().getId())); // Not sure how well this will go through the network and can be changed if necessary.
     }
 }
