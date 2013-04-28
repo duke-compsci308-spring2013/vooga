@@ -32,9 +32,9 @@ public abstract class Menu extends Observable implements IGameLoop, Observer {
 
     public AffineTransform getTransform (Graphics2D pen) {
         AffineTransform a = new AffineTransform();
-        double sx = pen.getDeviceConfiguration().getBounds().getWidth();
+        double sx = Window.D_X;
         sx /= myImage.getWidth(null);
-        double sy = pen.getDeviceConfiguration().getBounds().getHeight();
+        double sy = Window.D_Y;
         sy /= myImage.getHeight(null);
         a.scale(sx, sy);
         return a;

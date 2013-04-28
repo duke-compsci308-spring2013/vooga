@@ -1,7 +1,7 @@
 package vooga.rts.gui.menus.gamesubmenus;
 
 import java.awt.Color;
-import vooga.rts.util.SDimension;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.Observable;
@@ -13,7 +13,7 @@ import vooga.rts.util.Location;
 
 public class InfoSubMenu extends SubMenu {
 
-    public InfoSubMenu (String image, SDimension size, Location pos) {
+    public InfoSubMenu (String image, Dimension size, Location pos) {
         super(image, size, pos);
     }
 

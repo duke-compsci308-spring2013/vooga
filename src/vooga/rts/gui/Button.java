@@ -1,6 +1,6 @@
 package vooga.rts.gui;
 
-import vooga.rts.util.SDimension;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
@@ -12,7 +12,7 @@ import vooga.rts.util.Location;
 public abstract class Button extends Observable implements IGameLoop {
 
     private BufferedImage myImage;
-    protected SDimension mySize;
+    protected Dimension mySize;
     protected Location myPos;
     protected boolean isFocused;
 
@@ -23,7 +23,7 @@ public abstract class Button extends Observable implements IGameLoop {
      * TODO: Add onFocus behavior for each button.
      */
 
-    public Button (String image, SDimension size, Location pos) {
+    public Button (String image, Dimension size, Location pos) {
         if (image != null) {
             myImage =
                     ResourceManager.getInstance().<BufferedImage> getFile(image,
@@ -60,11 +60,11 @@ public abstract class Button extends Observable implements IGameLoop {
         return checkWithinBounds((int) l.getX(), (int) l.getY());
     }
 
-    public SDimension getSize () {
+    public Dimension getSize () {
         return mySize;
     }
 
-    public void setSize (SDimension s) {
+    public void setSize (Dimension s) {
         mySize = s;
     }
 

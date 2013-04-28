@@ -1,6 +1,6 @@
 package vooga.rts.gui.menus.gamesubmenus;
 
-import vooga.rts.util.SDimension;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
@@ -15,11 +15,11 @@ public abstract class SubMenu extends Observable implements Observer {
 
     protected InteractiveEntity mySelectedEntity;
     private BufferedImage myBGImage;
-    private SDimension mySize;
+    private Dimension mySize;
     private Location myPos;
     private boolean isFocused;
 
-    public SubMenu (String image, SDimension size, Location pos) {
+    public SubMenu (String image, Dimension size, Location pos) {
         myBGImage =
                 ResourceManager.getInstance().<BufferedImage> getFile(image,
                                                                       BufferedImage.class);

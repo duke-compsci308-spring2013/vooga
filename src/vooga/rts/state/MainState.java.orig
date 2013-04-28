@@ -40,16 +40,17 @@ public class MainState implements State, Observer, NetworkedGame {
     private Timer myTimer;
     private InputController myController;
     private boolean myReady;
+    private MenuState myMenu;
 
     public MainState () {
         myReady = false;
         myStates = new HashMap<SubState, SubState>();
-
         myWindow = new Window();
         myWindow.setFullscreen(true);
         LoadingState loader = new LoadingState(this); 
         myLoadScreen = loader;    
         MenuState menu = new MenuState(this, getWindow().getJFrame()); 
+        myMenu = menu;
         setActiveState(menu);
         render();   
         myStates.put(loader, menu);
@@ -69,33 +70,38 @@ public class MainState implements State, Observer, NetworkedGame {
 
     @Override
     public void update (double elapsedTime) {
+        System.out.println("Active Game STate is menu: " + myActiveState.equals(myMenu));
         myController.processCommands();
         myActiveState.update(elapsedTime);
     }
 
     @Override
     public void paint (Graphics2D pen) {
+<<<<<<< HEAD
+=======
+        float x = ((float) Window.SCREEN_SIZE.getWidth() / (float) Window.D_X);
+        float y = ((float) Window.SCREEN_SIZE.getHeight() / (float) Window.D_Y);
+        pen.scale(x, y);
+>>>>>>> e2bc77d172cac971940776880e4a122821c7ccd9
         myActiveState.paint(pen);
     }
 
     @Override
     public void update (Observable o, Object arg) {
-<<<<<<< HEAD
-        if (arg == null) {
-            //setActiveState(myStates.get(o));
-=======
-        if (o instanceof LoadingState) {
-            MenuState m = new MenuState(this, myWindow.getJFrame());
-            setActiveState(m);
-            m.setMenu(0);
-            
-        }
-        else if (o instanceof MenuState) {
-            setActiveState(new GameState(this));
-        } else if (o instanceof GameState) {
-            setActiveState(new GameOverState(this));
->>>>>>> da65f910f3b18cd6676cb9b67f1292918754077d
-        }
+//        if (arg == null) {
+//            //setActiveState(myStates.get(o));
+//        }
+//        if (o instanceof LoadingState) {
+//            MenuState m = new MenuState(this, myWindow.getJFrame());
+//            setActiveState(m);
+//            m.setMenu(0);
+//            
+//        }
+//        else if (o instanceof MenuState) {
+//            setActiveState(new GameState(this));
+//        } else if (o instanceof GameState) {
+//            setActiveState(new GameOverState(this));
+//        }
     }
 
     /**
@@ -169,15 +175,23 @@ public class MainState implements State, Observer, NetworkedGame {
     public void loadGame (ExpandedLobbyInfo info, PlayerInfo userPlayer) {
         myGame.setUp(info, userPlayer);
         setActiveState(myLoadScreen);
+        System.out.println("loadGame is called!!!");
     }
 
     @Override
     public void startGame (IClient client) {
         setActiveState(myGame);    
         myClient = client;
+        System.out.println("startGame is called!!!!");
     }
     
     public static IClient getClient () {
         return myClient;
+    }
+
+    @Override
+    public void serverBrowserClosed () {
+        // TODO Auto-generated method stub
+        
     }
 }

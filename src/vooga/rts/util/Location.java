@@ -30,7 +30,6 @@ public class Location extends Point2D.Double {
      */
     public Location (double x, double y) {
         super(x, y);
-        scaleXY();
     }
 
     /**
@@ -38,14 +37,8 @@ public class Location extends Point2D.Double {
      */
     public Location (Point2D source) {
         super(source.getX(), source.getY());
-        scaleXY();
     }
     
-    private void scaleXY () {
-        x = (int) ((Window.SCREEN_SIZE.getWidth() / Window.D_X) * x);
-        y = (int) ((Window.SCREEN_SIZE.getHeight() / Window.D_Y) * y);
-    }
-
     /**
      * Reset this location to origin.
      */

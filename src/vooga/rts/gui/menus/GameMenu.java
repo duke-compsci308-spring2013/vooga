@@ -1,7 +1,7 @@
 package vooga.rts.gui.menus;
 
 import java.awt.Color;
-import vooga.rts.util.SDimension;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -41,12 +41,12 @@ public class GameMenu extends Menu {
     private static final String INFO_IMAGE_URL = "images/gamemenu/menu_info.png";
     private static final String ACTIONS_IMAGE_URL = "images/gamemenu/menu_actions.png";
 
-    // SDimensions
-    private static final SDimension EXIT_BUTTON_DIMENSION = new SDimension(200, 40);
-    private static final SDimension MINIMAP_DIMENSION = new SDimension(206, 206);
+    // Dimensions
+    private static final Dimension EXIT_BUTTON_DIMENSION = new Dimension(200, 40);
+    private static final Dimension MINIMAP_DIMENSION = new Dimension(206, 206);
     
-    private static final SDimension INFO_DIMENSION = new SDimension(800, 135);
-    private static final SDimension ACTIONS_DIMENSION = new SDimension(360, 175);
+    private static final Dimension INFO_DIMENSION = new Dimension(800, 135);
+    private static final Dimension ACTIONS_DIMENSION = new Dimension(360, 175);
 
     private static final Location EXIT_BUTTON_LOCATION =
             new Location(Window.D_X - EXIT_BUTTON_DIMENSION.getWidth(), 0);

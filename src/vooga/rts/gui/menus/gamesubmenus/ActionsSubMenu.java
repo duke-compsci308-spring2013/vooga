@@ -1,6 +1,6 @@
 package vooga.rts.gui.menus.gamesubmenus;
 
-import vooga.rts.util.SDimension;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class ActionsSubMenu extends SubMenu {
     private static final String ACTION_IMAGE_URL = "images/gamemenu/action_button.png";
     private static final int ACTION_BUTTON_WIDTH = 50;
     private static final int ACTION_BUTTON_HEIGHT = 50;
-    private static final SDimension ACTION_BUTTON_DIMENSION = new SDimension(ACTION_BUTTON_WIDTH,
+    private static final Dimension ACTION_BUTTON_DIMENSION = new Dimension(ACTION_BUTTON_WIDTH,
                                                                              ACTION_BUTTON_HEIGHT);
     private static final int ACTION_MENU_WIDTH = 360;
     private static final int ACTION_MENU_HEIGHT = 175;
@@ -33,7 +33,7 @@ public class ActionsSubMenu extends SubMenu {
     private ArrayList<ActionButton> myActionButtons;
     Location[] myActionButtonLocations;
 
-    public ActionsSubMenu (String image, SDimension size, Location pos) {
+    public ActionsSubMenu (String image, Dimension size, Location pos) {
         super(image, size, pos);
         myActionButtons = new ArrayList<ActionButton>();
         createActionButtonLocations();

@@ -1,6 +1,6 @@
 package vooga.rts.gui.menus.gamesubmenus;
 
-import vooga.rts.util.SDimension;
+import java.awt.Dimension;
 import java.util.Observable;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 import vooga.rts.gui.Button;
@@ -10,7 +10,7 @@ public class MiniMapSubMenu extends SubMenu {
     
 
 
-    public MiniMapSubMenu (String image, SDimension size, Location pos) {
+    public MiniMapSubMenu (String image, Dimension size, Location pos) {
         super(image, size, pos);
     }
 

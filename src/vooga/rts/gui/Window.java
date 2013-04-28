@@ -108,6 +108,7 @@ public class Window {
         SCREEN_SIZE =
                 new Dimension(myGraphics.getDisplayMode().getWidth(), myGraphics.getDisplayMode()
                         .getHeight());
+
         myFrame.repaint();
     }
 
