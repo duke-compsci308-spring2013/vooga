@@ -2,6 +2,8 @@ package vooga.fighter.controller;
 
 import javax.swing.JFrame;
 
+import vooga.fighter.controller.GameManagerRunAlone;
+
 
 /**
  * Creates window that can be moved, resized, and closed by the user.
