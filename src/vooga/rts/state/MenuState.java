@@ -105,8 +105,8 @@ public class MenuState extends SubState implements Observer {
                 setMenu(1); // take them to the multi player menu
             }
             else {
-//                setChanged();
-//                notifyObservers();
+                setChanged();
+                notifyObservers();
             }
         }
         else if (o instanceof MultiMenu) {

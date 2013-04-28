@@ -40,6 +40,7 @@ public class MainState implements State, Observer, NetworkedGame {
     private Timer myTimer;
     private InputController myController;
     private boolean myReady;
+    private MenuState myMenu;
 
     public MainState () {
         myReady = false;
@@ -49,6 +50,7 @@ public class MainState implements State, Observer, NetworkedGame {
         LoadingState loader = new LoadingState(this); 
         myLoadScreen = loader;    
         MenuState menu = new MenuState(this, getWindow().getJFrame()); 
+        myMenu = menu;
         setActiveState(menu);
         render();   
         myStates.put(loader, menu);
@@ -68,6 +70,7 @@ public class MainState implements State, Observer, NetworkedGame {
 
     @Override
     public void update (double elapsedTime) {
+        System.out.println("Active Game STate is menu: " + myActiveState.equals(myMenu));
         myController.processCommands();
         myActiveState.update(elapsedTime);
     }
