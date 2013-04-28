@@ -75,7 +75,7 @@ public class ClientModel extends Observable implements IClientModel, IModel {
         IMessage initialConnection = new InitialConnectionMessage(gameName, userName);
         myClient.sendMessage(initialConnection);
         myViewAdapter = new ClientViewAdapter(this, gameName, mapNameList, maxPlayerList);
-        //testPing();
+        testPing();
     }
 
     private void testPing () {

@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import vooga.rts.networking.NetworkBundle;
 import vooga.rts.networking.communications.GameMessage;
 import vooga.rts.networking.communications.Message;
+import vooga.rts.networking.communications.clientmessages.ClientInfoMessage;
 import vooga.rts.networking.communications.servermessages.AlertClientMessage;
 import vooga.rts.networking.communications.servermessages.CloseConnectionMessage;
 
@@ -38,7 +39,7 @@ public class GameServer extends Room {
     @Override
     public void receiveMessageFromClient (Message message, ConnectionThread thread) {
         super.receiveMessageFromClient(message, thread);
-        if (message instanceof GameMessage) {
+        if (!(message instanceof ClientInfoMessage)) {
             sendMessageToAllConnections(message);
         }
     }

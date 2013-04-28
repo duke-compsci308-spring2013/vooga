@@ -35,9 +35,13 @@ forth.
 
 <h4>Opportunities for extension</h4>
 <p> 
-More levels could be added by extending AbstractThreadContainer. A designer
-could also decide they wanted another state in between gameServer and Lobby and extend
-Room to create one.
+More levels could be added by extending AbstractThreadContainer. The easiest way to 
+extend for a game designer (non-RTS game) would be to extend GameContainer. They could then
+use their own behavior or their own Lobby and GameServer classes to create different behavior
+for their game. The way they would let the server know about this different class would
+be to add to the configuration.properties file in the resources package
+ a key of their game name to a value of the name of the class that 
+extends GameContainer.
 
 <!-- Put @see and @since tags down here. -->
 
