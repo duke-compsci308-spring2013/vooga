@@ -176,6 +176,7 @@ public class MainState implements State, Observer, NetworkedGame {
     @Override
     public void startGame (IClient client) {
         myMenu.unset();
+        myWindow.getJFrame().setContentPane(myWindow.getCanvas());
         setActiveState(myGame);    
         myClient = client;
         System.out.println("startGame is called!!!!");

@@ -45,7 +45,7 @@ public class Window {
                     myFrame.setVisible(true);
                     myFrame.createBufferStrategy(2);
                     myCanvas = new Canvas(myFrame.getBufferStrategy());
-                    myFrame.add(myCanvas);
+                    myFrame.setContentPane(myCanvas);
                 }
             });
         }
