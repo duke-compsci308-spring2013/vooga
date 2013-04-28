@@ -1,5 +1,7 @@
 package vooga.rts.commands;
 
+import java.io.Serializable;
+
 /**
  * This class is a packet of information that can be sent to the appropriate
  * class which will carry out the action linked with the keyboard press, the 
@@ -8,8 +10,12 @@ package vooga.rts.commands;
  * @author Challen Herzberg-Brovold
  * 
  */
-public class Command {
+public class Command implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1027228825819637582L;
     private String myInputType;
 
     /**
