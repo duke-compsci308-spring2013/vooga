@@ -6,11 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
-=======
-import java.util.Map;
-import java.util.Observable;
->>>>>>> da65f910f3b18cd6676cb9b67f1292918754077d
 import java.util.Observer;
 import javax.xml.parsers.ParserConfigurationException;
 import vooga.rts.commands.Command;
@@ -22,8 +17,14 @@ import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.buildings.Building;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Unit;
 import vooga.rts.gamedesign.sprite.map.Terrain;
+<<<<<<< HEAD
 import vooga.rts.leveleditor.components.MapLoader;
 import vooga.rts.manager.PlayerManager;
+=======
+import vooga.rts.gamedesign.strategy.production.CanProduce;
+import vooga.rts.gamedesign.weapon.Weapon;
+import vooga.rts.gui.Window;
+>>>>>>> 4b35724cd6a5e17d7fd4d3000014cef3fac7b242
 import vooga.rts.map.GameMap;
 import vooga.rts.networking.client.IMessageReceiver;
 import vooga.rts.networking.communications.ExpandedLobbyInfo;
@@ -47,7 +48,6 @@ import vooga.rts.util.Pixmap;
  * 
  */
 
-<<<<<<< HEAD
 public class GameState extends SubState implements Controller, IMessageReceiver {
     private static final Location3D DEFAULT_SOLDIER_ONE_RELATIVE_LOCATION = new Location3D(300,
                                                                                            300, 0);
@@ -72,11 +72,6 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
             new Information("Garrison", "This is a garrison that soldiers can occupy", null,
                             "buttons/marine.png");
 
-=======
-public class GameState extends SubState implements Controller, Observer {
-
-    private Map<Integer, Team> myTeams;
->>>>>>> da65f910f3b18cd6676cb9b67f1292918754077d
     private static GameMap myMap;
     private static PlayerManager myPlayers;          
     private List<DelayedTask> myTasks;
@@ -106,11 +101,6 @@ public class GameState extends SubState implements Controller, Observer {
         myPlayers = new PlayerManager();
         myFrames = new FrameCounter(new Location(100, 20));
         myTasks = new ArrayList<DelayedTask>();
-<<<<<<< HEAD
-=======
-        isGameOver = false;
-        setupGame();
->>>>>>> da65f910f3b18cd6676cb9b67f1292918754077d
     }
 
     @Override
@@ -130,6 +120,7 @@ public class GameState extends SubState implements Controller, Observer {
 
     @Override
     public void paint (Graphics2D pen) {
+        pen.scale(1.0, 1.0);
         pen.setBackground(Color.BLACK);
         myMap.paint(pen);
         getPlayers().getHuman().paint(pen);
@@ -146,7 +137,9 @@ public class GameState extends SubState implements Controller, Observer {
         // If it's a drag, we need to do some extra checking.
         if (command instanceof DragCommand) {
             myDrag = ((DragCommand) command).getScreenRectangle();
-            if (myDrag == null) { return; }
+            if (myDrag == null) {
+                return;
+            }
         }
         sendCommand(command);
     }
@@ -155,7 +148,6 @@ public class GameState extends SubState implements Controller, Observer {
     public void sendCommand (Command command) {
         getPlayers().getHuman().sendCommand(command);
     }
-<<<<<<< HEAD
 //
 //    
 //    
@@ -285,23 +277,6 @@ public class GameState extends SubState implements Controller, Observer {
 
     public static PlayerManager getPlayers() {
         return myPlayers;
-=======
-
-    /**
-     * Adds a player to the game
-     * 
-     * @param player to add
-     * @param teamID of the player.
-     */
-    public void addPlayer (Player player, int teamID) {
-        player.addObserver(this);
-        myPlayers.add(player);
-
-        if (myTeams.get(teamID) == null) {
-            addTeam(teamID);
-        }
-        myTeams.get(teamID).addPlayer(player);
->>>>>>> da65f910f3b18cd6676cb9b67f1292918754077d
     }
 
     public static GameMap getMap () {
@@ -311,7 +286,6 @@ public class GameState extends SubState implements Controller, Observer {
     public static void setMap (GameMap map) {
         myMap = map;
     }
-<<<<<<< HEAD
 
     
     @Override
@@ -333,170 +307,15 @@ public class GameState extends SubState implements Controller, Observer {
     public void getMessage (Message message) {
         RTSMessage gMessage = (RTSMessage) message;
         myPlayers.getPlayer(gMessage.getPlayerID()).getManager().getMessage(gMessage);
-=======
-
-    // For testing
-    private DelayedTask test;
-    private DelayedTask occupyPukingTest;
-    private DelayedTask workerTest;
-
-    public void setupGame () {
-        addPlayer(1);
-
-        Unit worker =
-                new Unit(new Pixmap(ResourceManager.getInstance()
-                        .<BufferedImage> getFile("images/scv.gif", BufferedImage.class)),
-                         new Location3D(100, 100, 0), new Dimension(75, 75), null, 1, 200, 40, 150);
-        worker.setGatherStrategy(new CanGather());
-        Information i1 =
-                new Information("Worker",
-                                "I am a worker. I am sent down from Denethor, son of Ecthelion ",
-                                null, "buttons/firebat.png");
-        worker.setInfo(i1);
-
-        myHumanPlayer.add(worker);
-        Unit a = new Unit();
-        a.setAttackStrategy(new CanAttack(a.getWorldLocation(), a.getPlayerID()));
-        Projectile proj =
-                new Projectile(new Pixmap(ResourceManager.getInstance()
-                        .<BufferedImage> getFile("images/bullet.png", BufferedImage.class)),
-                               a.getWorldLocation(), new Dimension(10, 10), 2, 10, 6, 800);
-        a.getAttackStrategy().addWeapon(new Weapon(proj, 400, a.getWorldLocation(), 1));
-        Information i2 =
-                new Information("Marine", "I am a soldier of Nunu.", null, "buttons/marine.png");
-
-        a.setInfo(i2);
-        myHumanPlayer.add(a);
-        addPlayer(2);
-
-        Unit c = new Unit();
-        c.setWorldLocation(new Location3D(1200, 500, 0));
-        c.move(c.getWorldLocation());
-        c.setAttackStrategy(new CanAttack(c.getWorldLocation(), c.getPlayerID()));
-        c.setHealth(150);
-        // myHumanPlayer.add(c);
-        myPlayers.get(1).add(c);
-
-        Building b =
-                new Building(new Pixmap(ResourceManager.getInstance()
-                        .<BufferedImage> getFile("images/factory.png", BufferedImage.class)),
-                             new Location3D(500, 1000, 0), new Dimension(368, 224), null, 1, 300,
-                             InteractiveEntity.DEFAULT_BUILD_TIME);
-
-        b.setProductionStrategy(new CanProduce(b));
-        ((CanProduce) b.getProductionStrategy()).addProducable(worker);
-
-        b.setProductionStrategy(new CanProduce(b));
-        ((CanProduce) b.getProductionStrategy()).addProducable(new Unit());
-        ((CanProduce) b.getProductionStrategy()).createProductionActions(b);
-        Information i =
-                new Information("Barracks", "This is a barracks that can make awesome pies", null,
-                                "buttons/marine.png");
-        b.setInfo(i);
-        myHumanPlayer.add(b);
-
-        for (int j = 0; j < 10; j++) {
-            getMap().getResources().add(new Resource(new Pixmap("images/mineral.gif"),
-                                                     new Location3D(600 + j * 30, 600 - j * 20, 0),
-                                                     new Dimension(50, 50), 0, 200, "mineral"));
-        }
-
-        for (int j = 0; j < 4; j++) {
-            for (int k = 0; k < 8; k++) {
-                getMap().getTerrain().add(new Terrain(new Pixmap("images/gold.png"),
-                                                      new Location3D(100 + k * 25, 100, j * 25),
-                                                      new Dimension(50, 50)));
-            }
-
-        }
-        Building garrison =
-                new Building(new Pixmap(ResourceManager.getInstance()
-                        .<BufferedImage> getFile("images/home.png", BufferedImage.class)),
-                             new Location3D(300, 450, 0), new Dimension(128, 128), null, 1, 300,
-                             InteractiveEntity.DEFAULT_BUILD_TIME);
-
-        Information garrisonInfo =
-                new Information("Garrison", "This is a garrison that soldiers can occupy", null,
-                                "buttons/marine.png");
-        b.setInfo(garrisonInfo);
-        garrison.setOccupyStrategy(new CanBeOccupied());
-        garrison.getOccupyStrategy().createOccupyActions(garrison);
-        myHumanPlayer.add(garrison);
-        final Building f = b;
-        //
-        // f.getAction((new Command("make Marine"))).apply();
-        //
-        // f.getAction((new Command("make Worker"))).apply();
-
-        // workerTest = new DelayedTask( worker.getAction((new Command("make Marine"))).apply();
-
-        final Building testGarrison = garrison;
-        myTasks.add(new DelayedTask(10, new Runnable() {
-            @Override
-            public void run () {
-                if (testGarrison.getOccupyStrategy().getOccupiers().size() > 0) {
-                    System.out.println("will puke!");
-                    testGarrison.getAction(new Command("deoccupy")).apply();
-                }
-            }
-        }));
-
-        b = new Building(new Pixmap(ResourceManager.getInstance()
-                .<BufferedImage> getFile("images/factory.png", BufferedImage.class)),
-                         new Location3D(100, 500, 0), new Dimension(368, 224), null, 1, 300,
-                         InteractiveEntity.DEFAULT_BUILD_TIME);
-        b.setProductionStrategy(new CanProduce(b));
-        ((CanProduce) b.getProductionStrategy()).addProducable(new Unit());
-        ((CanProduce) b.getProductionStrategy()).createProductionActions(b);
-        ((CanProduce) b.getProductionStrategy()).setRallyPoint(new Location3D(200, 600, 0));
-        i =
-                new Information("Barracks", "This is a barracks that can make awesome pies", null,
-                                "buttons/marine.png");
-        b.setInfo(i);
-
-        myPlayers.get(1).add(b);
-    }
-
-    private void yuckyUnitUpdate (double elapsedTime) {
-
-        List<InteractiveEntity> p1 = myTeams.get(1).getUnits();
-        List<InteractiveEntity> p2 = myTeams.get(2).getUnits();
-        // for (InteractiveEntity u1 : p1) {
-        // for (InteractiveEntity u2 : p2) {
-        // u2.getAttacked(u1);
-        // u1.getAttacked(u2);
-        // }
-        // }
-
-        for (DelayedTask dt : myTasks) {
-            dt.update(elapsedTime);
-        }
-
-        // now even yuckier
-        for (int i = 0; i < p1.size(); ++i) {
-            if (p1.get(i) instanceof Unit) {
-                for (int j = i + 1; j < p1.size(); ++j) {
-                    ((Unit) p1.get(i)).occupy(p1.get(j));
-                }
-            }
-        }
     }
 
     public void initializeGameOver () {
         isGameOver = true;
     }
 
-    public static GameMap getMap () {
-        return myMap;
-    }
-
     @Override
-    public void update (Observable arg0, Object arg1) {
-        initializeGameOver();
-    }
-
-    public static void setMap (GameMap map) {
-        myMap = map;
->>>>>>> da65f910f3b18cd6676cb9b67f1292918754077d
+    public void connectionClosed () {
+        // TODO Auto-generated method stub
+        
     }
 }

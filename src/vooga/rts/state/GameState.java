@@ -114,6 +114,7 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
 
     @Override
     public void paint (Graphics2D pen) {
+        pen.scale(1.0, 1.0);
         pen.setBackground(Color.BLACK);
         myMap.paint(pen);
         getPlayers().getHuman().paint(pen);

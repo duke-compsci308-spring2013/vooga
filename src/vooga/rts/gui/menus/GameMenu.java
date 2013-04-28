@@ -127,7 +127,6 @@ public class GameMenu extends Menu {
 
     @Override
     public void paint (Graphics2D pen) {
-
         super.paint(pen);
 
         for (SubMenu s : mySubMenus) {

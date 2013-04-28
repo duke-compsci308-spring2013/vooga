@@ -77,6 +77,7 @@ public class MainState implements State, Observer, NetworkedGame {
 
     @Override
     public void paint (Graphics2D pen) {
+        Scale.scalePen(pen);
         myActiveState.paint(pen);
     }
 

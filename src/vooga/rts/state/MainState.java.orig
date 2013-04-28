@@ -14,10 +14,14 @@ import vooga.rts.controller.InputController;
 import vooga.rts.game.RTSGame;
 import vooga.rts.gui.Window;
 import vooga.rts.gui.menus.MultiMenu;
+<<<<<<< HEAD
 import vooga.rts.networking.client.IClient;
 import vooga.rts.networking.client.NetworkedGame;
 import vooga.rts.networking.communications.ExpandedLobbyInfo;
 import vooga.rts.networking.communications.PlayerInfo;
+=======
+import vooga.rts.util.Scale;
+>>>>>>> 4b35724cd6a5e17d7fd4d3000014cef3fac7b242
 
 
 /**
@@ -79,10 +83,8 @@ public class MainState implements State, Observer, NetworkedGame {
     public void paint (Graphics2D pen) {
 <<<<<<< HEAD
 =======
-        float x = ((float) Window.SCREEN_SIZE.getWidth() / (float) Window.D_X);
-        float y = ((float) Window.SCREEN_SIZE.getHeight() / (float) Window.D_Y);
-        pen.scale(x, y);
->>>>>>> e2bc77d172cac971940776880e4a122821c7ccd9
+        Scale.scalePen(pen);
+>>>>>>> 4b35724cd6a5e17d7fd4d3000014cef3fac7b242
         myActiveState.paint(pen);
     }
 
