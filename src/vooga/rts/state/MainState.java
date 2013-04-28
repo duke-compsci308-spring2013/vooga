@@ -70,7 +70,6 @@ public class MainState implements State, Observer, NetworkedGame {
 
     @Override
     public void update (double elapsedTime) {
-        System.out.println("Active Game STate is menu: " + myActiveState.equals(myMenu));
         myController.processCommands();
         myActiveState.update(elapsedTime);
     }
@@ -78,6 +77,8 @@ public class MainState implements State, Observer, NetworkedGame {
     @Override
     public void paint (Graphics2D pen) {
        // Scale.scalePen(pen);
+        if(myActiveState.equals(myMenu)) System.out.println("myMenu is painting");
+        if(myActiveState.equals(myLoadScreen)) System.out.println("myLoading is painting");
         myActiveState.paint(pen);
     }
 
