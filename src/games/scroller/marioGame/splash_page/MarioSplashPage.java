@@ -53,7 +53,7 @@ public class MarioSplashPage extends SplashPage {
      */
     @InputMethodTarget(name = "start")
     public void nextLevel () {
-        getDoor().goToNextLevel();
+        getDoor().goToNextLevel(getPlayer());
     }
     
     /**

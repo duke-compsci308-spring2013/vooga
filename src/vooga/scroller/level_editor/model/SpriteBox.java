@@ -1,3 +1,4 @@
+
 package vooga.scroller.level_editor.model;
 
 import java.awt.Color;
@@ -10,28 +11,15 @@ import vooga.scroller.sprites.Sprite;
 import vooga.scroller.view.IPaintable;
 
 
-/**
- * SpriteBox is a container within the Grid that can carry a Sprite, combine
- * with other boxes to hold large sprites, and paint itself.
- * 
- * @author Danny Goodman
- */
 public class SpriteBox implements IPaintable {
 
-    private boolean myAvailable;
+    private boolean isAvailable;
     private Rectangle myBounds;
     private Set<SpriteBox> myCombinedBoxes;
     private LEGrid myParent;
     private int mySize;
     private Sprite mySprite;
 
-    /**
-     * Initialize instance variables.
-     * 
-     * @param parent - LEGrid that holds this SpriteBox
-     * @param x - x Coordinate
-     * @param y - y Coordinate
-     */
     public SpriteBox (LEGrid parent, int x, int y) {
         myParent = parent;
         mySize = myParent.getSpriteSize();
@@ -40,12 +28,6 @@ public class SpriteBox implements IPaintable {
         myCombinedBoxes = new HashSet<SpriteBox>();
     }
 
-    /**
-     * Adds a Sprite to the Box. Sets the position of the sprite to the
-     * center of the box. Sets SpriteBox unavailable.
-     * 
-     * @param spr - sprite to add
-     */
     public void addSprite (Sprite spr) {
         mySprite = spr;
         mySprite.setCenter(myBounds.getX() + mySprite.getWidth() / 2,
@@ -53,20 +35,12 @@ public class SpriteBox implements IPaintable {
         setUnavailable();
     }
 
-    /**
-     * Combine with another SpriteBox. adds that SpriteBox to the Set.
-     * 
-     * @param nearestBox - box to combine with
-     */
     public void combineWith (SpriteBox nearestBox) {
         myCombinedBoxes.add(nearestBox);
         nearestBox.myCombinedBoxes.add(this);
         nearestBox.setUnavailable();
     }
 
-    /**
-     * Delete the sprite within this box. Set Available. Remove Combining boxes.
-     */
     public void deleteSprite () {
         mySprite = null;
         setAvailable();
@@ -77,40 +51,25 @@ public class SpriteBox implements IPaintable {
         myCombinedBoxes = new HashSet<SpriteBox>();
     }
 
-    /**
-     * Gets the Sprite in this Box
-     * 
-     * @return mySprite
-     */
+    public Rectangle getBounds () {
+        return myBounds;
+    }
+
+
     public Sprite getSprite () {
         return mySprite;
     }
 
-    /**
-     * gets the X pixel coordinate of the top left corner.
-     * 
-     * @return x
-     */
     public int getX () {
         return myBounds.x;
     }
 
-    /**
-     * gets the y pixel coordinate of the top left corner
-     * 
-     * @return y
-     */
     public int getY () {
         return myBounds.y;
     }
 
-    /**
-     * returns whether a sprite can be added to the box.
-     * 
-     * @return true if available.
-     */
     public boolean isAvailable () {
-        return myAvailable;
+        return isAvailable;
     }
 
     @Override
@@ -123,7 +82,7 @@ public class SpriteBox implements IPaintable {
     }
 
     private void setAvailable () {
-        myAvailable = true;
+        isAvailable = true;
     }
 
     private void setBounds (int x, int y) {
@@ -131,7 +90,7 @@ public class SpriteBox implements IPaintable {
     }
 
     private void setUnavailable () {
-        myAvailable = false;
+        isAvailable = false;
     }
 
 }

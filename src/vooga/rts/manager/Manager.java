@@ -18,13 +18,11 @@ import vooga.rts.commands.Command;
 import vooga.rts.commands.DragCommand;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.buildings.Building;
-import vooga.rts.gamedesign.state.DetectableState;
 import vooga.rts.gamedesign.state.MovementState;
 import vooga.rts.gamedesign.state.OccupyState;
 import vooga.rts.manager.actions.DragSelectAction;
 import vooga.rts.manager.actions.LeftClickAction;
 import vooga.rts.manager.actions.RightClickAction;
-import vooga.rts.state.GameState;
 import vooga.rts.state.State;
 import vooga.rts.util.Location3D;
 
@@ -40,7 +38,7 @@ import vooga.rts.util.Location3D;
  * 
  */
 
-public class Manager extends Observable implements State, IActOn, Observer {
+public class Manager implements State, IActOn, Observer {
 
     private List<InteractiveEntity> myEntities;
     private List<InteractiveEntity> mySelectedEntities;
@@ -49,12 +47,10 @@ public class Manager extends Observable implements State, IActOn, Observer {
     private Map<String, Action> myActions;
 
     private Queue<InteractiveEntity> myAddQueue;
-    private int myPlayer;
 
     Iterator<InteractiveEntity> myUpdateIterator;
 
-    public Manager (int playerID) {
-    	myPlayer = playerID;
+    public Manager () {
         myEntities = new ArrayList<InteractiveEntity>();
         mySelectedEntities = new ArrayList<InteractiveEntity>();
         myGroups = new HashMap<Integer, List<InteractiveEntity>>();
@@ -94,9 +90,9 @@ public class Manager extends Observable implements State, IActOn, Observer {
      */
     @Override
     public void updateAction (Command command) {
-        if (myActions.containsKey(command.getMethodName())) {                        
+        if (myActions.containsKey(command.getMethodName())) {
             Action current = myActions.get(command.getMethodName());
-            current.update(command);            
+            current.update(command);
             current.apply();
         }
         else {
@@ -107,6 +103,7 @@ public class Manager extends Observable implements State, IActOn, Observer {
     @Override
     public void addAction (String input, Action action) {
         myActions.put(input, action);
+
     }
 
     /**
@@ -134,11 +131,7 @@ public class Manager extends Observable implements State, IActOn, Observer {
      *        The entity that is to be added.
      */
     public void add (InteractiveEntity entity) {
-    	entity.setPlayerID(myPlayer);
-        entity.addObserver(GameState.getMap().getNodeMap());
         entity.addObserver(this);
-        entity.setChanged();
-        entity.notifyObservers(entity.getWorldLocation());
         myAddQueue.add(entity);
     }
 
@@ -149,12 +142,12 @@ public class Manager extends Observable implements State, IActOn, Observer {
         else {
             myEntities.remove(entity);
         }
-        entity.deleteObservers();
+        entity.deleteObserver(this);
         mySelectedEntities.remove(entity);
     }
 
     /**
-     * Deselects the topmost unit at the given location.
+     * Deselects the topmost unit at the given location.s
      * 
      * @param location at which to deselect the unit.
      */
@@ -167,11 +160,6 @@ public class Manager extends Observable implements State, IActOn, Observer {
             }
         }
         deselectAll();
-    }
-
-    private void notifyDeselect () {
-        setChanged();
-        notifyObservers(false);
     }
 
     /**
@@ -190,7 +178,6 @@ public class Manager extends Observable implements State, IActOn, Observer {
      * Deselects all selected entities.
      */
     public void deselectAll () {
-        notifyDeselect();
         if (myMultiSelect) {
             return;
         }
@@ -246,17 +233,10 @@ public class Manager extends Observable implements State, IActOn, Observer {
         deselectAll();
         if (!mySelectedEntities.contains(entity)) {
             if (myEntities.contains(entity)) {
-                if (entity.select(true)) {
-                    mySelectedEntities.add(entity);
-                }
+                mySelectedEntities.add(entity);
+                entity.select(true);
             }
         }
-        notifySelect();
-    }
-
-    public void notifySelect () {
-         setChanged();
-         notifyObservers(true);
     }
 
     /**
@@ -354,9 +334,14 @@ public class Manager extends Observable implements State, IActOn, Observer {
             if (!myEntities.contains(sent)) {
                 add(sent);
             }
+
+            if (!sent.getEntityState().canSelect()) {
+                sent.setVisible(false);
+                deselect(sent);
+            }
+
         }
-        else 
-        {
+        else
             if (state instanceof Integer) {
                 int index = findEntityWithHashCode((Integer) state);
                 InteractiveEntity unit = myEntities.get(index);
@@ -368,7 +353,5 @@ public class Manager extends Observable implements State, IActOn, Observer {
                 myEntities.get(index).stopMoving();
                 unit.getEntityState().setMovementState(MovementState.STATIONARY);
             }
-        }
-
     }
 }

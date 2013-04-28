@@ -3,16 +3,10 @@ package vooga.rts.gamedesign.factories;
 import java.lang.reflect.InvocationTargetException;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import vooga.rts.gamedesign.strategy.Strategy;
-import vooga.rts.gamedesign.strategy.attackstrategy.AttackStrategy;
-import vooga.rts.gamedesign.strategy.gatherstrategy.GatherStrategy;
-import vooga.rts.gamedesign.strategy.occupystrategy.OccupyStrategy;
-import vooga.rts.gamedesign.strategy.upgradestrategy.UpgradeStrategy;
-import vooga.rts.util.Location3D;
 import vooga.rts.util.ReflectionHelper;
 
 /**
@@ -23,10 +17,11 @@ import vooga.rts.util.ReflectionHelper;
  */
 public class StrategyDecoder extends Decoder{
 
-	private static final String ATTACK_TAG = "attacks";
-	private static final String OCCUPY_TAG = "occupys";
-	private static final String GATHER_TAG = "gathers";
-	private static final String UPGRADE_TAG = "upgrades";
+	public static final String ATTACK_TAG = "attacks";
+	public static final String OCCUPY_TAG = "occupys";
+	public static final String GATHER_TAG = "gathers";
+	public static final String SOURCE = "src";
+	
 	
 	Factory myFactory;
 	
@@ -45,21 +40,15 @@ public class StrategyDecoder extends Decoder{
 	 * @throws NoSuchMethodException
 	 * @throws SecurityException
 	 */
-	private void getSources(NodeList list) {
+	private void getSources(NodeList list) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
 		for(int j = 0 ; j < list.getLength() ; j++ ){
 			Node Node = list.item(j);
-			if(Node.getNodeType() == Node.ELEMENT_NODE){
+			if(Node.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE){
 				String path = Node.getAttributes().item(0).getTextContent();
 				String key = Node.getNodeName();
 				
 				//This class needs to change because strategy constructors have changed. 
 				Strategy strat = (Strategy) ReflectionHelper.makeInstance(path);
-				if (strat instanceof GatherStrategy) {
-					System.out.println("gather strategy found!");
-				}
-				if (strat instanceof UpgradeStrategy) {
-					System.out.println("upgrade strategy found!");
-				}
 				myFactory.put(key, strat);
 				
 			}
@@ -71,16 +60,12 @@ public class StrategyDecoder extends Decoder{
 	 * which runs through the lists and makes the strategies. 
 	 */
 	@Override
-	public void create(Document doc, String type) {
+	public void create(Document doc) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		NodeList attackLst = doc.getElementsByTagName(ATTACK_TAG).item(0).getChildNodes();
 		NodeList occupyLst = doc.getElementsByTagName(OCCUPY_TAG).item(0).getChildNodes();
 		NodeList gatherLst = doc.getElementsByTagName(GATHER_TAG).item(0).getChildNodes();
-		NodeList upgradeLst = doc.getElementsByTagName(UPGRADE_TAG).item(0).getChildNodes();
-		
-		getSources(attackLst);
+			
 		getSources(occupyLst);
-		getSources(gatherLst);
-		getSources(upgradeLst);
 	}
 
 }

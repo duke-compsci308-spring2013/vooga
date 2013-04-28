@@ -3,12 +3,10 @@ package vooga.towerdefense.factories.definitions;
 import java.awt.Dimension;
 
 import vooga.towerdefense.factories.attributefactories.AttributeManagerFactory;
-import util.Location;
-import util.Pixmap;
 
 
 /**
- * TESTING PURPOSES ONLY: Default ProjectileDefinition used for testing projectiles; 
+ * Default ProjectileDefinition used for testing projectiles; 
  * only GameElementDefinition and GameElement will be made and used at the end.
  * 
  * @author XuRui
@@ -26,15 +24,18 @@ public class ProjectileDefinition extends GameElementDefinition {
 		mySize = DefinitionConstants.DEFAULT_PROJECTILE_SIZE;
 	}
 	
+	@Override
 	public Pixmap getImage(){
 		return myImage;
 	}
 	
-    public Location getCenter () {
+    @Override
+	public Location getCenter () {
         return myCenter;
     }
 
-    public Dimension getSize () {
+    @Override
+	public Dimension getSize () {
         return mySize;
     }
 

@@ -24,14 +24,12 @@ import vooga.rts.util.Pixmap;
 public class Projectile extends GameEntity {
 	// Default speed
 	public static int DEFAULT_PROJECTILE_SPEED = 800;
-	public static Pixmap DEFAULT_PIC = new Pixmap("images/bullet.png");
+	public static Pixmap DEFAULT_PIC = new Pixmap(ResourceManager.getInstance()
+			.<BufferedImage> getFile("images/bullet.png", BufferedImage.class));
 	public static Dimension DEFAULT_DIMENSION = new Dimension(20, 20);
 	public static int DEFAULT_DAMAGE = 10;
 	public static int DEFAULT_HEALTH = 6;
-	public static Location3D DEFAULTLOCATION = new Location3D(0,0,0);
-	public static int DEFAULT_PLAYERID = 0;
-	
-	
+
 	private int myDamage;
 	private InteractiveEntity myTarget;
 	
@@ -55,22 +53,18 @@ public class Projectile extends GameEntity {
 	 *            not hit an enemy
 	 */
 	public Projectile(Pixmap pixmap, Location3D loc, Dimension size,
-			int playerID, int damage, int health, int speed) {
+			int playerID, int damage, int health) {
 		super(pixmap, loc, size, playerID, health);
-		setSpeed(speed);
 		myDamage = damage;
 		final Projectile toDestroy = this;
 		myTimer = new DelayedTask(getHealth(), new Runnable() {
 			Projectile p = toDestroy;
 
+			@Override
 			public void run() {
 				p.die();
 			}
 		});
-	}
-	
-	public Projectile(Pixmap pixmap, int damage, int lifespan, int speed) {
-		this(pixmap, DEFAULTLOCATION, DEFAULT_DIMENSION, DEFAULT_PLAYERID, damage, lifespan, speed);
 	}
 
 	/**
@@ -122,7 +116,12 @@ public class Projectile extends GameEntity {
 	 *            is the target of the projectile
 	 */
 	public void attack(InteractiveEntity interactiveEntity) {
-		interactiveEntity.calculateDamage(myDamage);
+		interactiveEntity.changeHealth(myDamage);
+	}
+
+	@Override
+	public int getSpeed() {
+		return DEFAULT_PROJECTILE_SPEED;
 	}
 
 	/**
@@ -137,6 +136,6 @@ public class Projectile extends GameEntity {
 	public Projectile copy(Projectile other, Location3D shootFrom) {
 		return new Projectile(new Pixmap(other.getImage()), new Location3D(
 				shootFrom), new Dimension(other.getSize()),
-				other.getPlayerID(), other.getDamage(), other.getHealth(), other.getSpeed());
+				other.getPlayerID(), other.getDamage(), other.getHealth());
 	}
 }

@@ -1,6 +1,5 @@
 package vooga.rts.controller;
 
-import java.util.Map;
 import vooga.rts.commands.Command;
 
 /**
@@ -36,7 +35,8 @@ public class PlayerController implements Controller, Controllable {
      * @param manager
      * @param command
      */
-    public void receiveCommand (Command command) { 
+    @Override
+	public void receiveCommand (Command command) { 
         // Do something with a command
     }
 }

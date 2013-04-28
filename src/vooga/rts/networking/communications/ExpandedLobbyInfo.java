@@ -1,6 +1,10 @@
 package vooga.rts.networking.communications;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import vooga.rts.networking.client.Player;
 
 
 /**
@@ -18,9 +22,8 @@ public class ExpandedLobbyInfo extends LobbyInfo {
     /**
      * Inner list represents a team, outer list represents all the teams
      */
+    private List<List<Player>> myPlayerList = new ArrayList<List<Player>>();
     private int myMaxTeams;
-    private PlayerInfo[] myPlayers;
-    private int myNextSlot = 0;
 
     /**
      * Creates the expanded lobby info.
@@ -28,15 +31,14 @@ public class ExpandedLobbyInfo extends LobbyInfo {
      * @param lobbyName name of lobby
      * @param mapName name of map
      * @param maxPlayers max players
-     * @param id id
+     * @param ID id
      */
     public ExpandedLobbyInfo (String lobbyName,
                               String mapName,
                               int maxPlayers,
-                              int id) {
-        super(lobbyName, mapName, maxPlayers, id);
+                              int ID) {
+        super(lobbyName, mapName, maxPlayers, ID);
         myMaxTeams = maxPlayers;
-        myPlayers = new PlayerInfo[maxPlayers];
     }
 
     /**
@@ -46,7 +48,7 @@ public class ExpandedLobbyInfo extends LobbyInfo {
      */
     public ExpandedLobbyInfo (LobbyInfo lobbyInfo) {
         this(lobbyInfo.getLobbyName(), lobbyInfo.getMapName(), lobbyInfo.getMaxPlayers(), lobbyInfo
-                .getId());
+                .getID());
     }
 
     /**
@@ -65,17 +67,47 @@ public class ExpandedLobbyInfo extends LobbyInfo {
      * 
      * @param player player to add
      */
-    public void addPlayer (PlayerInfo player) {
-        if (myNextSlot != getMaxPlayers()) {
-            addPlayer();
-            myPlayers[myNextSlot] = player;
-            for (int i = myNextSlot + 1; i < myPlayers.length; i++) {
-                if (myPlayers[i] == null) {
-                    myNextSlot = i;
-                    return;
-                }
+    public int addPlayer (Player player) {
+        addPlayer();
+        extendTeams(myPlayerList.size() + 1);
+        int oldPlayerCount = 0;
+        for (int i = 0; i < myPlayerList.size(); i++) {
+            List<Player> team = myPlayerList.get(i);
+            if (oldPlayerCount > team.size()) {
+                team.add(player);
+                return i + 1;
             }
-            myNextSlot = getMaxPlayers();
+            oldPlayerCount = team.size();
+        }
+        // should never trigger
+        myPlayerList.get(0).add(player);
+        return 1;
+    }
+
+    /**
+     * This method is used to add a new player to the specified team.
+     * 
+     * @param player player to add
+     * @param teamNumber number of team
+     */
+    public void addPlayer (Player player, int teamNumber) {
+        if (myMaxTeams < teamNumber) return;
+
+        addPlayer();
+        extendTeams(teamNumber);
+        myPlayerList.get(teamNumber).add(player);
+    }
+
+    /**
+     * Extends the player list to the desired number of teams
+     * 
+     * @param numOfTeams
+     */
+    private void extendTeams (int numOfTeams) {
+        if (numOfTeams > myMaxTeams || myPlayerList.size() >= numOfTeams) return;
+
+        while (myPlayerList.size() < numOfTeams) {
+            myPlayerList.add(new ArrayList<Player>());
         }
     }
 
@@ -84,54 +116,26 @@ public class ExpandedLobbyInfo extends LobbyInfo {
      * 
      * @param player to remove
      */
-    public void removePlayer (PlayerInfo player) {
-        for (int i = 0; i < myPlayers.length; i++) {
-            if (myPlayers[i] != null && myPlayers[i].equals(player)) {
-                myPlayers[i] = null;
-                if (myNextSlot > i) {
-                    myNextSlot = i;
-                }
+    public void removePlayer (Player player) {
+        for (List<Player> team : myPlayerList) {
+            if (team.contains(player)) {
+                team.remove(player);
+                removePlayer();
             }
         }
     }
 
     /**
-     * Removes the given player from the lobby
+     * Moves the given player to the team number
      * 
-     * @param playerID id of player to remove
+     * @param player player to move
+     * @param team team to move to
      */
-    public void removePlayer (int playerID) {
-        for (int i = 0; i < myPlayers.length; i++) {
-            if (myPlayers[i] != null && myPlayers[i].getId() == playerID) {
-                myPlayers[i] = null;
-                if (myNextSlot > i) {
-                    myNextSlot = i;
-                }
-            }
+    public void movePlayer (Player player, int team) {
+        if (team <= myMaxTeams) {
+            removePlayer(player);
+            addPlayer(player, team);
         }
-    }
-
-    /**
-     * Swaps out the player with a newer version.
-     * 
-     * @param player to change
-     */
-    public void changePlayer (PlayerInfo player) {
-        for (int i = 0; i < myPlayers.length; i++) {
-            if (myPlayers[i] != null && myPlayers[i].equals(player)) {
-                myPlayers[i] = player;
-            }
-        }
-    }
-
-    /**
-     * Gets the player in the given position
-     * 
-     * @param position of player
-     * @return player
-     */
-    public PlayerInfo getPlayerAtPosition (int position) {
-        return myPlayers[position];
     }
 
     /**
@@ -144,43 +148,20 @@ public class ExpandedLobbyInfo extends LobbyInfo {
     }
 
     /**
-     * Returns a copy of the current players.
      * 
-     * @return copy of player array
+     * @return List with the teams in the lobby, it returns a copy of the
+     *         original list so it is used for read purposes only
      */
-    public PlayerInfo[] getPlayers () {
-        return Arrays.copyOf(myPlayers, myPlayers.length);
-    }
-
-    /**
-     * Returns if the game is startable.
-     * 
-     * @return true if game can be started
-     */
-    public boolean canStartGame () {
-        for (int i = 0; i < myPlayers.length; i++) {
-            if (myPlayers[i] == null) { return false; }
+    public List<List<Player>> getTeams () {
+        List<List<Player>> teams = new LinkedList<List<Player>>();
+        for (int i = 0; i < myPlayerList.size(); i++) {
+            List<Player> players = new LinkedList<Player>();
+            teams.add(new LinkedList<Player>());
+            for (Player p : myPlayerList.get(i)) {
+                players.add(p);
+            }
         }
-        if (getMaxPlayers() == 1) return true;
-
-        int team1 = myPlayers[0].getTeam();
-        for (int i = 0; i < myPlayers.length; i++) {
-            if (myPlayers[i].getTeam() != team1) { return true; }
-        }
-        return false;
-    }
-
-    /**
-     * Gets a player with the given id
-     * 
-     * @param id of player
-     * @return player
-     */
-    public PlayerInfo getPlayer (int id) {
-        for (int i = 0; i < myPlayers.length; i++) {
-            if (myPlayers[i].getId() == id) { return myPlayers[i]; }
-        }
-        return null;
+        return teams;
     }
 
 }

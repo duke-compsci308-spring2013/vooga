@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 
 import util.Text;
-import vooga.fighter.controller.ViewDataSource;
+import vooga.fighter.controller.interfaces.ViewDataSource;
 
 /**
  * Displays Text objects in lines starting from the center of the screen and

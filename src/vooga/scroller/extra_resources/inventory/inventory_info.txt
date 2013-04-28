@@ -1,6 +1,0 @@
-Inventory.
-
-This inventory can be used for storing items that the player collects.
-Inventory state represents a possible state for the player where the player can view the items in the Inventory.
-
-Item represents something stored in the inventory (this extends sprite)

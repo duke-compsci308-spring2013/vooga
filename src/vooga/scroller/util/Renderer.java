@@ -4,13 +4,13 @@ package vooga.scroller.util;
  * Renderer are able to render a specific type of objects
  * @author Dagbedji Fagnisse
  *
- * @param <T> - Domain descpriptor
+ * @param <T> - Type to be rendered
  */
 public interface Renderer<T> {
 
-    void render(Renderable<T> renderable);
+    void render(T renderable);
     
-    void setRenderable(Renderable<T>renderable);
+    void setRenderable(T renderable);
     
-    Renderable<T> getRenderable();
+    T getRenderable();
 }

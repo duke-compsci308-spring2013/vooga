@@ -1,9 +1,7 @@
 package vooga.rts.controller;
 
+<<<<<<< HEAD
 import java.awt.geom.Rectangle2D;
-import java.util.LinkedList;
-import java.util.Queue;
-import util.Location;
 import util.input.*;
 import vooga.rts.commands.ClickCommand;
 import vooga.rts.commands.Command;
@@ -11,6 +9,9 @@ import vooga.rts.commands.DragCommand;
 import vooga.rts.commands.PositionCommand;
 import vooga.rts.state.State;
 import vooga.rts.util.Camera;
+import vooga.rts.util.Location;
+import vooga.rts.util.Location3D;
+>>>>>>> input
 
 
 /**
@@ -39,30 +40,19 @@ public class InputController implements Controller {
 
     private Rectangle2D myDrag;
 
-    // Use this to store commands that are only processed on a frame update.
-    private Queue<Command> myProcessQueue;
-
     public InputController (State state) {
         myState = state;
-        myProcessQueue = new LinkedList<Command>();
     }
 
     @Override
     public void sendCommand (Command command) {
-        if (command.getMethodName().equals(ClickCommand.RIGHT_CLICK)) {
-            myState.receiveCommand(command);
-        }
-        else
-        {
-            myProcessQueue.add(command);
-        }
+        myState.receiveCommand(command);
     }
 
     /*
      * All the following methods are called via reflection by the Input class,
      * based on the Input.properties file, and send the appropriate command.
      */
-
     @InputMethodTarget(name = "onLeftMouseDown")
     public void onLeftMouseDown (PositionObject o) {
         myLeftMouse = new Location(o.getPoint2D());
@@ -74,10 +64,11 @@ public class InputController implements Controller {
             sendCommand(new ClickCommand(ClickCommand.LEFT_CLICK, o));
         }
         else {
+            myLeftMouse = null;
+            myDrag = null;
             sendCommand(new DragCommand(null, null));
+
         }
-        myLeftMouse = null;
-        myDrag = null;
     }
 
     @InputMethodTarget(name = "onRightMouseUp")
@@ -95,22 +86,13 @@ public class InputController implements Controller {
 
     @InputMethodTarget(name = "onMouseDrag")
     public void onMouseDrag (PositionObject o) {
-        if (!(myLeftMouse == null)) {
+        if (!myLeftMouse.equals(null)) {
             double uX = o.getX() > myLeftMouse.getX() ? myLeftMouse.getX() : o.getX();
             double uY = o.getY() > myLeftMouse.getY() ? myLeftMouse.getY() : o.getY();
             double width = Math.abs(o.getX() - myLeftMouse.getX());
             double height = Math.abs(o.getY() - myLeftMouse.getY());
             myDrag = new Rectangle2D.Double(uX, uY, width, height);
             sendCommand(new DragCommand(Camera.instance().viewtoWorld(myDrag), myDrag));
-        }
-    }
-
-    public void processCommands () {
-        while (myProcessQueue.size() > 0) {
-            Command c = myProcessQueue.poll();
-            if (c !=  null) {
-                myState.receiveCommand(c);
-            }
         }
     }
 

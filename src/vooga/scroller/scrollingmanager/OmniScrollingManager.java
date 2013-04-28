@@ -13,7 +13,8 @@ import vooga.scroller.sprites.superclasses.Player;
  */
 public class OmniScrollingManager extends ScrollingManager {
 
-    protected int upperpaintbound() {
+    @Override
+	protected int upperpaintbound() {
         if (getModel() != null & getView() != null) {
             int vertical = (int) (((int) getModel().getUpperBoundary() 
                     + getView().getHeight() * levelLowerBoundary()) % getBackground().getHeight(null));
@@ -22,7 +23,8 @@ public class OmniScrollingManager extends ScrollingManager {
         return 0;
     }
 
-    protected int lowerpaintbound() { 
+    @Override
+	protected int lowerpaintbound() { 
         if (getModel() != null & getView() != null) {
             int vertical = (int) (((int) getModel().getLowerBoundary() 
                     + getView().getHeight() * levelLowerBoundary()) % getBackground().getHeight(null));
@@ -32,7 +34,8 @@ public class OmniScrollingManager extends ScrollingManager {
 
     }
 
-    protected int leftpaintbound() {
+    @Override
+	protected int leftpaintbound() {
         if (getModel() != null && getView() != null) {
             int horizontal = (int) (((int) getModel().getLeftBoundary() 
                     + getView().getWidth() * levelRightBoundary()) % getBackground().getWidth(null));
@@ -41,7 +44,8 @@ public class OmniScrollingManager extends ScrollingManager {
         return 0;
     }
 
-    protected int rightpaintbound() {
+    @Override
+	protected int rightpaintbound() {
         if (getModel() != null & getView() != null) {
             int horizontal = (int) (((int) getModel().getRightBoundary() 
                     + getView().getWidth() * levelRightBoundary()) % getBackground().getWidth(null));
@@ -54,7 +58,8 @@ public class OmniScrollingManager extends ScrollingManager {
      * Paints the View for the game, given the constraints of the ScrollingManger.
      * @param pen The Graphics object that will be doing the painting.
      */  
-    public void viewPaint(Graphics pen) {
+    @Override
+	public void viewPaint(Graphics pen) {
         int leftpaintbound = leftpaintbound();
         int upperpaintbound = upperpaintbound();
         int rightpaintbound = rightpaintbound();
@@ -112,7 +117,8 @@ public class OmniScrollingManager extends ScrollingManager {
      * @param p The Player for which the paint Location is being updated.
      * @return The Location that the player should be painted.
      */  
-    public Location playerPaintLocation (Player p) {
+    @Override
+	public Location playerPaintLocation (Player p) {
         double halfwidth = getView().getWidth() / 2;
         double halfheight = getView().getHeight() / 2;
         double x = halfwidth;

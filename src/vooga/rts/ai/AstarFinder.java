@@ -1,5 +1,6 @@
 package vooga.rts.ai;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,21 +13,17 @@ import vooga.rts.map.GameMap;
 import vooga.rts.map.Node;
 import vooga.rts.map.NodeMap;
 
-
 /**
- * An implementation of the pathfinder interface that uses the A-star algorithm
- * to create a path for units based on the Nodes in our map.
+ * An implementation of the pathfinder interface that uses the A-star algorithm 
+ * to create a path for units based on the Nodes in our map. 
  * 
  * @author Challen Herzberg-Brovold, Jonno Schmidt
- * 
+ *
  */
 public class AstarFinder implements PathFinder {
-
+    
     @Override
-    public Path calculatePath (Node start, Node finish, NodeMap map) {  
-        if (start == null || finish == null) {
-            return null;
-        }
+    public Path calculatePath (Node start, Node finish, NodeMap map) {
         Path result = null;
         List<Node> close = new ArrayList<Node>();
         List<Node> open = new ArrayList<Node>();
@@ -41,16 +38,16 @@ public class AstarFinder implements PathFinder {
         while (open.size() > 0) {
             Node current = getLowest(fScore, open);
             if (current.equals(finish)) {
-                result = new Path(constructPath(comesFrom, finish));
+                result  =  new Path(constructPath(comesFrom, finish));
                 break;
             }
             open.remove(current);
             close.add(current);
-            for (Node neighbor : map.getNeighbors(current)) {
+            for (Node neighbor: map.getNeighbors(current)) {
                 if (neighbor == null || !neighbor.connectsTo(current)) {
                     continue;
                 }
-                double newGscore = gScore.get(current) + Node.NODE_SIZE;
+                double newGscore = gScore.get(current) + 1;
                 if (close.contains(neighbor) && newGscore >= gScore.get(neighbor)) {
                     continue;
                 }
@@ -58,22 +55,21 @@ public class AstarFinder implements PathFinder {
                     comesFrom.put(neighbor, current);
                     gScore.put(neighbor, newGscore);
                     fScore.put(neighbor, gScore.get(neighbor) +
-                                         calculateHeuristic(neighbor, finish));
+                               calculateHeuristic(neighbor, finish));
                     if (!open.contains(neighbor)) {
-                        if (neighbor.getTier() < 1) {
+                        if (!(neighbor.getTier() > 0)) {
                             open.add(neighbor);
                         }
                     }
                 }
             }
-        }
-        return result; // At some point, there will be a catch so it just returns to the closest
-                       // node to the desired one.
+        }       
+        return result; //At some point, there will be a catch so it just returns to the closest node to the desired one.
     }
 
     /**
-     * Calculates the heuristic that is used by the A* finder.
-     * Currently, the heuristic we use is the Manhattan difference, which is
+     * Calculates the heuristic that is used by the A* finder. 
+     * Currently, the heuristic we use is the Manhattan difference, which is 
      * the sum of the change in x and the change in y
      * 
      * @param start the starting node from which to calculate the heuristic
@@ -87,15 +83,13 @@ public class AstarFinder implements PathFinder {
     }
 
     /**
-     * Constructs the path the finish node to the beginning node, using the
-     * comesFrom map.
-     * 
-     * @param comesFrom maps each node to the node connected to it which has the lowest heuristic
-     *        value
+     * Constructs the path the finish node to the beginning node, using the 
+     * comesFrom map. 
+     * @param comesFrom maps each node to the node connected to it which has the lowest heuristic value
      * @param finish the destination node, i.e. where the unit wants to go.
-     * @return a queue of nodes from finish to the starting point
+     * @return a queue of nodes from finish to the starting point 
      */
-    private Queue<Node> constructPath (Map<Node, Node> comesFrom, Node finish) {
+    private Queue<Node> constructPath(Map<Node, Node> comesFrom, Node finish) {
         Queue<Node> path = new LinkedList<Node>();
         if (comesFrom.containsKey(finish)) {
             path.addAll(constructPath(comesFrom, comesFrom.get(finish)));
@@ -106,7 +100,7 @@ public class AstarFinder implements PathFinder {
         }
         return path;
     }
-
+    
     /**
      * Returns the node with the lowest f-value (node's heuristic value plus its
      * G-score).
@@ -115,7 +109,7 @@ public class AstarFinder implements PathFinder {
      * @param from list of open nodes still to be explored
      * @return the node with the lowest value.
      */
-    private Node getLowest (Map<Node, Double> fScore, List<Node> from) {
+    private Node getLowest(Map<Node, Double> fScore, List<Node> from) {
         Node minNode = from.get(0);
         double minF = fScore.get(minNode);
         for (int i = 1; i < from.size(); i++) {
@@ -128,5 +122,6 @@ public class AstarFinder implements PathFinder {
         }
         return minNode;
     }
-
+   
 }
+

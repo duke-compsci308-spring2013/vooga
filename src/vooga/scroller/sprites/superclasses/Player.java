@@ -7,13 +7,12 @@ import util.Location;
 import vooga.scroller.level_management.IInputListener;
 import vooga.scroller.scrollingmanager.ScrollingManager;
 import vooga.scroller.sprites.interfaces.Locatable;
-import vooga.scroller.util.IGameComponent;
 import vooga.scroller.util.ISpriteView;
 import vooga.scroller.view.GameView;
 
 
 /**
- * This is the superclass for any player the game designer creates.
+ * This is the superclass for any player the game designer creates. 
  * 
  * @author Jay Wang, Ross Cahoon, Scott Valentine
  * 
@@ -23,11 +22,15 @@ public abstract class Player extends GameCharacter implements IInputListener, Lo
     private GameView myView;
     private Location myPaintCenter;
     private ScrollingManager myScrollingManager;
-    private IGameComponent myLevel;
 
-    public Player (ISpriteView image, Dimension size, GameView gameView,
-                   ScrollingManager sm, int health, int damage) {
-        super(image, size, health, damage);
+    public Player (ISpriteView image,
+                   Location center,
+                   Dimension size,
+                   GameView gameView,
+                   ScrollingManager sm, 
+                   int health, 
+                   int damage) {
+        super(image, center, size, health, damage);
         myView = gameView;
         myPaintCenter = new Location(myView.getWidth() / 2, myView.getHeight() / 2);
         myScrollingManager = sm;
@@ -36,15 +39,15 @@ public abstract class Player extends GameCharacter implements IInputListener, Lo
     @Override
     public void update (double elapsedTime, Dimension bounds) {
         super.update(elapsedTime, bounds);
-        myPaintCenter = myScrollingManager.playerPaintLocation(this);
+        myPaintCenter = myScrollingManager.playerPaintLocation(this);       
     }
 
     @Override
     public void paint (Graphics2D pen) {
-
+        
         Point2D currentLocal = new Location(this.getCenter());
         this.setCenter(myPaintCenter.getX(), myPaintCenter.getY());
-
+        
         super.paint(pen);
         this.setCenter(currentLocal.getX(), currentLocal.getY());
     }
@@ -56,13 +59,5 @@ public abstract class Player extends GameCharacter implements IInputListener, Lo
      */
     public Location getPaintLocation () {
         return myPaintCenter;
-    }
-
-    public void setLevel (IGameComponent level) {
-        myLevel = level;
-    }
-
-    public IGameComponent getLevel () {
-        return myLevel;
     }
 }

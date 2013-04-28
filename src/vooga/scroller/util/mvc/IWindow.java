@@ -12,18 +12,19 @@ import vooga.scroller.util.mvc.vcFramework.WorkspaceView;
  * on a computer with GUI support. Its implementors are able to
  * <li>instantiate multiple workspaces</li>
  * <li>define a set of Tools to be used by all instances workspaces</li>
- * W is the default "WorkspaceView" for this window
- * D is the domain descriptor
+ * W is the defaut "WorkspaceView" for this window
  * 
  * @author Dagbedji Fagnisse
  *
  */
 public interface IWindow<W extends WorkspaceView<D>, D extends IDomainDescriptor,
-R extends WindowComponent<D>, T extends Tools<D>> extends IView<D> {
+R extends WindowComponent, T extends Tools> extends IView<R> {
 
-    public W initializeWorkspaceView (int id, Renderable<D> m);
+    public W initializeWorkspaceView (int id, Renderable<R> m);
 
-    public void showWorkspace (W associatedWorkspaceView, Renderable<D> m);
+    public void showWorkspace (W associatedWorkspaceView, Renderable<R> m);
+    
+    public void setDefaultWorkspaceTools(T t);
     
     /**
      * This is most likely to act as an initial "show." This method is intended
@@ -31,7 +32,5 @@ R extends WindowComponent<D>, T extends Tools<D>> extends IView<D> {
      * some kind of controller.
      */
     public void start();
-
-    public void showMessageDialog (String s);
 
 }

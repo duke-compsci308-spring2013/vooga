@@ -1,12 +1,12 @@
 package vooga.towerdefense.factories.definitions;
 
 import java.awt.Dimension;
+
+import vooga.towerdefense.attributes.DefaultAttributeManager;
 import vooga.towerdefense.factories.attributefactories.AttributeManagerFactory;
-import util.Pixmap;
-import util.Location;
 
 /**
- * TESTING PURPOSES ONLY: Default TowerDefinition used for testing tower factories; 
+ * Default TowerDefinition used for testing tower factories; 
  * only GameElementDefinition and GameElement will be made and used at the end.
  * 
  * @author XuRui
@@ -30,15 +30,18 @@ public class TowerDefinition extends GameElementDefinition {
 		myImage = image;
 	}
 	
-    public Pixmap getImage () {
+    @Override
+	public Pixmap getImage () {
         return myImage;
     }
 
-    public Location getCenter () {
+    @Override
+	public Location getCenter () {
         return myCenter;
     }
 
-    public Dimension getSize () {
+    @Override
+	public Dimension getSize () {
         return mySize;
     }
 

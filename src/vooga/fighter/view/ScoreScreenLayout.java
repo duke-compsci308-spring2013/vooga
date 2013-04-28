@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 
-import vooga.fighter.controller.ViewDataSource;
+import vooga.fighter.controller.interfaces.ViewDataSource;
 
 /**
  * Displays a title at the top center of the screen, and a trail of text

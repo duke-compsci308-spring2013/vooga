@@ -1,14 +1,13 @@
 package vooga.rts.gamedesign.factories;
 
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
+import java.lang.reflect.InvocationTargetException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Unit;
-import vooga.rts.resourcemanager.ResourceManager;
 import vooga.rts.util.Location3D;
 import vooga.rts.util.Pixmap;
 import vooga.rts.util.ReflectionHelper;
@@ -26,62 +25,57 @@ public class UnitDecoder extends Decoder {
 
 	private static String HEAD_TAG = "units";
 	private static String TYPE_TAG = "unit";
+	private static final String NAME_TAG = "name";
+	private static final String IMAGE_TAG = "img";
+	private static final String SOUND_TAG = "sound";
+	private static final String HEALTH_TAG = "health";
+	private static final String PRODUCE_TAG = "produce";
+	private static final String OCCUPY_TAG = "occupy";
+	private static final String SOURCE_TAG = "src";
+	private static final String TIME_TAG = "buildtime";
 	
 	
 	private Factory myFactory;
-	private CustomHandler myCustomHandler;
-	
 	public UnitDecoder(Factory factory){
 		myFactory = factory;
-		myCustomHandler = new CustomHandler(factory);
 	}
 	
 	
 	@Override
-	public void create(Document doc, String type) {
-		String path = doc.getElementsByTagName(type).item(0).getAttributes().getNamedItem(SOURCE_TAG).getTextContent();	
-		String subtype = type.substring(0, type.length()-1);
-		NodeList nodeLst = doc.getElementsByTagName(subtype);
-		myCustomHandler.create(doc, subtype);
+	public void create(Document doc) throws InstantiationException,
+			IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException,
+			SecurityException, ClassNotFoundException {
+		
+		String path = doc.getElementsByTagName(HEAD_TAG).item(0).getAttributes().getNamedItem(SOURCE_TAG).getTextContent();
+		NodeList nodeLst = doc.getElementsByTagName(TYPE_TAG);
 		for(int i = 0 ; i < nodeLst.getLength() ; i++){
 			Element nElement = (Element) nodeLst.item(i);
-			String name = getElement(nElement, NAME_TAG);
-			String img = getElement(nElement, IMAGE_TAG);
-			String sound = getElement(nElement, SOUND_TAG);
-			int health = Integer.parseInt(getElement(nElement, HEALTH_TAG));
-			double buildTime = Double.parseDouble(getElement(nElement, TIME_TAG));
-			int speed = Integer.parseInt(getElement(nElement, SPEED_TAG));
+			String name = nElement.getElementsByTagName(NAME_TAG).item(0).getTextContent();
+			String img = nElement.getElementsByTagName(IMAGE_TAG).item(0).getTextContent();
+			String sound = nElement.getElementsByTagName(SOUND_TAG).item(0).getTextContent();
+			int health = Integer.parseInt(nElement.getElementsByTagName(HEALTH_TAG).item(0).getTextContent());
+			double buildTime = Double.parseDouble(nElement.getElementsByTagName(TIME_TAG).item(0).getTextContent());
 			
-			Unit unit = (Unit) ReflectionHelper.makeInstance(path, new Pixmap(ResourceManager.getInstance()
-                    .<BufferedImage> getFile(img, BufferedImage.class)), 
+			Unit unit = (Unit) ReflectionHelper.makeInstance(path, new Pixmap(img), 
+																		new Location3D(0,0,0),
+																		new Dimension(50,50),
 																		new Sound(sound),
+																		0,
 																		health,
-																		buildTime,
-																		speed);
+																		buildTime);
 			
-			unit.setInfo(getInformation(name, nElement));
 			myFactory.put(name, unit);
-			
 			//Load Production Dependencies now
-			String [] nameCanProduce = getElement(nElement, PRODUCE_TAG).split("\\s+");
+			String [] nameCanProduce = nElement.getElementsByTagName(PRODUCE_TAG).item(0).getTextContent().split("\\s+");
 			if(nameCanProduce[0] != ""){
 				myFactory.putProductionDependency(name, nameCanProduce);
 			}
 			//Load Strategy Dependencies now
-			String[] strategies = new String[5];
-			strategies[0] = CANNOT_ATTACK;
-			strategies[1] = getElement(nElement, OCCUPY_TAG);
-			strategies[2] = getElement(nElement, GATHER_TAG);
-			strategies[3] = getElement(nElement, UPGRADE_TAG);
-			strategies[4] = getElement(nElement, UPGRADE_TREE_NAME_TAG);
-			
-			//Load Weapon Dependency
-			String[] weapons = getElement(nElement, MYWEAPONS_TAG).split("\\s+");
-			if(weapons[0] != ""){
-				myFactory.putWeaponDependency(name, weapons);
-				strategies[0] = CAN_ATTACK;
-			}
+			String[] strategies = new String[3];
+			strategies[1] = nElement.getElementsByTagName(OCCUPY_TAG).item(0).getTextContent();
 			myFactory.putStrategyDependency(name, strategies);
+			
 		}
 
 	}

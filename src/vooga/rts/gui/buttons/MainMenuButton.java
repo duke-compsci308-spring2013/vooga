@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import vooga.rts.gui.Button;
-import util.Location;
+import vooga.rts.util.Location;
 
 
 public class MainMenuButton extends Button {
@@ -17,18 +17,16 @@ public class MainMenuButton extends Button {
     public Color DEFAULT_FONT_COLOR = Color.white;
     public Color HOVER_FONT_COLOR = Color.blue;
     public String myText;
-    public int myType;
 
-    public MainMenuButton (String t, Dimension size, Location pos, int i) {
+    public MainMenuButton (String t, Dimension size, Location pos) {
         super(null, size, pos);
         myText = t;
-        myType = i;
     }
 
     @Override
     public void update (double elapsedTime) {
         setChanged();
-        notifyObservers(myType);
+        notifyObservers();
     }
 
     @Override

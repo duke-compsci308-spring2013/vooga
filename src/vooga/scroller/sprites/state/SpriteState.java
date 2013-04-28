@@ -3,6 +3,7 @@ package vooga.scroller.sprites.state;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import vooga.scroller.sprites.Sprite;
 
 /**
  * This is our implementation of the State design pattern. This 
@@ -25,28 +26,21 @@ import java.awt.Graphics2D;
  */
 
 
-public abstract class SpriteState<T> implements Comparable<SpriteState<T>>{
-    
-    private T myUnit;
-    
-    public SpriteState (T unit){
-        myUnit = unit;
-    }
-    
+public abstract class SpriteState implements Comparable<SpriteState>{
 
     /**
      * Updates the current state.
      * @param elapsedTime since the last update.
      * @param bounds of the current view.
      */
-    public abstract void update (double elapsedTime, Dimension bounds);
+    public abstract void update (Sprite sprite, double elapsedTime, Dimension bounds);
 
     /**
      * Paints the current state.
      * 
      * @param pen is the graphics2d used to paint.
      */
-    public abstract void paint(Graphics2D pen, double angle);
+    public abstract void paint(Sprite sprite, Graphics2D pen);
     
     /**
      * Gives the painting priority of this state.
@@ -55,18 +49,13 @@ public abstract class SpriteState<T> implements Comparable<SpriteState<T>>{
      */
     public abstract int getPaintPriority();
         
-    public abstract void activate();
+    public abstract void activate(Sprite sprite);
     
-    public abstract void deactivate();
-    
-
-    protected T getUnit(){
-        return myUnit;
-    }
+    public abstract void deactivate(Sprite sprite);
     
     
     @Override
-    public int compareTo (@SuppressWarnings("rawtypes") SpriteState other) {
+    public int compareTo (SpriteState other) {
         return this.getPaintPriority() - other.getPaintPriority();
     }
       

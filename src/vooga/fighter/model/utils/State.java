@@ -3,6 +3,7 @@ package vooga.fighter.model.utils;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
+
 import vooga.fighter.model.objects.GameObject;
 import util.Location;
 import util.Pixmap;
@@ -63,10 +64,12 @@ public class State {
     }
 
     /**
-     * Creates a new state that is a deep copy of another.
+     * Creates a new state that is a deep copy of another. Note that the owner of the
+     * deep copy must be explicitly set outside of this constructor by the calling
+     * object.
      */
     public State(State other) {
-        this(other.getOwner(), other.getNumFrames(), other.getPriority(), other.getDepth());
+        this(null, other.getNumFrames(), other.getPriority(), other.getDepth());
         for (int i=0; i<myNumFrames; i++) {
             Rectangle newRectangle = new Rectangle(other.getRectangle(i));
             Pixmap newPixmap = new Pixmap(other.getImage(i));
@@ -96,6 +99,13 @@ public class State {
         populateAllDelays(0);
     }
 
+    /**
+     * Sets the owner of this State.
+     */
+    public void setOwner(GameObject owner) {
+    	myOwner = owner;
+    }
+    
     /**
      * Sets looping boolean. If this method is not called, looping defaults to false.
      */
@@ -170,10 +180,13 @@ public class State {
      */
     public Rectangle getCurrentRectangle() {
         Rectangle currentRect = myRectangles[myCurrentFrame];
+        if (currentRect == null) {
+            return new Rectangle();
+        }
         Location location = myOwner.getLocation().getLocation();
         Dimension size = currentRect.getSize();
-        Point origin = new Point((int) location.getX() -(int) size.getWidth()/2 , 
-        		(int) location.getY()-(int) size.getHeight()/2 );
+        Point origin = new Point((int) location.getX() - (int) size.getWidth()/2, 
+        		(int) location.getY() - (int) size.getHeight()/2);
         Rectangle result = new Rectangle(origin, size);
         return result;
     }

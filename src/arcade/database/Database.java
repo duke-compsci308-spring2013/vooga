@@ -1,17 +1,9 @@
 package arcade.database;
-<<<<<<< HEAD
+import arcade.controller.UserSpecificData;
 import arcade.games.Comment;
 import arcade.games.GameData;
 import arcade.games.Score;
 import arcade.games.UserGameData;
-import arcade.model.datapacket.UserSpecificData;
-
-=======
-
-import arcade.games.GameData;
-import arcade.games.Score;
-import arcade.games.UserGameData;
->>>>>>> towerdefense2.0
 import java.util.ArrayList;
 import java.util.List;
 import util.Pixmap;
@@ -28,12 +20,7 @@ public class Database {
     private ScoreTable myScoreTable;
     private CommentTable myCommentTable;
     private S3Connections myS3Instance;
-<<<<<<< HEAD
     
-=======
-   
-
->>>>>>> towerdefense2.0
     /**
      * Database constructor
      */
@@ -42,8 +29,7 @@ public class Database {
         myUserTable = new UserTable();
         myScoreTable = new ScoreTable();
         myCommentTable = new CommentTable();
-        myS3Instance = new S3Connections(); 
-       
+        myS3Instance = new S3Connections();
     }
 
     /**
@@ -58,19 +44,11 @@ public class Database {
 
     /**
      * Creates a user when given username, pw, firstname, lastname, and dataofbirth
-<<<<<<< HEAD
-=======
-     * 
->>>>>>> towerdefense2.0
      * @param username is user
      * @param pw is password
      * @param firstname is first name
      * @param lastname is last name
-<<<<<<< HEAD
      * @param dataOfBirth is DOB
-=======
-     * @param dateOfBirth is DOB
->>>>>>> towerdefense2.0
      */
     public boolean createUser (String username,
                                String pw,
@@ -107,7 +85,6 @@ public class Database {
 
     /**
      * Creates a new game
-<<<<<<< HEAD
      * @param gameName is name of game
      * @param author is author
      * @param genre is genre
@@ -120,9 +97,6 @@ public class Database {
      * @param thumbnailPath location of thumbnail
      * @param adscreenPath location of adscreen 
      * @param description of game
-=======
-     * @param gameName is name of name
->>>>>>> towerdefense2.0
      */
     public boolean createGame (String gameName,
                                String author,
@@ -144,18 +118,6 @@ public class Database {
     }
 
     /**
-<<<<<<< HEAD
-=======
-     * Called first time user plays game
-     * @param user username
-     * @param gameName is name of name
-     */
-    public void userPlaysGameFirst (String user, String gameName) {
-        myUserGameDataTable.createNewUserGameData(retrieveGameId(gameName), retrieveUserId(user));
-    }
-
-    /**
->>>>>>> towerdefense2.0
      * Inserts avatar into S3 Instance
      * @param username user
      * @param filepath of new avatar image
@@ -240,13 +202,10 @@ public class Database {
                                      newHighScore);
     }
     
-<<<<<<< HEAD
     /**
      * Returns list of scores for a game
      * @param gameName is game name
      */
-=======
->>>>>>> towerdefense2.0
     public List<Score> getScoresForGame(String gameName) {
         List<String> usernames = retrieveListOfUsers();
         List<Score> myScores = new ArrayList<Score>();
@@ -257,28 +216,20 @@ public class Database {
         return myScores;
     }
     
-<<<<<<< HEAD
     /**
      * Returns list of scores for a user
      * @param username is user
      */
-=======
->>>>>>> towerdefense2.0
     public List<Score> getScoresForUser(String username) {
         List<String> games = retrieveListOfGames();
         List<Score> myScores = new ArrayList<Score>();
         for (String game : games) {
-<<<<<<< HEAD
             myScores.addAll(myScoreTable.getScoresForGame(retrieveGameId(game), 
                                                           retrieveUserId(username), game, username));
-=======
-            myScores.addAll(myScoreTable.getScoresForGame(retrieveGameId(game), retrieveUserId(username), game, username));
->>>>>>> towerdefense2.0
         }
         return myScores;
     }
     
-<<<<<<< HEAD
     /**
      * Returns list of scores for a game and user
      * @param gameName is game name
@@ -287,10 +238,6 @@ public class Database {
     public List<Score> getScoresForGameAndUser(String username, String gameName) {
         return myScoreTable.getScoresForGame(retrieveGameId(gameName), 
                                              retrieveUserId(username), gameName, username);
-=======
-    public List<Score> getScoresForGameAndUser(String username, String gameName) {
-        return myScoreTable.getScoresForGame(retrieveGameId(gameName), retrieveUserId(username), gameName, username);
->>>>>>> towerdefense2.0
     }
 
     /** 
@@ -332,7 +279,6 @@ public class Database {
     }
 
 
-<<<<<<< HEAD
     /** 
      * Inserts comment for a user and game
      * @param username is user
@@ -358,15 +304,6 @@ public class Database {
                                      retrieveGameId(gameName), s, retrieveUserId(s)));
         }
         return myComments;
-=======
-    public void insertComment (String username, String gameName, String comment) {
-
-        myCommentTable.addNewComment(retrieveGameId(gameName), retrieveUserId(username), comment);
-    }
-
-    public List<String> retrieveCommentsForGame (String gameName) {
-        return myCommentTable.getAllCommentsForGame(retrieveGameId(gameName));
->>>>>>> towerdefense2.0
     }
 
     /**
@@ -445,24 +382,18 @@ public class Database {
         return myGameTable.getPrice(gameName);
     }
 
-<<<<<<< HEAD
     /**
      * Retrieves SingleplayerGameClassKeyword of game
      * @param gameName is game
      */
-=======
->>>>>>> towerdefense2.0
     public String getSingleplayerGameClassKeyword (String gameName) {
         return myGameTable.getExtendsGame(gameName);
     }
 
-<<<<<<< HEAD
     /**
      * Retrieves MultiplayerGameClassKeyword of game
      * @param gameName is game
      */
-=======
->>>>>>> towerdefense2.0
     public String getMultiplayerGameClassKeyword (String gameName) {
         return myGameTable.getExtendsGameMultiplayer(gameName);
     }
@@ -483,33 +414,19 @@ public class Database {
         return myGameTable.getIsMultiplayer(gameName);
     }
 
-<<<<<<< HEAD
     /**
      * Retrieves gameDescription for game
      * @param gameName is game
      */
-=======
->>>>>>> towerdefense2.0
     public String getGameDescription (String gameName) {
         return myGameTable.getDescription(gameName);
     }
 
-<<<<<<< HEAD
     /**
      * Inserts game thumbnail into Amazon S3 instance
      * @param gameName is game
      * @param filepath is where game is located
      */
-=======
-    public String getGameFilePath (String gameName) {
-        return myGameTable.getGameFilePath(gameName);
-    }
-
-    public double getAverageRating (String gameName) {
-        return myUserGameDataTable.getAverageRating(gameName);
-    }
-
->>>>>>> towerdefense2.0
     public void insertGameThumbnail (String gameName, String filepath) {
         myS3Instance.putGameThumbnailIntoBucket(gameName, filepath);
     }
@@ -523,7 +440,6 @@ public class Database {
         myS3Instance.putAdScreenIntoBucket(gameName, filepath);
     }
 
-<<<<<<< HEAD
     /**
      * Returns path of saved location of game thumbnail
      * @param gameName is game
@@ -541,13 +457,3 @@ public class Database {
     }
 
 }
-=======
-    public Pixmap getGameThumbnail (String gameName) {
-        return new Pixmap(myS3Instance.getThumbnail(gameName));
-    }
-
-    public Pixmap getGameAdScreen (String gameName) {
-        return new Pixmap(myS3Instance.getAdScreen(gameName));
-    }
-}
->>>>>>> towerdefense2.0

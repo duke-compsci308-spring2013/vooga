@@ -3,7 +3,6 @@ package vooga.scroller.sprites.superclasses;
 import java.awt.Dimension;
 import util.Location;
 import util.Vector;
-import vooga.scroller.level_editor.Level;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.interfaces.Locatable;
 import vooga.scroller.util.ISpriteView;
@@ -18,7 +17,7 @@ import vooga.scroller.util.ISpriteView;
  * @author Scott Valentine
  *
  */
-public abstract class GameCharacter extends Sprite implements Locatable{
+public abstract class GameCharacter extends Sprite {
 
     /**
      * Default speed of a game character.
@@ -28,24 +27,28 @@ public abstract class GameCharacter extends Sprite implements Locatable{
     private int myHealth;
     private int myDamage;
     private Locatable myTarget;
-
     
     /**
      * Builds a new GameCharacter that interacts with other game characters in the game.
      * 
      * @param image is the view of the character.
+     * @param center is the initial location of the character.
      * @param size is the dimensions of the character.
      * @param health is the initial health of the character.
      * @param damage is the initial damage of the character.
      */
-    public GameCharacter (ISpriteView image, Dimension size, int health, int damage) {
-        super(image, size);
+    public GameCharacter (ISpriteView image, Location center, Dimension size, int health, int damage) {
+        super(image, center, size);
         myHealth = health;
         myDamage = damage;
     }
 
-    public void update (double elapsedTime, Dimension bounds) {
+    @Override
+	public void update (double elapsedTime, Dimension bounds) {
         super.update(elapsedTime, bounds);
+        if(myHealth <= 0){
+            handleDeath();
+        }
     }
     
     /**
@@ -103,6 +106,6 @@ public abstract class GameCharacter extends Sprite implements Locatable{
     /**
      * Defines how to handle the death of this character.
      */
-    public abstract void handleDeath(Level level);
+    public abstract void handleDeath();
     
 }

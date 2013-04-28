@@ -5,30 +5,24 @@ import java.awt.Graphics2D;
 import util.Vector;
 import vooga.scroller.sprites.Sprite;
 
-public class DefaultSpriteState extends SpriteState<Sprite>{
+public class DefaultSpriteState extends SpriteState{
 
-    private static final int PRIORITY = Integer.MAX_VALUE-1;
-    public static final int DEFAULT_ID = -1;
-
-    
-    public DefaultSpriteState(Sprite sp){
-        super(sp);
-    }
+    private static final int PRIORITY = Integer.MAX_VALUE;
     
     @Override
-    public void update (double elapsedTime, Dimension bounds) {
-        getUnit().updateLastLocation();
+    public void update (Sprite sprite, double elapsedTime, Dimension bounds) {
+        sprite.updateLastLocation();
         
         // do not change original velocity
-        Vector v = new Vector(getUnit().getVelocity());
+        Vector v = new Vector(sprite.getVelocity());
         v.scale(elapsedTime);
-        getUnit().translate(v);
+        sprite.translate(v);
         
     }
 
     @Override
-    public void paint (Graphics2D pen, double angle) {
-        getUnit().getView().paint(pen, getUnit().getCenter(), getUnit().getSize(), angle);
+    public void paint (Sprite sprite, Graphics2D pen) {
+        sprite.getView().paint(pen, sprite.getCenter(), sprite.getSize(), 0);
     }
 
 
@@ -38,13 +32,13 @@ public class DefaultSpriteState extends SpriteState<Sprite>{
     }
 
     @Override
-    public void activate () {
+    public void activate (Sprite sprite) {
         // does nothing special
         
     }
 
     @Override
-    public void deactivate () {
+    public void deactivate (Sprite sprite) {
         // does nothing special
         
     }

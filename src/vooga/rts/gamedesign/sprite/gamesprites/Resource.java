@@ -2,7 +2,6 @@ package vooga.rts.gamedesign.sprite.gamesprites;
 
 import java.awt.Dimension;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.IGatherable;
-import vooga.rts.state.GameState;
 import vooga.rts.util.Location3D;
 import vooga.rts.util.Pixmap;
 
@@ -40,14 +39,14 @@ public class Resource extends GameEntity implements IGatherable {
                      int health,
                      String type) {
         super(image, center, size, playerID, health);
-        myType = type;   
+        myType = type;
     }
 
     @Override
     public void getGathered (int playerID, int gatherAmount) {
         changeHealth(gatherAmount);
-        GameState.getPlayers().getPlayer(playerID).getResources().earn(myType, gatherAmount);
-        
+        System.out.println("resource health: " + getHealth());
+        // TODO: Remove resource properly
         if (isDead()) {
             setVisible(false);
         }
@@ -60,9 +59,5 @@ public class Resource extends GameEntity implements IGatherable {
      */
     public String getType () {
         return myType;
-    }
-    
-    public void setType (String type) {
-        myType = type;        
     }
 }

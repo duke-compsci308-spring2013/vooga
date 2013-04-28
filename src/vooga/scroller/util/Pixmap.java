@@ -111,4 +111,15 @@ public class Pixmap implements ISpriteView, IBackgroundView {
         return myFileName;
     }
 
+    /**
+     * TODO - Changing the picture should be a function of the state,
+     * not changing the image itself. A sprite should hold a collection
+     * of its images and paint it.
+     * TODO - Get Version Control approval
+     * @param im
+     */
+    private void setImg(Image im) {
+        myImage = im;
+    }
+
 }

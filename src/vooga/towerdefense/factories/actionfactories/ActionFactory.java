@@ -2,11 +2,10 @@ package vooga.towerdefense.factories.actionfactories;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import vooga.towerdefense.action.Action;
-import vooga.towerdefense.action.TargetedAction;
-import vooga.towerdefense.gameelements.GameElement;
+import vooga.towerdefense.gameElements.GameElement;
 import vooga.towerdefense.model.GameMap;
-import vooga.towerdefense.model.Player;
 
 
 /**
@@ -19,7 +18,6 @@ import vooga.towerdefense.model.Player;
 public abstract class ActionFactory {
 
     private GameMap myMap;
-    private Player myPlayer;
     private List<ActionFactory> myFollowUpActions;
 
     public ActionFactory () {
@@ -30,36 +28,31 @@ public abstract class ActionFactory {
      * Places in all of the objects that the factory could need to function
      * Cannot create actions until initialized
      */
-    public void initialize (GameMap map, Player player) {
+    public void initialize (GameMap map) {
         myMap = map;
-        myPlayer = player;
-        for (ActionFactory a : myFollowUpActions) {
-            a.initialize(map, player);
-        }
     }
-
-    public GameMap getMap () {
+    
+    public GameMap getMap() {
         return myMap;
     }
 
-    public Player getPlayer () {
-        return myPlayer;
-    }
-
+    // TODO: Not sure if this is the best way to implement this. There needs to be a way to give in
+    // a list of followup actions to the action
     public void addFollowUpActionsFactories (ActionFactory addToList) {
         myFollowUpActions.add(addToList);
     }
 
+    // a list of followup actions to the action
     public void addFollowUpActionsFactories (List<ActionFactory> addToList) {
         myFollowUpActions.addAll(addToList);
     }
-
-    public List<ActionFactory> getFollowUpActions () {
+    
+    public List<ActionFactory> getFollowUpActions() {
         return myFollowUpActions;
     }
 
     /**
-     * Create an action by calling buildAction on specific action factory.
+     * THIS IS HOW YOU MAKE A NEW INSTANTIATION OF ACTION
      * 
      * @param e
      * @return
@@ -71,19 +64,19 @@ public abstract class ActionFactory {
     }
 
     /**
-     * Creates a targeted action, which 
+     * 
      * @param e
      * @param target
      * @return
      */
-    public TargetedAction createTargetedAction (GameElement e, GameElement target) {
+    public Action createTargetedAction (GameElement e, GameElement target) {
         Action myAction = buildTargetedAction(e, target);
         myAction.addFollowUpActions(createFollowUpActions(e, target));
-        return (TargetedAction) myAction;
+        return myAction;
     }
 
     /**
-     * Builds an action, overridden by action factory.
+     * Used to just create the single action
      * 
      * @param e
      * @return
@@ -91,8 +84,7 @@ public abstract class ActionFactory {
     protected abstract Action buildAction (GameElement e);
 
     /**
-     * Builds a targeted action, overridden by action factory.
-     * Returns buildAction by default.
+     * Used to just create the single action
      * 
      * @param e
      * @return
@@ -100,7 +92,7 @@ public abstract class ActionFactory {
     protected Action buildTargetedAction (GameElement e, GameElement target){
     	return buildAction(e);
     }
-    
+
     /**
      * Used to create the following actions
      * 

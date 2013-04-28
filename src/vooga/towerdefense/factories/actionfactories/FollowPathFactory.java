@@ -1,8 +1,8 @@
 package vooga.towerdefense.factories.actionfactories;
 
 import vooga.towerdefense.action.Action;
-import vooga.towerdefense.action.movement.FollowPath;
-import vooga.towerdefense.gameelements.GameElement;
+import vooga.towerdefense.action.actionlist.FollowPath;
+import vooga.towerdefense.gameElements.GameElement;
 
 
 /**
@@ -17,14 +17,10 @@ import vooga.towerdefense.gameelements.GameElement;
  */
 
 public class FollowPathFactory extends ActionFactory{
-	public FollowPathFactory(){
-		super();
-	}
 	
 	@Override
 	protected Action buildAction(GameElement elementToMove) {
-	    
-		return new FollowPath(elementToMove,getMap().getShortestPath(elementToMove.getCenter(), getMap().getEndLocation()));
+		return new FollowPath(elementToMove,getMap().getShortestPath(elementToMove.getCenter(), getMap().getDestination()));
 		
 	}
 	

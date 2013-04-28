@@ -10,12 +10,19 @@ public class PathFinder {
         public ArrayList<Point> getWaypoints(AreaMap map) {
                 this.map = map;
                
+                System.out.println("vooga.towerdefense.model.AStar Heuristic initializing...");
                 AStarHeuristic heuristic = new DiagonalHeuristic();
                
+                System.out.println("vooga.towerdefense.model.AStar initializing...");
                 AStar aStar = new AStar(map, heuristic);
                
+                System.out.println("Calculating shortest path with vooga.towerdefense.model.AStar...");
                 ArrayList<Point> shortestPath = aStar.calcShortestPath(map.getStartLocationX(), map.getStartLocationY(), map.getGoalLocationX(), map.getGoalLocationY());
                
+                //System.out.println("Printing map of shortest path...");
+                //new PrintMap(map, shortestPath);
+               
+                System.out.println("Calculating optimized waypoints...");
                 ArrayList<Point> waypoints = calculateWayPoints(shortestPath);
                
                 return waypoints;
@@ -43,6 +50,7 @@ public class PathFinder {
                                 p1Number = p2Number-1;
                                 p1 = shortestPath.get(p1Number);
                                 waypoints.add(p1);
+                                System.out.println("Got waypoint: " + p1.toString());
                                 p2Number++;
                                 p2 = shortestPath.get(p2Number);
                         }

@@ -21,14 +21,14 @@ public class MoveRight extends AnimationState<Sprite> {
      * @param move is the image that represents moving right.
      * @param stand is the image that represents standing right.
      */
-    public MoveRight (Pixmap stand) {
-        super(stand);
+    public MoveRight (Pixmap move, Pixmap stand) {
+        super(move);
         myStand = stand;
     }
 
     @Override
     public boolean validAnimation (Sprite unit) {
-        if(unit.getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION).getMagnitude() > 0){            
+        if(unit.getCenter().x - unit.lastLocation().x > .2){            
             unit.getView().setDefaultView(myStand);
             return true;
         }

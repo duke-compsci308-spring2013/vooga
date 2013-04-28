@@ -2,9 +2,7 @@ package vooga.rts.gamedesign.strategy.gatherstrategy;
 
 import vooga.rts.gamedesign.sprite.gamesprites.Resource;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.IGatherable;
-import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 import vooga.rts.gamedesign.state.GatherState;
-import vooga.rts.gamedesign.strategy.Strategy;
 import vooga.rts.util.DelayedTask;
 
 /**
@@ -20,9 +18,6 @@ import vooga.rts.util.DelayedTask;
  * 
  */
 public class CanGather implements GatherStrategy {
-	
-	public static final double DEFAULTCOOL = 2;
-	public static final int DEFAULTAMOUNT = 10;
 
 	private DelayedTask myGatherDelay;
 	private double myCooldown;
@@ -42,15 +37,8 @@ public class CanGather implements GatherStrategy {
 		myGatherAmount = gatherAmount;
 		myGatherState = GatherState.WAITING;
 	}
-	
-	public CanGather(){
-		this(DEFAULTCOOL, DEFAULTAMOUNT);
-	}
-	
-	/**
-	 * Allows the entity to gather a specific resource (a IGatherable object)
-	 * 
-	 */
+
+	@Override
 	public void gatherResource(int playerID, IGatherable gatherable) {
 		if(((Resource)gatherable).isDead()) {
 			return;
@@ -59,8 +47,9 @@ public class CanGather implements GatherStrategy {
 		final int id = playerID;
 		if(myGatherState == GatherState.WAITING) {
 			myGatherState = GatherState.GATHERING;
-			//System.out.println("I gathered!!!");
+			System.out.println("I gathered!!!");
 			myGatherDelay = new DelayedTask(myCooldown, new Runnable() {
+
 				@Override
 				public void run() {
 					toBeGathered.getGathered(id, myGatherAmount);
@@ -68,6 +57,7 @@ public class CanGather implements GatherStrategy {
 				}
 			});
 		}
+
 	}
 
 	@Override
@@ -75,21 +65,6 @@ public class CanGather implements GatherStrategy {
 		if(myGatherDelay != null) {
 			myGatherDelay.update(elapsedTime);
 		}
-	}
-
-	@Override
-	public int getGatherAmount() {
-		return myGatherAmount;
-	}
-
-	@Override
-	public void setGatherAmount(int gatherAmount) {
-		myGatherAmount = gatherAmount;
-	}
-
-	@Override
-	public void affect(InteractiveEntity other) {
-		other.setGatherStrategy(this);
 	}
 
 }

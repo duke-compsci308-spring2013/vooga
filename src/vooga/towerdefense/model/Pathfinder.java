@@ -1,14 +1,15 @@
 package vooga.towerdefense.model;
 
-import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import util.Location;
 import vooga.towerdefense.model.AStar.AStar;
 import vooga.towerdefense.model.AStar.AStarHeuristic;
 import vooga.towerdefense.model.AStar.AreaMap;
 import vooga.towerdefense.model.AStar.DiagonalHeuristic;
+import vooga.towerdefense.model.tiles.Tile;
+import vooga.towerdefense.model.tiles.factories.TileFactory;
+import util.Location;
 
 /**
  * Generates paths based on what tiles are eligible to walk on in the map using
@@ -20,11 +21,9 @@ import vooga.towerdefense.model.AStar.DiagonalHeuristic;
 public class Pathfinder {
 
 	private Tile[][] myGrid;
-	private Dimension myTileSize;
-	
-	public Pathfinder(Tile[][] grid, Dimension tileSize) {
+
+	public Pathfinder(Tile[][] grid) {
 		myGrid = grid;
-		myTileSize = tileSize;
 	}
 
 	private static void removeLinearPoints(ArrayList<Point> points) {
@@ -50,7 +49,6 @@ public class Pathfinder {
 	 * @return the shortest path between (x1,y1) and (x2,y2)
 	 */
 	public Path getShortestPath(Location start, Location finish) {
-
 		int startX = (int) start.getX();
 		int startY = (int) start.getY();
 		int goalX = (int) finish.getX();
@@ -58,6 +56,7 @@ public class Pathfinder {
 
 
 		int[][] obstacleMap = convertMap(myGrid);
+
 		AreaMap map = new AreaMap(myGrid[0].length, myGrid.length, obstacleMap);
 		AStarHeuristic heuristic = new DiagonalHeuristic();
 
@@ -72,8 +71,8 @@ public class Pathfinder {
 		ArrayList<Location> locations = new ArrayList<Location>();
 		for (Point p : points)
 			locations.add(new Location((p.getY() + .5)
-					* myTileSize.getWidth(), (p.getX() + .5)
-					* myTileSize.getHeight()));
+					* TileFactory.TILE_DIMENSIONS.getWidth(), (p.getX() + .5)
+					* TileFactory.TILE_DIMENSIONS.getHeight()));
 
 		return new Path(locations);
 	}
@@ -89,4 +88,18 @@ public class Pathfinder {
 
 		return obstacleMap;
 	}
+
+	private void printMap() {
+		System.out.println("obstacleMap:");
+		int[][] obstacleMap = convertMap(myGrid);
+		for (int i = 0; i < obstacleMap.length; i++) {
+			for (int j = 0; j < obstacleMap[0].length; j++) {
+				System.out.print(obstacleMap[i][j] + " ");
+			}
+			System.out.println();
+		}
+
+		System.out.println("\n\n\n");
+	}
+
 }

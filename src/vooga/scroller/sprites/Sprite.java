@@ -1,5 +1,4 @@
 package vooga.scroller.sprites;
-
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -11,23 +10,21 @@ import vooga.scroller.sprites.state.SpriteState;
 import vooga.scroller.sprites.state.SpriteStateManager;
 import vooga.scroller.util.ISpriteView;
 
-
 /**
  * This class represents a shape that moves on its own.
  * 
  * Note, Sprite is a technical term:
- * http://en.wikipedia.org/wiki/Sprite_(computer_graphics)
- * 
+ *   http://en.wikipedia.org/wiki/Sprite_(computer_graphics)
+ *   
  * @author Robert C. Duvall
  */
 public class Sprite {
     // canonical directions for a collision
     public static final int RIGHT_DIRECTION = 0;
-    public static final int UP_DIRECTION = 270;
+    public static final int UP_DIRECTION =  270;
     public static final int LEFT_DIRECTION = 180;
     public static final int DOWN_DIRECTION = 90;
-    // default location
-    private static final Location DEFAULT_LOCATION = new Location(0, 0);
+
     // state
     private Location myCenter;
     private Vector myVelocity;
@@ -43,28 +40,23 @@ public class Sprite {
     private Location myLastLocation;
     private Location myLastLocation2;
 
+    
     private SpriteStateManager myStateManager;
-
-    // private double myAngle;
-
+    
     /**
-     * Create a shape at the given position, with the given size. This is the constructor that
-     * StaticEntities call.
+     * Create a shape at the given position, with the given size. This is the constructor that StaticEntities call. 
      */
-    public Sprite (ISpriteView image, Dimension size) {
-        this(image, DEFAULT_LOCATION, size, new Vector());
+    public Sprite (ISpriteView image, Location center, Dimension size) {
+        this(image, center, size, new Vector());
         myStateManager = new SpriteStateManager(this);
     }
 
     /**
-     * Create a shape at the given position, with the given size, velocity, and color. This is the
-     * constructor that NonStaticEntities call.
+     * Create a shape at the given position, with the given size, velocity, and color. This is the constructor that NonStaticEntities call. 
      */
-    private Sprite (ISpriteView image, Location center, Dimension size, Vector velocity) {
+    public Sprite (ISpriteView image, Location center, Dimension size, Vector velocity) {
         // make copies just to be sure no one else has access
-
-        // myAngle = 0;
-
+        
         mySize = size;
         myOriginalView = image;
         myOriginalCenter = new Location(center);
@@ -75,14 +67,14 @@ public class Sprite {
         reset();
         resetBounds();
     }
-
+    
     /**
      * Creates and returns a copy of this Sprite. Used for instantiating copies for use
      * with the LevelEditor.
      * 
      * @return a copy of a sprite
      */
-    public Sprite copy () {
+    public Sprite copy(){
         try {
             return this.getClass().newInstance();
         }
@@ -118,11 +110,11 @@ public class Sprite {
         myCenter.setLocation(x, y);
         resetBounds();
     }
-
+    
     /**
      * Returns myCenter
      */
-    public Location getCenter () {
+    public Location getCenter() {
         return myCenter;
     }
 
@@ -176,7 +168,7 @@ public class Sprite {
     }
 
     /**
-     * Returns shape's height in pixels.
+     * Returns shape's height  in pixels.
      */
     public double getHeight () {
         return mySize.getHeight();
@@ -225,8 +217,8 @@ public class Sprite {
      * Returns rectangle that encloses this shape.
      */
     public Rectangle getBounds () {
-        resetBounds();
-        return myBounds;   // restBounds*)
+    	resetBounds();
+    	return myBounds;   //restBounds*)
     }
 
     /**
@@ -235,10 +227,11 @@ public class Sprite {
     public boolean intersects (Sprite other) {
         return getBounds().intersects(other.getBounds());
     }
-
+    
     public boolean intersects (Rectangle other) {
         return getBounds().intersects(other.getBounds());
     }
+    
 
     /**
      * Returns true if the given point is within a rectangle representing this shape.
@@ -264,38 +257,36 @@ public class Sprite {
     public void paint (Graphics2D pen) {
         myStateManager.paint(pen);
     }
-
+    
     /**
      * Display this shape translated on the screen, used for all Sprites besides Player
      */
     public void paint (Graphics2D pen, Location loc, Location origLoc) {
-        Location currentLocal = new Location(this.getCenter());
-        Location tempLocal = translate(loc, origLoc);
+        Location currentLocal = new Location(this.getCenter());      
+        Location tempLocal = translate(loc, origLoc);     
         this.setCenter(tempLocal.getX(), tempLocal.getY());
         this.paint(pen);
         this.setCenter(currentLocal.getX(), currentLocal.getY());
-        // myView.paint(pen, translate(loc, origLoc), mySize, 0);
+        //myView.paint(pen, translate(loc, origLoc), mySize, 0);
     }
-
+    
     /**
      * The translates the the Location with respect to the Location given.
-     * 
      * @param loc the Location to translate in relation to
      * @return the translated Location
      */
-
-    private Location translate (Location loc, Location origLoc) {
-        Location temp =
-                new Location(myCenter.getX() - (loc.getX() - origLoc.getX()),
-                             myCenter.getY() - (loc.getY() - origLoc.getY()));
+    
+    private Location translate(Location loc, Location origLoc) {
+        Location temp =  new Location(myCenter.getX()-(loc.getX()-origLoc.getX()), myCenter.getY() - (loc.getY() - origLoc.getY()));        
         return temp;
     }
+    
 
     /**
      * Returns rectangle that encloses this shape.
      */
     protected void resetBounds () {
-        myBounds = new Rectangle((int) getLeft(), (int) getTop(), mySize.width, mySize.height);
+        myBounds = new Rectangle((int)getLeft(), (int)getTop(), mySize.width, mySize.height);
     }
 
     /**
@@ -303,8 +294,7 @@ public class Sprite {
      * NaN if no hit took place.
      */
     protected double getHitDirection (Rectangle bounds) {
-        // double angle = Vector.angleBetween(myCenter, new Location(bounds.getCenterX(),
-        // bounds.getCenterY()));
+        // double angle = Vector.angleBetween(myCenter, new Location(bounds.getCenterX(), bounds.getCenterY()));
         // BUGBUG: FIX ME --- this is very imperfect, but sort of works for now
         if (bounds.contains(new Location(getLeft(), getY()))) {
             return RIGHT_DIRECTION;
@@ -315,114 +305,90 @@ public class Sprite {
         else if (bounds.contains(new Location(getRight(), getY()))) {
             return LEFT_DIRECTION;
         }
-        else if (bounds.contains(new Location(getX(), getTop()))) { return DOWN_DIRECTION; }
+        else if (bounds.contains(new Location(getX(), getTop()))) {
+            return DOWN_DIRECTION;
+        }
         return 0;
-        // return Double.NaN;
+        //return Double.NaN;
     }
-
+    
     /**
      * Returns a view of this sprite -TODO: Maybe should be specified in an interface(?)
      */
-    public ISpriteView getView () {
+    public ISpriteView getView() {
         return myView;
     }
-
+    
     /**
      * Gives the last location of this sprite.
      * 
      * @return The location of the sprite at the previous update.
      */
-    public Location lastLocation () {
+    public Location lastLocation() {
         return myLastLocation2;
     }
-
+    
     /**
      * Returns the default image for this sprite.
      * 
      * @return the default image of this sprite.
      */
     public Image getDefaultImg () {
-
+        
         return myOriginalView.getDefaultImg();
     }
-
+    
     /**
      * Sets the default image of this sprite.
      * 
      * @param s is the ISpriteView that this sprite will use to paint itself.
      */
-    public void setDefaultImg (ISpriteView s) {
+    public void setDefaultImg (ISpriteView s){
         myOriginalView = s;
     }
-
+    
     /**
      * Adds a vector to this sprite's velocity.
      * 
      * @param force is the vector to be added to this sprite.
      */
-    public void addVector (Vector force) {
+    public void addVector(Vector force) {
         myVelocity.sum(force);
     }
-
+    
     /**
      * Gives the dimensions of this sprite.
      * 
      * @return the Size of this sprite in dimensions.
      */
-    public Dimension getSize () {
+    public Dimension getSize() {
         return mySize;
     }
-
+    
     /**
      * Sets the velocity of this sprite.
      * 
      * @param velocity is the vector to set this sprite's velocity to.
      */
-    public void setVelocity (Vector velocity) {
+    public void setVelocity (Vector velocity){
         myVelocity = new Vector(velocity);
     }
-
-    public void addPossibleState (int stateID, SpriteState state) {
+    
+    public void addPossibleState(int stateID, SpriteState state){
         myStateManager.addState(stateID, state);
     }
-
-    public void activateState (int stateID) {
+    
+    public void activateState(int stateID){
         myStateManager.activateState(stateID);
     }
-
-    public void deactivateState (int stateID) {
+    
+    public void deactivateState(int stateID){
         myStateManager.deactivateState(stateID);
     }
 
     public void updateLastLocation () {
         myLastLocation2 = new Location(myLastLocation.x, myLastLocation.y);
-        myLastLocation = new Location(myCenter.x, myCenter.y);
+        myLastLocation = new Location(myCenter.x, myCenter.y); 
     }
-
-    // public void rotate(double angle){
-    // myAngle += angle;
-    //
-    // normalizeAngle();
-    // }
-    //
-    // public void setAngle(double angle){
-    // myAngle = angle;
-    // normalizeAngle();
-    //
-    // }
-    //
-    // public double getAngle(){
-    // return myAngle;
-    // }
-    //
-    // private void normalizeAngle(){
-    // while(myAngle > 360 | myAngle < 0){
-    // if(myAngle > 360){
-    // myAngle = myAngle%360;
-    // }
-    // if(myAngle < 0){
-    // myAngle += 360;
-    // }
-    // }
-    // }
 }
+

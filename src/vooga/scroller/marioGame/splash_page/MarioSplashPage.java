@@ -53,13 +53,14 @@ public class MarioSplashPage extends SplashPage {
      */
     @InputMethodTarget(name = "start")
     public void nextLevel () {
-        getDoor().goToNextLevel();
+        getDoor().goToNextLevel(getPlayer());
     }
     
     /**
      * Exit the game when on the splash page.
      */
-    @InputMethodTarget(name = "exit")
+    @Override
+	@InputMethodTarget(name = "exit")
     public void exit() {
         System.exit(-1);
     }

@@ -3,7 +3,6 @@ package vooga.rts.gamedesign.sprite.map;
 import java.awt.Dimension;
 
 import vooga.rts.gamedesign.sprite.gamesprites.GameSprite;
-import vooga.rts.state.GameState;
 import vooga.rts.util.Location3D;
 import vooga.rts.util.Pixmap;
 
@@ -16,7 +15,7 @@ import vooga.rts.util.Pixmap;
  * @author Wenshun Liu 
  *
  */
-public class Terrain extends GameSprite {
+public abstract class Terrain extends GameSprite {
 
     public int myHeight;
     public int myLevel;
@@ -29,7 +28,6 @@ public class Terrain extends GameSprite {
      */
     public Terrain(Pixmap image, Location3D center, Dimension size) {
         super(image, center, size);
-        addObserver(GameState.getMap().getNodeMap());
     }
     
     /**

@@ -9,13 +9,12 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import util.Location;
-import vooga.scroller.level_editor.LevelEditing;
+import vooga.scroller.level_editor.controllerSuite.LEController;
 import vooga.scroller.level_editor.controllerSuite.LEGrid;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.interfaces.IDoor;
 import vooga.scroller.util.IBackgroundView;
 import vooga.scroller.util.Pixmap;
-import vooga.scroller.util.mvc.IController;
 
 
 /**
@@ -24,8 +23,6 @@ import vooga.scroller.util.mvc.IController;
  * @author Danny Goodman, Deo Fagnisse
  */
 public class LevelParser {
-
-    private static final String PARSING_ERROR = "PARSING_ERROR";
 
     private static final String RESOURCE_PATH = "vooga.scroller.level_editor.model.SaveLoad";
 
@@ -39,10 +36,8 @@ public class LevelParser {
     private String myLibPath;
     private IBackgroundView myBackground;
 
-    private IController<LevelEditing> myController;
-
     /**
-     * Utility constructor. Unfortunately, doesn't handles error properly.
+     * Initialize instances variables.
      */
     public LevelParser () {
         myLevelStrings = new ArrayList<String>();
@@ -50,19 +45,9 @@ public class LevelParser {
     }
 
     /**
-     * sets Controller. calls default constructor.
-     * 
-     * @param con - controller
-     */
-    public LevelParser (IController<LevelEditing> con) {
-        this();
-        myController = con;
-    }
-
-    /**
      * Creates an LEGrid from a save file.
      * 
-     * @param file - File to load
+     * @param file
      * @return LEGrid
      */
     public LEGrid makeGridFromFile (File file) {
@@ -72,7 +57,7 @@ public class LevelParser {
             myScanner = new Scanner(file);
         }
         catch (FileNotFoundException e) {
-            myController.showErrorMsg(myResources.getString("FILE_ERROR"));
+            LEController.showErrorMsg(myResources.getString("FILE_ERROR"));
         }
         parseLevel();
         myLibPath = parseLibPath();
@@ -149,13 +134,13 @@ public class LevelParser {
                         }
                     }
                     catch (InstantiationException e) {
-                        myController.showErrorMsg(myResources.getString(PARSING_ERROR));
+                        LEController.showErrorMsg(myResources.getString("PARSING_ERROR"));
                     }
                     catch (IllegalAccessException e) {
-                        myController.showErrorMsg(myResources.getString(PARSING_ERROR));
+                        LEController.showErrorMsg(myResources.getString("PARSING_ERROR"));
                     }
                     catch (ClassNotFoundException e) {
-                        myController.showErrorMsg(myResources.getString(PARSING_ERROR));
+                        LEController.showErrorMsg(myResources.getString("PARSING_ERROR"));
                     }
                 }
             }

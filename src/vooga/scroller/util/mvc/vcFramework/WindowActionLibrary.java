@@ -13,19 +13,19 @@ import javax.swing.KeyStroke;
  */
 public class WindowActionLibrary {
     
-    private Window<?, ?, ?, ?> myWindow;
+    private Window myWindow;
     
     /**
      * Instantiate a Library for a specific window
      * @param w - window specified
      */
-    public WindowActionLibrary(Window<?, ?, ?, ?> w) {
+    public WindowActionLibrary(Window w) {
         myWindow = w;
     }
     
     
     private String getLiteral (String string) {
-        return myWindow.getLiteral(string);
+        return Window.getLiteral(string);
     }
 
     /**
@@ -58,7 +58,7 @@ public class WindowActionLibrary {
     }
 
     /**
-     * Open a File
+     * Open a File - TODO
      * @author Dagbedji Fagnisse
      *
      */
@@ -163,7 +163,7 @@ public class WindowActionLibrary {
     }
 
     /**
-     * Action to save a file
+     * Action to save a file - TODO
      * @author Dagbedji Fagnisse
      *
      */
@@ -184,6 +184,37 @@ public class WindowActionLibrary {
         @Override
         public void actionPerformed (ActionEvent e) {
             myWindow.saveFile();
+        }
+    }
+
+
+    /**
+     * TODO
+     * @author Dagbedji Fagnisse
+     *
+     */
+    public class WebInfoAction extends AbstractAction {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = -3838081948621848563L;
+
+        WebInfoAction() {
+            super(getLiteral("WebInfoCommand"));
+            putValue(ACCELERATOR_KEY, 
+                     KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
+        }
+
+        @Override
+        public void actionPerformed (ActionEvent e) {
+            try {
+                String url = 
+                        "http://www.cs.duke.edu/courses/spring13/compsci308/assign/03_slogo/";
+                java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+            }
+            catch (java.io.IOException er) {
+//                System.out.println(er.getMessage());
+            }
         }
     }
     

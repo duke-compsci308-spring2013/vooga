@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vooga.rts.gamedesign.sprite.gamesprites.IAttackable;
-import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
-import vooga.rts.gamedesign.strategy.Strategy;
 import vooga.rts.gamedesign.weapon.Weapon;
-import vooga.rts.util.Location3D;
 
 
 /**
@@ -17,23 +14,29 @@ import vooga.rts.util.Location3D;
  * 
  * @author Ryan Fishel
  * @author Kevin Oh
- * @author Francesco Agosti (did not have anything to do with this CannotAttack having weapons stuff)
+ * @author Francesco Agosti
  * @author Wenshun Liu
  * 
  */
 
 public class CannotAttack implements AttackStrategy {
+	private List<Weapon> myWeapons; //TODO: probably won't need these
+	private int myWeaponIndex;
+	private boolean myCanAttack = false;
 	
 	/**
 	 * Creates a new attack strategy that represents an entity that cannot attack.
 	 */
 	public CannotAttack() {
+		 myWeapons = new ArrayList<Weapon>();
+		 myWeaponIndex = 0;
 	}
 
 	/**
 	 * Attacks the given IAttackbleable object. In the state of CannotAttack
 	 * does nothing to the IAttackable object.
 	 */
+	@Override
 	public void attack(IAttackable attackable, double distance) {
 		return;
 	}
@@ -43,43 +46,43 @@ public class CannotAttack implements AttackStrategy {
 	 * of CannotAttack returns a null list.
 	 * @return a null list of Weapons
 	 */
+	@Override
 	public List<Weapon> getWeapons() {
-		return new ArrayList<Weapon>();
+		return null;
 	}
 
+	/**
+	 * Returns the index of the Weapon that's currently been activated in the
+	 * list of Weapons belonged to this CanAttack object. In the case of
+	 * CannotAttack return -1, representing no Weapon has been activated.
+	 * @return -1, representing no Weapon has been activated.
+	 */
+	@Override
+	public int getWeaponIndex() {
+		return -1;
+	}
 
 	/**
 	 * Adds a Weapon to the list of Weapons belonged to this AttackStrategy.
 	 * @param weapon the new Weapon to be added into the list.
 	 */
-	public void addWeapon(Weapon weapon) {
-		return;
+	@Override
+	public void addWeapons(Weapon weapon) {
+		myWeapons.add(weapon);
 
 	}
 
+	/**
+	 * Determines whether this CanAttack is able to attack.
+	 * @return Whether this CanAttack is able to attack.
+	 */
 	@Override
-	public void setWeaponLocation(Location3D newLocation) {
-		
+	public boolean getCanAttack() {
+		return myCanAttack;
 	}
 
 	@Override
 	public Weapon getCurrentWeapon() {
 		return null;
 	}
-	
-    public boolean hasWeapon(){
-    	return false;
-    }
-    
-	public void affect(InteractiveEntity other) {
-		other.setAttackStrategy(this);
-		
-	}
-
-    @Override
-    public void setPlayerID (int playerID) {
-      
-        
-    }
-
 }

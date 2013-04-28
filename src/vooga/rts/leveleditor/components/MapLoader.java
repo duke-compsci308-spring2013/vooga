@@ -1,327 +1,191 @@
 package vooga.rts.leveleditor.components;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.imageio.ImageIO;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import vooga.rts.util.Location3D;
-import vooga.rts.util.Pixmap;
-
+import java.util.Scanner;
+import vooga.rts.leveleditor.Exceptions.MapNotMatchException;
 
 /**
- * the loader that transform a xml file to a real map
+ * this class is responsible for generating a XML format map file
+ * 
  * @author Richard Yang
  *
  */
+
 public class MapLoader {
-
+    
+    private Scanner myScanner;
     private EditableMap myMap;
-    private Map<Integer, String> myTileName;
-    private Map<Integer, String> myTerrainName;
-    private Map<Integer, String> myResourceName;
-
-    private Map<Integer, String> myTileImageName;
-    private Map<Integer, String> myTerrainImageName;
-    private Map<Integer, String> myResourceImageName;
-    
-    private Map<Integer, BufferedImage> myTileImage;
-    private Map<Integer, BufferedImage> myTerrainImage;
-    private Map<Integer, BufferedImage> myResourceImage;
-    
-    private Map<Integer, String> myTerrainWalkAbility;
-    private Map<Integer, String> myResourceAmount;
-    
-    private DocumentBuilderFactory myFactory;
-    private DocumentBuilder myBuilder;
-    private Document myDocument;
-
-    /**
-     * constructor 
-     * @throws ParserConfigurationException exception
-     */
-    public MapLoader() throws ParserConfigurationException {
-        
-        
-        
-        myFactory = DocumentBuilderFactory.newInstance();
-        myBuilder = myFactory.newDocumentBuilder();
-        
-        // yolo
-        myTileName = new HashMap<Integer, String>();
-        myTerrainName = new HashMap<Integer, String>();
-        myResourceName = new HashMap<Integer, String>();
-        myTileImageName = new HashMap<Integer, String>();
-        myTerrainImageName = new HashMap<Integer, String>();
-        myResourceImageName = new HashMap<Integer, String>();
-        myTileImage = new HashMap<Integer, BufferedImage>();
-        myTerrainImage = new HashMap<Integer, BufferedImage>();
-        myResourceImage = new HashMap<Integer, BufferedImage>();
-        
-        myTerrainWalkAbility = new HashMap<Integer, String>();
-        myResourceAmount = new HashMap<Integer, String>();
-      
-    }
-    
-    
-    public void loadMapFile(String mapfile) throws Exception {
-        URI f = getClass().getResource(mapfile).toURI();
-        loadMapFile(new File(f));
-    }
-
-    
-    /**
-     * 
-     * @param resourceFile source file
-     * @throws Exception exception
-     */
-    public void loadMapFile(File resourceFile) throws Exception {
-        
-        String xmlPath = resourceFile.getPath();
-        String xmlFileName = resourceFile.getName();
-        String path = xmlPath.substring(0, xmlPath.indexOf(xmlFileName));
-        
-        
-        myDocument = myBuilder.parse(resourceFile);
-        Element root = myDocument.getDocumentElement();
-        
-        loadSizeInfo(root);
-        loadInfo(root);        
-        loadTypeInfo(root, path);
-        loadTiles(root);
-        loadTerrains(root);
-        loadResources(root, path);
-        
-    }
-
-    /**
-     * load all information from the xml file
-     * @param root root element
-     */
-    public void loadInfo(Element root) {
-        NodeList nameList = root.getElementsByTagName("Name");
-        Node nameNode = nameList.item(0);
-        myMap.setMapName(nameNode.getTextContent());
-        
-        NodeList descriptionList = root.getElementsByTagName("Desc");
-        Node descriptionNode = descriptionList.item(0);
-        myMap.setMapName(descriptionNode.getTextContent());
-    
-        NodeList playerList = root.getElementsByTagName("Player");
-        for (int i = 0; i < playerList.getLength(); i++) {
-            Node playerNode = playerList.item(i);
-            NamedNodeMap attributes = playerNode.getAttributes();
-            String x = attributes.item(1).getNodeValue();
-            String y = attributes.item(2).getNodeValue();
-            myMap.addPlayer(Integer.parseInt(x), Integer.parseInt(y));
-        }
-    }
-    
-    /**
-     * load all size information from the xml file
-     * @param root root element
-     */
-    public void loadSizeInfo(Element root) {
-        NodeList tileSizeList = root.getElementsByTagName("tilesize");
-        NodeList tileAmountList = root.getElementsByTagName("tileamount");
-        
-        Node tileSizeNode = tileSizeList.item(0);
-        Node tileAmountNode = tileAmountList.item(0);
-       
-        
-        int x = Integer.parseInt(tileAmountNode.getAttributes().item(0).getNodeValue());
-        int y = Integer.parseInt(tileAmountNode.getAttributes().item(1).getNodeValue());
-        
-        int width = Integer.parseInt(tileSizeNode.getAttributes().item(1).getNodeValue());
-        int height = Integer.parseInt(tileSizeNode.getAttributes().item(0).getNodeValue());
-        myMap = new EditableMap("", "", x, y, width, height);
-        
-    }
-    
-    /**
-     * load all type information from the xml file
-     * @param root root element
-     */
-    public void loadTypeInfo(Element root, String path) throws IOException {
-        NodeList tileTypeList = root.getElementsByTagName("tiletype");
-        NodeList terrainTypeList = root.getElementsByTagName("terraintype");
-        NodeList resourceTypeList = root.getElementsByTagName("resourcetype");
-        
-        String tileImagePath = path + "images/tiles/";
-        String terrainImagePath = path + "images/terrains/";
-        String resourceImagePath = path + "images/resources/";
-        
-        for (int i = 0; i < tileTypeList.getLength(); i++) {
-            Node tileTypeNode = tileTypeList.item(i);
-            NamedNodeMap attributes = tileTypeNode.getAttributes();
-            String tileID = attributes.item(0).getNodeValue();
-            String tileImageName = attributes.item(1).getNodeValue();
-            String tileName = attributes.item(2).getNodeValue();
-            BufferedImage tileImage = ImageIO.read(new File(tileImagePath + tileImageName));
-            myTileName.put(Integer.parseInt(tileID), tileName);
-            myTileImageName.put(Integer.parseInt(tileID), tileImageName);
-            myTileImage.put(Integer.parseInt(tileID), tileImage);
-            
-        }
-        
-        for (int i = 0; i < terrainTypeList.getLength(); i++) {
-            Node terrainTypeNode = terrainTypeList.item(i);
-            NamedNodeMap attributes = terrainTypeNode.getAttributes();
-            String terrainID = attributes.item(0).getNodeValue();
-            String terrainImageName = attributes.item(1).getNodeValue();
-            String terrainName = attributes.item(2).getNodeValue();
-            String terrainWalkAbility = attributes.item(3).getNodeValue();
-            BufferedImage terrainImage = ImageIO.read(new File(terrainImagePath + terrainImageName));
-            myTerrainName.put(Integer.parseInt(terrainID), terrainName);
-            myTerrainImageName.put(Integer.parseInt(terrainID), terrainImageName);
-            myTerrainWalkAbility.put(Integer.parseInt(terrainID), terrainWalkAbility);
-            myTerrainImage.put(Integer.parseInt(terrainID), terrainImage);
-        }
-        
-        for (int i = 0; i < resourceTypeList.getLength(); i++) {
-            Node resourceTypeNode = resourceTypeList.item(i);
-            NamedNodeMap attributes = resourceTypeNode.getAttributes();
-            String resourceID = attributes.item(0).getNodeValue();
-            String resourceAmount = attributes.item(1).getNodeValue();
-            String resourceImageName = attributes.item(2).getNodeValue();
-            String resourceName = attributes.item(3).getNodeValue();
-            BufferedImage resourceImage = ImageIO.read(new File
-                                                       (resourceImagePath + resourceImageName));
-            myResourceName.put(Integer.parseInt(resourceID), resourceName);
-            myResourceImageName.put(Integer.parseInt(resourceID), resourceImageName);
-            myResourceAmount.put(Integer.parseInt(resourceID), resourceAmount);
-            myResourceImage.put(Integer.parseInt(resourceID), resourceImage);
-        }
-    }
-
-    /**
-     * load all terrains from the xml file
-     * @param root root element
-     */
-    public void loadTiles(Element root) {
-        
-        NodeList tileList = root.getElementsByTagName("tile");
-        
-        int y = myMap.getMyYsize();
-        
-        for (int i = 0; i < tileList.getLength(); i++) {
-            
-            int myX = i / y;
-            int myY = i % y;
-            
-            Node tileNode = tileList.item(i);
-            NamedNodeMap attributes = tileNode.getAttributes();
-            int tileID = Integer.parseInt(attributes.item(0).getNodeValue());
-            String tileName = myTileName.get(tileID);
-            String tileImageName = myTileImageName.get(tileID);
-            Pixmap tileImage = new Pixmap(myTileImage.get(tileID));
-            myMap.addTile(myX, myY, tileID, tileName, tileImageName, tileImage);
-        }
-    }
-
-    /**
-     * load all terrains from the xml file
-     * @param root root element
-     */
-    public void loadTerrains(Element root) {
-        NodeList terrainList = root.getElementsByTagName("terrain");
-
-        for(int j = 0 ; j < terrainList.getLength() ; j++) {
-                Node terrainNode = terrainList.item(j);
-                if(terrainNode.hasAttributes()) {
-                    NamedNodeMap attributes = terrainNode.getAttributes();
-                    int terrainID = Integer.parseInt(attributes.item(0).getNodeValue());
-                    int x = Integer.parseInt(attributes.item(1).getNodeValue());
-                    int y = Integer.parseInt(attributes.item(2).getNodeValue());
-                    int z = Integer.parseInt(attributes.item(3).getNodeValue());
-                    String terrainName = myTerrainName.get(terrainID);
-                    String terrainImageName = myTerrainImageName.get(terrainID);
-                    Pixmap terrainImage = new Pixmap(myTerrainImage.get(terrainID));
-                    int terrainWalkAbility = Integer.parseInt(myTerrainWalkAbility.get(terrainID));
-                    myMap.addTerrain(terrainImage, new Location3D(x,y,z), terrainID, terrainName, terrainImageName, terrainWalkAbility);
-                }
-        }
-        
-    } 
-    /**
-     *print everything in this map, used for testing
-     *
-     */
-    public void printEverything() {
-      myMap.printMatrix();
-      for (int i = 0 ; i < myMap.getResourceSize() ; i++) {
-          EditableResource res =  myMap.getResource(i);
-          System.out.print(res.getMyID());
-          System.out.print(" ");
-          System.out.print(res.getType());
-          System.out.print(" ");
-          System.out.print(res.getMyImageName());
-          System.out.print(" ");
-          System.out.print(res.getWorldLocation().getX());
-          System.out.print(" ");
-          System.out.print(res.getWorldLocation().getY());
-          System.out.print(" ");
-          System.out.print(res.getWorldLocation().getZ());   
-          System.out.println();
-      }
+    private Map<Integer, String> myTileInformation;
+    private Map<Integer, String> myTerrainInformation;
+    private XMLParser myXMLParser;
   
-      for (int i = 0 ; i < myMap.getTerrainSize() ; i++) {
-      
-          EditableTerrain res =  myMap.getTerrain(i);
-      
-          System.out.print(res.getMyID());
-          System.out.print(" ");
-          System.out.print(res.getMyName());
-          System.out.print(" ");
-          System.out.print(res.getMyImageName());
-          System.out.print(" ");
-          System.out.print(res.getWorldLocation().getX());
-          System.out.print(" ");
-          System.out.print(res.getWorldLocation().getY());
-          System.out.print(" ");
-          System.out.print(res.getWorldLocation().getZ());   
-          System.out.println();
-      }
+    
+    public MapLoader(EditableMap map) {
+        
+        //need further modification, only for testing now
+        myMap = map;
+        
+        myTileInformation = new HashMap<Integer, String>();
+        myTerrainInformation = new HashMap<Integer, String>();
+        myXMLParser = new XMLParser();
+        System.out.println("INITIALIZED");
     }
-
-    /**
-     * load resources from the file 
-     * @param root root element
-     * @param path path of the image files
-     */
-    public void loadResources(Element root, String path) {
-        NodeList resourceList = root.getElementsByTagName("resource");
-        for (int i = 0; i < resourceList.getLength(); i++) {
-            Node resourceNode = resourceList.item(i);
-            NamedNodeMap attributes = resourceNode.getAttributes();
-            int resourceID = Integer.parseInt(attributes.item(0).getNodeValue());
-            int x = Integer.parseInt(attributes.item(1).getNodeValue());
-            int y = Integer.parseInt(attributes.item(2).getNodeValue());
-            int z = Integer.parseInt(attributes.item(3).getNodeValue());
-            String resourceName = myResourceName.get(resourceID);
-            String resourceImageName = myResourceImageName.get(resourceID);
-            Pixmap resourceImage = new Pixmap(myResourceImage.get(resourceID));
-            int resourceAmount = Integer.parseInt(myResourceAmount.get(resourceID));
-            myMap.addResource(resourceImage, new Location3D(x,y,z), resourceID, resourceName, resourceImageName, resourceAmount);
+    
+    public void loadMapFile(File resourceFile) throws FileNotFoundException {
+        
+        myScanner = new Scanner(resourceFile);
+        
+        loadTitle();
+        try {
+            loadPlayers();
+            loadSize();
+            loadTileIndex();
+            loadTerrainIndex();
+            loadTiles();
+            loadTerrains();
+            loadResources();
         }
-    }  
-    
-    /**
-     * get the loaded editable map
-     * @return
-     */
-    public EditableMap getMyMap() {
-        return myMap;
+        catch (MapNotMatchException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        
+        
+        myScanner.close(); 
     }
     
+    public void loadMapFile(String filePath) throws FileNotFoundException {
+        File bufferFile = new File(filePath);
+        loadMapFile(bufferFile);
+    }
+    
+    private void loadTitle() {
+        String line = myScanner.nextLine();
+        line = myScanner.nextLine();
+        line = myScanner.nextLine();
+        myMap.setMyMapName(myXMLParser.getTitle(line));
+        line = myScanner.nextLine();
+        myMap.setMyDescription(myXMLParser.getTitle(line));
+        System.out.println("Title loaded");
+    }
+    
+    
+    
+    private void loadPlayers() throws MapNotMatchException {
+       String line = myScanner.nextLine();  
+       line = myScanner.nextLine();
+       while(line.contains("player") && line.contains("ID")) {
+           String[] content = myXMLParser.splitByBlanks(myXMLParser.splitSlash(line));
+           if(content.length != 4) throw new MapNotMatchException();
+           String x = myXMLParser.cutKeyAndValue(content[2])[1];
+           String y = myXMLParser.cutKeyAndValue(content[3])[1];
+           myMap.addPlayer(Integer.parseInt(x),Integer.parseInt(y));
+           line = myScanner.nextLine();
+       }
+       System.out.println("Players loaded");
+       
+    }
+    
+    
+    
+    private void loadSize() throws MapNotMatchException {
+        String line = myScanner.nextLine();
+        while( !line.contains("tilesize")) {
+            line = myScanner.nextLine();
+        }
+        String[] sizeContent = myXMLParser.splitByBlanks(myXMLParser.splitSlash(line));
+        if(sizeContent.length != 3) throw new MapNotMatchException();
+        String tileWidth = myXMLParser.cutKeyAndValue(sizeContent[1])[1];
+        String tileHeight = myXMLParser.cutKeyAndValue(sizeContent[1])[1];
+        line = myScanner.nextLine();
+        String[] amountContent = myXMLParser.splitByBlanks(myXMLParser.splitSlash(line));
+        if(sizeContent.length != 3) throw new MapNotMatchException();
+        String xCount = myXMLParser.cutKeyAndValue(amountContent[1])[1];
+        String yCount = myXMLParser.cutKeyAndValue(amountContent[2])[1];
+        myMap.setMyXSize(Integer.parseInt(xCount));
+        myMap.setMyYSize(Integer.parseInt(yCount));
+        myMap.initializeMap(Integer.parseInt(tileWidth), Integer.parseInt(tileHeight));
+        System.out.println("Map Size loaded");
+        
+    }
+    
+    
+    
+    private void loadTileIndex() throws MapNotMatchException {
+        String line = myScanner.nextLine();
+        while (!(line.contains("tile") && line.contains("ID"))) {
+            line = myScanner.nextLine();
+        }
+        while(line.contains("tile") && line.contains("ID")) {
+            
+            String[] tileContent = myXMLParser.splitByBlanks(myXMLParser.splitSlash(line));
+            if(tileContent.length != 4) throw new MapNotMatchException();
+            String tileID = myXMLParser.cutKeyAndValue(tileContent[1])[1];
+            String tileImagePath = myXMLParser.cutKeyAndValue(tileContent[2])[1];
+            String tileName = myXMLParser.cutKeyAndValue(tileContent[3])[1];
+            myTileInformation.put(Integer.parseInt(tileID), tileName + "&" + tileImagePath);
+            line = myScanner.nextLine();            
+        }
+        System.out.println("Tile Index loaded");
+        
+    }
+    
+    private void loadTerrainIndex() throws MapNotMatchException {
+        String line = myScanner.nextLine();
+        while (!(line.contains("terrain") && line.contains("ID"))) {
+            line = myScanner.nextLine();
+        }
+        while(line.contains("terrain") && line.contains("ID")) {
+            
+            String[] terrainContent = myXMLParser.splitByBlanks(myXMLParser.splitSlash(line));
+            
+            if(terrainContent.length != 5) throw new MapNotMatchException();
+            String terrainID = myXMLParser.cutKeyAndValue(terrainContent[1])[1];
+            String terrainImagePath = myXMLParser.cutKeyAndValue(terrainContent[2])[1];
+            String terrainName = myXMLParser.cutKeyAndValue(terrainContent[3])[1];
+            String terrainWalkability = myXMLParser.cutKeyAndValue(terrainContent[4])[1];
+            myTerrainInformation.put(Integer.parseInt(terrainID), terrainName + "&" + terrainImagePath + "&" + terrainWalkability);
+            line = myScanner.nextLine();            
+        }
+        System.out.println(myTerrainInformation.size());
+        for(int i = 1 ; i<myTerrainInformation.size() + 1 ; i++) {
+            System.out.println(myTerrainInformation.get(i));
+        }
+        System.out.println("Terrain Index loaded");
+    }
+    
+    
+    
+    private void loadTiles() {
+        String line = myScanner.nextLine();
+        while( !line.contains("<graphic>")) {
+            line = myScanner.nextLine();
+        }
+        line = myScanner.nextLine();
+        for(int i= 0 ; i < myMap.getMyXSize() ; i++) {
+            String[] tileIndex = myXMLParser.splitByBlanks(line);
+            for(int j = 0; j < myMap.getMyYSize() ; j++) {
+                String tileID = tileIndex[j];
+                if( !tileID.equals("0")) {
+                    myMap.getMapNode(i, j).setTile(Integer.parseInt(tileID));
+                }
+            }
+            line = myScanner.nextLine();
+        }
+        System.out.println("Tile loaded");
+    }
+    
+    
+
+    private void loadTerrains() {
+    
+    }
+    
+    private void loadResources() {
+        
+    }
 }

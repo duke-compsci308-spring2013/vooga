@@ -17,10 +17,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import arcade.controller.Controller;
+import arcade.controller.GameSpecificData;
 import arcade.exceptions.AgeException;
 import arcade.exceptions.InvalidGameFileException;
 import arcade.exceptions.InvalidPriceException;
-import arcade.model.datapacket.GameSpecificData;
 import arcade.view.TextKeywords;
 
 

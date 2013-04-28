@@ -5,46 +5,43 @@ import java.awt.Image;
 import util.Location;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.interfaces.IDoor;
+import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.util.IGameComponent;
 import vooga.scroller.util.ISpriteView;
 import vooga.scroller.util.Pixmap;
 
-
-/**
- * LevelPortal extends Sprite and implements IDoor. Used for advancing to
- * the next Level in LevelManager.
- * 
- * @author Danny Goodman, Scott Valentine
- */
 public abstract class LevelPortal extends Sprite implements IDoor {
+    
     private static final String DEFAULT_FILENAME = "portal.png";
     private static final String DEFAULT_PATH = "/vooga/scroller/images/";
     private static final Dimension DEFAULT_SIZE = new Dimension(50, 50);
-    private static final Pixmap DEFAULT_IMG = new Pixmap(DEFAULT_PATH, DEFAULT_FILENAME);
+    private static final Location DEFAULT_LOCATION = new Location (0,0);
+    private static final Pixmap DEFAULT_IMG = new Pixmap(DEFAULT_PATH,DEFAULT_FILENAME);
     private IGameComponent myNextLevel;
     private LevelManager myLevelManager;
 
-    /**
-     * Default constructor. Creates LevelPortal and initializes the image.
-     */
-    protected LevelPortal () {
-        super(DEFAULT_IMG, DEFAULT_SIZE);
+    public LevelPortal () {
+        this(DEFAULT_LOCATION);
         setView(initView());
         setDefaultImg(initView());
         setSize(initSize().width, initSize().height);
+    }
+
+    public LevelPortal (Location center) {
+        super(DEFAULT_IMG, center, DEFAULT_SIZE);
     }
 
     @Override
     public Image getDefaultImg () {
         return initView().getImage();
     }
-
-    public abstract ISpriteView initView ();
-
-    public abstract Dimension initSize ();
+    
+    public abstract ISpriteView initView();
+    
+    public abstract Dimension initSize();
 
     @Override
-    public void goToNextLevel () {
+    public void goToNextLevel (Player player) {      
         myLevelManager.setCurrentLevel(myNextLevel);
     }
 

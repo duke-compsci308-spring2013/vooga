@@ -1,6 +1,5 @@
 package vooga.towerdefense.view.gamescreens;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
@@ -52,7 +51,6 @@ public class MapScreen extends JPanel {
         setPreferredSize(mySize);
         setFocusable(true);
         setVisible(true);
-        setLayout(new BorderLayout());
         myController = controller;
         makeMouseAdapters();
         addMouseListener(myMouseAdapter);
@@ -76,12 +74,14 @@ public class MapScreen extends JPanel {
     @Override
     public void paintComponent (Graphics pen) {
         super.paintComponent(pen);
+        // paintGridLines(pen);
         myController.paintMap(pen);
     }
 
     /**
      * helper method to create the listener for mouse input.
      */
+    // TODO: integrate this with input team
     private void makeMouseAdapters () {
         myMouseAdapter = new MouseAdapter() {
             @Override

@@ -1,5 +1,8 @@
 package vooga.rts.networking.communications;
 
+import java.io.Serializable;
+
+
 /**
  * A Message is the object sent between the server and the client.
  * A Designer may subclass Message to send whatever form of data they wish.
@@ -11,7 +14,7 @@ package vooga.rts.networking.communications;
  * @author David Winegar
  * 
  */
-public abstract class Message implements IMessage {
+public abstract class Message implements Serializable, Comparable<Message> {
 
     private static final long serialVersionUID = 3906028159511905867L;
     private TimeStamp myTimeStamp;
@@ -36,71 +39,53 @@ public abstract class Message implements IMessage {
         myTimeStamp = new SystemTimeStamp();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see vooga.rts.networking.communications.IMessage#getTimeStamp()
+     * @return this message's timestamp
      */
-    @Override
     public TimeStamp getTimeStamp () {
         return myTimeStamp;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see vooga.rts.networking.communications.IMessage#resetTime()
+    /**
+     * Call this method to reset the initial time to the current one and
+     * the final time to the default
      */
-    @Override
     public void resetTime () {
         myTimeStamp.resetStamp();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see vooga.rts.networking.communications.IMessage#stampTime()
+    /**
+     * Call this method to mark the time received (final time)
      */
-    @Override
     public void stampTime () {
         myTimeStamp.stamp();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see vooga.rts.networking.communications.IMessage#stampTime(long)
+    /**
+     * Call this method to mark the time received (final time)
+     * @param time to stamp
      */
-    @Override
     public void stampTime (long time) {
         myTimeStamp.stamp(time);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see vooga.rts.networking.communications.IMessage#getInitialTime()
+     * @return time message was created or reset in milliseconds
      */
-    @Override
     public long getInitialTime () {
         return myTimeStamp.getInitialTime();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see vooga.rts.networking.communications.IMessage#getFinalTime()
+     * @return time this message was stamped in milliseconds
      */
-    @Override
     public long getFinalTime () {
         return myTimeStamp.getFinalTime();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see vooga.rts.networking.communications.IMessage#equals(java.lang.Object)
-     */
     @Override
     public boolean equals (Object object) {
         if (object == null) { return false; }
@@ -109,22 +94,14 @@ public abstract class Message implements IMessage {
         return myTimeStamp.equals(m.getTimeStamp());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see vooga.rts.networking.communications.IMessage#hashCode()
-     */
     @Override
     public int hashCode () {
         return myTimeStamp.hashCode();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * vooga.rts.networking.communications.IMessage#compareTo(vooga.rts.networking.communications
-     * .Message)
+    /**
+     * Compares based on timestamps
+     * @param message to compare
      */
     @Override
     public int compareTo (Message message) {

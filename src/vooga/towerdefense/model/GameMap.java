@@ -7,15 +7,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import util.Location;
-import util.Pixmap;
 import vooga.rts.util.Vector;
 import vooga.towerdefense.action.Action;
-import vooga.towerdefense.action.movement.FollowPath;
-import vooga.towerdefense.attributes.AttributeConstantsEnum;
+import vooga.towerdefense.action.actionlist.FollowPath;
 import vooga.towerdefense.attributes.AttributeManager;
-import vooga.towerdefense.gameelements.GameElement;
+import vooga.towerdefense.gameElements.GameElement;
+import vooga.towerdefense.model.tiles.Tile;
+import vooga.towerdefense.model.tiles.factories.TileFactory;
+import util.Location;
+import util.Pixmap;
+
 
 /**
  * The GameMap holds all of the state corresponding to an entire game at a given
@@ -27,21 +28,21 @@ import vooga.towerdefense.gameelements.GameElement;
  */
 public class GameMap {
 
+
 	private List<GameElement> myGameElements;
 	private Tile[][] myGrid;
+	private Location myDestination;
 	private Dimension myDimensions;
+	private Path myPath;
 	private GameElement myGhostImage;
 	private Pathfinder myPathfinder;
 	public Location myEndLocation;
 	public Location mySpawnLocation;
-	private Pixmap myBackgroundImage;
-	private Dimension myTileSize;
 
 	/**
 	 * 
 	 * @param background
 	 *            a background image
-	 * @param tileSize
 	 * @param width
 	 *            the width of the map, in pixels
 	 * @param height
@@ -49,14 +50,29 @@ public class GameMap {
 	 * @param destination
 	 *            the destination point of all units
 	 */
-	public GameMap(Pixmap background, Dimension mapDimensions,
-			Dimension tileSize) {
-		myBackgroundImage = background;
+	public GameMap(Tile[][] grid, Pixmap background, Dimension mapDimensions,
+			Location destination) {
 		myDimensions = mapDimensions;
+		double width = mapDimensions.getWidth();
+		double height = mapDimensions.getHeight();
 		myGameElements = new ArrayList<GameElement>();
+		myDestination = destination;
+		myGrid = grid;
+		myPathfinder = new Pathfinder(myGrid);
 		
-		myTileSize = tileSize;
+		//TODO: pull these from file
+		myEndLocation = new Location(width, height / 2);
+		mySpawnLocation = new Location(0, height / 2);
 		updatePaths();
+
+		// ExampleUnitFactory myTrollFactory = new ExampleUnitFactory("Troll",
+		// new TrollUnitDefinition());
+		// GameElement troll1 = myTrollFactory.createUnit(new Location(500,
+		// 500), new TrollUnitDefinition());
+		// GameElement troll2 = myTrollFactory.createUnit(new Location(350,
+		// 250), new TrollUnitDefinition());
+		// addGameElement(troll1);
+		// addGameElement(troll2);
 	}
 
 	/**
@@ -76,72 +92,11 @@ public class GameMap {
 	 * 
 	 * @param e
 	 *            a game element
+	 * @param t
+	 *            the tile in which to add the game element
 	 */
-	public void addToMap(GameElement e) {
+	public void addToMap(GameElement e, Tile t) {
 		myGameElements.add(e);
-	}
-
-	/**
-	 * tests if an element is a tower
-	 * 
-	 * @param e
-	 * @return
-	 */
-	public boolean isTower(GameElement e) {
-		int i = (int) e
-				.getAttributeManager()
-				.getAttribute(
-						AttributeConstantsEnum.AFFILIATION.getStatusCode())
-				.getValue();
-		double remainder = e
-				.getAttributeManager()
-				.getAttribute(
-						AttributeConstantsEnum.AFFILIATION.getStatusCode())
-				.getValue()
-				- i;
-		return remainder == .1;
-	}
-
-	/**
-	 * tests if a GameElement is an enemy.
-	 * 
-	 * @param e
-	 * @return
-	 */
-	public boolean isEnemy(GameElement e) {
-		return (Math.floor(e
-				.getAttributeManager()
-				.getAttribute(
-						AttributeConstantsEnum.AFFILIATION.getStatusCode())
-				.getValue()) == 1);
-
-	}
-
-	/**
-	 * Makes tiles covered by this game element neither buildable or walkable,
-	 * and sets their element.
-	 * 
-	 * @param e
-	 */
-	public void blockTiles(GameElement e) {
-
-		int tilesWide = (int) Math.ceil(e.getSize().getWidth()
-				/ myTileSize.getWidth());
-		int tilesTall = (int) Math.ceil(e.getSize().getHeight()
-				/ myTileSize.getHeight());
-
-		for (int i = 0; i < tilesWide; i++) {
-			for (int j = 0; j < tilesTall; j++) {
-				Location location = new Location(e.getCenter().getX() + i
-						* myTileSize.getWidth(), e.getCenter().getY() + j
-						* myTileSize.getHeight());
-
-				Tile t = getTile(location);
-				t.setTower(e);
-				t.setWalkable(false);
-				t.setBuildable(false);
-			}
-		}
 	}
 
 	/**
@@ -153,8 +108,9 @@ public class GameMap {
 	 * @return a Tile object containing this point (x, y)
 	 */
 	public Tile getTile(Point point) {
-		return myGrid[(int) (point.getX() / getTileSize().getWidth())][(int) (point
-				.getY() / getTileSize().getHeight())];
+		return myGrid[(int) (point.getX() / TileFactory.TILE_DIMENSIONS
+				.getWidth())][(int) (point.getY() / TileFactory.TILE_DIMENSIONS
+				.getHeight())];
 	}
 
 	/**
@@ -167,20 +123,13 @@ public class GameMap {
 	 */
 	public Tile getTile(Location location) {
 		try {
-			return myGrid[(int) (location.getX() / getTileSize().getWidth())][(int) (location
-					.getY() / getTileSize().getHeight())];
-		} catch (ArrayIndexOutOfBoundsException e) {
+		return myGrid[(int) (location.getX() / TileFactory.TILE_DIMENSIONS
+				.getWidth())][(int) (location.getY() / TileFactory.TILE_DIMENSIONS
+				.getHeight())];
+		}
+		catch(ArrayIndexOutOfBoundsException e) {
 			return null;
 		}
-	}
-
-	/**
-	 * gets the background image for this map.
-	 * 
-	 * @return pixmap that is the background
-	 */
-	public Pixmap getBackgroundImage() {
-		return myBackgroundImage;
 	}
 
 	/**
@@ -189,10 +138,6 @@ public class GameMap {
 	 *            a pen used to draw elements on this map.
 	 */
 	public void paint(Graphics2D pen) {
-		if (myBackgroundImage != null) {
-			pen.drawImage(myBackgroundImage.getImg(), 0, 0, myDimensions.width,
-					myDimensions.height, null);
-		}
 		paintTiles(pen);
 		paintGameElements(pen);
 		if (myGhostImage != null)
@@ -325,6 +270,10 @@ public class GameMap {
 	 * @return the shortest path between these two locations
 	 */
 	public Path getShortestPath(Location start, Location finish) {
+		int x1 = (int) (start.getX() / TileFactory.TILE_DIMENSIONS.getWidth());
+		int x2 = (int) (finish.getX() / TileFactory.TILE_DIMENSIONS.getWidth());
+		int y1 = (int) (start.getY() / TileFactory.TILE_DIMENSIONS.getHeight());
+		int y2 = (int) (finish.getY() / TileFactory.TILE_DIMENSIONS.getHeight());
 		Location startIndex = getTileIndexFromLocation(start);
 		Location finishIndex = getTileIndexFromLocation(finish);
 		Path thePath = myPathfinder.getShortestPath(startIndex, finishIndex);
@@ -333,9 +282,11 @@ public class GameMap {
 	}
 
 	private Location getTileIndexFromLocation(Location location) {
-		return new Location((int) ((location.getX() - 1) / getTileSize()
-				.getWidth()), (int) ((location.getY() - 1) / getTileSize()
-				.getHeight()));
+		return new Location(
+				(int) ((location.getX() - 1) / TileFactory.TILE_DIMENSIONS
+						.getWidth()),
+				(int) ((location.getY() - 1) / TileFactory.TILE_DIMENSIONS
+						.getHeight()));
 	}
 
 	/**
@@ -346,7 +297,8 @@ public class GameMap {
 		for (GameElement e : myGameElements) {
 			for (Action action : e.getActions())
 				if (action.getClass().equals(FollowPath.class)) {
-					Path p = getShortestPath(e.getCenter(), myEndLocation);
+					Path p = getShortestPath(e.getCenter(),
+							myEndLocation);
 					((FollowPath) action).setPath(p);
 				}
 		}
@@ -396,35 +348,14 @@ public class GameMap {
 	 */
 	public boolean isBuildable(Location l) {
 		Tile t = getTile(l);
-		return (t == null) ? false : t.isBuildable();
+		return (t==null) ? false : t.isBuildable();
 	}
 
 	public Location getSpawnLocation() {
 		return mySpawnLocation;
 	}
 
-	public Location getEndLocation() {
-		return myEndLocation;
-	}
-
-	public Dimension getTileSize() {
-		return myTileSize;
-	}
-	
-	public void setSpawnLocation(Location location) {
-	    mySpawnLocation = location;
-	}
-	
-	public void setDestinationLocation(Location location) {
-	    myEndLocation = location;
-	}
-	
-	public void setGrid(Tile[][] grid) {
-	    myPathfinder = new Pathfinder(grid, myTileSize);
-	    myGrid = grid;
-	}
-	
-	public Dimension getSize() {
-	    return myDimensions;
+	public Location getDestination() {
+		return myDestination;
 	}
 }

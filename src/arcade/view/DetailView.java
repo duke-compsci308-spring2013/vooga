@@ -62,273 +62,270 @@ import arcade.view.forms.payment.PaymentSelection;
  */
 public class DetailView extends JFrame {
 
-	private static final Integer[] RATINGS = {1,2,3,4,5};
-	private static final String GAME_TITLE_FONT_TAIL = "</font></font></b></html>";
-	private static final String GAME_TITLE_FONT_HEADER = "<html><b><font color = gray><font size = 6>";
-	private static final String PLAY_IMAGE_URL = "/src/arcade/resources/images/PlayIcon.jpg";
-	private static final String COMMENT_AREA_CONTENT_TYPE = "text/html";
-	private static final String DESCRIPTION = "Description";
-	private static final String COMMENTS = "Comments";
-	private static final String USER_DIR = "user.dir";
-	private static final String SUBMIT = "Submit";
-	private static final String PRICE = "Price: ";
-	private static final String BUY = "BUY";
+    private static final Integer[] RATINGS = { 1, 2, 3, 4, 5 };
+    private static final String GAME_TITLE_FONT_TAIL = "</font></font></b></html>";
+    private static final String GAME_TITLE_FONT_HEADER =
+            "<html><b><font color = gray><font size = 6>";
+    private static final String PLAY_IMAGE_URL = "/src/arcade/resources/images/PlayIcon.jpg";
+    private static final String COMMENT_AREA_CONTENT_TYPE = "text/html";
+    private static final String DESCRIPTION = "Description";
+    private static final String COMMENTS = "Comments";
+    private static final String USER_DIR = "user.dir";
+    private static final String SUBMIT = "Submit";
+    private static final String PRICE = "Price: ";
+    private static final String BUY = "BUY";
 
-	private static final String HTML_BOLD_HEADER = "<b>";
-	private static final String HTML_BOLD_TAIL = "</b>";
-	private static final String NEWLINE = "\n";
-	private static final String HTML_NEWLINE = "<br>";
+    private static final String HTML_BOLD_HEADER = "<b>";
+    private static final String HTML_BOLD_TAIL = "</b>";
+    private static final String NEWLINE = "\n";
+    private static final String HTML_NEWLINE = "<br>";
 
-	private static final int DESCRIPTION_SECTION_BACKGROUND_OPACITY = 20;
-	private static final int WINDOW_Y_COORDINATE = 100;
-	private static final int WINDOW_X_COORDINATE = 100;
-	private static final int DESCRIPTION_COLUMN = 1;
-	private static final int DESCRIPTION_ROWS = 10;
-	private static final int WINDOW_WIDTH = 600;
-	private static final int WINDOW_HEIGHT = 600;
+    private static final int DESCRIPTION_SECTION_BACKGROUND_OPACITY = 20;
+    private static final int WINDOW_Y_COORDINATE = 100;
+    private static final int WINDOW_X_COORDINATE = 100;
+    private static final int DESCRIPTION_COLUMN = 1;
+    private static final int DESCRIPTION_ROWS = 10;
+    private static final int WINDOW_WIDTH = 600;
+    private static final int WINDOW_HEIGHT = 600;
 
-	private ResourceBundle myResources;
-	private GameInfo myGameInfo;
-	private JPanel myContentPanel;
-	private Controller myController;
+    private ResourceBundle myResources;
+    private GameInfo myGameInfo;
+    private JPanel myContentPanel;
+    private Controller myController;
 
+    /**
+     * Create and initialized the detail view
+     * 
+     * @param info
+     * @param resources
+     * @param controller
+     */
+    public DetailView (GameInfo info, ResourceBundle resources, Controller controller) {
+        myController = controller;
+        setBackground(Color.WHITE);
+        myGameInfo = info;
+        myResources = resources;
 
+        myContentPanel = (JPanel) getContentPane();
+        setLayout(new BoxLayout(myContentPanel, BoxLayout.PAGE_AXIS));
+        myContentPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        setTitle(resources.getString(TextKeywords.TITLE));
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-	/**
-	 * Create and initialized the detail view
-	 * @param info
-	 * @param resources
-	 * @param controller
-	 */
-	public DetailView (GameInfo info, ResourceBundle resources, Controller controller) {
-		myController = controller;
-		setBackground(Color.WHITE);
-		myGameInfo = info;
-		myResources = resources;
+        createTheBasicInfoPanel();
+        Color c = makeLightGray();
+        createAndConfigureTheDescriptionSection(c);
+        createCommentSection();
+        createCommentingAndRatingArea();
 
-		myContentPanel = (JPanel) getContentPane();
-		setLayout(new BoxLayout(myContentPanel, BoxLayout.PAGE_AXIS));
-		myContentPanel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-		setTitle(resources.getString(TextKeywords.TITLE));
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setBounds(WINDOW_X_COORDINATE, WINDOW_Y_COORDINATE, WINDOW_WIDTH, WINDOW_HEIGHT);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setVisible(true);
+    }
 
+    /**
+     * Create the area for users to write comments and rate this game.
+     * 
+     */
+    private void createCommentingAndRatingArea () {
 
-		createTheBasicInfoPanel();
-		Color c = makeLightGray();
-		createAndConfigureTheDescriptionSection(c);
-		createCommentSection();
-		createCommentingAndRatingArea();
+        final JTextArea commentsWriter = new JTextArea(3, 30);
+        commentsWriter.setBackground(Color.LIGHT_GRAY);
+        commentsWriter.setWrapStyleWord(true);
+        commentsWriter.setLineWrap(true);
+        final JComboBox ratingBox = new JComboBox(RATINGS);
 
-		setBounds(WINDOW_X_COORDINATE, WINDOW_Y_COORDINATE, WINDOW_WIDTH, WINDOW_HEIGHT);
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		setVisible(true);
-	}
+        JButton submitButton = new JButton(SUBMIT);
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed (ActionEvent arg0) {
+                double rating = new Double((Integer) ratingBox.getSelectedItem());
+                myController.commentAndRateGame(commentsWriter.getText(), rating,
+                                                myGameInfo.getName());
+                commentsWriter.setText("");
+            }
+        });
 
+        JPanel subPanel = new JPanel();
+        subPanel.add(commentsWriter);
+        subPanel.add(ratingBox);
+        myContentPanel.add(subPanel);
+        myContentPanel.add(submitButton);
+    }
 
-	/**
-	 * Create the area for users to write comments and rate this game.
-	 * 
-	 */
-	private void createCommentingAndRatingArea() {
+    /**
+     * Create the comment section with a message saying "comment" and a area
+     * to display all the comments users have previously input for this game.
+     * 
+     */
+    private void createCommentSection () {
 
-		final JTextArea commentsWriter = new JTextArea(3, 30);
-		commentsWriter.setBackground(Color.LIGHT_GRAY);
-		commentsWriter.setWrapStyleWord(true);
-		commentsWriter.setLineWrap(true);
-		final JComboBox ratingBox = new JComboBox(RATINGS);
-		
-		JButton submitButton = new JButton(SUBMIT);
-		submitButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed (ActionEvent arg0) {
-				double rating = (Integer)ratingBox.getSelectedItem() + 0.0;//(Double)ratingBox.getSelectedItem();
-				myController.commentAndRateGame(commentsWriter.getText(), rating, myGameInfo.getName());
-				commentsWriter.setText("");
-			}
-		});
+        JLabel comments = new JLabel(COMMENTS);
+        comments.setBackground(Color.gray);
+        myContentPanel.add(comments);
 
-		JPanel subPanel = new JPanel();
-		subPanel.add(commentsWriter);
-		subPanel.add(ratingBox);
-		myContentPanel.add(subPanel);
-		myContentPanel.add(submitButton);
-	}
+        JEditorPane commentsContent = new JEditorPane();
+        commentsContent.setEditable(false);
+        commentsContent.setContentType(COMMENT_AREA_CONTENT_TYPE);
 
+        constructCommentAreaContent(commentsContent);
+        JScrollPane commentPane = new JScrollPane(commentsContent);
+        myContentPanel.add(commentPane);
+    }
 
-	/**
-	 * Create the comment section with a message saying "comment" and a area
-	 * to display all the comments users have previously input for this game.
-	 * 
-	 */
-	private void createCommentSection() {
+    /**
+     * Create the description section with a message "description" and a
+     * description of the game provided by the game programmer when publishing.
+     * 
+     * @param c
+     */
+    private void createAndConfigureTheDescriptionSection (Color c) {
 
-		JLabel comments = new JLabel(COMMENTS);
-		comments.setBackground(Color.gray);
-		myContentPanel.add(comments);
+        JLabel description = new JLabel(DESCRIPTION);
+        description.setBackground(c);
+        description.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-		JEditorPane commentsContent = new JEditorPane();
-		commentsContent.setEditable(false);
-		commentsContent.setContentType(COMMENT_AREA_CONTENT_TYPE);
+        JTextArea descriptionContent =
+                new JTextArea(myGameInfo.getDescription(), DESCRIPTION_ROWS, DESCRIPTION_COLUMN);
+        descriptionContent.setLineWrap(true);
+        descriptionContent.setWrapStyleWord(true);
+        descriptionContent.setEditable(false);
+        descriptionContent.setBackground(c);
 
-		constructCommentAreaContent(commentsContent);
-		JScrollPane commentPane = new JScrollPane(commentsContent);
-		myContentPanel.add(commentPane);
-	}
+        JScrollPane descriptionPane = new JScrollPane(descriptionContent);
 
+        myContentPanel.add(description);
+        myContentPanel.add(descriptionPane);
+    }
 
-	/**
-	 * Create the description section with a message "description" and a 
-	 * description of the game provided by the game programmer when publishing. 
-	 * 
-	 * @param c
-	 */
-	private void createAndConfigureTheDescriptionSection(Color c) {
+    /**
+     * Create the basic info area. It includes a thumbnail for the game, the
+     * game's name, author, genre, overall rating and a play or buy button
+     * base on whether the user is current in store or game center.
+     * 
+     */
+    private void createTheBasicInfoPanel () {
 
-		JLabel description = new JLabel(DESCRIPTION);
-		description.setBackground(c);
-		description.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JPanel basicInfoPanel = new JPanel();
 
-		JTextArea descriptionContent = new JTextArea(myGameInfo.getDescription(), DESCRIPTION_ROWS, DESCRIPTION_COLUMN);
-		descriptionContent.setLineWrap(true);
-		descriptionContent.setWrapStyleWord(true);
-		descriptionContent.setEditable(false);
-		descriptionContent.setBackground(c);
+        ImageIcon icon = myGameInfo.getThumbnail();
+        Image scaledImage = ImageHelper.getScaledImage(icon, 160);
+        JLabel picture = new JLabel(new ImageIcon(scaledImage));
 
-		JScrollPane descriptionPane = new JScrollPane(descriptionContent);
+        basicInfoPanel.add(picture);
+        basicInfoPanel.add(createSubPanelForBasicInfoPanel(myGameInfo));
 
-		myContentPanel.add(description);
-		myContentPanel.add(descriptionPane);
-	}
+        if (myController.getGamesPurchased().contains(myGameInfo)) {
+            basicInfoPanel.add(createThePlayButton());
+        }
+        else {
+            basicInfoPanel.add(createThePurchaseButton());
+        }
+        myContentPanel.add(basicInfoPanel);
+    }
 
+    /**
+     * Helper function, used to adjust the grayness of background for
+     * game description area.
+     * 
+     * @return
+     */
+    private Color makeLightGray () {
 
-	/**
-	 * Create the basic info area. It includes a thumbnail for the game, the 
-	 * game's name, author, genre, overall rating and a play or buy button 
-	 * base on whether the user is current in store or game center.
-	 * 
-	 */
-	private void createTheBasicInfoPanel() {
+        int r = Color.GRAY.getRed();
+        int g = Color.gray.getGreen();
+        int b = Color.GRAY.getBlue();
 
-		JPanel basicInfoPanel = new JPanel();
+        Color c = new Color(r, g, b, DESCRIPTION_SECTION_BACKGROUND_OPACITY);
+        return c;
+    }
 
-		ImageIcon icon = myGameInfo.getThumbnail();
-		Image scaledImage = ImageHelper.getScaledImage(icon, 160);
-		JLabel picture = new JLabel(new ImageIcon(scaledImage));
+    /**
+     * Create the buy button which will trigger the payment view and methods.
+     * 
+     */
+    private JButton createThePurchaseButton () {
 
-		basicInfoPanel.add(picture);
-		basicInfoPanel.add(createSubPanelForBasicInfoPanel(myGameInfo));
+        JButton buyButton = new JButton(BUY + NEWLINE + PRICE + myGameInfo.getPrice());
 
-		if (myController.getGamesPurchased().contains(myGameInfo))
-			basicInfoPanel.add(createThePlayButton());
-		else
-			basicInfoPanel.add(createThePurchaseButton());
-		myContentPanel.add(basicInfoPanel);
-	}
+        buyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed (ActionEvent arg0) {
+                new PaymentSelection(myController, myResources, myGameInfo);
+            }
+        });
 
+        return buyButton;
+    }
 
-	/**
-	 * Helper function, used to adjust the grayness of background for 
-	 * game description area.
-	 * @return
-	 */
-	private Color makeLightGray() {
+    /**
+     * Create the play button which starts the game the user selects.
+     * 
+     */
+    private JButton createThePlayButton () {
 
-		int r = Color.GRAY.getRed();
-		int g = Color.gray.getGreen();
-		int b = Color.GRAY.getBlue();
+        String localDirectory = System.getProperty(USER_DIR);
+        ImageIcon playButtonIcon =
+                new ImageIcon(localDirectory + PLAY_IMAGE_URL);
 
-		Color c = new Color(r, g, b, DESCRIPTION_SECTION_BACKGROUND_OPACITY);
-		return c;
-	}
+        JButton playButton = new JButton(playButtonIcon);
 
+        playButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed (ActionEvent e) {
+                myController.playGame(myGameInfo);
+            }
+        });
+        return playButton;
+    }
 
-	/**
-	 * Create the buy button which will trigger the payment view and methods.
-	 * 
-	 */
-	private JButton createThePurchaseButton() {
+    /**
+     * Helper method used to create a JPanel with the game title, game genre,
+     * the author, and the overall rating.
+     * 
+     * Used to help better organize the view.
+     * 
+     * @param info
+     * @return
+     */
+    private JPanel createSubPanelForBasicInfoPanel (GameInfo info) {
 
-		JButton buyButton = new JButton(BUY+ NEWLINE + PRICE + myGameInfo.getPrice());
+        JPanel subPanelForBasicInfo = new JPanel();
+        subPanelForBasicInfo.setLayout(new BoxLayout(subPanelForBasicInfo, BoxLayout.PAGE_AXIS));
 
-		buyButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed (ActionEvent arg0) {
-				new PaymentSelection(myController, myResources, myGameInfo);
-			}
-		});
-		
-		return buyButton;
-	}
+        JLabel title =
+                new JLabel(GAME_TITLE_FONT_HEADER + myGameInfo.getName() + GAME_TITLE_FONT_TAIL);
+        JLabel genre = new JLabel(myGameInfo.getGenre());
+        JLabel author = new JLabel(myGameInfo.getAuthor());
+        JLabel rating = new RatingIcons().makeLabel((int) info.getRating());
 
+        subPanelForBasicInfo.add(title);
+        subPanelForBasicInfo.add(genre);
+        subPanelForBasicInfo.add(author);
+        subPanelForBasicInfo.add(rating);
 
-	/**
-	 * Create the play button which starts the game the user selects. 
-	 * 
-	 */
-	private JButton createThePlayButton() {
+        return subPanelForBasicInfo;
+    }
 
-		String localDirectory = System.getProperty(USER_DIR);
-		ImageIcon playButtonIcon =
-				new ImageIcon(localDirectory + PLAY_IMAGE_URL);
+    /**
+     * Pulling previous comments from the database and fill the area with
+     * comments. Comments are formatted with the user name in bold. It also
+     * shows what rating the user gave to the game
+     * 
+     */
+    private void constructCommentAreaContent (JEditorPane commentPane) {
+        List<Comment> comments = myGameInfo.getComments();
+        StringBuilder sb = new StringBuilder();
+        for (Comment comment : comments) {
+            sb.append(HTML_BOLD_HEADER + comment.getUser() + HTML_BOLD_TAIL);
+            sb.append(HTML_NEWLINE);
+            sb.append(new RatingIcons().makeHTMLText((int) comment.getRating()));
+            sb.append(HTML_NEWLINE);
+            sb.append(comment.getComment());
+            sb.append(HTML_NEWLINE);
+            sb.append(HTML_NEWLINE);
+        }
+        commentPane.setText(sb.toString());
+    }
 
-		JButton playButton = new JButton(playButtonIcon);
-
-		playButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed (ActionEvent e) {
-				myController.playGame(myGameInfo);
-			}
-		});
-		return playButton;
-	}
-
-
-	/**
-	 * Helper method used to create a JPanel with the game title, game genre,
-	 * the author, and the overall rating. 
-	 * 
-	 * Used to help better organize the view. 
-	 * 
-	 * @param info
-	 * @return
-	 */
-	private JPanel createSubPanelForBasicInfoPanel(GameInfo info) {
-
-		JPanel subPanelForBasicInfo = new JPanel();
-		subPanelForBasicInfo.setLayout(new BoxLayout(subPanelForBasicInfo, BoxLayout.PAGE_AXIS));
-
-		JLabel title = new JLabel(GAME_TITLE_FONT_HEADER + myGameInfo.getName() + GAME_TITLE_FONT_TAIL);
-		JLabel genre = new JLabel(myGameInfo.getGenre());
-		JLabel author = new JLabel(myGameInfo.getAuthor());
-		JLabel rating = new RatingIcons().makeLabel((int)info.getRating());
-
-		subPanelForBasicInfo.add(title);
-		subPanelForBasicInfo.add(genre);
-		subPanelForBasicInfo.add(author);
-		subPanelForBasicInfo.add(rating);
-
-		return subPanelForBasicInfo;
-	}
-
-
-	/**
-	 * Pulling previous comments from the database and fill the area with
-	 * comments. Comments are formatted with the user name in bold. It also 
-	 * shows what rating the user gave to the game
-	 * 
-	 */
-	private void constructCommentAreaContent (JEditorPane commentPane) {
-		List<Comment> comments = myGameInfo.getComments();
-		StringBuilder sb = new StringBuilder();
-		for (Comment comment : comments) {
-			sb.append(HTML_BOLD_HEADER + comment.getUser() + HTML_BOLD_TAIL);
-			sb.append(HTML_NEWLINE);
-			sb.append(new RatingIcons().makeHTMLText((int)comment.getRating()));
-			sb.append(HTML_NEWLINE);
-			sb.append(comment.getComment());
-			sb.append(HTML_NEWLINE);           
-			sb.append(HTML_NEWLINE);
-		}
-		commentPane.setText(sb.toString());
-	}
 }

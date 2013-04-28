@@ -22,7 +22,6 @@ public class EntityState {
     private ProducingState myProducingState;
     private MovementState myMovementState;
     private DetectableState myDetectableState;
-    private UnitState myUnitState;
 
     private double myAttackingCooldown;
     private DelayedTask myAttackingDelay;
@@ -41,14 +40,8 @@ public class EntityState {
         myMovementState = MovementState.STATIONARY;
         myDetectableState = DetectableState.DETECTABLE;
         myAttackingCooldown = DEFAULT_ATTACKING_INTERVAL;
-        myUnitState = UnitState.NO_STATE;
     }
 
-    /**
-     * Returns the attacking state of the game entity.
-     * 
-     * @return the attacking state of the entity
-     */
     public AttackingState getAttackingState () {
         return myAttackingState;
     }
@@ -76,10 +69,6 @@ public class EntityState {
         myOccupyState = occupyState;
     }
 
-    public OccupyState getOccupyState () {
-        return myOccupyState;
-    }
-
     /**
      * This method is used to set the producing state (either producing or not
      * producing) for the game entity.
@@ -101,44 +90,15 @@ public class EntityState {
     public void setMovementState (MovementState movementState) {
         myMovementState = movementState;
     }
-
+    
     /**
      * This method returns the movement state (either moving or stationary) of
      * the game entity.
      * 
      * @return the movement state of the game entity
      */
-    public MovementState getMovementState () {
-        return myMovementState;
-    }
-
-    /**
-     * returns the unit's state.
-     * 
-     * @return the state of the unit
-     */
-    public UnitState getUnitState () {
-        return myUnitState;
-    }
-
-    /**
-     * Sets the state of the unit.
-     * 
-     * @param unitState
-     *        is the state of the unit
-     */
-    public void setUnitState (UnitState unitState) {
-        myUnitState = unitState;
-    }
-
-    /**
-     * Returns whether or not a unit is in occupy mode.
-     * 
-     * @return true if a unit is set to occupy (a friendly building was
-     *         clicked on) and false if it cannot occupy
-     */
-    public boolean canUnitOccupy () {
-        return myUnitState == UnitState.OCCUPY;
+    public MovementState getMovementState() {
+    	return myMovementState;
     }
 
     /**
@@ -150,69 +110,19 @@ public class EntityState {
         return myMovementState == MovementState.MOVING;
     }
 
-    /**
-     * Returns whether or not the entity can be selected.
-     * 
-     * @return true if the entity can be selected and false if it can not be
-     *         selected
-     */
     public boolean canSelect () {
         return myOccupyState == OccupyState.NOT_OCCUPYING;
-    }
-
-    /**
-     * Sets the state of an entity to producing. When an entity produces, it
-     * does not move attack, move, or occupy.
-     */
-    public void produce () {
-        myProducingState = ProducingState.PRODUCING;
-        myMovementState = MovementState.STATIONARY;
-        myAttackingState = AttackingState.NOT_ATTACKING;
-        myOccupyState = OccupyState.NOT_OCCUPYING;
-        myUnitState = UnitState.PRODUCE;
-    }
-
-    /**
-     * Returns whether or not an entity can produce other entities
-     * 
-     * @return true if the entity can produce other entities and false if it
-     *         cannot produce other entities
-     */
-    public boolean canProduce () {
-        return myProducingState == ProducingState.PRODUCING
-               && myUnitState == UnitState.PRODUCE;
     }
 
     /**
      * Returns whether the entity can attack. In order to attack, the entity
      * must be in the attacking state.
      * 
-     * @return true if the entity can attack (in the attacking state and false
-     *         if the entity cannot attack
+     * @return true if the entity can attack (in the attacking state and
+     *         false if the entity cannot attack
      */
     public boolean canAttack () {
         return myAttackingState == AttackingState.ATTACKING;
-    }
-
-    /**
-     * Checks to see whether an entity has an attacking state other than not
-     * attacking.
-     * 
-     * @return true if the entity state is either attacking or waiting and false
-     *         if the entity is not attacking
-     */
-    public boolean isAttacking () {
-        return myAttackingState != AttackingState.NOT_ATTACKING;
-    }
-
-    /**
-     * Checks to see if an entity has been set to be in attack mode.
-     * 
-     * @return true if the unit state of the entity is set to attack and false
-     *         if the unit state of the entity is set to anything else
-     */
-    public boolean inAttackMode () {
-        return myUnitState == UnitState.ATTACK;
     }
 
     /**
@@ -237,7 +147,6 @@ public class EntityState {
      */
     public void attack () {
         myAttackingState = AttackingState.WAITING;
-        // myUnitState = UnitState.ATTACK;
         myAttackingDelay = new DelayedTask(myAttackingCooldown, new Runnable() {
             @Override
             public void run () {
@@ -248,20 +157,19 @@ public class EntityState {
 
     /**
      * This method is used to update the cooldown of the attacking delayed task.
-     * This delayed task is used to make the entity delay attacking after moving
-     * so that the entity does not look "buggy" as it moves and shoots. If the
-     * entity is moving, its cooldown is reset to the max cooldown. If the
+     * This delayed task is used to make the entity delay attacking after moving so
+     * that the entity does not look "buggy" as it moves and shoots. If the
+     * entity is moving, its cooldown is reset to the max cooldwow. If the
      * entity is not moving the cooldown gets decremented.
      */
     public void update (double elapsedTime) {
 
         if (myAttackingDelay != null) {
             if (myMovementState == MovementState.MOVING) {
-                myAttackingDelay.cancel();
-                myAttackingState = AttackingState.NOT_ATTACKING;
+                myAttackingDelay.restart();
             }
             else {
-                // System.out.println("Not Moving!");
+               // System.out.println("Not Moving!");
                 myAttackingDelay.update(elapsedTime);
             }
         }

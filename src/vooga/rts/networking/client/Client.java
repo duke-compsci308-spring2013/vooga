@@ -5,11 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import util.logger.LoggerManager;
-import vooga.rts.networking.NetworkBundle;
-import vooga.rts.networking.communications.IMessage;
+import vooga.rts.networking.communications.Message;
 
 
 /**
@@ -22,9 +18,8 @@ import vooga.rts.networking.communications.IMessage;
  * 
  */
 public class Client extends Thread implements IClient {
-
     private static final int PORT = 55308;
-    private static final String HOST = "login.cs.duke.edu";
+    private static final String HOST = "localhost";
     private ObjectInputStream myInput;
     private ObjectOutputStream myOutput;
     private Socket mySocket;
@@ -32,65 +27,58 @@ public class Client extends Thread implements IClient {
     private int myPort = PORT;
     private IMessageReceiver myReceiver;
     private boolean myRunning = false;
-    private Logger myLogger;
-
-    /**
-     * Instantiates the client and starts the connection.
-     * 
-     * @param receiver to send messages to
-     */
+    
     public Client (IMessageReceiver receiver) {
         myReceiver = receiver;
-        LoggerManager log = new LoggerManager();
-        myLogger = log.getLogger();
-        try {
-            mySocket = new Socket(myHost, myPort);
-            myOutput = new ObjectOutputStream(mySocket.getOutputStream());
-            myInput = new ObjectInputStream(mySocket.getInputStream());
-        }
-        catch (UnknownHostException e) {
-            myLogger.log(Level.WARNING,
-                         NetworkBundle.getString("InitialConnectionFailed"));
-        }
-        catch (IOException e) {
-            myLogger.log(Level.WARNING,
-                         NetworkBundle.getString("InitialConnectionFailed"));
-        }
-        start();
+        run();
     }
 
     /**
      * Creates the sockets and streams for this client
      */
-    public void run () {
+    @Override
+	public void run () {
+        try {
+            mySocket = new Socket(myHost, myPort);
+            myInput = new ObjectInputStream(mySocket.getInputStream());
+            myOutput = new ObjectOutputStream(mySocket.getOutputStream());
+        }
+        catch (UnknownHostException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        // TODO refactor
         myRunning = true;
-        while (myRunning) {
+        while(myRunning){
             try {
                 Object object = myInput.readObject();
-                if (object instanceof IMessage) {
-                    myReceiver.getMessage((IMessage) object);
+                if (object instanceof Message) { 
+                    myReceiver.getMessage((Message) object); 
                 }
             }
             catch (ClassNotFoundException e) {
-                myLogger.log(Level.WARNING,
-                             NetworkBundle.getString("ConnectionFailedClassEx"));
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
             catch (IOException e) {
-                myLogger.log(Level.WARNING,
-                             NetworkBundle.getString("ConnectionFailedIO"));
+                // TODO Auto-generated catch block
+                e.printStackTrace();
                 myRunning = false;
             }
         }
     }
 
     @Override
-    public void sendMessage (IMessage message) {
+    public void sendData (Message message) {
         try {
             myOutput.writeObject(message);
         }
         catch (IOException e) {
-            myLogger.log(Level.WARNING,
-                         NetworkBundle.getString("ExceptionServer") + e);
+            System.out.println("Exception writing to server: " + e);
         }
     }
 
@@ -108,10 +96,9 @@ public class Client extends Thread implements IClient {
             mySocket.close();
         }
         catch (IOException e) {
-            myLogger.log(Level.WARNING,
-                         NetworkBundle.getString("ClosingConnectionsFailed"));
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-        myLogger.log(Level.INFO, NetworkBundle.getString("ClosedConnection"));
     }
-
+    
 }

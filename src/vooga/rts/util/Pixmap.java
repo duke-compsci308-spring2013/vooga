@@ -5,9 +5,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
-import vooga.rts.resourcemanager.ResourceManager;
 
 
 /**
@@ -19,40 +17,56 @@ import vooga.rts.resourcemanager.ResourceManager;
  * @author Robert C. Duvall
  */
 public class Pixmap {
+    // OS-independent relative resource locations (like URLs)
+    private static final String RESOURCE_LOCATION = "/vooga/rts/resources/images/";
+    // underlying implementation
+    private java.awt.Image myImage;
+    private String myFileName;
+
+
+    /**
+     * Create an image from the given filename.
+     */
+    public Pixmap (String fileName) {
+        setImage(fileName);
+    }
     
-	private java.awt.Image myImage;
-	private String myFileName;
+    /**
+     * Create an image from the given filename.
+     */
+    public Pixmap (Image image) {
+        myImage = image;
+    }
 
+    /**
+     * Create a copy of image from the given other image.
+     */
+    public Pixmap (Pixmap other) {
+        //this(other.myFileName);
+        this(other.myImage);
+    }
 
-	/**
-	 * Create an image from the given filename.
-	 */
-	public Pixmap (String fileName) {
-		setImage(fileName);
-	}
+    /**
+     * Set this image to the image referred to by the given filename.
+     */
+    public void setImage (String fileName) {
+        myImage = new ImageIcon(getClass().getResource(RESOURCE_LOCATION + fileName)).getImage();
+        myFileName = fileName;
+    }
 
-	/**
-	 * Create an image from the given filename.
-	 */
-	public Pixmap (Image image) {
-		myImage = image;
-	}
-
-	/**
-	 * Create a copy of image from the given other image.
-	 */
-	public Pixmap (Pixmap other) {
-	    //this(other.myFileName);
-	    this(other.myImage);
-	}
-
-	/**
-	 * Set this image to the image referred to by the given filename.
-	 */
-	public void setImage (String fileName) {
-		myImage = ResourceManager.getInstance().<BufferedImage> getFile(fileName, BufferedImage.class);
-		myFileName = fileName;
-	}
+    /**
+     * Describes how to draw the image on the screen.
+     */
+    public void paint (Graphics2D pen, Point2D center) {
+        paint(pen, center, null, 0);
+    }
+    
+    /**
+     * Describes how to draw the image on the screen.
+     */
+    public void paint (Graphics2D pen, Point2D center, Dimension size) {
+        paint(pen, center, size, 0);
+    }
 
     /**
      * Describes how to draw the image rotated on the screen.
@@ -71,37 +85,4 @@ public class Pixmap {
         pen.setTransform(old);
     }
     //public void paint ()
-    
-    public Dimension getMyDimension() {
-        return new Dimension(myImage.getWidth(null), myImage.getHeight(null));
-    }
-    
-    public int getMyWidth() {
-        return myImage.getWidth(null);
-    }
-    
-    public int getMyHeight() {
-        return myImage.getHeight(null);
-    }
-	/**
-	 * Describes how to draw the image on the screen.
-	 */
-    public void paint (Graphics2D pen, Point2D center) {
-		paint(pen, center, null, 0);
-	
-    }
-
-	/**
-	 * Describes how to draw the image on the screen.
-	 */
-	
-    public void paint (Graphics2D pen, Point2D center, Dimension size) {
-		paint(pen, center, size, 0);
-	
-    }
-    
-    public Image getMyImage() {
-        return myImage;
-    }
-
 }

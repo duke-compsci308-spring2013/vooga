@@ -46,9 +46,8 @@ public class SystemTimeStamp extends TimeStamp {
      */
     @Override
     public long getDifference () {
-        if (getFinalTime() == DEFAULT_VALUE) {
+        if (getFinalTime() == DEFAULT_VALUE)
             setFinalTime(System.currentTimeMillis());
-        }
         return getFinalTime() - getInitialTime();
     }
 

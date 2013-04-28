@@ -8,13 +8,12 @@ import javax.swing.JPanel;
 
 /**
  * This Class holds all the functional Buttons for this level editor
- * Right now it has fill, remove and clearall button
+ * ZoomIn, ZoomOut, remove, clear
  * 
  * @author Ziqiang Huang
  *
  */
 
-@SuppressWarnings("serial")
 public class ButtonPanel extends JPanel {
 
     private Canvas myCanvas;
@@ -34,29 +33,41 @@ public class ButtonPanel extends JPanel {
      */
 
     public void initializeButton() {
-        JButton fillButton = new JButton("Fill");
-        fillButton.addActionListener(new ActionListener() {
-            public void actionPerformed (ActionEvent e) {
-                myCanvas.getMapPanel().fill();
+        JButton ZoomInButton = new JButton("ZoomIn");
+        ZoomInButton.addActionListener(new ActionListener() {
+            @Override
+			public void actionPerformed (ActionEvent e) {
+                myCanvas.ZoomIn();
             }
         });
-        JButton removeButton = new JButton("Remove");
-        removeButton.addActionListener(new ActionListener() {
-            public void actionPerformed (ActionEvent e) {
-                myCanvas.getMapPanel().setRemoveMode();
+        JButton ZoomOutButton = new JButton("ZoomOut");
+        ZoomOutButton.addActionListener(new ActionListener() {
+            @Override
+			public void actionPerformed (ActionEvent e) {
+                myCanvas.ZoomOut();
+            }
+        });
+        JButton RemoveButton = new JButton("Remove");
+        RemoveButton.addActionListener(new ActionListener() {
+            @Override
+			public void actionPerformed (ActionEvent e) {
+                myCanvas.remove(true);
+                myCanvas.setMode(MapPanel.RESOURCEMODE);
             }
         });
 
-        JButton clearButton = new JButton("ClearAll");
-        clearButton.addActionListener(new ActionListener() {
-            public void actionPerformed (ActionEvent e) {
+        JButton ClearButton = new JButton("ClearAll");
+        ClearButton.addActionListener(new ActionListener() {
+            @Override
+			public void actionPerformed (ActionEvent e) {
                 myCanvas.clear();
             }
         });
 
-        this.add(fillButton);
-        this.add(removeButton);
-        this.add(clearButton);
+        this.add(ZoomInButton);
+        this.add(ZoomOutButton);
+        this.add(RemoveButton);
+        this.add(ClearButton);
     }
 
 

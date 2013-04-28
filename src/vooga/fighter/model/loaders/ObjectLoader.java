@@ -13,68 +13,80 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import util.Pixmap;
+import vooga.fighter.model.ModelConstants;
 import vooga.fighter.model.objects.GameObject;
 import vooga.fighter.model.utils.State;
 
 /**
  * Abstract class with shared methods that all ObjectLoader-derived classes may need.
  * 
- * @author Dayvid, alanni
+ * @author David Le, alanni
  *
  */
 public abstract class ObjectLoader {
 
 
-    private String delimiter= ",";
-	private String RESOURCE_PATH = "config.objects";
-	private String RESOURCE_DEFAULT_VALUES_PATH="config.defaultvalues";
-	private String RESOURCE_PROPERTIES_PATH="config.propertyfields";
-	private File myObjectFile;
+
+	/**
+	 * Raw format of XML document containing object information
+	 */
 	private Document myDocument;
-	private ResourceBundle myResources;
-	private ResourceBundle myDefaults; 
+	/**
+	 * Resource bundle containing the information on tags to search for in xml files
+	 */
+	private ResourceBundle myTags;
+	/**
+	 * Resource bundle containing the information on default values if certain parameters
+	 * are not found in xml files.
+	 */
+	private ResourceBundle myDefaults;
+	/**
+	 * Resource bundle containing the information on which tags each class has in xml files
+	 */
     private ResourceBundle myProperties;  
 
 	/**
-	 * Points to the xml file that the loader will be parsing
-	 * 
+	 * Points to the xml file that the loader will be parsing.
 	 * @param objectPath
+	 * @param pathHierarchy The path to the folder containing the game's resources
 	 */
 	public ObjectLoader (String pathName, String pathHierarchy) {
 		setResourcePaths(pathHierarchy); 
-		String objectPath = myResources.getString(pathName);
-		myObjectFile = new File(objectPath);
+		String objectPath = myTags.getString(pathName);
+		File objectFile = new File(objectPath);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
 		try {
 			dBuilder = dbFactory.newDocumentBuilder();
-			myDocument = dBuilder.parse(myObjectFile);
+			myDocument = dBuilder.parse(objectFile);
 			myDocument.getDocumentElement().normalize();
 		} catch (Exception e) {
 			myDocument = null;
-			System.err.println("Parsing error/file not found for " + getClass().getSimpleName());
+			System.err.println(ModelConstants.PARSING_ERROR+ getClass().getSimpleName());
 		}
 	}
 	
 	/**
 	 * Sets the resource paths for the object loader
+	 * @param pathHierarchy The path to the folder containing the game's resources
 	 */
 	private void setResourcePaths(String pathHierarchy){
-		myResources = ResourceBundle.getBundle(pathHierarchy+RESOURCE_PATH);
-		myDefaults= ResourceBundle.getBundle(pathHierarchy+RESOURCE_DEFAULT_VALUES_PATH);
-		myProperties= ResourceBundle.getBundle(pathHierarchy+RESOURCE_PROPERTIES_PATH);
+		myTags = ResourceBundle.getBundle(pathHierarchy+ModelConstants.RESOURCE_OBJECT_PATH);
+		myDefaults= ResourceBundle.getBundle(pathHierarchy+ModelConstants.RESOURCE_DEFAULT_VALUE_PATH);
+		myProperties= ResourceBundle.getBundle(pathHierarchy+ModelConstants.RESOURCE_PROPERTIES_PATH);
 	}
 
 	/**
 	 * Loads object based on the name given
-	 * @param name
+	 * @param name The name to be matched in the respective subclass's xml file
+	 * @param pathHierarchy The path to the folder containing the game's resources
 	 */
 	protected abstract void load(String name, String pathHierarchy);
 	
 
 	/**
 	 * Returns the xml document which the loader points to
-	 * @return
+	 * @return myDocument
 	 */
 	public Document getDocument() {
 		return myDocument;
@@ -82,16 +94,17 @@ public abstract class ObjectLoader {
 
 	/**
 	 * Returns resource bundle which contains what the names of nodes in the xml files should be.
+	 * return myResources
 	 */
 	protected ResourceBundle getResourceBundle() {
-		return myResources;
+		return myTags;
 	}
 
 	/**
 	 * Returns the string attribute value of the specified tag for the specified mode.
-	 * @param node
-	 * @param tag
-	 * @return
+	 * @param node The node to be examined
+	 * @param tag The tag which we want to get the value of
+	 * @return value The value matching the tag in the specified node
 	 */
 	public String getAttributeValue(Node node, String tag) {
 		try{
@@ -99,34 +112,22 @@ public abstract class ObjectLoader {
 			return value; 
 		}
 		catch(NullPointerException e){
-			String value= myDefaults.getString(getClass().getSimpleName()+tag);
-			System.err.println("Property "+ tag+ " not set.  Default value is "+value);
-			return value;
+				String value= myDefaults.getString(getClass().getSimpleName()+tag);
+				System.err.println(ModelConstants.PROPERTYSET_ERROR1+ tag+ ModelConstants.PROPERTYSET_ERROR2+value);
+				return value;
 		}
 	}
 
 	/**
-	 * Returns the value of the child node with the specified tag for the element.
-	 * @param tag
-	 * @param element
-	 * @return
-	 */
-	protected String getChildValue(String tag, Element element) {
-		NodeList nodes = element.getElementsByTagName(tag).item(0).getChildNodes();
-		Node node = (Node) nodes.item(0);
-		return node.getNodeValue();
-	}
-
-	/**
 	 * Loads and adds states for the GameObject.
-	 * @param stateNodes
-	 * @param myObject
+	 * @param stateNodes The list of nodes which contain all the states' information
+	 * @param myObject GameObject to load the states' information into
 	 */
 	protected void addStates(NodeList stateNodes, GameObject myObject) {
 		for (int i = 0; i < stateNodes.getLength(); i++) {
 			Element state = (Element) stateNodes.item(i);
-			String stateName = getAttributeValue(stateNodes.item(i), getResourceBundle().getString("StateName"));
-			NodeList frameNodes = state.getElementsByTagName(getResourceBundle().getString("Frame"));
+			String stateName = getAttributeValue(stateNodes.item(i), ModelConstants.STATENAME_PROPERTY);
+			NodeList frameNodes = state.getElementsByTagName(ModelConstants.FRAME_PROPERTY);
 			State newState = new State(myObject, frameNodes.getLength());
 			getFrameProperties(frameNodes, newState);
 			myObject.addState(stateName, newState);
@@ -134,47 +135,53 @@ public abstract class ObjectLoader {
 	}
 
 	/**
-	 * Loads frames and states for the objects 
+	 * Loads frames and states for the object which calls the method
+	 * @param frameNodes The list of nodes which contain all the frames' information
+	 * for this state
+	 * @param newState The state which all of the frames' information will be loaded into.
 	 */
 	protected void getFrameProperties(NodeList frameNodes, State newState){
 		for (int j = 0; j < frameNodes.getLength(); j++) {
 			Element frame = (Element) frameNodes.item(j);
-			if (frame.getAttributes().getNamedItem(getResourceBundle().getString("Image")) != null){
-				newState.populateImage(new Pixmap(getAttributeValue(frame, getResourceBundle().getString("Image"))), j);
+			if (frame.getAttributes().getNamedItem(ModelConstants.IMAGE_PROPERTY) != null){
+				newState.populateImage(new Pixmap(getAttributeValue(frame, ModelConstants.IMAGE_PROPERTY)), j);
 			} else {
-				newState.populateImage(new Pixmap(getResourceBundle().getString("Blank")), j);
+				newState.populateImage(new Pixmap(ModelConstants.BLANK), j);
 			}
-			NodeList hitboxNodes = frame.getElementsByTagName(getResourceBundle().getString("Hitbox")); 
+			NodeList hitboxNodes = frame.getElementsByTagName(ModelConstants.HITBOX_PROPERTY); 
 			for (int k=0; k<hitboxNodes.getLength(); k++){
-				newState.populateRectangle(new Rectangle(Integer.parseInt(getAttributeValue(hitboxNodes.item(k), getResourceBundle().getString("CornerX"))),
-						Integer.parseInt(getAttributeValue(hitboxNodes.item(k), getResourceBundle().getString("CornerY"))), Integer.parseInt(getAttributeValue(hitboxNodes.item(k), getResourceBundle().getString("Width"))),
-						Integer.parseInt(getAttributeValue(hitboxNodes.item(k), getResourceBundle().getString("Height")))), j);
+				newState.populateRectangle(new Rectangle(Integer.parseInt(getAttributeValue(hitboxNodes.item(k), ModelConstants.CORNERX_PROPERTY)),
+						Integer.parseInt(getAttributeValue(hitboxNodes.item(k), ModelConstants.CORNERY_PROPERTY)), Integer.parseInt(getAttributeValue(hitboxNodes.item(k), ModelConstants.WIDTH_PROPERTY)),
+						Integer.parseInt(getAttributeValue(hitboxNodes.item(k), ModelConstants.HEIGHT_PROPERTY))), j);
 			}
 		}
 	}
 	
 	/**
-	 *  return array of desired properties that will be loaded into the character
+	 * Return array of desired properties that will be loaded into the character
 	 */
 	protected String [] getProperties(){
-		return myProperties.getString(getClass().getSimpleName()).split(delimiter);
+		return myProperties.getString(getClass().getSimpleName()).split(ModelConstants.DELIMITER);
 	}
 	
 	/**
-	 * Loops through list of properties and adds property values for gameobject
+	 * Loops through list of properties and 
+	 * @param node The node which contains the property information
+	 * @param object The GameObject which will have the property information added into
 	 */
 	protected void addProperties(Node node, GameObject object){
 		for (String property: getProperties()){
-			addPropertyValue(node, property, object);
+			getAndAddProperty(node, property, object);
 		}
 	}
 	
 	/**
-	 * Matches appropriate value from xml with 
+	 * Adds property values for gameobject
 	 */
-	protected void addPropertyValue(Node node, String property, GameObject object){
+	protected void getAndAddProperty(Node node, String property, GameObject object){
 		int propertyValue= Integer.parseInt(getAttributeValue(node, property));
 		object.addProperty(property, propertyValue);
 	}
+	
 }
 

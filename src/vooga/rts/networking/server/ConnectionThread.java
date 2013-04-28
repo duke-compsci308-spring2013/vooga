@@ -4,10 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import vooga.rts.networking.NetworkBundle;
-import vooga.rts.networking.communications.IMessage;
 import vooga.rts.networking.communications.Message;
 import vooga.rts.networking.communications.clientmessages.InitialConnectionMessage;
 import vooga.rts.networking.communications.servermessages.CloseConnectionMessage;
@@ -29,7 +25,6 @@ public class ConnectionThread extends Thread {
     private String myGameName;
     private IMessageReceiver myMessageServer;
     private boolean myConnectionActive = false;
-    private Logger myLogger;
 
     /**
      * Represents a thread that communicates to a client
@@ -37,19 +32,19 @@ public class ConnectionThread extends Thread {
      * @param socket socket used for establishing the connection
      * @param id number of connection
      */
-    ConnectionThread (Socket socket, IMessageReceiver server, int id, Logger logger) {
+    ConnectionThread (Socket socket, IMessageReceiver server, int id) {
         mySocket = socket;
         myMessageServer = server;
         myID = id;
-        myLogger = logger;
 
         try {
             myInput = new ObjectInputStream(mySocket.getInputStream());
             myOutput = new ObjectOutputStream(mySocket.getOutputStream());
         }
         catch (IOException e) {
-            myLogger.log(Level.FINER,
-                         NetworkBundle.getString("InitialConnectionFailed"));
+            ServerLogger.getInstance();
+            ServerLogger.myLogger.severe("severe message in connection thread");
+
         }
     }
 
@@ -78,25 +73,26 @@ public class ConnectionThread extends Thread {
             else {
                 // first object is not initial connection message
                 myConnectionActive = false;
-                close();
+                myMessageServer.removeConnection(this);
                 return;
             }
 
             while (myConnectionActive) {
                 obj = myInput.readObject();
-                if (obj instanceof IMessage) {
+                if (obj instanceof Message) {
                     sendToMessageServer(obj);
                 }
             }
         }
         catch (IOException e) {
-            myLogger.log(Level.FINER,
-                         NetworkBundle.getString("ConnectionFailedIO"));
+            // TODO add logger
+            e.printStackTrace();
             close();
         }
         catch (ClassNotFoundException e) {
-            myLogger.log(Level.FINER,
-                         NetworkBundle.getString("ConnectionFailedClassEx"));
+            // TODO add logger
+            e.printStackTrace();
+            close();
         }
     }
 
@@ -110,9 +106,9 @@ public class ConnectionThread extends Thread {
 
     /**
      * Closes streams and socket of this thread
+     * TODO catch exceptions
      */
     public void close () {
-        myMessageServer.removeConnection(this);
         myConnectionActive = false;
         sendMessage(new CloseConnectionMessage());
         try {
@@ -127,12 +123,9 @@ public class ConnectionThread extends Thread {
             }
         }
         catch (IOException e) {
-            myLogger.log(Level.FINER,
-                         NetworkBundle.getString("ClosingConnectionsFailed"));
+            // TODO logger
+            e.printStackTrace();
         }
-        myLogger.log(Level.FINER,
-                     NetworkBundle.getString("ClosedConnection") +
-                             myID);
     }
 
     /**
@@ -140,20 +133,17 @@ public class ConnectionThread extends Thread {
      * 
      * @param m Message object to be sent
      */
-    public void sendMessage (IMessage m) {
+    public void sendMessage (Message m) {
         if (!mySocket.isConnected()) {
             close();
         }
         try {
             myOutput.writeObject(m);
-            myLogger.log(Level.FINEST,
-                         NetworkBundle.getString("MessageSent") +
-                                 m.getClass().getSimpleName());
         }
         catch (IOException e) {
-            myLogger.log(Level.FINE,
-                         NetworkBundle.getString("MessageFailed") +
-                                 m.getClass().getSimpleName());
+            // TODO add logger
+            e.printStackTrace();
+
         }
     }
 

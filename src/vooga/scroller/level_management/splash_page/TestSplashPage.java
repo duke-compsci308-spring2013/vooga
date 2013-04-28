@@ -1,12 +1,10 @@
 package vooga.scroller.level_management.splash_page;
 
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import util.input.Input;
 import util.input.InputClassTarget;
 import util.input.InputMethodTarget;
-import vooga.scroller.marioGame.spritesDefinitions.MarioLib;
 import vooga.scroller.scrollingmanager.ScrollingManager;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.util.ISpriteView;
@@ -59,7 +57,7 @@ public class TestSplashPage extends SplashPage {
     
     @InputMethodTarget(name = "start")
     public void nextLevel () {
-        getDoor().goToNextLevel();
+        getDoor().goToNextLevel(getPlayer());
     }
     
 

@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.LinkedList;
 import java.util.Queue;
-import util.Location;
-import util.Text;
 import vooga.rts.IGameLoop;
 
 

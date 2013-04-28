@@ -1,33 +1,39 @@
 package vooga.scroller.level_editor.library;
 
+import java.awt.Image;
 import java.util.HashMap;
 import java.util.Map;
 import vooga.scroller.util.IBackgroundView;
 import vooga.scroller.util.Pixmap;
 
 
-/**
- * BackgroundLib creates a map of integer ids to Images for the filepath and
- * file names of backgrounds specified upon creation.
- * 
- * @author Danny Goodamn
- * 
- */
 public class BackgroundLib implements IBackgroundLibrary {
 
-    private Map<Integer, IBackgroundView> myPixmaps;
+    private static final String BACKGROUND_LOCATION ="/vooga/scroller/images/backgrounds/";
+    private Map<Integer, Image> myBackgrounds;
+    private HashMap<Integer, IBackgroundView> myPixmaps;
 
-    /**
-     * Creates the map of Backgrounds to an id from a file path and filenames.
-     * 
-     * @param backgroundLocation - file path
-     * @param fileNames - background image file names
-     */
-    public BackgroundLib (String backgroundLocation, String[] fileNames) {
+//    public BackgroundLib (String[] fileNames) {
+//        int i = 0;
+//        myBackgrounds = new HashMap<Integer, Image>();
+//        for (String fn : fileNames) {
+//            BufferedImage img = null;
+//            try {
+//                img = ImageIO.read(new File(BACKGROUND_LOCATION+fn));
+//                myBackgrounds.put(i, img);
+//                i++;
+//            } catch (IOException e) {
+//                System.out.println(e.getMessage());
+//            }
+//            
+//        }
+//    }
+    
+    public BackgroundLib (String[] fileNames) {
         int i = 0;
         myPixmaps = new HashMap<Integer, IBackgroundView>();
         for (String fn : fileNames) {
-            Pixmap p = new Pixmap(backgroundLocation, fn);
+            Pixmap p =new Pixmap(BACKGROUND_LOCATION,fn);
             myPixmaps.put(i, p);
             i++;
         }

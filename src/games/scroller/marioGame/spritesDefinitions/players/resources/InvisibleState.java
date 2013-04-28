@@ -5,23 +5,21 @@ import java.awt.Graphics2D;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.state.SpriteState;
 
-public class InvisibleState extends SpriteState<Sprite>{
-    
-    public InvisibleState (Sprite unit) {
-        super(unit);
-        // TODO Auto-generated constructor stub
-    }
 
+
+
+public class InvisibleState extends SpriteState{
+    
     private static final int PRIORITY = Integer.MIN_VALUE;
 
     
     @Override
-    public void update (double elapsedTime, Dimension bounds) {
+    public void update (Sprite sprite, double elapsedTime, Dimension bounds) {
         // does nothing extra        
     }
 
     @Override
-    public void paint (Graphics2D pen, double angle) {
+    public void paint (Sprite sprite, Graphics2D pen) {
         // Invisible, do not paint.
     }
 
@@ -31,17 +29,16 @@ public class InvisibleState extends SpriteState<Sprite>{
     }
 
     @Override
-    public void activate () {
+    public void activate (Sprite sprite) {
         // nothign special
         
     }
 
     @Override
-    public void deactivate () {
+    public void deactivate (Sprite sprite) {
         // nothing special
         
     }
-
 
 
 }

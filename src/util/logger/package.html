@@ -10,34 +10,33 @@ This package is part of the CompSci 308 VOOGA Game Engine Project.
 <h1>Description</h1>
 This package is the logger package. It contains a NetworkLogger that 
 serves as a wrapper for a Java.util.Logger instance. It also contains
-IVoogaHandler that serves as a way to get various Handlers to the 
+IHandlerFormat that serves as a way to get various Handlers to the 
 NetworkLogger.
 </p>
 
 <p>
 <h2> Specifics </h2>
-A class that handles a logger. <br>
+Network Logger is a class that handles a logger. It makes use of the singleton pattern
+to guarantee the use of a single logger in the program
 This class does not propagate LogRecords to parent Loggers, so if the
-user wants to set parents or even more complex instructions, he/she
-should call getLogger() to do so.<br>
-It sets a console handler as a default handler.<br>
-By default, the logger starts at ALL level so any type of message is logged.<br> 
-Note that the user does not need to use any other class in this package
+user wants the log printed on the console, he should manually call addHandler
+with FORMAT_CONSOLE as input
+By default, the logger starts at ALL level so any type of message is logged 
+Note that the user does not need to use any other class in this package 
 except this one to manage the logger
 </p>
 
 <h4>Class hierarchy</h4>
 <p> HandlerConsole, HandlerSocket, HandlerStream, HandlerTxt, and HandlerXML
-all extend IVoogaHandler.
+all extend IHandlerFormat.
 
 <h4>Workflow</h4>
-<p> Create a NetworkLogger instance method, and then
-use log(), info(), finest(), finer(), fine(), warning(),or
-severe() to log something or addXXXHandler() to add a new type of handler.
+<p> Create a NetworkLogger through its singleton method, and then
+use log() to log something or addHandler() to add a new handler.
 
 <h4>Opportunities for extension</h4>
-<p> Obviously more IVoogaHandlers could be added to allow different approaches
-on writing messages.
+<p> Obviously more IHandlerFormats could be added to allow for more ways
+to write messages.
 
 <!-- Put @see and @since tags down here. -->
 

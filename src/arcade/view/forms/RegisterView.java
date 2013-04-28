@@ -14,10 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import arcade.controller.Controller;
+import arcade.controller.UserSpecificData;
 import arcade.exceptions.DOBFormatException;
 import arcade.exceptions.UsernameFormatException;
 import arcade.exceptions.UsernameTakenException;
-import arcade.model.datapacket.UserSpecificData;
 import arcade.view.TextKeywords;
 
 

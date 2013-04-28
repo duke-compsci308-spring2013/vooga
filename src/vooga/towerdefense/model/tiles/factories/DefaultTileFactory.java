@@ -1,36 +1,29 @@
 package vooga.towerdefense.model.tiles.factories;
 
-import util.Location;
-import vooga.towerdefense.model.GameMap;
-import vooga.towerdefense.model.Tile;
 import vooga.towerdefense.model.tiles.DefaultTile;
+import vooga.towerdefense.model.tiles.Tile;
+import util.Location;
+import util.Pixmap;
 
 /**
  * A tile factory that creates DefaultTile objects.
  * 
  * @author Jimmy Longley
- * @author Leonard K. Ng'eno
  */
 public class DefaultTileFactory extends TileFactory {
-
-    public static final String ID = "0";
-    private static final String NAME = "blank_tile.png";
-
-    public DefaultTileFactory() {
-        super();
-    }
-
-    @Override
-    public Tile createTile (Location center, GameMap map) {
-        return new DefaultTile(center, map.getTileSize());
-    }    
     
-    public String getName(){
-        return NAME;
-    }
-
+    /**
+     * Image for a path tile
+     */
+    //public static final Pixmap PATH_TILE_IMAGE = new Pixmap("map/default_tile.png");
+    public static final Pixmap PATH_TILE_IMAGE = new Pixmap("map/blank_tile.png");;
+    
     @Override
-    public String getTileId () {
-        return ID;
+    public Tile createTile (int id, Location center) {
+        return new DefaultTile(id, PATH_TILE_IMAGE, center, TileFactory.TILE_DIMENSIONS);
     }
+    
+    
+    
+    
 }

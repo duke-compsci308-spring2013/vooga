@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 
-import vooga.fighter.controller.ViewDataSource;
+import vooga.fighter.controller.interfaces.ViewDataSource;
 
 public class HorizontalReverse {
 	

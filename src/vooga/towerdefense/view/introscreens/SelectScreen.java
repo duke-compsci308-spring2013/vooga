@@ -8,13 +8,12 @@ import java.awt.Point;
 import javax.swing.JPanel;
 import vooga.towerdefense.view.TDView;
 
-
 /**
- * An abstract that aids in selection of maps and levels when the game is being
+ * An abstract that aids in selection of maps and levels when the game is being 
  * loaded by the player.
  * 
  * @author Leonard K. Ng'eno
- * 
+ *
  */
 public abstract class SelectScreen extends JPanel {
 
@@ -40,15 +39,14 @@ public abstract class SelectScreen extends JPanel {
 
     /**
      * 
-     * @return parent view container
+     * @return  parent view container
      */
     public TDView getView () {
         return myView;
     }
 
     /**
-     * Show the pixmap images representing the level/map
-     * 
+     *  Show the pixmap images representing the level/map
      * @param pen
      */
     public abstract void displayImages (Graphics2D pen);
@@ -57,7 +55,7 @@ public abstract class SelectScreen extends JPanel {
      * Check whether the mouse click position represent's an actual map/level
      * image position
      * 
-     * @param point mouse click position
+     * @param point     mouse click position
      */
     public abstract void checkPositionClicked (Point point);
 

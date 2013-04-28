@@ -1,7 +1,6 @@
 package vooga.rts.util;
 
 import java.awt.geom.Point2D;
-import vooga.rts.gui.Window;
 
 
 /**
@@ -22,7 +21,6 @@ public class Location extends Point2D.Double {
      */
     public Location () {
         super(0, 0);
-        
     }
 
     /**
@@ -38,7 +36,7 @@ public class Location extends Point2D.Double {
     public Location (Point2D source) {
         super(source.getX(), source.getY());
     }
-    
+
     /**
      * Reset this location to origin.
      */
@@ -62,8 +60,4 @@ public class Location extends Point2D.Double {
     public Vector difference (Point2D other) {
         return new Vector(this, other);
     }
-   
-    
-    
-    
 }

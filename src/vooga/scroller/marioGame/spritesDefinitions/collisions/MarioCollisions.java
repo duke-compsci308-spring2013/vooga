@@ -2,12 +2,12 @@ package vooga.scroller.marioGame.spritesDefinitions.collisions;
 
 import util.Vector;
 import vooga.scroller.collision_manager.CollisionDirection;
-import vooga.scroller.extra_resources.sprite_interfaces.ICollectible;
-import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
-import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
 import vooga.scroller.marioGame.spritesDefinitions.players.Mario;
 import vooga.scroller.sprites.Sprite;
+import vooga.scroller.sprites.interfaces.ICollectible;
 import vooga.scroller.sprites.interfaces.IDoor;
+import vooga.scroller.sprites.interfaces.IEnemy;
+import vooga.scroller.sprites.interfaces.IPlatform;
 import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.util.Direction;
 
@@ -29,8 +29,8 @@ public class MarioCollisions {
     private static final double FRICTION = .5;
     private CollisionDirection direction = new CollisionDirection();
 
-    protected void marioAndLevelPortalCollision (IDoor levelPortal) {
-        levelPortal.goToNextLevel();
+    protected void marioAndLevelPortalCollision (Player player, IDoor levelPortal) {
+        levelPortal.goToNextLevel(player);
     }
 
     protected void marioAndEnemyCollision (Mario player, IEnemy enemy) {
@@ -56,7 +56,7 @@ public class MarioCollisions {
         switch (collisionType) {
             case TOP:
                 player.setCenter(player.getX(), platform.getTop() - (player.getHeight() / 2));
-                Vector v = player.getVelocity().getComponentVector((double) Sprite.DOWN_DIRECTION);
+                Vector v = player.getVelocity().getComponentVector(Sprite.DOWN_DIRECTION);
                 v.negate();
                 player.addVector(v);
 

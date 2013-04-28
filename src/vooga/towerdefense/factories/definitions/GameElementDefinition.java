@@ -6,12 +6,10 @@ import java.util.List;
 
 import vooga.towerdefense.factories.actionfactories.ActionFactory;
 import vooga.towerdefense.factories.attributefactories.AttributeManagerFactory;
-import util.Location;
-import util.Pixmap;
 
 
 /**
- * TESTING PURPOSES ONLY: Class that defines a game element as created by the designer
+ * Class that defines a game element as created by the designer
  * Used as a replacement for an xml file
  * Functionally, it bundles the states the define an object
  * 

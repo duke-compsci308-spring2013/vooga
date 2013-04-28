@@ -1,8 +1,9 @@
+
 package vooga.scroller.level_editor.commands;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.reflect.Method;
 import vooga.scroller.level_editor.model.LevelEditor;
 
 
@@ -14,15 +15,11 @@ import vooga.scroller.level_editor.model.LevelEditor;
  */
 public class CommandLibrary {
 
-    private static Map<String, Method> ourCommandMap;
+    private static Map<String, Method> myCommandMap;
 
     static {
-        ourCommandMap = new HashMap<String, Method>();
+        myCommandMap = new HashMap<String, Method>();
         fillMap();
-    }
-
-    private CommandLibrary () {
-        // Not Instantiated.
     }
 
     /**
@@ -33,7 +30,7 @@ public class CommandLibrary {
      * @return Method represented by key
      */
     public static Method get (String key) {
-        return ourCommandMap.get(key);
+        return myCommandMap.get(key);
     }
 
     /**
@@ -45,7 +42,7 @@ public class CommandLibrary {
         for (int i = 0; i < allMethods.length; i++) {
             Method currentMethod = allMethods[i];
             if (currentMethod.isAnnotationPresent(Command.class)) {
-                ourCommandMap.put(currentMethod.getName(), currentMethod);
+                myCommandMap.put(currentMethod.getName(), currentMethod);
             }
         }
     }

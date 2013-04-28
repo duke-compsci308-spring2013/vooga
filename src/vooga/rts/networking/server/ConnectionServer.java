@@ -3,10 +3,6 @@ package vooga.rts.networking.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import util.logger.LoggerManager;
-import vooga.rts.networking.NetworkBundle;
 
 
 /**
@@ -18,23 +14,17 @@ import vooga.rts.networking.NetworkBundle;
  */
 public class ConnectionServer extends Thread {
 
-    private static final int PORT = Integer.valueOf(NetworkBundle.getConfigurationItem("port"));
+    private static final int PORT = 55308;
     private int myConnectionID = 0;
     private MatchmakerServer myMatchServer;
-    private boolean myIsServerAcceptingConnections = false;
-    private Logger myLogger;
+    private boolean myServerAcceptingConnections = false;
 
     /**
      * Creates a connection server that sends connections to the MatchmakerServer specified.
-     * 
      * @param matchServer server to send connections to
      */
     public ConnectionServer (MatchmakerServer matchServer) {
         myMatchServer = matchServer;
-        LoggerManager log = new LoggerManager();
-        log.addHandler(AbstractThreadContainer.EMAIL_HANDLER);
-        log.addTxtHandler(getClass().getSimpleName() + PORT);
-        myLogger = log.getLogger();
     }
 
     /**
@@ -42,28 +32,31 @@ public class ConnectionServer extends Thread {
      */
     @Override
     public void run () {
-        myIsServerAcceptingConnections = true;
+        myServerAcceptingConnections = true;
         ServerSocket serverSocket = null;
 
-        myLogger.log(Level.INFO, NetworkBundle.getString("ConnectionServerStarted") + PORT);
-        while (myIsServerAcceptingConnections) {
+        while (myServerAcceptingConnections) {
             try {
-                serverSocket = new ServerSocket(PORT);
-
+                // DEBUGGING - can only use ports once on localhost, so use this to test multiple
+                // connections
+                // TODO remove after example
+                serverSocket = new ServerSocket(PORT + myConnectionID);
+                // TODO end remove after example
+                
                 Socket socket = serverSocket.accept();
                 ConnectionThread thread =
-                        new ConnectionThread(socket, myMatchServer, myConnectionID, myLogger);
+                        new ConnectionThread(socket, myMatchServer, myConnectionID);
                 myConnectionID++;
                 thread.start();
                 myMatchServer.addConnection(thread);
-                myLogger.log(Level.INFO, NetworkBundle.getString("NewConnection") +
-                                         ": " + thread.getID());
+                // TODO remove after example
                 serverSocket.close();
+                // TODO end remove after example
+
             }
             catch (IOException e) {
-                myLogger.log(Level.SEVERE,
-                             NetworkBundle.getString("ConnectionFailed"));
-                myIsServerAcceptingConnections = false;
+                // TODO log file
+                e.printStackTrace();
             }
         }
 
@@ -72,17 +65,17 @@ public class ConnectionServer extends Thread {
                 serverSocket.close();
             }
             catch (IOException e) {
-                myLogger.log(Level.SEVERE,
-                             NetworkBundle.getString("ConnectionSocketFailed"));
+                // TODO log file
+                e.printStackTrace();
             }
         }
     }
-
+    
     /**
      * Stops accepting connections from this server and closes the socket.
      */
     protected void stopAcceptingConnections () {
-        myIsServerAcceptingConnections = false;
+        myServerAcceptingConnections = false;
     }
 
 }

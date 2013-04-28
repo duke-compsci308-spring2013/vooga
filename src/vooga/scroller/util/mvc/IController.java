@@ -32,10 +32,4 @@ public interface IController<D extends IDomainDescriptor> {
     
     public D getDomainInfo();
 
-    /**
-     * Present an error to the view
-     * @param copyError
-     */
-    public abstract void showErrorMsg (String copyError);
-
 }

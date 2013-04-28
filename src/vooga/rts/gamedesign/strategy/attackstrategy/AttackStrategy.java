@@ -3,9 +3,7 @@ package vooga.rts.gamedesign.strategy.attackstrategy;
 import java.util.List;
 
 import vooga.rts.gamedesign.sprite.gamesprites.IAttackable;
-import vooga.rts.gamedesign.strategy.Strategy;
 import vooga.rts.gamedesign.weapon.Weapon;
-import vooga.rts.util.Location3D;
 
 
 /**
@@ -28,7 +26,7 @@ import vooga.rts.util.Location3D;
  * 
  */
 
-public interface AttackStrategy extends Strategy{
+public interface AttackStrategy {
 	
 	/**
 	 * Attacks the given IAttackable object by first judging whether the Weapon
@@ -38,30 +36,35 @@ public interface AttackStrategy extends Strategy{
 	 */
 	public void attack(IAttackable attackable, double distance);
 	
+	/**
+	 * Returns the list of Weapon stored.
+	 * @return the list of Weapon stored
+	 */
+	public List<Weapon> getWeapons();
+	
+	/**
+	 * Returns the currently activated Weapon.
+	 * @return the currently activated Weapon.
+	 */
+	public Weapon getCurrentWeapon();
 	
 	/**
 	 * Adds a Weapon to the list of Weapons belonged to this AttackStrategy.
 	 * @param weapon the new Weapon to be added into the list.
 	 */
-	public void addWeapon(Weapon weapon);
+	public void addWeapons(Weapon weapon);
 	
 	/**
-	 * Changes the location of the weapon and of its projectile.
+	 * Returns the index of the Weapon that's currently been activated in the
+	 * list of Weapons belonged to this AttackStrategy.
+	 * @return
 	 */
-	public void setWeaponLocation(Location3D newLocation);
+	public int getWeaponIndex();
 	
 	/**
-	 * Gets the weapon.
+	 * Determines whether this AttackStrategy is able to attack.
+	 * @return Whether this AttackStrategy is able to attack.
 	 */
-	public Weapon getCurrentWeapon();
-	
-	/**
-	 * Allows the caller to know if this class has a weapon
-	 */
-	public boolean hasWeapon();
-	
-	/**
-	 * Sets the player ID of the weapon so that it can fire at the correct people. 
-	 */
-	public void setPlayerID(int playerID);
+	public boolean getCanAttack();
+
 }
