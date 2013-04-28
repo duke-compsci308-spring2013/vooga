@@ -55,16 +55,20 @@ public class BuildingDecoder extends Decoder {
                                                                                       BufferedImage.class)),
                                           new Sound(sound), health, buildTime);
 
+            
+            
+          
+            
+           building.setInfo(getInformation(name, nElement));
+            
+            myFactory.put(name, building);
+            
             // Load Production Dependencies now
             String[] nameCanProduce = getElement(nElement, PRODUCE_TAG).split("\\s+");
             if (nameCanProduce[0] != "") {
-                // building.setProductionStrategy(new CanProduce(building));
                 myFactory.putProductionDependency(name, nameCanProduce);
             }
-            else {
-                // building.setProductionStrategy(new CannotProduce());
-            }
-            myFactory.put(name, building);
+
             // Load Strategy Dependencies now
             String[] strategies = new String[5];
             strategies[0] = CANNOT_ATTACK;
@@ -72,6 +76,7 @@ public class BuildingDecoder extends Decoder {
             strategies[2] = CANNOT_GATHER;
             strategies[3] = getElement(nElement, UPGRADE_TAG);
             strategies[4] = getElement(nElement, UPGRADE_TREE_NAME_TAG);
+            
             // Load Weapon Dependency
             String[] weapons = getElement(nElement, MYWEAPONS_TAG).split("\\s+");
             if (weapons[0] != "") {

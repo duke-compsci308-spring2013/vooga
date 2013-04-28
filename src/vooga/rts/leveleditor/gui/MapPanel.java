@@ -9,6 +9,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
+import util.Location;
 import util.input.Input;
 import util.input.InputClassTarget;
 import util.input.InputMethodTarget;
@@ -19,7 +20,6 @@ import vooga.rts.leveleditor.components.EditableTile;
 import vooga.rts.leveleditor.components.EditableResource;
 import vooga.rts.resourcemanager.ResourceManager;
 import vooga.rts.util.Camera;
-import vooga.rts.util.Location;
 import vooga.rts.util.Location3D;
 
 /**
@@ -276,7 +276,9 @@ public class MapPanel extends JComponent {
         EditableTile t = myCanvas.getCurrentSelectTile();
         for(int i = 0; i<myMap.getMyXsize(); ++i) {
             for(int j = 0; j<myMap.getMyYsize(); ++j) {
-                myMap.addTile(i,j, t.getMyID(), t.getMyName(), t.getMyImageName(), t.getImage());
+                if (myMap.getMyTile(i, j).getMyID() == 0) {
+                    myMap.addTile(i,j, t.getMyID(), t.getMyName(), t.getMyImageName(), t.getImage());
+                }
             }
         }
         repaint();        

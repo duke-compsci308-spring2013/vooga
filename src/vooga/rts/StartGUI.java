@@ -8,7 +8,7 @@ public class StartGUI extends RTSGame
 {    
 
     public StartGUI (ArcadeInteraction arcade) {
-        super(arcade, "");        
+        super(arcade, "/vooga/rts/gamedesign/factories/Factory.xml");        
     }
 
     public static void main (String[] args) {

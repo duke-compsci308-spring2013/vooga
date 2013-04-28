@@ -1,6 +1,5 @@
 package util.logger;
 
-
 import java.util.logging.Handler;
 import java.util.logging.SocketHandler;
 
@@ -17,7 +16,7 @@ public class HandlerSocket implements IVoogaHandler {
             "Error in creating socket format handler";
     private String myHost;
     private int myPort;
-    
+
     /**
      * Constructor
      * 

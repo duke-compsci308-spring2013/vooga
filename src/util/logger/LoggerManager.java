@@ -1,38 +1,41 @@
 package util.logger;
 
-
 import java.io.OutputStream;
 import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 
 /**
- * A class that handles a logger. It makes use of the singleton pattern
- * to guarantee the use of a single logger in the program
+ * A class that handles a logger. 
  * This class does not propagate LogRecords to parent Loggers, so if the
- * It sets a console handler as a default handler
+ * user wants to set parents or even more complex instructions, he/she
+ * should call getLogger() to do so.
+ * It sets a console handler as a default handler.
  * 
- * By default, the logger starts at ALL level so any type of message is logged
+ * By default, the logger starts at ALL level so any type of message is logged.
  * 
- * Note that the user does not need to use any other class in this package 
+ * Note that the user does not need to use any other class in this package
  * except this one to manage the logger
  * 
  * @author Henrique Moraes
  */
 public class LoggerManager {
-	/**
-	 * This logger serves as a quick reference in case the user
-	 * wants to log a message in one line of code
-	 * The logger used was initialized with this class' name
-	 */
-	public static final Logger DEFAULT_LOGGER = 
-			Logger.getLogger(LoggerManager.class.getName());
-	
+    /**
+     * This logger serves as a quick reference in case the user
+     * wants to log a message in one line of code
+     * The logger used was initialized with this class' name
+     */
+    public static final Logger DEFAULT_LOGGER =
+            Logger.getLogger(LoggerManager.class.getName());
+
     private static final String LOG_EXT = ".log";
     public static final String DEFAULT_FILE_NAME = "Logger";
 
     private Logger myLogger;
+    private IVoogaHandler myDefaultHandler = new HandlerConsole();
+    private Level myDefaultLevel = Level.ALL;
 
     /**
      * Constructor
@@ -41,31 +44,27 @@ public class LoggerManager {
      * By default, a console handler is set
      */
     public LoggerManager () {
-    	StackTraceElement[] element = Thread.currentThread().getStackTrace();
-    	//Gets the name of the caller
-    	setLogger(element[2].getClassName());           
+        initializeLogger(LoggerReflection.getCallerClassName());
     }
-    
+
     /**
-     * Constructor
-     * Sets a logger according to the name given
-     * By default, a console handler is set
-     * @param loggerName Sets a logger with the given name
-     * the name should be a class name
+     * Constructor.
+     * Sets a logger according to the given class name
      */
     public LoggerManager (String loggerName) {
-    	setLogger(loggerName);     
+        initializeLogger(loggerName);
     }
-    
+
     /**
-     * Sets the logger with default values
-     * @param loggerName name of logger
+     * Initializes a logger with default parameters of this manager
+     * 
+     * @param loggerName Name of the logger to initialize
      */
-    private void setLogger(String loggerName) {
-    	myLogger = Logger.getLogger(loggerName);
+    private void initializeLogger (String loggerName) {
+        myLogger = Logger.getLogger(loggerName);
         myLogger.setUseParentHandlers(false);
-        myLogger.setLevel(Level.ALL);
-        addConsoleHandler();
+        myLogger.setLevel(myDefaultLevel);
+        addHandler(myDefaultHandler);
     }
 
     /**
@@ -77,8 +76,8 @@ public class LoggerManager {
      * @param handlerType the type of handler to be added
      */
     public void addHandler (IVoogaHandler hand) {
-    	Handler handler = hand.getHandler();
-    	handler.setLevel(myLogger.getLevel());
+        Handler handler = hand.getHandler();
+        handler.setLevel(myLogger.getLevel());
         myLogger.addHandler(handler);
     }
 
@@ -88,38 +87,39 @@ public class LoggerManager {
      * the specified threshold level is logged
      * This API was designed to be able to combine any other handler to the
      * memoryHandler
-     * WARNING the type of handler added will have level INFO. 
+     * WARNING the type of handler added will have level INFO.
      * Once it is set, its level cannot be changed. If the user wishes to set
      * the handler from memory, he should set it manually and call the regular
      * addHandler()
      * 
      * @param handler the type of handler to have records pushed to
      * @param size Number of maximum records this handler will maintain
-     * @param pushLevel push to handler as soon as a message of the given 
-     * level is issued
+     * @param pushLevel push to handler as soon as a message of the given
+     *        level is issued
      */
     public void addMemoryHandler (IVoogaHandler handler, int size, Level pushLevel) {
         addHandler(new HandlerMemory(handler, size, pushLevel));
     }
-    
+
     /**
      * Adds a memory handler to the logger depending on given handler and
      * constraints. A memory handler pushes all log records after a message of
      * the specified threshold level is logged
      * This API was designed to be able to combine any other handler to the
      * memoryHandler
-     * WARNING the type of handler added will have level INFO. 
+     * WARNING the type of handler added will have level INFO.
      * Once it is set, its level cannot be changed. If the user wishes to set
      * the handler from memory, he should set it manually and call the regular
      * addHandler()
+     * 
      * @param handler the type of handler to have records pushed to
      */
     public void addMemoryHandler (IVoogaHandler handler) {
-    	HandlerMemory memory = new HandlerMemory();
-    	memory.setHandler(handler);
+        HandlerMemory memory = new HandlerMemory();
+        memory.setHandler(handler);
         addHandler(memory);
     }
-    
+
     /**
      * 
      * Adds a handler that sends log records to the Console
@@ -127,16 +127,16 @@ public class LoggerManager {
     public void addConsoleHandler () {
         addHandler(new HandlerConsole());
     }
-    
+
     /**
      * 
-     * Adds a handler that records messages in a txt file with a 
+     * Adds a handler that records messages in a txt file with a
      * default file name
      */
     public void addTxtHandler () {
-    	addHandler(new HandlerTxt());
+        addHandler(new HandlerTxt());
     }
-    
+
     /**
      * 
      * Adds a handler that records messages in a txt file
@@ -144,9 +144,9 @@ public class LoggerManager {
      * @param fileName Name of the file to have records written to
      */
     public void addTxtHandler (String fileName) {
-    	addHandler(new HandlerTxt(fileName));
+        addHandler(new HandlerTxt(fileName));
     }
-    
+
     /**
      * 
      * Adds a handler that records messages in a file with user-defined extension
@@ -155,9 +155,9 @@ public class LoggerManager {
      * @param ext The extension of the file
      */
     public void addCustomExtensionFileHandler (String fileName, String ext) {
-    	addHandler(new HandlerTxt(fileName, ext));
+        addHandler(new HandlerTxt(fileName, ext));
     }
-    
+
     /**
      * 
      * Adds a handler that records messages in a .log file
@@ -165,9 +165,9 @@ public class LoggerManager {
      * @param fileName Name of the file to have records written to
      */
     public void addLogHandler (String fileName) {
-    	addCustomExtensionFileHandler (fileName, LOG_EXT);
+        addCustomExtensionFileHandler(fileName, LOG_EXT);
     }
-    
+
     /**
      * 
      * Adds a handler that records messages in an XML file
@@ -175,15 +175,15 @@ public class LoggerManager {
      * @param fileName Name of the file to have records written to
      */
     public void addXMLHandler (String fileName) {
-    	addHandler(new HandlerXML(fileName));
+        addHandler(new HandlerXML(fileName));
     }
-    
+
     /**
      * 
      * Adds a handler that records messages in an XML file
      */
     public void addXMLHandler () {
-    	addHandler (new HandlerXML());
+        addHandler(new HandlerXML());
     }
 
     /**
@@ -195,7 +195,7 @@ public class LoggerManager {
     public void addStreamHandler (OutputStream out) {
         addHandler(new HandlerStream(out));
     }
-    
+
     /**
      * 
      * Adds a handler that sends log records across a given stream
@@ -213,21 +213,21 @@ public class LoggerManager {
      * @param port number of the port to be used
      */
     public void addSocketHandler (String host, int port) {
-        addHandler(new HandlerSocket(host,port));
+        addHandler(new HandlerSocket(host, port));
     }
-    
+
     /**
      * 
      * Adds a handler that sends log records via e-mail
-	 * 
-	 * @param from Address from which the e-mail is sent
-	 * @param to String array with recipients to send e-mail to
-	 * @param server Server address
-	 * @param subject Subject of e-mail
-	 * @param message Text in e-mail
-	 */
+     * 
+     * @param from Address from which the e-mail is sent
+     * @param to String array with recipients to send e-mail to
+     * @param server Server address
+     * @param subject Subject of e-mail
+     * @param message Text in e-mail
+     */
     public void addMailHandler (String from, String[] to,
-			String server, String subject, String message) {
+                                String server, String subject, String message) {
         addHandler(new HandlerMail(from, to, server, subject, message));
     }
 
@@ -244,18 +244,68 @@ public class LoggerManager {
     }
 
     /**
+     * Logs a message on the logger of this manager
      * 
-     * @return The logger associated with this API
+     * @param level the level of the LogRecord
+     * @param message The message to log
      */
-    public Logger getLogger() {
-    	return myLogger;
+    public void log (Level level, String message) {
+        LogRecord record = new LogRecord(level, message);
+        record.setSourceClassName(LoggerReflection.getCallerClassName());
+        record.setSourceMethodName(LoggerReflection.getCallerMethodName());
+        myLogger.log(record);
     }
-    
+
+    /**
+     * Logs a FINER level message on the logger of this manager
+     * 
+     * @param message The message to log
+     */
+    public void finer (String message) {
+        log(Level.FINER, message);
+    }
+
+    /**
+     * Logs a INFO level message on the logger of this manager
+     * 
+     * @param message The message to log
+     */
+    public void info (String message) {
+        log(Level.INFO, message);
+    }
+
+    /**
+     * Logs a WARNING level message on the logger of this manager
+     * 
+     * @param message The message to log
+     */
+    public void warning (String message) {
+        log(Level.WARNING, message);
+    }
+
+    /**
+     * Logs a SEVERE level message on the logger of this manager
+     * 
+     * @param message The message to log
+     */
+    public void severe (String message) {
+        log(Level.SEVERE, message);
+    }
+
+    /**
+     * Gets the logger of this manager in case the user wants to 
+     * handle it for more complex instructions
+     * @return The logger associated with this Manager
+     */
+    public Logger getLogger () {
+        return myLogger;
+    }
+
     /**
      * Removes all handlers from the current logger of this manager
      */
-    public void clearHandlers() {
-    	for (Handler h : myLogger.getHandlers()) {
+    public void clearHandlers () {
+        for (Handler h : myLogger.getHandlers()) {
             myLogger.removeHandler(h);
         }
     }

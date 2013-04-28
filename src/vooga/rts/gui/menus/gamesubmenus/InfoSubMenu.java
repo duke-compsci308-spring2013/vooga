@@ -8,7 +8,7 @@ import java.util.Observable;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 import vooga.rts.gui.Button;
 import vooga.rts.gui.Window;
-import vooga.rts.util.Location;
+import util.Location;
 
 
 public class InfoSubMenu extends SubMenu {

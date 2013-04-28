@@ -1,10 +1,10 @@
 package util.logger;
 
-
 import java.io.OutputStream;
 import java.util.logging.Handler;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
+
 
 /**
  * Class that sets a handler to the logger and outputs a records to a given
@@ -20,8 +20,9 @@ public class HandlerStream implements IVoogaHandler {
 
     /**
      * Constructor
+     * 
      * @param out OutputStream associated with the desired handler
-     * if nothing is given, the stream defaults to System.out
+     *        if nothing is given, the stream defaults to System.out
      */
     public HandlerStream (OutputStream out) {
         if (out == null) {
@@ -37,9 +38,9 @@ public class HandlerStream implements IVoogaHandler {
     public HandlerStream () {
         myOutputStream = System.out;
     }
-    
+
     public void setOutputStream (OutputStream out) {
-    	myOutputStream = out;
+        myOutputStream = out;
     }
 
     @Override

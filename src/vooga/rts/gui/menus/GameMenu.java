@@ -30,12 +30,15 @@ import vooga.rts.gui.menus.gamesubmenus.MiniMapSubMenu;
 import vooga.rts.manager.Manager;
 import vooga.rts.resourcemanager.ResourceManager;
 import vooga.rts.util.Information;
-import vooga.rts.util.Location;
+import util.Location;
 
 
 public class GameMenu extends Menu {
 
+    private BufferedImage myBGImage;
+
     // Image paths
+    // private static final String BG_IMAGE_URL = "images/gamemenu/menu_bg.png";
     private static final String EXIT_IMAGE_URL = "images/gamemenu/menu_button.png";
     private static final String MINIMAP_IMAGE_URL = "images/gamemenu/menu_minimap.png";
     private static final String INFO_IMAGE_URL = "images/gamemenu/menu_info.png";
@@ -44,21 +47,19 @@ public class GameMenu extends Menu {
     // Dimensions
     private static final Dimension EXIT_BUTTON_DIMENSION = new Dimension(200, 40);
     private static final Dimension MINIMAP_DIMENSION = new Dimension(206, 206);
-    
     private static final Dimension INFO_DIMENSION = new Dimension(800, 135);
     private static final Dimension ACTIONS_DIMENSION = new Dimension(360, 175);
 
     private static final Location EXIT_BUTTON_LOCATION =
-            new Location(Window.D_X - EXIT_BUTTON_DIMENSION.getWidth(), 0);
+            new Location(Window.SCREEN_SIZE.getWidth() - EXIT_BUTTON_DIMENSION.getWidth(), 0);
     private static final Location MINIMAP_LOCATION = new Location(0,
                                                                   Window.D_Y -
                                                                           MINIMAP_DIMENSION
                                                                                   .getHeight());
     private static final Location INFO_LOCATION = new Location(MINIMAP_LOCATION.getX() +
                                                                MINIMAP_DIMENSION.getWidth(),
-                                                               Window.D_Y -
-                                                                       INFO_DIMENSION
-                                                                               .getHeight());
+                                                               Window.SCREEN_SIZE.getHeight() -
+                                                                       INFO_DIMENSION.getHeight());
     private static final Location ACTIONS_LOCATION = new Location(INFO_LOCATION.getX() +
                                                                   INFO_DIMENSION.getWidth(),
                                                                   Window.D_Y -
@@ -80,8 +81,7 @@ public class GameMenu extends Menu {
         // BufferedImage.class);
         // setBGImage(myBGImage);
 
-        myExitButton =
-                new ImageButton(EXIT_IMAGE_URL, EXIT_BUTTON_DIMENSION, EXIT_BUTTON_LOCATION);
+        myExitButton = new ImageButton(EXIT_IMAGE_URL, EXIT_BUTTON_DIMENSION, EXIT_BUTTON_LOCATION);
         addButton(myExitButton);
 
         mySubMenus = new ArrayList<SubMenu>();
@@ -110,13 +110,17 @@ public class GameMenu extends Menu {
             ClickCommand c = (ClickCommand) command;
             l = c.getPosition();
         }
-        else if (command instanceof PositionCommand) {
-            PositionCommand c = (PositionCommand) command;
-            l = c.getPosition();
-        }
-        if (l == null) return false;
+        else
+            if (command instanceof PositionCommand) {
+                PositionCommand c = (PositionCommand) command;
+                l = c.getPosition();
+            }
+        if (l == null)
+            return false;
         for (SubMenu s : mySubMenus) {
-            if (s.checkWithinBounds(l)) { return true; }
+            if (s.checkWithinBounds(l)) {
+                return true;
+            }
         }
         for (Button b : myButtons) {
             if (b.checkWithinBounds(l)) { return true; }
@@ -127,6 +131,18 @@ public class GameMenu extends Menu {
 
     @Override
     public void paint (Graphics2D pen) {
+
+        // int bgImgHeight = myBGImage.getHeight();
+        // int bgImgWidth = myBGImage.getWidth();
+        //
+        // int x = 0;
+        //
+        // double xFactor = (double) S_X / (double) bgImgWidth;
+        // int newHeight = (int) (xFactor * bgImgHeight);
+        // int y = S_Y - newHeight;
+        //
+        // pen.drawImage(myImage, x, y, S_X, newHeight, null);
+
         super.paint(pen);
 
         for (SubMenu s : mySubMenus) {
@@ -142,7 +158,6 @@ public class GameMenu extends Menu {
             InformationCommand i = (InformationCommand) arg;
             setChanged();
             notifyObservers(i);
-
         }
 
         if (o instanceof Manager) {
@@ -158,8 +173,7 @@ public class GameMenu extends Menu {
         }
 
         if (o.equals(myExitButton)) {
-            setChanged();
-            notifyObservers();
+            System.exit(0);
         }
         // if (o instanceof ActionButton) {
         // ActionButton a = (ActionButton) o;
@@ -189,11 +203,6 @@ public class GameMenu extends Menu {
         for (SubMenu b : mySubMenus) {
             if (b.checkWithinBounds(x, y)) {
                 b.processClick(x, y);
-            }
-        }
-        for (Button b : myButtons) {
-            if (b.checkWithinBounds(x, y)) {
-                b.processClick();
             }
         }
     }

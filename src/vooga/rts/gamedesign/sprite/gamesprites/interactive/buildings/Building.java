@@ -101,12 +101,11 @@ public class Building extends InteractiveEntity {
     public int getSpeed() {
     	return 0;
     }
-
-	@Override
-	public void addActions() {
-		// TODO Auto-generated method stub
+    
+    @Override
+    public void addActions() {		
 		
-	}
+    }
 
     @Override
     public void updateAction (Command command) {

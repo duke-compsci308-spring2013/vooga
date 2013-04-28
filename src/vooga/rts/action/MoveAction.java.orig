@@ -46,36 +46,34 @@ import vooga.rts.util.Location3D;
  */
 public class RightClickAction extends ManagerAction {
 
-	private Location3D myLocation;
+    private Location3D myLocation;
 
-	public RightClickAction(Manager manager) {
-		super(manager);
-	}
+    public RightClickAction (Manager manager) {
+        super(manager);
+    }
 
-	@Override
-	public void apply() {
-		if (myLocation != null) {
-			for (InteractiveEntity ie : getManager().getSelected()) {
-				InteractiveEntity enemy = GameState.getMap().getEntity(
-						myLocation);
-				if (enemy != null) {
-					ie.recognize(enemy);
-				} else {
-					ie.move(myLocation);
-				}
-			}
-		}
-	}
+    @Override
+    public void apply () {
+        if (myLocation != null) {
+            for (InteractiveEntity ie : getManager().getSelected()) {
+                GameEntity enemy = GameState.getMap().getEntity(myLocation);
+                if (enemy != null) {
+                    // ie.recognize(enemy);
+                }
+                else {
+                    ie.move(myLocation);
+                }
+            }
+        }
+    }
 
-	@Override
-	public void update(Command command) {
-		ClickCommand click = (ClickCommand) command;
-		myLocation = Camera.instance().viewtoWorld(click.getPosition());
-		if (myLocation.getX() < 0 || myLocation.getY() < 0) {
-			myLocation = null;
-		}
-		apply();
-	}
->>>>>>> 058692574e7547ff0f8ea1ed9e3c8add135208b9:src/vooga/rts/manager/actions/RightClickAction.java
+    @Override
+    public void update (Command command) {
+        ClickCommand click = (ClickCommand) command;
+        myLocation = Camera.instance().viewtoWorld(click.getPosition());
+        if (myLocation.getX() < 0 || myLocation.getY() < 0) {
+            myLocation = null;
+        }
+    }
 
 }

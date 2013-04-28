@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.logger.LoggerManager;
 import vooga.rts.networking.NetworkBundle;
-import vooga.rts.networking.communications.Message;
+import vooga.rts.networking.communications.IMessage;
 
 
 /**
@@ -67,12 +67,9 @@ public class Client extends Thread implements IClient {
         while (myRunning) {
             try {
                 Object object = myInput.readObject();
-                System.out.println("Try Catch checking");
-                if (object instanceof Message) {
-                    myReceiver.getMessage((Message) object);
+                if (object instanceof IMessage) {
+                    myReceiver.getMessage((IMessage) object);
                 }
-                System.out.println("Try Catch checking part two");
-                
             }
             catch (ClassNotFoundException e) {
                 myLogger.log(Level.WARNING,
@@ -87,12 +84,9 @@ public class Client extends Thread implements IClient {
     }
 
     @Override
-    public void sendData (Message message) {
-        System.out.println("Input sent to relay");
+    public void sendMessage (IMessage message) {
         try {
             myOutput.writeObject(message);
-
-            System.out.println("Input sent to relay part dos");
         }
         catch (IOException e) {
             myLogger.log(Level.WARNING,
@@ -117,6 +111,7 @@ public class Client extends Thread implements IClient {
             myLogger.log(Level.WARNING,
                          NetworkBundle.getString("ClosingConnectionsFailed"));
         }
+        myLogger.log(Level.INFO, NetworkBundle.getString("ClosedConnection"));
     }
 
 }

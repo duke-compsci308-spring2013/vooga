@@ -76,9 +76,8 @@ public class MainState implements State, Observer, NetworkedGame {
     }
 
     @Override
-    public void paint (Graphics2D pen) {
-        Scale.scalePen(pen);
-        myActiveState.paint(pen);
+    public void paint (Graphics2D pen) {                
+        myActiveState.paint(pen);        
     }
 
     @Override
@@ -150,7 +149,6 @@ public class MainState implements State, Observer, NetworkedGame {
                 long curNano = System.nanoTime();
                 double change = curNano - lastNano;
                 change /= 1000000000;
-                // System.out.println(change);
                 update(change);
 
                 //if (myWindow.hasFocus()) {

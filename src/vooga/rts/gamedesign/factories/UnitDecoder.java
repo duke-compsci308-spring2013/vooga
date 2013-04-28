@@ -59,7 +59,9 @@ public class UnitDecoder extends Decoder {
 																		buildTime,
 																		speed);
 			
+			unit.setInfo(getInformation(name, nElement));
 			myFactory.put(name, unit);
+			
 			//Load Production Dependencies now
 			String [] nameCanProduce = getElement(nElement, PRODUCE_TAG).split("\\s+");
 			if(nameCanProduce[0] != ""){

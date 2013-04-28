@@ -4,39 +4,32 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
 import javax.xml.parsers.ParserConfigurationException;
+import util.Location;
 import vooga.rts.commands.Command;
 import vooga.rts.commands.DragCommand;
 import vooga.rts.controller.Controller;
+import vooga.rts.game.RTSGame;
 import vooga.rts.gamedesign.factories.Factory;
 import vooga.rts.gamedesign.sprite.gamesprites.Resource;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.buildings.Building;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Unit;
 import vooga.rts.gamedesign.sprite.map.Terrain;
-import vooga.rts.gamedesign.strategy.gatherstrategy.CanGather;
 import vooga.rts.leveleditor.components.MapLoader;
 import vooga.rts.manager.PlayerManager;
 import vooga.rts.map.GameMap;
-import vooga.rts.networking.client.IMessageReceiver;
-import vooga.rts.networking.communications.ExpandedLobbyInfo;
-import vooga.rts.networking.communications.Message;
-import vooga.rts.networking.communications.PlayerInfo;
-import vooga.rts.networking.communications.gamemessage.GameMessage;
-import vooga.rts.networking.communications.gamemessage.RTSMessage;
-import vooga.rts.networking.communications.servermessages.CloseConnectionMessage;
-import vooga.rts.resourcemanager.ResourceManager;
+import vooga.rts.map.MiniMap;
 import vooga.rts.util.Camera;
 import vooga.rts.util.DelayedTask;
 import vooga.rts.util.FrameCounter;
 import vooga.rts.util.Information;
-import vooga.rts.util.Location;
 import vooga.rts.util.Location3D;
 import vooga.rts.util.Pixmap;
+import vooga.rts.util.TimeIt;
 
 
 /**
@@ -55,36 +48,36 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
     private static final Location3D DEFAULT_SOLDIER_THREE_RELATIVE_LOCATION = new Location3D(300,
                                                                                              0, 0);
     private static final Information DEFAULT_SOLDIER_INFO =
-            new Information("Marine", "I am a soldier of Nunu.", null, "buttons/marine.png");
+            new Information("Marine", "I am a soldier of Nunu.", "buttons/marine.png", null);
     private static final Location3D DEFAULT_WORKER_RELATIVE_LOCATION = new Location3D(200, 200, 0);
     private static final Information DEFAULT_WORKER_INFO =
             new Information("Worker",
-                            "I am a worker. I am sent down from Denethor, son of Ecthelion ", null,
-                            "images/scv.png");
+                            "I am a worker. I am sent down from Denethor, son of Ecthelion ",
+                            "images/scv.png", null);
     private static final Location3D DEFAULT_PRODUCTION_RELATIVE_LOCATION = new Location3D(000, 500,
                                                                                           0);
     private static final Information DEFAULT_PRODUCTION_INFO =
-            new Information("Barracks", "This is a barracks that can make awesome pies", null,
-                            "buttons/marine.png");
-    private static final Location3D DEFAULT_OCCUPY_RELATIVE_LOCATION = new Location3D(300, 100, 0);
+            new Information("Barracks", "This is a barracks that can make awesome pies",
+
+                            "buttons/marine.png", null);
+
+    private static final Location3D DEFAULT_OCCUPY_RELATIVE_LOCATION = new Location3D(300, 300, 0);
+
     private static final Information DEFAULT_OCCUPY_INFO =
-            new Information("Garrison", "This is a garrison that soldiers can occupy", null,
-                            "buttons/marine.png");
+            new Information("Garrison", "This is a garrison that soldiers can occupy",
+                            "buttons/marine.png", null);
 
     private static GameMap myMap;
     private static PlayerManager myPlayers;          
     private List<DelayedTask> myTasks;
     private FrameCounter myFrames;
-    private Rectangle2D myDrag;
-    private Factory myFactory;
 
-    private boolean isGameOver;
+    private Rectangle2D myDrag;    
+    
+    private MiniMap myMiniMap;
 
     public GameState (Observer observer) {
         super(observer);
-        myFactory = new Factory();
-        myFactory.loadXMLFile("Factory.xml");
-
         MapLoader ml = null;
         try {
             ml = new MapLoader();
@@ -94,20 +87,19 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
         }
         catch (Exception e1) {
         }
-        myMap = ml.getMyMap();
+        setMap(ml.getMyMap());
+        myMiniMap = new MiniMap(getMap(), new Location(50, 500), new Dimension(150, 200));
 
         // myMap = new GameMap(new Dimension(4000, 2000), true);
         myPlayers = new PlayerManager();
+        // myMap = new GameMap(8, new Dimension(512, 512));
+
         myFrames = new FrameCounter(new Location(100, 20));
         myTasks = new ArrayList<DelayedTask>();
     }
 
     @Override
     public void update (double elapsedTime) {
-        if (isGameOver) {
-            setChanged();
-            notifyObservers();
-        }
         myMap.update(elapsedTime);
         getPlayers().update(elapsedTime);
 
@@ -119,9 +111,9 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
 
     @Override
     public void paint (Graphics2D pen) {
-        pen.scale(1.0, 1.0);
         pen.setBackground(Color.BLACK);
-        myMap.paint(pen);
+        myMap.paint(pen);                
+        myMiniMap.paint(pen);        
         getPlayers().getHuman().paint(pen);
         if (myDrag != null) {
             pen.draw(myDrag);
@@ -136,9 +128,7 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
         // If it's a drag, we need to do some extra checking.
         if (command instanceof DragCommand) {
             myDrag = ((DragCommand) command).getScreenRectangle();
-            if (myDrag == null) {
-                return;
-            }
+            if (myDrag == null) { return; }
         }
         sendCommand(command);
     }
@@ -282,15 +272,28 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
         return myMap;
     }
 
-    public static void setMap (GameMap map) {
-        myMap = map;
+    private InteractiveEntity setLocation (InteractiveEntity subject,
+                                           Location3D base,
+                                           Location3D reference) {
+        subject.setWorldLocation(new Location3D(base.getX() + reference.getX(), base.getY() +
+                                                                                reference.getY(),
+                                                base.getZ() + reference.getZ()));
+        subject.move(subject.getWorldLocation());
+        return subject;
     }
 
-    
-    @Override
-    public void activate () {
-        // TODO Auto-generated method stub
+    private void generateResources () {
+        for (int j = 0; j < 10; j++) {
+            getMap().getResources().add(new Resource(new Pixmap("images/mineral.gif"),
+                                                     new Location3D(600 + j * 30, 600 - j * 20, 0),
+                                                     new Dimension(50, 50), 0, 200, "mineral"));
+        }
 
+        for (int j = 0; j < 4; j++) {
+            for (int k = 0; k < 8; k++) {
+                getMap().getTerrain().add(new Terrain(new Pixmap("images/gold.png"),
+                                                      new Location3D(100 + k * 25, 100, j * 25),
+                                                      new Dimension(50, 50)));
     }
     
     public void setUp (ExpandedLobbyInfo info, PlayerInfo userInfo) {
@@ -326,6 +329,14 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
 
     public void initializeGameOver () {
         isGameOver = true;
+    }
+
+    public static GameMap getMap () {
+        return myMap;
+    }
+
+    public static void setMap (GameMap map) {
+        myMap = map;       
     }
 
     @Override

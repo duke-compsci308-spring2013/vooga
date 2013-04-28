@@ -4,40 +4,45 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
 import javax.xml.parsers.ParserConfigurationException;
+import util.Location;
 import vooga.rts.commands.Command;
 import vooga.rts.commands.DragCommand;
 import vooga.rts.controller.Controller;
+import vooga.rts.game.RTSGame;
 import vooga.rts.gamedesign.factories.Factory;
 import vooga.rts.gamedesign.sprite.gamesprites.Resource;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.buildings.Building;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Unit;
 import vooga.rts.gamedesign.sprite.map.Terrain;
-<<<<<<< HEAD
+import vooga.rts.gamedesign.strategy.gatherstrategy.CanGather;
 import vooga.rts.leveleditor.components.MapLoader;
 import vooga.rts.manager.PlayerManager;
-=======
-import vooga.rts.gamedesign.strategy.production.CanProduce;
-import vooga.rts.gamedesign.weapon.Weapon;
-import vooga.rts.gui.Window;
->>>>>>> 4b35724cd6a5e17d7fd4d3000014cef3fac7b242
 import vooga.rts.map.GameMap;
+<<<<<<< HEAD
 import vooga.rts.networking.client.IMessageReceiver;
 import vooga.rts.networking.communications.ExpandedLobbyInfo;
 import vooga.rts.networking.communications.Message;
 import vooga.rts.networking.communications.PlayerInfo;
+import vooga.rts.networking.communications.gamemessage.GameMessage;
 import vooga.rts.networking.communications.gamemessage.RTSMessage;
+import vooga.rts.networking.communications.servermessages.CloseConnectionMessage;
+import vooga.rts.resourcemanager.ResourceManager;
+=======
+import vooga.rts.map.MiniMap;
+>>>>>>> origin/networking-refactoring
 import vooga.rts.util.Camera;
 import vooga.rts.util.DelayedTask;
 import vooga.rts.util.FrameCounter;
 import vooga.rts.util.Information;
-import vooga.rts.util.Location;
 import vooga.rts.util.Location3D;
 import vooga.rts.util.Pixmap;
+import vooga.rts.util.TimeIt;
 
 
 /**
@@ -56,36 +61,43 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
     private static final Location3D DEFAULT_SOLDIER_THREE_RELATIVE_LOCATION = new Location3D(300,
                                                                                              0, 0);
     private static final Information DEFAULT_SOLDIER_INFO =
-            new Information("Marine", "I am a soldier of Nunu.", null, "buttons/marine.png");
+            new Information("Marine", "I am a soldier of Nunu.", "buttons/marine.png", null);
     private static final Location3D DEFAULT_WORKER_RELATIVE_LOCATION = new Location3D(200, 200, 0);
     private static final Information DEFAULT_WORKER_INFO =
             new Information("Worker",
-                            "I am a worker. I am sent down from Denethor, son of Ecthelion ", null,
-                            "images/scv.png");
+                            "I am a worker. I am sent down from Denethor, son of Ecthelion ",
+                            "images/scv.png", null);
     private static final Location3D DEFAULT_PRODUCTION_RELATIVE_LOCATION = new Location3D(000, 500,
                                                                                           0);
     private static final Information DEFAULT_PRODUCTION_INFO =
-            new Information("Barracks", "This is a barracks that can make awesome pies", null,
-                            "buttons/marine.png");
-    private static final Location3D DEFAULT_OCCUPY_RELATIVE_LOCATION = new Location3D(300, 100, 0);
+            new Information("Barracks", "This is a barracks that can make awesome pies",
+
+                            "buttons/marine.png", null);
+
+    private static final Location3D DEFAULT_OCCUPY_RELATIVE_LOCATION = new Location3D(300, 300, 0);
+
     private static final Information DEFAULT_OCCUPY_INFO =
-            new Information("Garrison", "This is a garrison that soldiers can occupy", null,
-                            "buttons/marine.png");
+            new Information("Garrison", "This is a garrison that soldiers can occupy",
+                            "buttons/marine.png", null);
 
     private static GameMap myMap;
     private static PlayerManager myPlayers;          
     private List<DelayedTask> myTasks;
     private FrameCounter myFrames;
+<<<<<<< HEAD
     private Rectangle2D myDrag;
     private Factory myFactory;
+=======
+
+    private Rectangle2D myDrag;    
+    
+    private MiniMap myMiniMap;
+>>>>>>> origin/networking-refactoring
 
     private boolean isGameOver;
 
     public GameState (Observer observer) {
         super(observer);
-        myFactory = new Factory();
-        myFactory.loadXMLFile("Factory.xml");
-
         MapLoader ml = null;
         try {
             ml = new MapLoader();
@@ -95,7 +107,8 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
         }
         catch (Exception e1) {
         }
-        myMap = ml.getMyMap();
+        setMap(ml.getMyMap());
+        myMiniMap = new MiniMap(getMap(), new Location(50, 500), new Dimension(150, 200));
 
         // myMap = new GameMap(new Dimension(4000, 2000), true);
         myPlayers = new PlayerManager();
@@ -122,7 +135,8 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
     public void paint (Graphics2D pen) {
         pen.scale(1.0, 1.0);
         pen.setBackground(Color.BLACK);
-        myMap.paint(pen);
+        myMap.paint(pen);                
+        myMiniMap.paint(pen);        
         getPlayers().getHuman().paint(pen);
         if (myDrag != null) {
             pen.draw(myDrag);
@@ -137,9 +151,7 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
         // If it's a drag, we need to do some extra checking.
         if (command instanceof DragCommand) {
             myDrag = ((DragCommand) command).getScreenRectangle();
-            if (myDrag == null) {
-                return;
-            }
+            if (myDrag == null) { return; }
         }
         sendCommand(command);
     }
@@ -279,12 +291,73 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
         return myPlayers;
     }
 
+<<<<<<< HEAD
     public static GameMap getMap () {
         return myMap;
     }
 
     public static void setMap (GameMap map) {
         myMap = map;
+=======
+    private void generateInitialSprites (int playerID, Location3D baseLocation) {
+        Unit worker = (Unit) RTSGame.getFactory().getEntitiesMap().get("worker").copy();
+        worker =
+                (Unit) setLocation(worker, baseLocation, DEFAULT_WORKER_RELATIVE_LOCATION);
+        getPlayers().getPlayer(playerID).add(worker);
+
+        Unit soldierOne = (Unit) RTSGame.getFactory().getEntitiesMap().get("Marine").copy();
+        soldierOne =
+                (Unit) setLocation(soldierOne, baseLocation,
+                                   DEFAULT_SOLDIER_ONE_RELATIVE_LOCATION);
+        getPlayers().getPlayer(playerID).add(soldierOne);
+
+        Building startProduction = (Building) RTSGame.getFactory().getEntitiesMap().get("home").copy();
+        startProduction =
+                (Building) setLocation(startProduction, baseLocation,
+                                       DEFAULT_PRODUCTION_RELATIVE_LOCATION);
+        getPlayers().getPlayer(playerID).add(startProduction);
+
+        Building startOccupy = (Building) RTSGame.getFactory().getEntitiesMap().get("garrison").copy();
+        startOccupy = (Building) setLocation(startOccupy, baseLocation,
+                                       DEFAULT_OCCUPY_RELATIVE_LOCATION);
+        getPlayers().getPlayer(playerID).add(startOccupy);
+
+        
+        // this is for testing
+        final Building f = startProduction;
+        myTasks.add(new DelayedTask(2, new Runnable() {
+
+            @Override
+            public void run () {
+                f.getAction((new Command("make Marine"))).apply();
+            }
+        }, true));
+
+        
+        // This is for testing
+        final Building testGarrison = startOccupy;
+
+        myTasks.add(new DelayedTask(10, new Runnable() {
+            @Override
+            public void run () {
+                if (testGarrison.getOccupyStrategy().getOccupiers().size() > 0) {
+                    System.out.println("will puke!");
+                    testGarrison.getAction(new Command("deoccupy")).apply();
+                }
+            }
+        }));
+
+    }
+
+    private InteractiveEntity setLocation (InteractiveEntity subject,
+                                           Location3D base,
+                                           Location3D reference) {
+        subject.setWorldLocation(new Location3D(base.getX() + reference.getX(), base.getY() +
+                                                                                reference.getY(),
+                                                base.getZ() + reference.getZ()));
+        subject.move(subject.getWorldLocation());
+        return subject;
+>>>>>>> origin/networking-refactoring
     }
 
     
@@ -293,24 +366,54 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
         // TODO Auto-generated method stub
 
     }
+<<<<<<< HEAD
     
     public void setUp (ExpandedLobbyInfo info, PlayerInfo userInfo) {
+        Unit worker =
+                new Unit(new Pixmap(ResourceManager.getInstance()
+                                    .<BufferedImage> getFile("images/scv.gif", BufferedImage.class)),
+                                    new Location3D(100, 100, 0), new Dimension(75, 75), null, 1, 200, 40, 150);
+        worker.setGatherStrategy(new CanGather());
+        Information i1 =
+                new Information("Worker",
+                                "I am a worker. I am sent down from Denethor, son of Ecthelion ",
+                                null, "images/scv.png");
+        worker.setInfo(i1);
         myPlayers.addHuman(userInfo); 
+        myPlayers.getHuman().add(worker);
         for(PlayerInfo p: info.getPlayers()) {
             if(p.getId() != userInfo.getId()) {
                 myPlayers.addPlayer(p);
             }
         }
+=======
+
+    private void yuckyUnitUpdate (double elapsedTime) {
+
+        List<InteractiveEntity> p1 = getPlayers().getTeam(1).getUnits();
+        List<InteractiveEntity> p2 = getPlayers().getTeam(2).getUnits();
+
+>>>>>>> origin/networking-refactoring
     }
 
     @Override
     public void getMessage (Message message) {
-        RTSMessage gMessage = (RTSMessage) message;
+        if(message instanceof CloseConnectionMessage) {
+            connectionClosed();
+            System.out.println("whasssup");
+        }
+        System.out.println("receivedmessage");
+        GameMessage gMessage = (GameMessage) message;
         myPlayers.getPlayer(gMessage.getPlayerID()).getManager().getMessage(gMessage);
     }
 
+<<<<<<< HEAD
     public void initializeGameOver () {
         isGameOver = true;
+=======
+    public static void setMap (GameMap map) {
+        myMap = map;       
+>>>>>>> origin/networking-refactoring
     }
 
     @Override

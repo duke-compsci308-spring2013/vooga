@@ -6,9 +6,6 @@
 <p>
 This package is part of the CompSci 308 VOOGA Game Engine Project.
 
-<p>
-TODO
-
 <h4>Class hierarchy</h4>
 <p> The classes from the view are commanded by ClientModel, which chooses
 the appropriate view to display to the user
@@ -17,12 +14,12 @@ the appropriate view to display to the user
 <p>
 This package contains several GUI components that help put up A user friendly 
 interface. <br>
-ImageHelper contains some static and overloaded methods that shortens the 
-process of creating images. <br>
 There is a view that corresponds to the server browser, in which the user 
 chooses among different games to join. There is also a view that acts as a 
 waiting lobby while the game does not start. Both of these views contain
-a table object that extend AbstractTableModel to display information.
+a table object that extend AbstractTableModel to display information.<br>
+The model of the client makes use of a ClientViewAdapter to handle the 
+interactions between the view and the model
 </p>
 
 
@@ -30,7 +27,9 @@ a table object that extend AbstractTableModel to display information.
 <p> 
 ViewContainerPanel can be adapted to receive one interface and set the main
 panel, right, and left buttons accordingly. Other GUIs can be created and set 
-through this class while the class would only neeed an interface reference from it
+through this class while the class would only need an interface reference from it<br>
+Also, the view adapter superclass can be used to meddle the actions between view 
+and model.
 </p>
 
 <!-- Put @see and @since tags down here. -->

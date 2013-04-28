@@ -84,7 +84,6 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
     private Map<String, Information> myInfos;
     private List<DelayedTask> myTasks;
     private double myBuildTime;
-    private List<InteractiveEntity> myProducables;
     private Information myInfo;
     private PathFinder myFinder;
     private Path myPath;
@@ -126,7 +125,6 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
         myTasks = new ArrayList<DelayedTask>();
         myBuildTime = buildTime;
         myOccupyStrategy = new CannotBeOccupied();
-        myProducables = new ArrayList<InteractiveEntity>();
         myPath = new Path();
         myFinder = new AstarFinder();
         myTargetEntity = this;
@@ -190,13 +188,6 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
         all[3] = myProductionStrategy;
         all[4] = myUpgradeStrategy;
         return all;
-    }
-
-    /**
-     * returns the list of producables
-     */
-    public List<InteractiveEntity> getProducables () {
-        return myProducables;
     }
 
     /**
@@ -473,13 +464,17 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
      *        - the other InteractiveEntity
      */
     public void recognize (InteractiveEntity other) {
+        myTargetEntity = other;
         if (isEnemy(other)) {
             getEntityState().setUnitState(UnitState.ATTACK);
         }
-        if (other instanceof Building) {
-            getEntityState().setUnitState(UnitState.OCCUPY);
-        }
-        getEntityState().setUnitState(UnitState.NO_STATE);
+        else
+            if (other instanceof Building) {
+                getEntityState().setUnitState(UnitState.OCCUPY);
+            }
+            else {
+                getEntityState().setUnitState(UnitState.NO_STATE);
+            }
         move(other.getWorldLocation());
     }
 
@@ -599,8 +594,8 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
     /*
      * Test method to add an interactive entity to
      */
-    public void addProducable (InteractiveEntity i) {
-        myProducables.add(i);
+    public void addProducable (InteractiveEntity producable) {
+        myProductionStrategy.addProducable(producable);
     }
 
     @Override
@@ -662,21 +657,13 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
     public void move (Location3D loc) {
         final Location3D temp = new Location3D(loc);
         myPath = null;
-        Thread pathfinding = new Thread(new Runnable() {
-            @Override
-            public void run () {
-                findpath(temp);
-
-            }
-        });
-        pathfinding.start();
+        findpath(temp);
     }
 
-    private synchronized void findpath (Location3D destination) {
-        myPath = GameState.getMap().getPath(myFinder, getWorldLocation(), destination);
+    private void findpath (Location3D destination) {        
+        myPath = GameState.getMap().getPath(myFinder, getWorldLocation(), destination);        
         if (myPath != null) {
-            myProductionStrategy.setRallyPoint(this);
-            super.move(myPath.getNext());
+            myProductionStrategy.setRallyPoint(this);            
         }
     }
 
@@ -696,6 +683,17 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
     
     public int getId () {
         return myId;
+    }
+
+    /**
+     * Returns the target entity of this entity. In other words, if an entity
+     * is right clicked on, that entity becomes the target entity which is
+     * returned from this method.
+     * 
+     * @return the target interactive entity
+     */
+    public InteractiveEntity getTargetEntity () {
+        return myTargetEntity;
     }
 
 }

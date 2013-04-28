@@ -49,7 +49,13 @@ public class InputController implements Controller {
 
     @Override
     public void sendCommand (Command command) {
-        myProcessQueue.add(command);
+        if (command.getMethodName().equals(ClickCommand.RIGHT_CLICK)) {
+            myState.receiveCommand(command);
+        }
+        else
+        {
+            myProcessQueue.add(command);
+        }
     }
 
     /*
@@ -101,7 +107,10 @@ public class InputController implements Controller {
 
     public void processCommands () {
         while (myProcessQueue.size() > 0) {
-            myState.receiveCommand(myProcessQueue.poll());
+            Command c = myProcessQueue.poll();
+            if (c !=  null) {
+                myState.receiveCommand(c);
+            }
         }
     }
 

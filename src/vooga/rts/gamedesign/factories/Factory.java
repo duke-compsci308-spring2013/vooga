@@ -366,15 +366,16 @@ public class Factory {
      */
     private void initializeProducables () {
         for (String key : myProductionDependencies.keySet()) {
-            System.out.println(key);
+        	InteractiveEntity producer = mySprites.get(key);
             String[] produces = myProductionDependencies.get(key);
-            mySprites.get(key)
-                    .setProductionStrategy((ProductionStrategy) new CanProduce(mySprites.get(key)));
+            producer.setProductionStrategy(new CanProduce(producer));
             for (String baby : produces) {
                 InteractiveEntity producable = mySprites.get(baby);
-                // this should not be new unit
-                (mySprites.get(key).getProductionStrategy()).addProducable(new Unit());
+                
+                producer.addProducable(producable.copy());
+        
             }
+           
         }
     }
 

@@ -120,11 +120,8 @@ public abstract class GameSprite extends Observable implements IGameLoop {
 
         if (Camera.instance().issVisible(getWorldLocation())) {
             myScreenLocation = Camera.instance().worldToView(myWorldLocation);
-            // if (Camera.instance().isVisible(myScreenLocation)) {
             myPixmap.paint(pen, myScreenLocation, mySize);
-            // }
         }
-        // pen.draw(myWorldBounds);
     }
 
     /**
@@ -245,7 +242,7 @@ public abstract class GameSprite extends Observable implements IGameLoop {
     public Pixmap getImage () {
         return myPixmap;
     }
-    
+
     /**
      * Sets the object to be in the changed state for the observer pattern.
      */

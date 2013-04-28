@@ -19,9 +19,10 @@ import vooga.rts.networking.client.IClient;
 import vooga.rts.networking.client.NetworkedGame;
 import vooga.rts.networking.communications.ExpandedLobbyInfo;
 import vooga.rts.networking.communications.PlayerInfo;
-=======
 import vooga.rts.util.Scale;
->>>>>>> 4b35724cd6a5e17d7fd4d3000014cef3fac7b242
+=======
+import vooga.rts.util.TimeIt;
+>>>>>>> origin/networking-refactoring
 
 
 /**
@@ -74,18 +75,19 @@ public class MainState implements State, Observer, NetworkedGame {
 
     @Override
     public void update (double elapsedTime) {
-        System.out.println("Active Game STate is menu: " + myActiveState.equals(myMenu));
         myController.processCommands();
         myActiveState.update(elapsedTime);
     }
 
     @Override
-    public void paint (Graphics2D pen) {
 <<<<<<< HEAD
-=======
+    public void paint (Graphics2D pen) {
         Scale.scalePen(pen);
->>>>>>> 4b35724cd6a5e17d7fd4d3000014cef3fac7b242
         myActiveState.paint(pen);
+=======
+    public void paint (Graphics2D pen) {                
+        myActiveState.paint(pen);        
+>>>>>>> origin/networking-refactoring
     }
 
     @Override
@@ -118,6 +120,7 @@ public class MainState implements State, Observer, NetworkedGame {
         Graphics2D graphics = myWindow.getCanvas().getGraphics();
         graphics.setColor(Color.BLACK);
         graphics.fillRect(0, 0, myWindow.getCanvas().getWidth(), myWindow.getCanvas().getHeight());
+        
         if (myActiveState instanceof MenuState) {
             MenuState m = (MenuState) myActiveState;
             if (m.getCurrentMenu() instanceof MultiMenu) {
@@ -157,11 +160,12 @@ public class MainState implements State, Observer, NetworkedGame {
                 long curNano = System.nanoTime();
                 double change = curNano - lastNano;
                 change /= 1000000000;
-                // System.out.println(change);
                 update(change);
-                if (myWindow.hasFocus()) {
+
+                //if (myWindow.hasFocus()) {
+                    
                     render();
-                }
+                //}
                 lastNano = curNano;
 
             }
@@ -177,14 +181,17 @@ public class MainState implements State, Observer, NetworkedGame {
     public void loadGame (ExpandedLobbyInfo info, PlayerInfo userPlayer) {
         myGame.setUp(info, userPlayer);
         setActiveState(myLoadScreen);
-        System.out.println("loadGame is called!!!");
     }
 
     @Override
     public void startGame (IClient client) {
+        myMenu.unset();
+        myWindow.getJFrame().setContentPane(myWindow.getCanvas());
+        myWindow.getJFrame().toFront();
+        myWindow.getJFrame().repaint();
         setActiveState(myGame);    
         myClient = client;
-        System.out.println("startGame is called!!!!");
+        myClient.setMessageReceiver(myGame);
     }
     
     public static IClient getClient () {

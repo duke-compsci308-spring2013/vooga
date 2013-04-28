@@ -11,13 +11,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import util.Location;
 import vooga.rts.gamedesign.sprite.gamesprites.GameEntity;
 import vooga.rts.gamedesign.sprite.gamesprites.GameSprite;
 import vooga.rts.gamedesign.sprite.map.Terrain;
 import vooga.rts.gamedesign.state.OccupyState;
 import vooga.rts.state.GameState;
 import vooga.rts.util.Camera;
-import vooga.rts.util.Location;
 import vooga.rts.util.Location3D;
 
 
@@ -56,13 +56,6 @@ public class Node {
         myY = y;
         myTier = tier;
         myBounds = new Rectangle(myX * NODE_SIZE, myY * NODE_SIZE, NODE_SIZE, NODE_SIZE);
-        /*
-         * myContents = new TreeSet<GameSprite>(new Comparator<GameSprite>() {
-         * 
-         * @Override public int compare (GameSprite o1, GameSprite o2) { return
-         * (int) (o1.getWorldLocation().getZ() - o2.getWorldLocation().getZ());
-         * } });
-         */
         myContents = new ArrayList<GameSprite>();
         myCenter =
                 new Location3D(myX * NODE_SIZE + NODE_SIZE / 2, myY * NODE_SIZE + NODE_SIZE / 2,
@@ -152,7 +145,7 @@ public class Node {
     }
 
     public <T extends GameEntity> List<T> filterGameSprites (List<GameSprite> fullList,
-                                                             GameSprite other,
+                                                             GameEntity other,
                                                              int teamID,
                                                              boolean same) {
         List<T> resultList = new ArrayList<T>();

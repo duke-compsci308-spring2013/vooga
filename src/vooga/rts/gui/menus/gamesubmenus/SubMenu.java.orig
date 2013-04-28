@@ -13,7 +13,7 @@ import vooga.rts.resourcemanager.ResourceManager;
 import vooga.rts.util.Location;
 import vooga.rts.util.Scale;
 =======
->>>>>>> a67c2de0e1ac5edfe2de1a014f6468198f012525
+>>>>>>> origin/networking-refactoring
 
 
 public abstract class SubMenu extends Observable implements Observer {

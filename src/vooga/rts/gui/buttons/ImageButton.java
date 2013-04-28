@@ -3,7 +3,7 @@ package vooga.rts.gui.buttons;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import vooga.rts.gui.Button;
-import vooga.rts.util.Location;
+import util.Location;
 
 public class ImageButton extends Button {
 

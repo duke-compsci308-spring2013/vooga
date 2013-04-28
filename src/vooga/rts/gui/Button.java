@@ -6,8 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.Observable;
 import vooga.rts.IGameLoop;
 import vooga.rts.resourcemanager.ResourceManager;
-import vooga.rts.util.Location;
-import vooga.rts.util.Scale;
+import util.Location;
 
 
 public abstract class Button extends Observable implements IGameLoop {
@@ -16,9 +15,9 @@ public abstract class Button extends Observable implements IGameLoop {
     protected Dimension mySize;
     protected Location myPos;
     protected boolean isFocused;
-
-    protected static final int S_X = (int) Window.D_X;
-    protected static final int S_Y = (int) Window.D_Y;
+    
+    protected static final int S_X = (int) Window.SCREEN_SIZE.getWidth();
+    protected static final int S_Y = (int) Window.SCREEN_SIZE.getHeight();
 
     /*
      * TODO: Add onFocus behavior for each button.
@@ -26,9 +25,7 @@ public abstract class Button extends Observable implements IGameLoop {
 
     public Button (String image, Dimension size, Location pos) {
         if (image != null) {
-            myImage =
-                    ResourceManager.getInstance().<BufferedImage> getFile(image,
-                                                                          BufferedImage.class);
+            myImage = ResourceManager.getInstance().<BufferedImage> getFile(image, BufferedImage.class);
         }
         mySize = size;
         myPos = pos;
@@ -54,13 +51,7 @@ public abstract class Button extends Observable implements IGameLoop {
     public abstract void processHover ();
 
     public boolean checkWithinBounds (int x, int y) {
-        return (x > Scale.scaleX(myPos.x) && y > Scale.scaleY(myPos.y) &&
-                x < (Scale.scaleX(myPos.x) + Scale.scaleX(mySize.width)) && y < (Scale
-                .scaleY(myPos.y) + Scale.scaleY(mySize.height)));
-    }
-
-    public boolean checkWithinBounds (Location l) {
-        return checkWithinBounds((int) l.getX(), (int) l.getY());
+        return (x > myPos.x && y > myPos.y && x < (myPos.x + mySize.width) && y < (myPos.y + mySize.height));
     }
 
     public Dimension getSize () {

@@ -1,6 +1,5 @@
 package util.logger;
 
-
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.XMLFormatter;
@@ -35,9 +34,9 @@ public class HandlerXML implements IVoogaHandler {
     public HandlerXML () {
         myFileName = LoggerManager.DEFAULT_FILE_NAME;
     }
-    
+
     public void setFileName (String file) {
-    	myFileName = file;
+        myFileName = file;
     }
 
     @Override

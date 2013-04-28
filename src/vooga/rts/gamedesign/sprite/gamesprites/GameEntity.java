@@ -58,6 +58,10 @@ public class GameEntity extends GameSprite {
      */
     // TODO: make Velocity three dimensional...
     public void update (double elapsedTime) {
+        if (isDead()) {
+            setChanged();
+            notifyObservers();
+        }
         Vector v = getWorldLocation().difference(myGoal.to2D());
         if (reachedGoal()) {
             setVelocity(v.getAngle(), 0);

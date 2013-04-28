@@ -1,6 +1,5 @@
 package util.logger;
 
-
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -30,52 +29,54 @@ public class HandlerTxt implements IVoogaHandler {
     public HandlerTxt () {
         this(LoggerManager.DEFAULT_FILE_NAME, TXT_EXT);
     }
-    
+
     /**
      * Constructor
+     * 
      * @param fileName Sets the file output name to the string given
      */
     public HandlerTxt (String fileName) {
-    	this(fileName, TXT_EXT);
+        this(fileName, TXT_EXT);
     }
-    
+
     /**
      * Constructor
+     * 
      * @param fileName Sets the file output name to the string given
      */
     public HandlerTxt (String fileName, String ext) {
         myFileName = fileName;
         myExtension = ext;
     }
-    
+
     /**
      * 
      * @return Name of the file this handler is writing to
      */
-    public String getFileName() {
-    	return myFileName;
+    public String getFileName () {
+        return myFileName;
     }
-    
+
     /**
      * 
      * @param file Name of the file (without spaces) to write log
-     * records to
+     *        records to
      */
-    public void setFileName(String file) {
-    	myFileName = file.replace("\\s+", "");
+    public void setFileName (String file) {
+        myFileName = file.replace("\\s+", "");
     }
-    
+
     /**
      * 
      * @param ext Extension for this file
      */
     public void setExtension (String ext) {
-    	if (ext.charAt(0) == '.') {
-    		myExtension = ext;
-    	}
-    	else {
-    		LoggerManager.DEFAULT_LOGGER.log(Level.INFO, EXTENSION_ERROR);
-    	}
+        if (ext.charAt(0) == '.') {
+            myExtension = ext;
+        }
+        else {
+            LoggerManager.DEFAULT_LOGGER.log(Level.INFO, EXTENSION_ERROR);
+        }
     }
 
     @Override
