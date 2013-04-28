@@ -36,7 +36,11 @@ public class MenuState extends SubState implements Observer {
         addMenu(2, new SetupMenu());
     }
     
-
+    public void unset () {
+        MultiMenu mm = (MultiMenu) myMenus.get(myCurrentMenu);
+        mm.unsetFrame();
+    }
+    
     public void addMenu (int index, Menu menu) {
         myMenus.put(index, menu);
         menu.addObserver(this);
