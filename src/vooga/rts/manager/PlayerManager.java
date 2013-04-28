@@ -39,7 +39,8 @@ public class PlayerManager {
     }
 
     public void addHuman (PlayerInfo info) {
-        addPlayer(new HumanPlayer(info.getId(), info.getTeam()), info.getTeam());
+        myHuman = new HumanPlayer(info.getId(), info.getTeam());
+        addPlayer(myHuman, info.getTeam());
     }
     /**
      * Creates a new player with the specified team ID
