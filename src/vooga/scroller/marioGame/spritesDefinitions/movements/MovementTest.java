@@ -1,5 +1,6 @@
 package vooga.scroller.marioGame.spritesDefinitions.movements;
 
+import util.Vector;
 import vooga.scroller.sprites.movement.Movement;
 
 

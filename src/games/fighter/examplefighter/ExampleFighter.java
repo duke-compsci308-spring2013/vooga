@@ -6,20 +6,29 @@ import arcade.games.Game;
 import arcade.games.GameData;
 import arcade.games.UserGameData;
 
-public class ExampleFighter extends GameManager{
+public class ExampleFighter extends Game {
 
     public ExampleFighter (ArcadeInteraction arcade) {
         super(arcade);
+        // TODO Auto-generated constructor stub
     }
 
     @Override
     public UserGameData generateNewProfile () {
-        return getGameInfo();
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override
     public GameData generateNewGameProfile () {
-        return null; 
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void run () {
+        GameManager gm = new GameManager();
+        gm.run();
     }
 
 }

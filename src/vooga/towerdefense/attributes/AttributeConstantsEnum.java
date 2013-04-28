@@ -3,7 +3,6 @@ package vooga.towerdefense.attributes;
 /**
  * Contains constants for use in defining attribute names
  * 
- * Should this be an Enum?
  * 
  * @author Matthew Roy
  * @author Zhen Gou
@@ -18,32 +17,51 @@ public enum AttributeConstantsEnum {
     SCORE("Score"),
     SHAPE("Shape"),
     AFFILIATION("Affiliation"),
-    ATTACK_DAMAGE("Attack Damage"),
-    ATTACK_RADIUS("Attack Range"),
-    NUM_OF_TARGETS("Number of Targets"),
-    TILES_WIDE("Tiles wide"),
-    TILES_TALL("Tiles tall"),
     
     /**
-     * Attacks per second
+     * Affiliation value constants
      */
-    ATTACK_INTERVAL("Attack Speed"),
-    ARMOR("Armor"),
-    MOVE_SPEED("Move Speed"),
+    Player("Player", 0.0),
+    Enemy("Enemy", 1.0),
+    Neutral("Neutral", 2.0),
+    
+    Tower("Player", 0.1),
+    Unit("Player", 0.2),
+    Projectile("Player", 0.3),
+    
+    ATTACK_DAMAGE("Attack_Damage"),
+    ATTACK_RADIUS("Attack_Range"),
+    NUM_OF_TARGETS("Number_of_Targets"),
+    /**
+     * Seconds between attacks
+     */
+    ATTACK_INTERVAL("Attack_Speed"),
+    MOVE_SPEED("Move_Speed"),
+    FLY_SPEED("Fly_Speed"),
     DIRECTION("Direction"),
     UPGRADES("Upgrades"),
     COST("Cost"),
     
-    PROJECTILE_FACTORY("projectile factory"),
+    PROJECTILE_FACTORY("projectile_factory"),
     AURA_EFFECT("Aura");
     
     private String attributeConstant;
+    private double attributeValue;
     
     AttributeConstantsEnum(String s) {
         attributeConstant = s;
     }
     
+    AttributeConstantsEnum(String s, double v) {
+        attributeConstant = s;
+        attributeValue = v;
+    }
+    
     public String getStatusCode () {
         return attributeConstant;
+    }
+    
+    public double getValue () {
+        return attributeValue;
     }
 }

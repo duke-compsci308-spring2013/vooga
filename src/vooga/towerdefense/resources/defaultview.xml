@@ -1,0 +1,18 @@
+<game>
+    <view>
+        <dimension/>
+        <MapScreen>
+<<<<<<< HEAD
+            <dimension>500, 500</dimension>
+=======
+            <dimension>400, 400</dimension>
+>>>>>>> ef0beb2e6a1eb053adf8be0395c5f635ffcb3ccd
+            <location>North</location>
+        </MapScreen>
+    </view>
+    <map/>
+    <player/>
+    <gameelements/>
+    <rules/>
+    <levels/>
+</game>

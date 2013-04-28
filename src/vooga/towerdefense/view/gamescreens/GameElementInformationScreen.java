@@ -5,9 +5,11 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+
 import vooga.towerdefense.controller.Controller;
 
 
@@ -19,7 +21,6 @@ import vooga.towerdefense.controller.Controller;
  */
 public class GameElementInformationScreen extends InformationScreen {
 
-    // TODO: load from resources
     private static final String UPGRADE_BUTTON_NAME = "Upgrade";
 
     /**
@@ -69,7 +70,7 @@ public class GameElementInformationScreen extends InformationScreen {
      * @param upgrades is the list of upgrades as strings
      */
     public void displayUpgradesAndButton (List<String> upgrades) {
-        myUpgradeOptionsBox.removeAllItems();
+    	myUpgradeOptionsBox.removeAllItems();
         for (String upgrade : upgrades) {
             myUpgradeOptionsBox.addItem(upgrade);
         }

@@ -20,14 +20,14 @@ public class MoveLeft extends AnimationState<Sprite> {
      * @param move is the image that represents moving left.
      * @param stand is the image that represents standing left.
      */
-    public MoveLeft (Pixmap move, Pixmap stand) {
-        super(move);
+    public MoveLeft (Pixmap stand) {
+        super(stand);
         myStand = stand;
     }
 
     @Override
     public boolean validAnimation (Sprite unit) {
-        if(unit.getCenter().x - unit.lastLocation().x < -.2){            
+        if(unit.getVelocity().getComponentVector(Sprite.LEFT_DIRECTION).getMagnitude() > 0){            
             unit.getView().setDefaultView(myStand);
             return true;
         }

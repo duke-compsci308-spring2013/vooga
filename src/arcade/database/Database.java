@@ -1,5 +1,5 @@
 package arcade.database;
-import arcade.controller.UserSpecificData;
+import arcade.model.datapacket.UserSpecificData;
 import arcade.games.Comment;
 import arcade.games.GameData;
 import arcade.games.Score;

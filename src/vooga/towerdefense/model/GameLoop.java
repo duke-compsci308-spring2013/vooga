@@ -47,7 +47,6 @@ public class GameLoop {
 
 	private void initTimer() {
 		myTimer = new Timer(DEFAULT_DELAY, new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				myController.update(DEFAULT_DELAY);
 				myController.displayMap();

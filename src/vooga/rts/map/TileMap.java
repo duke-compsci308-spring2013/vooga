@@ -3,6 +3,7 @@ package vooga.rts.map;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +12,7 @@ import vooga.rts.gamedesign.sprite.map.Tile;
 import vooga.rts.util.Camera;
 import vooga.rts.util.Location3D;
 import vooga.rts.util.Pixmap;
+import vooga.rts.util.TimeIt;
 
 
 /**
@@ -29,6 +31,8 @@ public class TileMap implements IGameLoop {
 
     private Dimension myTileSize;
 
+    private Dimension myMapSize;
+
     private Map<Integer, BufferedImage> myTileTypes;
 
     private Tile[][] myTiles;
@@ -42,9 +46,12 @@ public class TileMap implements IGameLoop {
      * @param height The number of tiles in the Y direction.
      */
     public TileMap (Dimension tileSize, int width, int height) {
-        myWidth = width;
+        myWidth = width; 
         myHeight = height;
         myTileSize = tileSize;
+        myMapSize =
+                new Dimension((int) (myWidth * myTileSize.getWidth()),
+                              (int) (myHeight * myTileSize.getHeight()));
         myTileTypes = new HashMap<Integer, BufferedImage>();
         myTiles = new Tile[myWidth][myHeight];
     }
@@ -79,9 +86,8 @@ public class TileMap implements IGameLoop {
         Pixmap image = new Pixmap(pic);
 
         Location3D position =
-                new Location3D(x * myTileSize.width / 2 /* + myTileSize.width / 2 */,
-                               y * myTileSize.height / 2
-                               /* + myTileSize.height / 2 */, 0);
+                new Location3D(x * myTileSize.width / 2 ,
+                               y * myTileSize.height / 2, 0);
 
         Tile newTile = new Tile(image, position, myTileSize);
         setTile(x, y, newTile);
@@ -96,7 +102,7 @@ public class TileMap implements IGameLoop {
      * @param y The Y index of the tile
      * @return The Tile at the specified location.
      */
-    private Tile getTile (int x, int y) {
+    public Tile getTile (int x, int y) {
         if (x < 0 || y < 0 || x >= myWidth || y >= myHeight) {
             return null;
         }
@@ -112,7 +118,7 @@ public class TileMap implements IGameLoop {
      * @param y The Y index of the tile
      * @param toset The tile to be placed at the location.
      */
-    private void setTile (int x, int y, Tile toset) {
+    public void setTile (int x, int y, Tile toset) {
         if (x < 0 || y < 0 || x >= myWidth || y >= myHeight) {
             return;
         }
@@ -123,7 +129,7 @@ public class TileMap implements IGameLoop {
     public void update (double elapsedTime) {
         for (int x = 0; x < myWidth; x++) {
             for (int y = 0; y < myHeight; y++) {
-                Tile cur = myTiles[x][y];
+                Tile cur = getTile(x, y);
                 if (cur != null) {
                     cur.update(elapsedTime);
                 }
@@ -145,17 +151,19 @@ public class TileMap implements IGameLoop {
         startY /= Camera.ISO_HEIGHT;
 
         // Get the end index of what is visible
-        int endX = (int) (view.getMaxX() / myTileSize.getWidth() + 1);
+        int endX =
+                (int) (view.getMaxX() < myMapSize.getWidth() ? view.getMaxX() : myMapSize
+                        .getWidth());
+        endX /= myTileSize.getWidth();
         endX /= Camera.ISO_HEIGHT;
+        endX = endX < myWidth ? endX : myWidth;
 
-        int endY = (int) (view.getMaxY() / myTileSize.getHeight() + 1);
+        int endY =
+                (int) (view.getMaxY() < myMapSize.getHeight() ? view.getMaxY() : myMapSize
+                        .getHeight());
+        endY /= myTileSize.getHeight();
         endY /= Camera.ISO_HEIGHT;
-        /*
-         * startX = 0;
-         * startY = 0;
-         * endX = myWidth;
-         * endY = myHeight;
-         */
+        endY = endY < myHeight ? endY : myHeight;
 
         for (int x = startX; x < endX; x++) {
             for (int y = startY; y < endY; y++) {
@@ -165,5 +173,21 @@ public class TileMap implements IGameLoop {
                 }
             }
         }
+    }
+    
+    public int getMyWidth() {
+        return myWidth;
+    }
+    
+    public int getMyHeight() {
+        return myHeight;
+    }
+    
+    public Dimension getMyTileSize() {
+        return myTileSize;
+    }
+    
+    public Map<Integer , BufferedImage> getMyTileTypes() {
+        return myTileTypes;
     }
 }

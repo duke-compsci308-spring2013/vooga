@@ -1,9 +1,12 @@
 package vooga.scroller.util.mvc.vcFramework;
 
+
 public interface IDomainDescriptor {
     
     String getDomainName();
     
-    Tools getDomainTools();
+    Tools<? extends IDomainDescriptor> getDomainTools();
+    
+    
 
 }

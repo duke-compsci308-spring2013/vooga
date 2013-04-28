@@ -1,5 +1,10 @@
 package vooga.scroller.level_editor.library;
 
+import java.awt.Image;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.util.Pixmap;
 

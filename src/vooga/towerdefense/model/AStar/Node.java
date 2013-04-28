@@ -156,8 +156,7 @@ public class Node implements Comparable<Node> {
                 return (node.x == x) && (node.y == y);
         }
 
-        @Override
-		public int compareTo(Node otherNode) {
+        public int compareTo(Node otherNode) {
                 float thisTotalDistanceFromGoal = heuristicDistanceFromGoal + distanceFromStart;
                 float otherTotalDistanceFromGoal = otherNode.getHeuristicDistanceFromGoal() + otherNode.getDistanceFromStart();
                

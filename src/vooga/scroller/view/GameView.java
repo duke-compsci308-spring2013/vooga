@@ -17,7 +17,9 @@ import java.util.TreeSet;
 import javax.swing.JComponent;
 import javax.swing.Timer;
 import vooga.scroller.scrollingmanager.ScrollingManager;
-import vooga.scroller.sprites.superclasses.Player;
+import vooga.scroller.util.Renderable;
+import vooga.scroller.util.Renderer;
+import vooga.scroller.util.mvc.Gaming;
 import vooga.scroller.model.Model;
 
 
@@ -25,7 +27,7 @@ import vooga.scroller.model.Model;
  *
  * @author Ross Cahoon
  */
-public class GameView extends JComponent {
+public class GameView extends JComponent implements Renderer<Gaming>{
     // default serialization ID
     private static final long serialVersionUID = 1L;
     // animate 25 times per second if possible
@@ -45,10 +47,7 @@ public class GameView extends JComponent {
     private Point myLastMousePosition;
     // MULTIPLE KEY SUPPORT
     private Set<Integer> myKeys;
-    // Player
-    private Player myPlayer;
     private ScrollingManager myScrollManager;
-    private boolean win = false;
 
 
     /**
@@ -119,16 +118,12 @@ public class GameView extends JComponent {
         // create a timer to animate the canvas
         Timer timer = new Timer(stepTime, 
                                 new ActionListener() {
-            @Override
-			public void actionPerformed (ActionEvent e) {
+            public void actionPerformed (ActionEvent e) {
                 myGame.update((double) stepTime / ONE_SECOND);
                 repaint();
             }
         });
         // start animation
-        if (myGame==null) {
-//            setModel(new Model(this, myScrollManager));//TODO - make a default model?
-        }
         myScrollManager.initModel(myGame);
         timer.start();
     }
@@ -163,7 +158,7 @@ public class GameView extends JComponent {
             public void keyReleased (KeyEvent e) {
                 myLastKeyPressed = NO_KEY_PRESSED;
                 // MULTIPLE KEY SUPPORT
-                myKeys.remove(e.getKeyCode());
+                myKeys.remove((Integer)e.getKeyCode());
             }
         });
         myLastMousePosition = new Point();
@@ -173,6 +168,22 @@ public class GameView extends JComponent {
                 myLastMousePosition = e.getPoint();
             }
         });
+    }
+
+    @Override
+    public void render (Renderable<Gaming> renderable) {
+        setModel((Model) renderable);
+    }
+
+
+    @Override
+    public Renderable<Gaming> getRenderable () {
+        return myGame;
+    }
+
+    @Override
+    public void setRenderable (Renderable<Gaming> renderable) {
+        setModel((Model) renderable);        
     }
 
 }

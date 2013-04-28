@@ -29,8 +29,7 @@ public class Viscosity implements Force {
         viscosity = new Vector(angle, magnitude);
     }
     
-    @Override
-	public void apply() {
+    public void apply() {
         sprite.addVector(viscosity);
     }
 

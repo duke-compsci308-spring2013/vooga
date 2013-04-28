@@ -3,6 +3,7 @@ package vooga.towerdefense.factories.attributefactories;
 import java.util.ArrayList;
 import java.util.List;
 import vooga.towerdefense.attributes.AttributeManager;
+import vooga.towerdefense.factories.elementfactories.GameElementFactory;
 
 
 /**
@@ -14,6 +15,7 @@ import vooga.towerdefense.attributes.AttributeManager;
 public class AttributeManagerFactory {
 
     private List<AttributeFactory> myInputAttributes;
+    private List<GameElementFactory> myGameElementFactories;
 
     /**
      * Dangerous because it uses instantiated attributes
@@ -22,6 +24,7 @@ public class AttributeManagerFactory {
     public AttributeManagerFactory (List<AttributeFactory> gameElementAttributes) {
         myInputAttributes = new ArrayList<AttributeFactory>();
         myInputAttributes.addAll(gameElementAttributes);
+        myGameElementFactories = new ArrayList<GameElementFactory>();
     }
 
     /**
@@ -38,6 +41,14 @@ public class AttributeManagerFactory {
 
     public AttributeManagerFactory () {
         myInputAttributes = new ArrayList<AttributeFactory>();
+    }
+    
+    public void addAttributeFactory(AttributeFactory attribute) {
+        myInputAttributes.add(attribute);
+    }
+    
+    public void addGameElementFactory(GameElementFactory factory){
+    	myGameElementFactories.add(factory);
     }
 
     /**
@@ -58,6 +69,10 @@ public class AttributeManagerFactory {
         for (AttributeFactory fact : myInputAttributes) {
             manager.addAttribute(fact.create());
         }
+        for (GameElementFactory factory: myGameElementFactories){
+        	manager.addGameElementFactory(factory.getName(), factory);
+        }
+        	
         return manager;
     }
 

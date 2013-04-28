@@ -1,6 +1,7 @@
 package vooga.rts.networking.communications.servermessages;
 
 import vooga.rts.networking.client.IClientModel;
+import vooga.rts.networking.communications.AbstractLobbyInfoMessage;
 import vooga.rts.networking.communications.ExpandedLobbyInfo;
 
 
@@ -10,23 +11,22 @@ import vooga.rts.networking.communications.ExpandedLobbyInfo;
  * @author David Winegar
  * 
  */
-public class FinalizeLobbyInfoMessage extends ServerInfoMessage {
+public class FinalizeLobbyInfoMessage extends AbstractLobbyInfoMessage implements ServerInfoMessage {
 
     private static final long serialVersionUID = 8588233124753040070L;
-    private ExpandedLobbyInfo myLobbyInfo;
 
     /**
-     * Instantiates message with lobbyinf
+     * Instantiates message with lobbyinfo
      * 
      * @param info to send
      */
     public FinalizeLobbyInfoMessage (ExpandedLobbyInfo info) {
-        myLobbyInfo = info;
+        super(info);
     }
 
     @Override
     public void affectClient (IClientModel model) {
-        // TODO
+        model.loadGame((ExpandedLobbyInfo) getLobbyInfo());
     }
 
 }

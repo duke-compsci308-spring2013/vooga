@@ -26,6 +26,12 @@ public class ViewConstants {
     
     public static final Border DEFAULT_BORDER = BorderFactory.createEmptyBorder(5, 5, 5, 5);
     
+
+    public static final double DEFAULT_GRIDVIEW_HEIGHT_RATIO = .95;
+    public static final double DEFAULT_GRIDVIEW_WIDTH_RATIO = .7;
+    public static final double DEFAULT_TOOLSVIEW_HEIGHT_RATIO = .9;
+    public static final double DEFAULT_TOOLSVIEW_WIDTH_RATIO = .25;
+    
     /**
      * Added to fully prevent instantiation of this utility class.
      */

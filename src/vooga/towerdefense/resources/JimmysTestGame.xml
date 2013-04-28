@@ -1,0 +1,171 @@
+<Game>
+	<view>
+		<dimension>1100, 800</dimension>
+		<MapScreen>
+			<dimension>800, 600</dimension>
+			<location>Center</location>
+		</MapScreen>
+		<MultipleScreenPanel>
+			<dimension>1000, 200</dimension>
+			<location>South</location>
+			<ShopScreen>
+				<dimension>600, 100</dimension>
+				<location>Center</location>
+			</ShopScreen>
+			<NextWaveScreen>
+				<dimension>200, 100</dimension>
+				<location>East</location>
+			</NextWaveScreen>
+		</MultipleScreenPanel>
+		<MultipleScreenPanel>
+			<dimension>200, 500</dimension>
+			<location>East</location>
+			<GameStatsScreen>
+				<dimension>200, 300</dimension>
+				<location>North</location>
+			</GameStatsScreen>
+			<GameElementInformationScreen>
+				<dimension>200, 300</dimension>
+				<location>South</location>
+			</GameElementInformationScreen>
+		</MultipleScreenPanel>
+	</view>
+	<map>
+		<Map1>
+			<image>grass_tile.gif</image>
+			<tile_size>50</tile_size>
+			<dimension>
+				<width>500</width>
+				<height>500</height>
+			</dimension>
+			<grid>0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			s 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 d
+			0 0 0 0 0 0 0 0 0 0</grid>
+		</Map1>
+	</map>
+	<player>
+		<attributes>
+			<Health>100.0</Health>
+			<Score>0.0</Score>
+			<Money>1000.0</Money>
+		</attributes>
+	</player>
+	<gameelements>
+		<Dog>
+			<dimension>50, 50</dimension>
+			<image>dog.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<HEALTH>10</HEALTH>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+			</actions>			
+		</Dog>
+		<Bear>
+			<dimension>50, 50</dimension>
+			<image>bear.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<HEALTH>100</HEALTH>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+			</actions>			
+		</Bear>
+		<Elephant>
+			<dimension>50, 50</dimension>
+			<image>dancing_elephant.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<HEALTH>100</HEALTH>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+			</actions>			
+		</Elephant>
+		<TestTower>
+			<dimension>50, 50</dimension>
+			<image>tower.gif</image>
+			<type>Tower</type>
+			<attributes>
+				<Health>100</Health>
+				<Cost>100</Cost>
+			</attributes>
+			<actions>
+			</actions>			
+		</TestTower>
+	</gameelements>
+	<rules>
+		<EnemyReachedEndRule/>
+		<NextLevelRule/>
+		<LoseAtZeroHealthRule/>
+	</rules>
+	<levels>
+		<Level0>
+			<rules>
+			</rules>
+			<actions>
+				<LevelTimerAction>
+					<parameter>1000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level0>
+		<Level1>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>10</parameter>
+					<parameter>1000</parameter>
+					<parameter>Elephant</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>60000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level1>
+		<Level2>
+				<rules>
+				</rules>
+				<actions>
+				<WaveAction>
+					<parameter>10</parameter>
+					<parameter>1000</parameter>
+					<parameter>Bear</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>60000</parameter>
+				</LevelTimerAction>
+				</actions>
+			</Level2>
+	</levels>
+</Game>

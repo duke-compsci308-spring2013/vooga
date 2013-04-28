@@ -5,12 +5,13 @@ package vooga.scroller.util.mvc.vcFramework;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JSeparator;
 import javax.swing.Timer;
-import vooga.scroller.level_editor.view.LEActionLibrary;
+
 
 
 /**
@@ -19,28 +20,27 @@ import vooga.scroller.level_editor.view.LEActionLibrary;
  *
  */
 @SuppressWarnings("serial")
-public abstract class MenuBarView extends JMenuBar {
+public class MenuBarView extends JMenuBar {
     private static final int DEFAULT_DELAY = 100;
-    private Window myWindow;
+    private Window<?, ?, ?, ?> myWindow;
     private WindowActionLibrary myActionLibrary;
-    private LEActionLibrary myWSActionLibrary;
     private JMenu myFileMenu;
     private JMenu myEditMenu;
     private Timer myTimer;
-    
+    private List<JMenu> myCustomMenus;
+
     /**
      * Constructor for MenuBarView
      * @param window the parent view that component is inside of
      */
-    
-    public MenuBarView(Window window) {
+
+    public MenuBarView(Window<?, ?, ?, ?> window) {
         myWindow = window;
         myActionLibrary = new WindowActionLibrary(myWindow);
-        setSpecializedWindow(myWindow);
-        addComponents();
+        myCustomMenus = new ArrayList<JMenu>();
+        addCoreMenus();
         ActionListener prefListener =  new ActionListener() {
-            @Override
-			public void actionPerformed (ActionEvent e) {
+            public void actionPerformed (ActionEvent e) {
                 if (myWindow.getTabCount() > 0) {
                     enableWorkspaceDependentsMenus();
                 }
@@ -48,20 +48,32 @@ public abstract class MenuBarView extends JMenuBar {
         };
         myTimer = new Timer(DEFAULT_DELAY, prefListener);
         myTimer.start();
+
     }
+
 
     /**
      * Any 
      */
-    protected void addComponents () {
-            this.add(makeFileMenu());
-            this.add(makeEditMenu());
-            this.addCustomMenus();
+    protected void addCoreMenus () {
+        this.add(makeFileMenu());
+        this.add(makeEditMenu());
     }
-    
-    protected abstract void setSpecializedWindow(Window w);
 
-    protected abstract void addCustomMenus ();
+    protected void addCustomMenus (List <JMenu> menus) {
+        for (JMenu m: menus) {
+            addCustomMenu(m);
+        }
+    }
+
+    /**
+     * 
+     * @param cm - 
+     */
+    public void addCustomMenu (JMenu cm) {
+        myCustomMenus.add(cm);
+        this.add(cm);
+    }
 
     /**
      * This menu is a generalized menu that handles all File actions.
@@ -78,7 +90,7 @@ public abstract class MenuBarView extends JMenuBar {
         myFileMenu = result;
         return myFileMenu;
     }
-    
+
     /**
      * This menu mostly handles actions that apply to the whole active workspace.
      * @return
@@ -92,31 +104,21 @@ public abstract class MenuBarView extends JMenuBar {
         myEditMenu = result;
         return myEditMenu;
     }
-    
-    /**
-     * This menu handles actions that apply primarily to the current domain-specific
-     * Renderable. 
-     * @return
-     */
-    protected abstract JMenu makePreferencesMenu();
-    
-    /**
-     * This menu handles actions that provide help resources to the user. 
-     * @return
-     */
-    protected abstract JMenu makeHelpMenu();
-    
+
+
     /**
      * Make the preferences menu active
      */
     private void enableWorkspaceDependentsMenus() {
-        for (JMenu c: getWorkspaceMenus()) {
+        for (JMenu c: getCustomMenus()) {
             c.setEnabled(true);
         }
         myEditMenu.setEnabled(true);
     }
 
-protected abstract List<JMenu> getWorkspaceMenus ();
+    protected List<JMenu> getCustomMenus () {
+        return myCustomMenus;
+    }
 
-    
+
 }

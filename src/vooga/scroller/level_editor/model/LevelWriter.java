@@ -8,9 +8,11 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import util.Location;
+import vooga.scroller.level_editor.LevelEditing;
 import vooga.scroller.level_editor.controllerSuite.LEController;
 import vooga.scroller.level_editor.controllerSuite.LEGrid;
 import vooga.scroller.sprites.Sprite;
+import vooga.scroller.util.mvc.IController;
 
 
 /**
@@ -21,6 +23,8 @@ import vooga.scroller.sprites.Sprite;
  */
 public class LevelWriter {
 
+    private static final String WRITING_ERROR = "WRITING_ERROR";
+    private static final String EQUALS = "EQUALS";
     private static final String RESOURCE_PATH = "vooga.scroller.level_editor.model.SaveLoad";
     private static final char SPACE = ' ';
     private static final String NEW_LINE = System.getProperty("line.separator");
@@ -30,13 +34,23 @@ public class LevelWriter {
     private FileWriter myFileWriter;
     private LEGrid myGrid;
     private Location myStartPoint;
+    private IController<LevelEditing> myController;
+
+    /**
+     * Constructor sets given controller as instance variable.
+     * 
+     * @param leController - Controller to set
+     */
+    public LevelWriter (LEController leController) {
+        myController = leController;
+    }
 
     /**
      * Creates a save file from a LEGrid
      * 
-     * @param file
-     * @param levelGrid
-     * @param libPath
+     * @param file - file to be saved
+     * @param levelGrid - Grid to be saved
+     * @param libPath - file name path of sprite library
      */
     public void createFile (File file, LEGrid levelGrid, String libPath) {
         myGrid = levelGrid;
@@ -47,7 +61,7 @@ public class LevelWriter {
             myFileWriter = new FileWriter(file);
         }
         catch (IOException e) {
-            LEController.showErrorMsg(myResources.getString("FILE_ERROR"));
+            myController.showErrorMsg(myResources.getString("FILE_ERROR"));
         }
         writeLevel();
         writeLib(libPath);
@@ -62,7 +76,7 @@ public class LevelWriter {
             for (int i = 0; i < myGrid.getSize().height; i++) {
                 myFileWriter.write(NEW_LINE);
                 for (int j = 0; j < myGrid.getSize().width; j++) {
-                    Sprite s = myGrid.getSprite(j, i);
+                    Sprite s = myGrid.getSpriteFromCoor(j, i);
                     if (s == null) {
                         myFileWriter.write(SPACE);
                     }
@@ -80,9 +94,8 @@ public class LevelWriter {
             myFileWriter.write(NEW_LINE);
         }
         catch (IOException e) {
-            LEController.showErrorMsg(myResources.getString("WRITING_ERROR"));
+            myController.showErrorMsg(myResources.getString(WRITING_ERROR));
         }
-
     }
 
     private void writeLib (String libPath) {
@@ -93,7 +106,7 @@ public class LevelWriter {
             myFileWriter.write(NEW_LINE);
         }
         catch (IOException e) {
-            LEController.showErrorMsg(myResources.getString("WRITING_ERROR"));
+            myController.showErrorMsg(myResources.getString(WRITING_ERROR));
         }
     }
 
@@ -103,12 +116,12 @@ public class LevelWriter {
             myFileWriter.write(myResources.getString("BEGIN_KEY"));
             for (String key : keySet) {
                 myFileWriter.write(NEW_LINE);
-                myFileWriter.write("" + myMap.get(key) + myResources.getString("EQUALS") + key);
+                myFileWriter.write("" + myMap.get(key) + myResources.getString(EQUALS) + key);
             }
             myFileWriter.write(NEW_LINE);
         }
         catch (IOException e) {
-            LEController.showErrorMsg(myResources.getString("WRITING_ERROR"));
+            myController.showErrorMsg(myResources.getString(WRITING_ERROR));
         }
 
     }
@@ -118,16 +131,16 @@ public class LevelWriter {
             myFileWriter.write(myResources.getString("BEGIN_SETTINGS"));
             myFileWriter.write(NEW_LINE);
             myFileWriter.write(myResources.getString("START_POINT") +
-                               myResources.getString("EQUALS") +
+                               myResources.getString(EQUALS) +
                                (int) myStartPoint.getX() + SPACE + (int) myStartPoint.getY());
             myFileWriter.write(NEW_LINE);
             myFileWriter.write(myResources.getString("BACKGROUND") +
-                               myResources.getString("EQUALS") +
+                               myResources.getString(EQUALS) +
                                myGrid.getBackground().getFileName());
             myFileWriter.close();
         }
         catch (IOException e) {
-            LEController.showErrorMsg(myResources.getString("WRITING_ERROR"));
+            myController.showErrorMsg(myResources.getString(WRITING_ERROR));
         }
     }
 }

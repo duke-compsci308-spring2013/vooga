@@ -1,10 +1,12 @@
 package vooga.rts.networking.server;
 
+import vooga.rts.networking.communications.ExpandedLobbyInfo;
 import vooga.rts.networking.communications.LobbyInfo;
+
 
 /**
  * Provides an interface between ClientInfoMessages coming in and the various thread container
- * classses.
+ * classes.
  * 
  * @author David Winegar
  * 
@@ -38,15 +40,16 @@ public interface IThreadContainer {
      * Leaves the current lobby.
      * 
      * @param thread that is leaving
+     * @param lobbyInfo info to update with
      */
-    public void leaveLobby (ConnectionThread thread);
+    public void leaveLobby (ConnectionThread thread, ExpandedLobbyInfo lobbyInfo);
 
     /**
      * Starts a gameserver if the thread is in a lobby.
      * 
      * @param thread thread that starts it
      */
-    public void startGameServer (ConnectionThread thread);
+    public void requestGameStart (ConnectionThread thread);
 
     /**
      * Requests information about a set number of lobbies
@@ -57,9 +60,25 @@ public interface IThreadContainer {
 
     /**
      * Starts a new lobby
+     * 
      * @param thread that starts new lobby
-     * @param myLobbyInfo info about the lobby
+     * @param lobbyInfo info to update with
      */
-    public void startLobby (ConnectionThread thread, LobbyInfo myLobbyInfo);
+    public void startLobby (ConnectionThread thread, LobbyInfo lobbyInfo);
+
+    /**
+     * This updates the lobby with the new expandedLobbyInfo.
+     * 
+     * @param thread thread that updates lobby info
+     * @param lobbyInfo info to update with
+     */
+    public void updateLobbyInfo (ConnectionThread thread, ExpandedLobbyInfo lobbyInfo);
+
+    /**
+     * Confirms to the server that the client is ready to start the game.
+     * 
+     * @param thread thread that is ready
+     */
+    public void clientIsReadyToStart (ConnectionThread thread);
 
 }

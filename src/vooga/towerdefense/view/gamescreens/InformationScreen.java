@@ -3,9 +3,11 @@ package vooga.towerdefense.view.gamescreens;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
+
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
 import vooga.towerdefense.controller.Controller;
 
 
@@ -63,7 +65,7 @@ public class InformationScreen extends JPanel {
      * @param information is the string to display
      */
     public void displayInformation (String information) {
-        myTextArea.setText(myTitle + information);
+        myTextArea.setText(information);
         repaint();
     }
 

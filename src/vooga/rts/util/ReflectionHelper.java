@@ -2,6 +2,7 @@ package vooga.rts.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 
@@ -218,7 +219,7 @@ public class ReflectionHelper {
 
         if (value instanceof Double) {
             Double dVal = val.doubleValue();
-            dVal += dVal;
+            dVal += (Double) dVal;
             val = dVal;
         }
 

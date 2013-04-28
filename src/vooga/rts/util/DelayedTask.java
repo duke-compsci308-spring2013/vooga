@@ -15,19 +15,36 @@ public class DelayedTask {
     private double myElapsedTime;
     private double myTotalTime;
     private Runnable myTask;
+    private boolean myRepeat;
 
     /**
      * Creates a Delayed Task with the specified time until the
      * task runs as well as a Runnable which defines the task
      * to run.
+     * Will not repeat.
      * 
      * @param runIn The number of seconds until the a task is executed.
      * @param toRun The Runnable to run after the specified time.
      */
     public DelayedTask (double runIn, Runnable toRun) {
+        this(runIn, toRun, false);
+    }
+    
+    /**
+     * Creates a Delayed Task with the specified time until the
+     * task runs as well as a Runnable which defines the task
+     * to run.
+     * Can also specifiy whether the task will repeat or not
+     * 
+     * @param runIn The number of seconds until the a task is executed.
+     * @param toRun The Runnable to run after the specified time.
+     * @param repeat Whether the task will repeat.
+     */
+    public DelayedTask (double runIn, Runnable toRun, boolean repeat) {
         myTotalTime = runIn;
         myTask = toRun;
         myElapsedTime = 0;
+        myRepeat = repeat;
     }
 
     /**
@@ -43,6 +60,9 @@ public class DelayedTask {
             myElapsedTime += elapsedTime;
             if (myTotalTime <= myElapsedTime) {
                 myTask.run();
+                if (myRepeat) {
+                    restart();
+                }
             }
         }
     }

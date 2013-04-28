@@ -14,10 +14,11 @@ import javax.swing.JPanel;
 /**
  * This class is the superclass for Tile, Terrain and Resouce Panels
  * 
- * @author Patrick
+ * @author Ziqiang Huang
  *
  */
 
+@SuppressWarnings("serial")
 public abstract class MapComponentPanel extends JPanel {
     
     public static final String USER_DIR = "user.dir";
@@ -37,20 +38,20 @@ public abstract class MapComponentPanel extends JPanel {
         myChooser.setMultiSelectionEnabled(true);
         myPanel.setLayout(new GridLayout(0,4));
         add(myPanel, BorderLayout.NORTH);
-        //test import
-        add(importButtonPanel(),BorderLayout.SOUTH);
-        
+        add(importButtonPanel(),BorderLayout.SOUTH);       
         this.setPreferredSize(DEFAULT_DIMENSION);
-        setResourceBundle();
-        //addButton();
+
     }
+    
+    /**
+     * create the import button for this panel
+     */
     
     public JPanel importButtonPanel() {
         JPanel p = new JPanel();
         JButton b = new JButton("Import");
         b.addActionListener(new ActionListener() {
-            @Override
-			public void actionPerformed (ActionEvent e) {
+            public void actionPerformed (ActionEvent e) {
                 try {
                     int response = myChooser.showDialog(myPanel, "Import");
                     if (response == JFileChooser.APPROVE_OPTION) {
@@ -59,7 +60,6 @@ public abstract class MapComponentPanel extends JPanel {
                     }
                 }
                 catch (Exception exception) {
-                    //TODO
                 }
                 myCanvas.repaint();
             }
@@ -67,13 +67,18 @@ public abstract class MapComponentPanel extends JPanel {
         p.add(b);
         return p;
     }
+    
+    /**
+     * 
+     * @return the canvas that holds the panel
+     */
 
     public Canvas getCanvas() {
         return myCanvas;
      }
-
-
-    public abstract void setResourceBundle();
-
+    
+    /**
+     * abstract method that to be overwritten by subclasses
+     */
     public abstract void addButton(); 
 }

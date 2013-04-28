@@ -7,15 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import util.Location;
 import vooga.rts.IGameLoop;
 import vooga.rts.commands.ClickCommand;
 import vooga.rts.commands.Command;
 import vooga.rts.commands.PositionCommand;
-import vooga.rts.util.Location;
 
 
 public abstract class Menu extends Observable implements IGameLoop, Observer {
 
+    
     protected List<Button> myButtons;
     protected Image myImage;
     protected AffineTransform myTransform;
@@ -31,27 +32,22 @@ public abstract class Menu extends Observable implements IGameLoop, Observer {
 
     public AffineTransform getTransform (Graphics2D pen) {
         AffineTransform a = new AffineTransform();
-        double sx = pen.getDeviceConfiguration().getBounds().getWidth();
+        double sx = Window.D_X;
         sx /= myImage.getWidth(null);
-        double sy = pen.getDeviceConfiguration().getBounds().getHeight();
+        double sy = Window.D_Y;
         sy /= myImage.getHeight(null);
         a.scale(sx, sy);
         return a;
     }
 
-    protected void paintBG (Graphics2D pen) {
+    @Override
+    public void paint (Graphics2D pen) {
         if (myImage != null) {
             if (myTransform == null) {
                 myTransform = getTransform(pen);
             }
             pen.drawImage(myImage, myTransform, null);
         }
-    }
-
-    @Override
-    public void paint (Graphics2D pen) {
-        paintBG(pen);
-
         for (Button b : myButtons) {
             b.paint(pen);
         }
@@ -65,6 +61,10 @@ public abstract class Menu extends Observable implements IGameLoop, Observer {
     public void addButton (Button b) {
         myButtons.add(b);
         b.addObserver(this);
+    }
+
+    public void clearButtons () {
+        myButtons.clear();
     }
 
     public void receiveCommand (Command command) {

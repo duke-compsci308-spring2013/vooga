@@ -1,7 +1,7 @@
 package vooga.towerdefense.gameeditor;
 
 import java.awt.Dimension;
-import vooga.towerdefense.gameeditor.GameEditorController;
+import vooga.towerdefense.gameeditor.controller.GameEditorController;
 
 
 public class Main {

@@ -39,6 +39,7 @@ public class ShopScreen extends JPanel {
     public ShopScreen (Dimension size, Controller controller) {
         setPreferredSize(size);
         setFocusable(true);
+        setLayout(new BorderLayout());
         myController = controller;
         makeMouseListener();
         addMouseListener(myMouseListener);

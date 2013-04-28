@@ -2,30 +2,24 @@ package vooga.towerdefense.action;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import vooga.towerdefense.gameElements.GameElement;
+import vooga.towerdefense.gameelements.GameElement;
 
 /**
- * Actions that require a target or multiple targets. 
+ * Actions that require a target or multiple targets. Allows targets to be set
+ * within the action.
  * 
  * @author XuRui
- *
+ * 
  */
 
-public class TargetedAction extends Action {
+public abstract class TargetedAction extends Action {
 
 	private List<GameElement> myTargets;
 
-	public TargetedAction(){
+	public TargetedAction() {
 		super();
 		setTargetTracking(true);
 		myTargets = new ArrayList<GameElement>();
-	}
-
-	@Override
-	public void executeAction(double elapsedTime) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -33,7 +27,7 @@ public class TargetedAction extends Action {
 	 * 
 	 * @param target
 	 */
-	public void addTarget (GameElement target) {
+	public void addTarget(GameElement target) {
 		myTargets.add(target);
 	}
 
@@ -42,50 +36,38 @@ public class TargetedAction extends Action {
 	 * 
 	 * @param targets
 	 */
-	public void addTargets (List<GameElement> targets) {
+	public void addTargets(List<GameElement> targets) {
 		myTargets.addAll(targets);
 	}
 
 	/**
-	 * Sets the target list to a new list
+	 * Sets the target list to a new list of targets
 	 * 
 	 * @param newTargets
 	 */
-	public void setTargets (List<GameElement> newTargets) {
+	public void setTargets(List<GameElement> newTargets) {
 		myTargets = newTargets;
 	}
 
-
+	/**
+	 * Returns current targets list
+	 * 
+	 * @return
+	 */
 	public List<GameElement> getTargets() {
 		return myTargets;
 	}
-	
 
 	/**
-	 * Updates targeted follow up action accordingly, adds all targets to targeted actions by default.
-	 * To be overridden if action wants to add targets in a different manner.
+	 * Updates all targeted follow up action accordingly; adds all targets to
+	 * targeted actions. To be overridden if action wants to add targets in a
+	 * different manner.
 	 * 
 	 * @param targets
 	 */
-    public void updateTargetedFollowUpActions(List<GameElement> targets){
-    	for (TargetedAction a: getTargetedFollowUpActions()){
-    		a.addTargets(targets);
-    	}
-    	
-    }
-
-	/**
-	 * Adds each target to every single follow up action
-	 * @param targets
-	 */
-	public void addOneTargetToAllFollowUpActions(List<GameElement> targets){
-		for (GameElement target: targets){
-			for (TargetedAction a: getTargetedFollowUpActions()){
-				a.addTarget(target);
-			}
+	public void updateTargetedFollowUpActions(List<GameElement> targets) {
+		for (TargetedAction a : getTargetedFollowUpActions()) {
+			a.addTargets(targets);
 		}
-
 	}
-
-
 }

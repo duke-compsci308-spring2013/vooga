@@ -3,18 +3,24 @@ package vooga.scroller.level_management.splash_page;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.geom.Point2D;
 import java.util.List;
 import util.Location;
 import util.input.Input;
 import util.input.InputClassTarget;
 import util.input.InputMethodTarget;
+import util.input.PositionObject;
+import vooga.scroller.level_editor.Level;
+import vooga.scroller.level_editor.exceptions.LevelEditorException;
 import vooga.scroller.level_management.IInputListener;
+import vooga.scroller.level_management.LevelManager;
 import vooga.scroller.scrollingmanager.ScrollingManager;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.interfaces.IDoor;
 import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.util.IGameComponent;
 import vooga.scroller.util.ISpriteView;
+import vooga.scroller.util.Pixmap;
 import vooga.scroller.view.GameView;
 
 @InputClassTarget
@@ -51,6 +57,11 @@ public abstract class SplashPage implements IInputListener, IGameComponent{
      */
     public void addDoor(IDoor door) {
         myDoor = door;
+    }
+    
+    @Override
+    public void addSprite(Sprite sprite){
+        mySprites.add(sprite);
     }
     
    
@@ -93,19 +104,15 @@ public abstract class SplashPage implements IInputListener, IGameComponent{
 //        }
 //    }
     
-    @Override
-	public abstract void addInputListeners (Input input);
+    public abstract void addInputListeners (Input input);
 
-    @Override
-	public abstract void removeInputListeners(Input input);
+    public abstract void removeInputListeners(Input input);
     
-    @Override
-	public abstract String getInputFilePath (); 
+    public abstract String getInputFilePath (); 
         //return myControlLocation;
     
     
-    @Override
-	public IDoor getDoor() {
+    public IDoor getDoor() {
         return myDoor;
     }
 
@@ -122,7 +129,7 @@ public abstract class SplashPage implements IInputListener, IGameComponent{
 
     @Override
     public double getRightBoundary () {
-        return myGameView.getWidth();
+        return (double)myGameView.getWidth();
     }
 
     @Override
@@ -142,7 +149,7 @@ public abstract class SplashPage implements IInputListener, IGameComponent{
 
     @Override
     public double getLowerBoundary () {       
-        return myGameView.getHeight();
+        return (double)myGameView.getHeight();
 
     }
 

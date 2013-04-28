@@ -4,8 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import vooga.scroller.level_editor.Level;
-import vooga.scroller.marioGame.spritesDefinitions.collisions.VisitMethods;
 import vooga.scroller.sprites.Sprite;
 
 
@@ -14,6 +12,10 @@ import vooga.scroller.sprites.Sprite;
  * CollisionManager uses reflection to figure out which visit() method needs to
  * be called for the Sprites that have just intersected. This is a much more elegant
  * way of handling collisions than the Visitor method we were previously using. 
+ * <br>
+ * <br>
+ * In order for the Collision Manager to know what VisitMethods.java to look into, CollisionManager 
+ * takes in a VisitMethods object. 
  * <br>
  * <br>
  * Collisions can occur on two levels. The recommended level is when the two sprites 
@@ -32,12 +34,10 @@ import vooga.scroller.sprites.Sprite;
 
 public class CollisionManager {
 
-    Level myLevel;
-    private VisitMethods visit;
+    private VisitLibrary myVisitMethods;
 
-    public CollisionManager (Level level) {
-        myLevel = level;
-        visit = new VisitMethods();
+    public CollisionManager (VisitLibrary visitMethods) {
+        myVisitMethods = visitMethods;
     }
 
     /**
@@ -78,24 +78,6 @@ public class CollisionManager {
                 invokeVisit(classArray, sprites);
             }
         }
-        
-        
-        
-        
-//        if (getInterfaces(clazz1) == null ||
-//            getInterfaces(clazz2) == null) {
-//            @SuppressWarnings("rawtypes")
-//            Class[] classArray = { clazz1, clazz2 };
-//            invokeVisit(classArray, sprites);
-//        }
-//
-//        else {
-//            @SuppressWarnings("rawtypes")
-//            Class[] classArray =
-//                    { getInterfaces(clazz1)[0], getInterfaces(clazz2)[0] };
-//            Object[] sprites = { sprite1, sprite2 };
-//            invokeVisit(classArray, sprites);
-//        }
     }
     
     
@@ -131,9 +113,8 @@ public class CollisionManager {
 
     private void invokeVisit (@SuppressWarnings("rawtypes") Class[] classArray, Object[] sprites) {
         try {
-            Method method = visit.getClass().getMethod("visit", classArray);
-
-            method.invoke(visit, sprites);
+            Method method = myVisitMethods.getVisitMethod(classArray);
+            method.invoke(myVisitMethods, sprites);
         }
 
         catch (SecurityException e) {           

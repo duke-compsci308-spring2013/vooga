@@ -79,7 +79,7 @@ public class LevelsSelectorScreen extends SelectScreen {
             @Override
             public void actionPerformed (ActionEvent e) {
                 if (myLevelSelected == true) {
-                    getView().createGUI();
+                  //  getView().createGUI();
                 }
             }
         });

@@ -3,21 +3,20 @@ package vooga.towerdefense.factories.elementfactories;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
+import util.Location;
+import util.Pixmap;
 import vooga.towerdefense.action.Action;
-import vooga.towerdefense.action.actionlist.MoveToTarget;
+import vooga.towerdefense.action.movement.MoveToTarget;
 import vooga.towerdefense.attributes.AttributeConstantsEnum;
 import vooga.towerdefense.attributes.AttributeManager;
-import vooga.towerdefense.attributes.DefaultAttributeManager;
 import vooga.towerdefense.factories.actionfactories.ActionFactory;
+import vooga.towerdefense.factories.attributefactories.AttributeFactory;
 import vooga.towerdefense.factories.attributefactories.AttributeManagerFactory;
-import vooga.towerdefense.factories.definitions.GameElementDefinition;
-import vooga.towerdefense.gameElements.GameElement;
+import vooga.towerdefense.gameelements.GameElement;
 import vooga.towerdefense.model.GameMap;
 
-
 /**
- * A factory that creates game elements based on preset data
- * Reads from an xmlfile (eventually)
+ * A factory that creates game elements based on preset data from an XML file.
  * 
  * @author Matthew Roy
  * @author Xu Rui
@@ -25,141 +24,161 @@ import vooga.towerdefense.model.GameMap;
  */
 public class GameElementFactory {
 
-    private static DefaultAttributeManager DEFAULT_ATTRIBUTE_MANAGER =
-            new DefaultAttributeManager();
+	/**
+	 * Name of the element that is defined in this class. For convenience.
+	 */
+	private String myName;
+	private List<ActionFactory> myActionsToMake;
+	private List<GameElementFactory> myGameElementFactories;
+	private GameMap myMap;
 
-    /**
-     * Name of the element that is defined in this class. For convenience.
-     */
-    private String myName;
-    private GameElementDefinition myDef;
-    private List<ActionFactory> myActionsToMake;
-    private GameMap myMap;
+	private Pixmap myImage;
+	private String myType;
+	private Dimension mySize;
+	private AttributeManagerFactory myAttributeManagerFactory;
 
-    private Pixmap myImage;
-    private Dimension mySize;
-    private AttributeManagerFactory myAttributeManagerFactory;
+	/**
+	 * complete constructor
+	 * 
+	 * @param name
+	 * @param image
+	 * @param location
+	 * @param size
+	 * @param attrManager
+	 */
 
-    /**
-     * complete constructor
-     * 
-     * @param name
-     * @param image
-     * @param location
-     * @param size
-     * @param type
-     * @param attrManager
-     */
+	public GameElementFactory(String name, String type, Pixmap image,
+			Dimension size, AttributeManagerFactory attrManager,
+			List<ActionFactory> myActions) {
+		myName = name;
+		myType = type;
+		myImage = image;
+		mySize = size;
+		myAttributeManagerFactory = attrManager;
+		myActionsToMake = myActions;
+		myAttributeManagerFactory.addAttributeFactory(makeAffiliation());
+	}
 
-    public GameElementFactory (String name,
-                               Pixmap image,
-                               AttributeManagerFactory attrManager, List<ActionFactory> myActions) {
-        myName = name;
-        myImage = image;
-        mySize = new Dimension(image.getWidth(), image.getHeight());
-        myAttributeManagerFactory = attrManager;
-        myActions = new ArrayList<ActionFactory>();
-    }
+	/**
+	 * Returns the type of this factory - tower, unit or projectile.
+	 * 
+	 * @return a string representing the type
+	 */
+	public String getType() {
+		return myType;
+	}
 
-    public GameElementFactory (String name, Pixmap image){
-        myName = name;
-        myImage = image;
-        myAttributeManagerFactory = new AttributeManagerFactory();
-        mySize = new Dimension(image.getWidth(), image.getHeight());
-        
-    }
-    @Deprecated
-    public GameElementFactory (String name, GameElementDefinition definition) {
-        this(name, definition.getImage(), definition
-                .getAttributeManagerFactory(), definition.getActions());
-        myName = name;
-        myDef = definition;
-    }
+	public GameMap getMap() {
+		return myMap;
+	}
 
-    /**
-     * must be called before create element
-     * 
-     * @param map
-     */
-    public void initialize (GameMap map) {
-        myMap = map;
-    }
+	public String getName() {
+		return myName;
+	}
 
-    public GameMap getMap () {
-        return myMap;
-    }
+	/**
+	 * Makes the affiliation of the game element depending on who spawned it.
+	 * Add affiliation to attribute factory.
+	 * 
+	 * @return
+	 */
+	private AttributeFactory makeAffiliation() {
+		AttributeConstantsEnum affliationValue = AttributeConstantsEnum
+				.valueOf(myType);
+		AttributeFactory affiliation = new AttributeFactory(
+				AttributeConstantsEnum.AFFILIATION.getStatusCode(),
+				affliationValue.getValue());
+		return affiliation;
+	}
 
-    public String getName () {
-        return myName;
-    }
+	/**
+	 * Must be called before create element
+	 * 
+	 * @param map
+	 */
+	public void initialize(GameMap map,
+			List<GameElementFactory> gameElementFactories) {
+		myMap = map;
+		myGameElementFactories = gameElementFactories;
 
-    @Deprecated
-    public GameElementDefinition getDefinition () {
-        return myDef;
-    }
+	}
 
-    /**
-     * For testing only
-     * 
-     * @param def
-     */
-    @Deprecated
-    public void setDefinition (GameElementDefinition def) {
-        myDef = def;
-    }
 
-    public AttributeManager createAttributeFactory () {
-        return myAttributeManagerFactory.makeAttributeManager();
-    }
+	/**
+	 * Creates a game element at a location.
+	 * 
+	 * @param spawnLocation
+	 * @return
+	 */
+	public GameElement createElement(Location spawnLocation) {
+		GameElement element = new GameElement(myImage, spawnLocation, mySize,
+				createAttributeFactory());
+		element.addActions(createActions(element));
+		return element;
+	}
 
-    public void setActionFactories (List<ActionFactory> actionsToMake) {
-        myActionsToMake = actionsToMake;
-    }
+	/**
+	 * Create game element at spawn location with inbuilt targe. Mainly for
+	 * creating projectiles.
+	 * 
+	 * @param spawn
+	 * @param target
+	 * @return
+	 */
+	public GameElement createElement(Location spawn, GameElement target) {
+		GameElement projectile = new GameElement(myImage, spawn, mySize,
+				myAttributeManagerFactory.makeAttributeManager());
+		projectile.addActions(createActions(projectile));
 
-    /**
-     * Creates a list of actions for a specific element
-     * 
-     * @param e element to base actions around
-     * @return list of the actions for that element
-     */
-    public List<Action> createActions (GameElement element) {
-        List<Action> actions = new ArrayList<Action>();
-        for (ActionFactory a : myActionsToMake) {
-            actions.add(a.createAction(element));
-        }
-        return actions;
-    }
+		List<Action> actions = new ArrayList<Action>();
+		actions.add(new MoveToTarget(projectile.getCenter(),
+				target.getCenter(), projectile.getAttributeManager()
+						.getAttribute(
+								AttributeConstantsEnum.MOVE_SPEED
+										.getStatusCode())));
+		projectile.addActions(actions);
+		return projectile;
+	}
 
-    /**
-     * Creates a game element at a location
-     * 
-     * @param spawnLocation
-     * @return
-     */
-    public GameElement createElement (Location spawnLocation) {
-        GameElement element = new GameElement(myImage,
-                                              spawnLocation,
-                                              mySize,
-                                              createAttributeFactory());
-        element.addActions(createActions(element));
-        return element;
-    }
+	public void addGameElementFactory(GameElementFactory GEFactory) {
+		myGameElementFactories.add(GEFactory);
+	}
 
-    public GameElement createElement (Location spawn, GameElement target) {
-        GameElement projectile =
-                new GameElement(myImage,
-                                spawn, mySize, myAttributeManagerFactory.makeAttributeManager());
-        projectile.addActions(createActions(projectile));
+	public Pixmap getImage() {
+		return myImage;
+	}
+	
+	/**
+	 * Adds attributes to attribute factory which will make the element's
+	 * attribute manager.
+	 * 
+	 * @return
+	 */
+	public AttributeManager createAttributeFactory() {
+		for (GameElementFactory f : myGameElementFactories) {
+			myAttributeManagerFactory.addGameElementFactory(f);
+		}
+		return myAttributeManagerFactory.makeAttributeManager();
+	}
 
-        List<Action> actions = new ArrayList<Action>();
-        actions.add(new MoveToTarget(projectile.getCenter(),
-                                     target.getCenter(), projectile.getAttributeManager()
-                                             .getAttribute(AttributeConstantsEnum.MOVE_SPEED.toString())));
-        projectile.addActions(actions);
-        return projectile;
-    }
+	public void setActionFactories(List<ActionFactory> actionsToMake) {
+		myActionsToMake = actionsToMake;
+	}
 
-    public AttributeManager getDefaultAM () {
-        return DEFAULT_ATTRIBUTE_MANAGER;
-    }
+	/**
+	 * Creates a list of actions for a specific element
+	 * 
+	 * @param e
+	 *            element to base actions around
+	 * @return list of the actions for that element
+	 */
+	public List<Action> createActions(GameElement element) {
+		List<Action> actions = new ArrayList<Action>();
+		for (ActionFactory a : myActionsToMake) {
+			actions.add(a.createAction(element));
+		}
+		return actions;
+	}
+
+
 }

@@ -1,11 +1,13 @@
 package vooga.towerdefense.model.shop;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-import vooga.towerdefense.factories.elementfactories.GameElementFactory;
 import util.Location;
+import util.Pixmap;
+import vooga.towerdefense.factories.elementfactories.GameElementFactory;
 
 /**
  * ShopItem is a class used to display purchasable items in the view. It has a
@@ -32,6 +34,7 @@ public class ShopItem extends Rectangle {
 
 	/**
 	 * Gets the factory of the game element that the shop item corresponds to
+	 * 
 	 * @return the factory of the game element that the shop item corresponds to
 	 */
 	public GameElementFactory getFactory() {
@@ -40,6 +43,7 @@ public class ShopItem extends Rectangle {
 
 	/**
 	 * paints the element on the screen
+	 * 
 	 * @param pen
 	 */
 	public void paint(Graphics2D pen) {
@@ -47,7 +51,7 @@ public class ShopItem extends Rectangle {
 		pen.fillRect(x, y, width, height);
 		// TODO: once factories are fixed, towers will be able to paint their
 		// pictures
-		// myFactory.createElement(null).getPixmap().paint(pen, new
-		// Location(x,y),new Dimension(width,height));
+		Pixmap pic = myFactory.getImage();
+		pic.paint(pen, new Location(x+width/2, y+height/2), new Dimension(width, height));
 	}
 }

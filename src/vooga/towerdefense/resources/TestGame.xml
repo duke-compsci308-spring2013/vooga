@@ -1,0 +1,64 @@
+<Game>
+	<view>
+		<dimension>1100, 800</dimension>
+		<MapScreen>
+			<dimension>800, 600</dimension>
+			<location>CENTER</location>
+		</MapScreen>
+	</view>
+	<map>
+		<Map1>
+			<image>/vooga/towerdefense/images/tower.gif</image>
+			<tile_size>50</tile_size>
+			<dimension>
+				<width>500</width>
+				<height>500</height>
+			</dimension>
+			<grid>0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			2 2 2 2 2 1 1 1 1 1
+			0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0</grid>
+		</Map1>
+	</map>
+	<gameelements>
+		<TestUnit>
+			<dimension>50, 50</dimension>
+			<image>/images/Troll_Sprite.png</image>
+			<type>Unit</type>
+			<attributes>
+				<HEALTH>100</HEALTH>
+				<MOVE_SPEED>10</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter1>MOVE_SPEED</parameter1>
+					<parameter2>DIRECTION</parameter2>
+				</Move>
+			</actions>			
+		</TestUnit>
+	</gameelements>
+	<rules>
+	</rules>
+	<levels>
+		<Level1>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter1>10</parameter1>
+					<parameter2>1000</parameter2>
+					<parameter3>TestUnit</parameter3>
+				</WaveAction>
+			</actions>
+		</Level1>
+	</levels>
+</Game>

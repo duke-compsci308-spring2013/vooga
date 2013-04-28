@@ -1,6 +1,7 @@
 package vooga.rts.util;
 
 import java.awt.geom.Point2D;
+import util.Location;
 
 
 /**
@@ -62,7 +63,7 @@ public class Location3D {
      * @param source The Location3D to copy from.
      */
     public Location3D (Location3D source) {
-        this(source.getX(), source.getY(), 0);
+        this(source.getX(), source.getY(), source.getZ());
     }
 
     /**
@@ -155,6 +156,13 @@ public class Location3D {
      */
     public double getDistance (Location3D other) {
         return getDistance(other.getX(), other.getY(), other.getZ());
+    }
+    
+    public double getManhattanDistance(Location3D other) {
+        double dx = Math.abs(other.getX() - this.getX());
+        double dy = Math.abs(other.getY() - this.getY());
+        double dz = Math.abs(other.getZ() - this.getZ());
+        return dx + dy + dz;
     }
     
     public void negate() {

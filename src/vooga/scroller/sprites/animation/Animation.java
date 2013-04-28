@@ -63,8 +63,7 @@ public class Animation<S> implements ISpriteView {
         return myDefaultStateView;
     }
 
-    @Override
-	public void setDefaultView (ISpriteView defaultImage) {
+    public void setDefaultView (ISpriteView defaultImage) {
         myDefaultStateView = defaultImage;
     }
     

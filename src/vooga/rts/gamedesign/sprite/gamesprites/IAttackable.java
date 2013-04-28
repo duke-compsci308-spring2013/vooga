@@ -17,9 +17,8 @@ public interface IAttackable {
 	/**
 	 * Calculates the damage that should be done to the IAttackable based on
 	 * armor
-	 * @return the amount of damage that will be done to the IAttackable
 	 */
-    public int calculateDamage(int damage);
+    public void calculateDamage(int damage);
     
     /**
      * Changes the health of an IAttackable after calculating the amount of 

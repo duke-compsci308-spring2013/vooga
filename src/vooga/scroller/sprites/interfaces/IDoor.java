@@ -1,13 +1,12 @@
 package vooga.scroller.sprites.interfaces;
 
 import vooga.scroller.level_management.LevelManager;
-import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.util.IGameComponent;
 
 /**
  * Interface that acts as a door between certain defined locations within levels.
  * 
- * @author Scott Valentine
+ * @author Scott Valentine, Danny Goodman
  *
  */
 public interface IDoor {
@@ -36,10 +35,10 @@ public interface IDoor {
         
     /**
      * Takes the player to the next level. Ideally this is called when the player interacts
-     * with the door in someway. 
+     * with the door in some way. 
      * 
      * @param player is the player that is taken to the next level.
      */
-    public void goToNextLevel(Player player);
+    public void goToNextLevel();
     
 }

@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import vooga.rts.IGameLoop;
+import vooga.rts.state.GameState;
 import vooga.rts.util.Camera;
 import vooga.rts.util.Location3D;
 import vooga.rts.util.Pixmap;
@@ -113,18 +114,14 @@ public abstract class GameSprite extends Observable implements IGameLoop {
         mySize = myOriginalSize;
     }
 
-    @Override
-	public void paint (Graphics2D pen) {
+    public void paint (Graphics2D pen) {
         if (!isVisible())
             return;
 
         if (Camera.instance().issVisible(getWorldLocation())) {
             myScreenLocation = Camera.instance().worldToView(myWorldLocation);
-            // if (Camera.instance().isVisible(myScreenLocation)) {
             myPixmap.paint(pen, myScreenLocation, mySize);
-            // }
         }
-        // pen.draw(myWorldBounds);
     }
 
     /**
@@ -230,12 +227,10 @@ public abstract class GameSprite extends Observable implements IGameLoop {
     }
 
     public void setWorldLocation (Location3D togo) {
-        myWorldLocation = new Location3D(togo);
-        resetBounds();
+        setWorldLocation(togo.getX(), togo.getY(), togo.getZ());
     }
 
-    @Override
-	public void update (double elapsedTime) {
+    public void update (double elapsedTime) {
 
     }
 
@@ -246,5 +241,12 @@ public abstract class GameSprite extends Observable implements IGameLoop {
      */
     public Pixmap getImage () {
         return myPixmap;
+    }
+
+    /**
+     * Sets the object to be in the changed state for the observer pattern.
+     */
+    public void setChanged () {
+        super.setChanged();
     }
 }

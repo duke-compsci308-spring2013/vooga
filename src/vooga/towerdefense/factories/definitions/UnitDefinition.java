@@ -3,10 +3,12 @@ package vooga.towerdefense.factories.definitions;
 import java.awt.Dimension;
 
 import vooga.towerdefense.factories.attributefactories.AttributeManagerFactory;
+import util.Location;
+import util.Pixmap;
 
 
 /**
- * Default UnitDefinition used for testing unit factories; 
+ * TESTING PURPOSES ONLY: Default UnitDefinition used for testing unit factories; 
  * only GameElementDefinition will be made and used at the end.
  * 
  * @author Matthew Roy
@@ -28,18 +30,15 @@ public class UnitDefinition extends GameElementDefinition {
 		myImage = image;
 	}
 	
-    @Override
-	public Pixmap getImage () {
+    public Pixmap getImage () {
         return myImage;
     }
 
-    @Override
-	public Location getCenter () {
+    public Location getCenter () {
         return myCenter;
     }
 
-    @Override
-	public Dimension getSize () {
+    public Dimension getSize () {
         return mySize;
     }
 

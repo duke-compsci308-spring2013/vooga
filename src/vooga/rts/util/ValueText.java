@@ -1,5 +1,7 @@
 package vooga.rts.util;
 
+import util.Text;
+
 
 /**
  * This class represents text that is a labeled numeric value.

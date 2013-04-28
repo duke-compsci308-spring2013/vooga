@@ -5,11 +5,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.Observable;
 import vooga.rts.gui.Menu;
 import vooga.rts.gui.Window;
 import vooga.rts.gui.buttons.MainMenuButton;
 import vooga.rts.resourcemanager.ResourceManager;
-import vooga.rts.util.Location;
+import util.Location;
 
 
 public class MainMenu extends Menu {
@@ -38,7 +39,7 @@ public class MainMenu extends Menu {
 
         mySingleButton =
                 new MainMenuButton("Single Player", myDefaultButtonDimension,
-                                   myDefaultButtonLocation);
+                                   myDefaultButtonLocation, 0);
         setScaledButton(mySingleButton);
 
         addButton(mySingleButton);
@@ -46,7 +47,7 @@ public class MainMenu extends Menu {
         myMultiButton =
                 new MainMenuButton("Multi Player", myDefaultButtonDimension,
                                    new Location(myDefaultButtonLocation.getX(),
-                                                (myDefaultButtonLocation.getY() + ySpacing)));
+                                                (myDefaultButtonLocation.getY() + ySpacing)), 1);
 
         setScaledButton(myMultiButton);
 
@@ -54,8 +55,8 @@ public class MainMenu extends Menu {
     }
 
     public void setScaledButton (MainMenuButton b) {
-        myX = Window.SCREEN_SIZE.getWidth();
-        myY = Window.SCREEN_SIZE.getHeight();
+        myX = Window.D_X;
+        myY = Window.D_Y;
         double xFactor = myX / myBGImage.getWidth();
         double yFactor = myY / myBGImage.getHeight();
         b.setSize(new Dimension((int) (b.getSize().getWidth() * xFactor),
@@ -69,10 +70,18 @@ public class MainMenu extends Menu {
     public void paint (Graphics2D pen) {
 
         super.paint(pen);
-
         pen.setFont(new Font("Helvetica", Font.BOLD, 100));
         pen.setColor(Color.white);
         pen.drawString("The Vooga RTS Game", 150, 150);
 
+    }
+    
+    @Override
+    public void update(Observable o, Object a) {
+        if (o instanceof MainMenuButton) {
+            setChanged();
+            int s = (Integer) a;
+            notifyObservers(s);
+        }
     }
 }

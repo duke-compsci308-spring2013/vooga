@@ -2,24 +2,28 @@ package games.scroller.marioGame.spritesDefinitions.players.resources;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.state.SpriteState;
+import vooga.scroller.sprites.superclasses.Player;
 
-public class HighHealth extends SpriteState{
+public class HighHealth extends SpriteState<Player>{
     
     private static final int PRIORITY = Integer.MAX_VALUE;
     
     private static final double WIDTH_FACTOR = 1.5;
     private static final double HEIGHT_FACTOR = 2.0;
 
+    public HighHealth(Player player){
+        super(player);
+    }
+    
     @Override
-    public void update (Sprite sprite, double elapsedTime, Dimension bounds) {
+    public void update (double elapsedTime, Dimension bounds) {
         // does nothing extra
     }
 
     @Override
-    public void paint (Sprite sprite, Graphics2D pen) {
-        sprite.getView().paint(pen, sprite.getCenter(), sprite.getSize());
+    public void paint (Graphics2D pen, double angle) {
+        getUnit().getView().paint(pen, getUnit().getCenter(), getUnit().getSize(), angle);
     }
 
     @Override
@@ -28,15 +32,12 @@ public class HighHealth extends SpriteState{
     }
 
     @Override
-    public void activate (Sprite sprite) {
-        sprite.scale(WIDTH_FACTOR, HEIGHT_FACTOR);
+    public void activate () {
+        getUnit().scale(WIDTH_FACTOR, HEIGHT_FACTOR);
     }
 
     @Override
-    public void deactivate (Sprite sprite) {
-        sprite.scale(1/WIDTH_FACTOR, 1/HEIGHT_FACTOR);
+    public void deactivate () {
+        getUnit().scale(1/WIDTH_FACTOR, 1/HEIGHT_FACTOR);
     }
-
-
-
 }

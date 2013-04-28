@@ -19,12 +19,12 @@ import vooga.scroller.sprites.Sprite;
 public class SpriteStateManager {
 
     
-    private static final SpriteState DEFAULT_STATE = new DefaultSpriteState();
+    //private static final SpriteState DEFAULT_STATE = new DefaultSpriteState();
 
-    private static final int DEFAULT_ID = -1;
     
-    private Sprite mySprite;
+    @SuppressWarnings("rawtypes")
     private Map<Integer, SpriteState> myStates;
+    @SuppressWarnings("rawtypes")
     private Queue<SpriteState> myActiveStates;
      
     
@@ -34,12 +34,13 @@ public class SpriteStateManager {
      * 
      * @param sprite is the sprite for which this state manager controls the states.
      */
+    @SuppressWarnings("rawtypes")
     public SpriteStateManager(Sprite sprite) {
         myActiveStates = new PriorityQueue<SpriteState>();
         myStates = new HashMap<Integer, SpriteState>();
-        myStates.put(DEFAULT_ID, DEFAULT_STATE);
-        myActiveStates.add(DEFAULT_STATE);
-        mySprite = sprite;
+        SpriteState<Sprite> defaultState = new DefaultSpriteState(sprite);
+        myStates.put(DefaultSpriteState.DEFAULT_ID, defaultState);
+        myActiveStates.add(defaultState);
     }
     
     
@@ -49,11 +50,12 @@ public class SpriteStateManager {
      * @param elapsedTime
      * @param bounds
      */
+    @SuppressWarnings("rawtypes")
     public void update (double elapsedTime, Dimension bounds) {
         Iterator<SpriteState> it = myActiveStates.iterator();
         
         while(it.hasNext()){
-            it.next().update(mySprite, elapsedTime, bounds);
+            it.next().update(elapsedTime, bounds);
         }
 
 //        for(SpriteState spState: myActiveStates){
@@ -69,8 +71,9 @@ public class SpriteStateManager {
     public void paint (Graphics2D pen) {
         // only paint the first state (painting multiple states does not work).
        
+        @SuppressWarnings("rawtypes")
         SpriteState sp = myActiveStates.peek();
-        sp.paint(mySprite, pen);
+        sp.paint(pen, 0);
     }
     
     /**
@@ -78,10 +81,10 @@ public class SpriteStateManager {
      * @param stateID
      */
     public void activateState(int stateID){
+        @SuppressWarnings("rawtypes")
         SpriteState state = myStates.get(stateID);
         if(!myActiveStates.contains(state) && state != null){
-            state.activate(mySprite);
-            System.out.println("add");
+            state.activate();
             myActiveStates.add(state);
         }
     }
@@ -90,11 +93,11 @@ public class SpriteStateManager {
      * Deactivates the specified state. If stateID is not valid, remove no state.
      * @param stateID
      */
+    @SuppressWarnings("rawtypes")
     public void deactivateState(int stateID) {
         SpriteState state = myStates.get(stateID);
         if(state != null && myActiveStates.contains(state)){
-            state.deactivate(mySprite);
-            System.out.print("remove");
+            state.deactivate();
             myActiveStates.remove(myStates.get(stateID));
         }
     }
@@ -104,6 +107,7 @@ public class SpriteStateManager {
      * @param stateID
      * @param state
      */
+    @SuppressWarnings("rawtypes")
     public void addState(int stateID, SpriteState state){
         myStates.put(stateID, state);
     }

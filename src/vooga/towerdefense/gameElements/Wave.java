@@ -1,4 +1,4 @@
-package vooga.towerdefense.gameElements;
+package vooga.towerdefense.gameelements;
 
 import java.util.Map;
 import vooga.towerdefense.action.Action;

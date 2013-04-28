@@ -2,15 +2,15 @@ package vooga.scroller.marioGame.spritesDefinitions;
 
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
-import util.Location;
+import vooga.scroller.extra_resources.sprite_interfaces.ICollectible;
+import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
+import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
+import vooga.scroller.level_editor.Level;
 import vooga.scroller.level_editor.library.EncapsulatedSpriteLibrary;
 import vooga.scroller.level_management.LevelPortal;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.animation.Animation;
 import vooga.scroller.sprites.animation.MovingSpriteAnimationFactory;
-import vooga.scroller.sprites.interfaces.ICollectible;
-import vooga.scroller.sprites.interfaces.IEnemy;
-import vooga.scroller.sprites.interfaces.IPlatform;
 import vooga.scroller.sprites.interfaces.Locatable;
 import vooga.scroller.sprites.movement.BackAndForth;
 import vooga.scroller.sprites.movement.Movement;
@@ -19,7 +19,6 @@ import vooga.scroller.sprites.superclasses.GameCharacter;
 import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.util.ISpriteView;
 import vooga.scroller.util.Pixmap;
-import util.Vector;
 
 
 /**
@@ -33,7 +32,6 @@ import util.Vector;
  */
 public class MarioLib extends EncapsulatedSpriteLibrary {
     private static final Dimension DEFAULT_SIZE = new Dimension(32, 32);
-    private static final Location DEFAULT_LOC = new Location(32, 32);
     private static final int DEFAULT_HEALTH = 1;
     private static final int DEFAULT_DAMAGE = 0;
 
@@ -43,11 +41,7 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
         private static final int DEFAULT_COIN_VALUE = 900;
 
         public Coin () {
-            this(DEFAULT_LOC);
-        }
-
-        public Coin (Location center) {
-            super(makePixmap(DEFAULT_IMG), center, DEFAULT_SIZE, DEFAULT_HEALTH, DEFAULT_DAMAGE);
+            super(makePixmap(DEFAULT_IMG), DEFAULT_SIZE, DEFAULT_HEALTH, DEFAULT_DAMAGE);
         }
 
         @Override
@@ -56,8 +50,8 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
         }
 
         @Override
-        public void handleDeath () {
-            // killing this does not do anything           
+        public void handleDeath (Level level) {
+            // killing this does not do anything
         }
 
     }
@@ -70,28 +64,21 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
         private TrackPlayer movement = new TrackPlayer(this, getLocatable(), SPEED, RADIUS);
 
         public Koopa () {
-            this(DEFAULT_LOC);
+            super(makePixmap(DEFAULT_IMG), KOOPA_SIZE, new Integer(1), new Integer(1));
         }
 
-        public Koopa (Location center) {
-            super(makePixmap(DEFAULT_IMG), center, KOOPA_SIZE, new Integer(1), new Integer(1));
-        }
-
-        @Override
-		public void update (double elapsedTime, Dimension bounds) {
+        public void update (double elapsedTime, Dimension bounds) {
             movement.execute();
             super.update(elapsedTime, bounds);
         }
 
         @Override
-        public void handleDeath () {
-            // TODO Auto-generated method stub   
+        public void handleDeath (vooga.scroller.level_editor.Level level) {
+            // TODO Auto-generated method stub
         }
-        
-        
-        // TODO :This is hacky
+
         @Override
-        public void addTarget(Locatable target){
+        public void addTarget (Locatable target) {
             movement.setTarget(target);
         }
 
@@ -104,24 +91,18 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
         private int RADIUS = 45;
         private Movement movement = new TrackPlayer(this, getLocatable(), SPEED, RADIUS);
 
-
         public Turtle () {
-            this(DEFAULT_LOC);
+            super(makePixmap(DEFAULT_IMG), DEFAULT_SIZE, new Integer(1), new Integer(2));
         }
 
-        public Turtle (Location center) {
-            super(makePixmap(DEFAULT_IMG), center, DEFAULT_SIZE, new Integer(1), new Integer(2));
-        }
-
-        @Override
-		public void update (double elapsedTime, Dimension bounds) {
+        public void update (double elapsedTime, Dimension bounds) {
             movement.execute();
             super.update(elapsedTime, bounds);
         }
 
         @Override
-        public void handleDeath () {
-            // TODO Auto-generated method stub   
+        public void handleDeath (vooga.scroller.level_editor.Level level) {
+            // TODO Auto-generated method stub
         }
     }
 
@@ -130,15 +111,11 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
         private static final String DEFAULT_IMG = "block.png";
 
         public Platform () {
-            this(DEFAULT_LOC);
+            this(DEFAULT_IMG, DEFAULT_SIZE);
         }
 
-        public Platform (Location center) {
-            this(DEFAULT_IMG, center, DEFAULT_SIZE);
-        }
-
-        public Platform (String img, Location center, Dimension size) {
-            super(makePixmap(img), center, size);
+        public Platform (String img, Dimension size) {
+            super(makePixmap(img), size);
         }
     }
 
@@ -146,50 +123,37 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
         private static final String DEFAULT_IMG = "plant.png";
 
         public Plant () {
-            this(DEFAULT_LOC);
-        }
-
-        public Plant (Location center) {
-            super(makePixmap(DEFAULT_IMG), center, new Dimension(32, 32), DEFAULT_HEALTH,
+            super(makePixmap(DEFAULT_IMG), DEFAULT_SIZE, DEFAULT_HEALTH,
                   new Integer(2));
         }
 
         @Override
-        public void handleDeath () {
+        public void handleDeath (vooga.scroller.level_editor.Level level) {
             // TODO Auto-generated method stub
-            
+
         }
 
     }
 
-    public static class MovingPlatformOne extends Sprite implements IPlatform {
+    public static class MovingPlatform extends Sprite implements IPlatform {
 
+        private static final Dimension MOVING_PLATFORM_SIZE = new Dimension(96, 32);
         private static final String DEFAULT_IMG = "platform.gif";
-        private static final int DEFAULT_SPEED = 100;
-        private static final Vector DEFAULT_VELOCITY = new Vector(Sprite.DOWN_DIRECTION,
-                                                                  DEFAULT_SPEED);
         private int SPEED = 30;
         private Point2D START = new Point2D.Double(500.0, 100.0);
         private Point2D END = new Point2D.Double(200.0, 500.0);
-
         private Movement movement = new BackAndForth(this, START, END, SPEED);
 
-        public MovingPlatformOne () {
-            this(DEFAULT_LOC);
+        public MovingPlatform () {
+            super(makePixmap(DEFAULT_IMG), MOVING_PLATFORM_SIZE);
         }
 
-        public MovingPlatformOne (Location center) {
-            super(makePixmap(DEFAULT_IMG), center, new Dimension(96, 32));
-        }
-
-        @Override
-		public void update (double elapsedTime, Dimension bounds) {
+        public void update (double elapsedTime, Dimension bounds) {
             movement.execute();
             super.update(elapsedTime, bounds);
         }
 
     }
-
 
     public static class LevelTwoBlockOne extends Platform implements IPlatform {
 
@@ -197,14 +161,7 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
         private static final Dimension DEFAULT_SIZE = new Dimension(128, 96);
 
         public LevelTwoBlockOne () {
-            this(DEFAULT_LOC);
-        }
-
-        public LevelTwoBlockOne (Location center) {
-            super(DEFAULT_IMG, center, DEFAULT_SIZE);
-        }
-
-        public void print () {
+            super(DEFAULT_IMG, DEFAULT_SIZE);
         }
     }
 
@@ -214,14 +171,7 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
         private static final Dimension DEFAULT_SIZE = new Dimension(96, 32);
 
         public LevelTwoBlockTwo () {
-            this(DEFAULT_LOC);
-        }
-
-        public LevelTwoBlockTwo (Location center) {
-            super(DEFAULT_IMG, center, DEFAULT_SIZE);
-        }
-
-        public void print () {
+            super(DEFAULT_IMG, DEFAULT_SIZE);
         }
     }
 
@@ -231,25 +181,18 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
         private static final Dimension DEFAULT_SIZE = new Dimension(768, 192);
 
         public LevelTwoBlockThree () {
-            this(DEFAULT_LOC);
-        }
-
-        public LevelTwoBlockThree (Location center) {
-            super(DEFAULT_IMG, center, DEFAULT_SIZE);
-        }
-
-        public void print () {
+            super(DEFAULT_IMG, DEFAULT_SIZE);
         }
     }
-    
+
     public static class ItemBlock extends Sprite implements IPlatform {
 
         private static final String BLOCK_IMG = "itemBlock.gif";
-        
+
         public ItemBlock () {
-            super(makePixmap(BLOCK_IMG), DEFAULT_LOC, DEFAULT_SIZE);
+            super(makePixmap(BLOCK_IMG), DEFAULT_SIZE);
         }
-        
+
     }
 
     public static class DoorPortal extends LevelPortal {
@@ -267,7 +210,7 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
             return PORTAL_SIZE;
         }
     }
-    
+
     public static class StarPortal extends LevelPortal {
 
         private static final String PORTAL_IMG = "star.png";

@@ -9,6 +9,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import util.Location;
 import vooga.rts.gui.Window;
 
 
@@ -51,6 +52,7 @@ public class Camera {
 
     public void setMapSize (Dimension mapSize) {
         myMapSize = mapSize;
+        updateWorldSize();
     }
 
     /**
@@ -238,5 +240,11 @@ public class Camera {
     
     public Shape getWorldVision() {
         return myWorldVision;
+        
+    }
+    
+    public void setViewSize(Dimension dim) {
+        myScreenSize = new Dimension(dim);
+        updateWorldSize();
     }
 }

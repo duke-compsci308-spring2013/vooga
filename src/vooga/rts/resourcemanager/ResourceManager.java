@@ -129,7 +129,6 @@ public class ResourceManager {
 
         synchronized (myResourceStorage) {
             if (myResourceStorage.containsKey(filename)) {
-                System.out.println("Load Saved");
                 return false;
             }
         }

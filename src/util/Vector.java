@@ -115,7 +115,7 @@ public class Vector {
      * Adjusts this vector's direction by the given change value.
      */
     public void turn (double change) {
-        setDirection(getDirection() + change);
+        setDirection(Vector.SanitizeAngle(getDirection() + change));
     }
 
     /**

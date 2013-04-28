@@ -2,12 +2,12 @@ package games.scroller.marioGame.spritesDefinitions.collisions;
 
 import util.Vector;
 import vooga.scroller.collision_manager.CollisionDirection;
+import vooga.scroller.extra_resources.sprite_interfaces.ICollectible;
+import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
+import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
 import vooga.scroller.marioGame.spritesDefinitions.players.Mario;
 import vooga.scroller.sprites.Sprite;
-import vooga.scroller.sprites.interfaces.ICollectible;
 import vooga.scroller.sprites.interfaces.IDoor;
-import vooga.scroller.sprites.interfaces.IEnemy;
-import vooga.scroller.sprites.interfaces.IPlatform;
 import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.util.Direction;
 
@@ -29,8 +29,8 @@ public class MarioCollisions {
     private static final double FRICTION = .5;
     private CollisionDirection direction = new CollisionDirection();
 
-    protected void marioAndLevelPortalCollision (Player player, IDoor levelPortal) {
-        levelPortal.goToNextLevel(player);
+    protected void marioAndLevelPortalCollision (IDoor levelPortal) {
+        levelPortal.goToNextLevel();
     }
 
     protected void marioAndEnemyCollision (Mario player, IEnemy enemy) {
@@ -60,23 +60,23 @@ public class MarioCollisions {
                 v.negate();
                 player.addVector(v);
 
-                Vector right = player.getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
-                Vector left = player.getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
-
-                right.negate();
-                right.scale(FRICTION);
-                left.negate();
-                left.scale(FRICTION);
-                player.addVector(right);
-                player.addVector(left);
-
-                Vector sLeft = platform.getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
-                sLeft.scale(FRICTION);
-                Vector sRight = platform.getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
-                sRight.scale(FRICTION);
-
-                player.addVector(sRight);
-                player.addVector(sLeft);
+//                Vector right = player.getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
+//                Vector left = player.getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
+//
+//                right.negate();
+//                right.scale(FRICTION);
+//                left.negate();
+//                left.scale(FRICTION);
+//                player.addVector(right);
+//                player.addVector(left);
+//
+//                Vector sLeft = platform.getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
+//                sLeft.scale(FRICTION);
+//                Vector sRight = platform.getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
+//                sRight.scale(FRICTION);
+//
+//                player.addVector(sRight);
+//                player.addVector(sLeft);
 
                 break;
             case BOTTOM:

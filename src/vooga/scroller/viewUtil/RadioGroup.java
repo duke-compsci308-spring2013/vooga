@@ -2,6 +2,7 @@ package vooga.scroller.viewUtil;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.TreeMap;
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -62,9 +64,10 @@ public class RadioGroup extends JPanel {
      * @param listener - listener supposed to handle events for the Radio Group
      * @param optionsMap - representing Radio options (key-value pairs)
      */
-    public RadioGroup(Dimension containerSize, ActionListener listener, Map<Object, String> optionsMap) {
+    public RadioGroup(Dimension containerSize, ActionListener listener, Map<? extends Object, String> optionsMap) {
         this(containerSize, listener, makeRadioButtons(optionsMap));
     }
+    
     
 
     /**
@@ -76,10 +79,6 @@ public class RadioGroup extends JPanel {
         this(containerSize, listener, makeRadioButtons(mapify(options)));
     }
     
-    
-//    public RadioGroup (ActionListener listener, Map<Pixmap, String> optionsMap) {
-//        // TODO Auto-generated constructor stub
-//    }
 
     /**
      * Create 2 radio groups and retrieve the user input in an interactive manner.
@@ -87,14 +86,13 @@ public class RadioGroup extends JPanel {
      * @param args
      */
     public static void main (String[] args) {
-        // TODO 
         JFrame tester = new JFrame("RadioGroup Tester");
         tester.setSize(250, 150);
         tester.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ActionListener testAction = getTestAction();
         RadioGroup rg1 = new RadioGroup(tester.getSize(), testAction, "2013", "2014", "2015", "2016");
         System.out.println(rg1.getHTML());
-        Map<Object, String> sex = new HashMap<Object, String>();
+        Map<String, String> sex = new HashMap<String, String>();
         sex.put("Male", "M");
         sex.put("Female", "F");
         RadioGroup rg2 = new RadioGroup(tester.getSize(), testAction, sex);
@@ -137,15 +135,6 @@ public class RadioGroup extends JPanel {
         b.addActionListener(myListener);
     }
     
-    /**
-     * Add the buttons passes to the RadioGroup
-     * @param buttons - to be added
-     */
-    private void add (JRadioButton ...buttons) {
-        for (JRadioButton b:buttons) {
-            add(b);
-        }
-    }
     
     private String compose (String before, String after) {
         StringBuilder res = new StringBuilder();
@@ -178,7 +167,7 @@ public class RadioGroup extends JPanel {
                         + b.getText() + "<br>";
     }
     
-    private static List<JToggleButton> makeRadioButtons(Map<Object, String> optionsMap) {
+    private static List<JToggleButton> makeRadioButtons(Map<? extends Object, String> optionsMap) {
         List<JToggleButton> buttons = new ArrayList<JToggleButton>();
         for (Object o: optionsMap.keySet()) {
             JToggleButton currB = new JToggleButton();
@@ -189,6 +178,10 @@ public class RadioGroup extends JPanel {
             else if (o instanceof Icon) {
                 Icon i = (Icon)o;
                 currB = makeRadioOption(i, optionsMap.get(o));
+            }
+            else if (o instanceof Image) {
+                Image i = (Image)o;
+                currB = makeRadioOption(getIcon(i, 40), optionsMap.get(o));
             }
             else if (o instanceof Pixmap) {
                 Pixmap p = (Pixmap)o;
@@ -213,6 +206,11 @@ public class RadioGroup extends JPanel {
         return res;
     }
     
+    private static ImageIcon getIcon (Image a, int size) {
+        return new ImageIcon(a.getScaledInstance(size, size,
+                                                 Image.SCALE_SMOOTH));
+    }
+    
     private static JToggleButton makeRadioOption (Icon c, String optionValue) {
         JToggleButton res = new JToggleButton(c);
         res.setActionCommand(optionValue);
@@ -220,8 +218,8 @@ public class RadioGroup extends JPanel {
         return res;
     }
     
-    private static Map<Object, String> mapify(String ...options) {
-        Map<Object, String> res = new HashMap<Object, String>();
+    private static Map<String, String> mapify(String ...options) {
+        Map<String, String> res = new HashMap<String, String>();
         for (String o: options) {
             res.put(o, o);
         }
@@ -234,7 +232,7 @@ public class RadioGroup extends JPanel {
     }
     
     /**
-     * TODO
+     * Test Action (for JUnit testing)
      * @author Dagbedji Fagnisse
      *
      */

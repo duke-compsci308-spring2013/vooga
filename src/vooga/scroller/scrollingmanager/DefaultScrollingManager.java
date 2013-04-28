@@ -22,13 +22,11 @@ public class DefaultScrollingManager extends ScrollingManager {
         myGame = game;
     }
 
-    @Override
-	public void initView(GameView view) {
+    public void initView(GameView view) {
         myView = view;
     }
 
-    @Override
-	public int upperpaintbound() {
+    public int upperpaintbound() {
         if(myGame != null & myView != null) {
             int vertical = ((int) myGame.getLowerBoundary() + myView.getHeight()*1000) % myView.getHeight();
             return 0 - vertical;
@@ -36,8 +34,7 @@ public class DefaultScrollingManager extends ScrollingManager {
         return 0;
     }
 
-    @Override
-	public int lowerpaintbound() { 
+    public int lowerpaintbound() { 
         if(myGame != null & myView != null) {
             int vertical = ((int) myGame.getLowerBoundary() + myView.getHeight()*1000) % myView.getHeight();
             return myView.getHeight() - vertical;
@@ -46,8 +43,7 @@ public class DefaultScrollingManager extends ScrollingManager {
 
     }
 
-    @Override
-	public int leftpaintbound() {
+    public int leftpaintbound() {
         if(myGame != null & myView != null) {
             int horizontal = ((int) myGame.getRightBoundary() + myView.getWidth()*1000) % myView.getWidth();
             return 0 - horizontal;
@@ -55,8 +51,7 @@ public class DefaultScrollingManager extends ScrollingManager {
         return 0;
     }
 
-    @Override
-	public int rightpaintbound() {
+    public int rightpaintbound() {
         if(myGame != null & myView != null) {
             int horizontal = ((int) myGame.getRightBoundary() + myView.getWidth()*1000) % myView.getWidth();
             return myView.getWidth() - horizontal;
@@ -64,53 +59,43 @@ public class DefaultScrollingManager extends ScrollingManager {
         return 0;
     }
     
-    @Override
-	public double getRightBoundary(Dimension frame, Location center) {
+    public double getRightBoundary(Dimension frame, Location center) {
         return (center.getX() + frame.getWidth() / 2);
     }
     
-    @Override
-	public double getLeftBoundary(Dimension frame, Location center) {
+    public double getLeftBoundary(Dimension frame, Location center) {
         return (center.getX() - frame.getWidth() / 2);
     }
     
-    @Override
-	public double getUpperBoundary(Dimension frame, Location center) {
+    public double getUpperBoundary(Dimension frame, Location center) {
         return (center.getY() - frame.getHeight() / 2);
     }
     
-    @Override
-	public double getLowerBoundary(Dimension frame, Location center) { 
+    public double getLowerBoundary(Dimension frame, Location center) { 
         return (center.getY() + frame.getHeight() / 2);
     }
 
-    @Override
-	public double levelRightBoundary () {
+    public double levelRightBoundary () {
         return myGame.getLevelBounds().getWidth();
     }
 
-    @Override
-	public double levelLeftBoundary () {
+    public double levelLeftBoundary () {
         return 0;
     }
 
-    @Override
-	public double levelUpperBoundary () {
+    public double levelUpperBoundary () {
         return 0;
     }
 
-    @Override
-	public double levelLowerBoundary () {        
+    public double levelLowerBoundary () {        
         return myGame.getLevelBounds().getHeight();
     }
     
-    @Override
-	public Image getBackground() {
+    public Image getBackground() {
         return myGame.getBackground();
     }
     
-    @Override
-	public void viewPaint(Graphics pen) {
+    public void viewPaint(Graphics pen) {
         Image img = getBackground();
         int imgwidth = img.getWidth(null);
         int imgheight = img.getHeight(null);
@@ -145,8 +130,7 @@ public class DefaultScrollingManager extends ScrollingManager {
         myGame.paint((Graphics2D) pen);
     }
 
-    @Override
-	public Location playerPaintLocation (Player p) {
+    public Location playerPaintLocation (Player p) {
         double x = myView.getWidth() / 2;
         double y = myView.getHeight() / 2;
         if(p.getX() > (levelRightBoundary() - myView.getWidth() / 2)) {

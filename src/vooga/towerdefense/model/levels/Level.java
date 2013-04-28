@@ -3,6 +3,7 @@ package vooga.towerdefense.model.levels;
 import java.util.List;
 
 import vooga.towerdefense.action.Action;
+import vooga.towerdefense.action.actionlist.LevelTimerAction;
 import vooga.towerdefense.model.GameModel;
 import vooga.towerdefense.model.rules.Rule;
 
@@ -26,5 +27,14 @@ public class Level {
 
 	public List<Action> getActions() {
 		return myActions;
+	}
+	
+	public Integer getRemainingTime() {
+		for(Action action : myActions) {
+			if(action instanceof LevelTimerAction) {
+				return ((LevelTimerAction) action).getRemainingTime();
+			}
+		}
+		return null;
 	}
 }
