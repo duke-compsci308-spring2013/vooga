@@ -8,8 +8,8 @@ import vooga.rts.util.Location3D;
 
 public class MoveAction extends InteractiveAction {
 
-    private static final long serialVersionUID = 1934666903950692569L;
     private Location3D myLocation;
+    private InteractiveEntity myEntity;
     
     public MoveAction (InteractiveEntity ie) {
         super(ie);

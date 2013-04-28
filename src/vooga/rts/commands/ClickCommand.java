@@ -1,5 +1,6 @@
 package vooga.rts.commands;
 
+import java.io.Serializable;
 import util.input.PositionObject;
 
 
@@ -10,8 +11,9 @@ import util.input.PositionObject;
  * @author Challen Herzberg-Brovold
  * 
  */
-public class ClickCommand extends PositionCommand {
+public class ClickCommand extends PositionCommand implements Serializable {
     
+    private static final long serialVersionUID = 5590514033413227369L;
     public static String LEFT_CLICK = "leftclick";
     public static String RIGHT_CLICK = "rightclick";
 

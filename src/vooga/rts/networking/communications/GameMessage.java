@@ -6,7 +6,7 @@ package vooga.rts.networking.communications;
  * @author David Winegar
  * 
  */
-public class GameMessage extends Message {
+public class GameMessage extends Message implements IMessage {
     
     /**
      * Default constructor that calls superclass.

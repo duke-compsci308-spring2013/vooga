@@ -11,9 +11,8 @@ import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
  * 
  * @author Challen Herzberg-Brovold
  */
-public abstract class InteractiveAction implements Action, Serializable {
+public abstract class InteractiveAction implements Action {
 
-    private static final long serialVersionUID = 4194527430419830812L;
     private InteractiveEntity myEntity;
 
     public InteractiveAction (InteractiveEntity ie) {
@@ -26,9 +25,5 @@ public abstract class InteractiveAction implements Action, Serializable {
      */
     public InteractiveEntity getEntity () {
         return myEntity;
-    }
-    
-    public void setEntity (InteractiveEntity ie) { // this will be called by unit manager right before it applies it. 
-        myEntity = ie;
-    }
+    }    
 }

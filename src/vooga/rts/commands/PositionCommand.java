@@ -15,8 +15,10 @@ public class PositionCommand extends Command {
 
     public static String MOUSE_MOVE = "mousemove";
 
-    public Location myPosition;
-
+    private Location myPosition;
+    private double myX;
+    private double myY;
+    
     /**
      * 
      * @param inputName
@@ -24,7 +26,9 @@ public class PositionCommand extends Command {
      */
     public PositionCommand (String inputName, PositionObject position) {
         super(inputName);
-        myPosition = new Location(position.getX(), position.getY());
+        myX = position.getX();
+        myY = position.getY();
+        myPosition = new Location(myX, myY);
     }
 
     /**
@@ -32,6 +36,6 @@ public class PositionCommand extends Command {
      * @return the position of the command.
      */
     public Location getPosition () {
-        return myPosition;
+       return new Location(myX, myY);
     }
 }

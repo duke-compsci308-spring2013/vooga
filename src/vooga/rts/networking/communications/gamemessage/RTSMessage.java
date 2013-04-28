@@ -1,18 +1,24 @@
 package vooga.rts.networking.communications.gamemessage;
 
 import vooga.rts.action.InteractiveAction;
+import vooga.rts.commands.Command;
 
 public class RTSMessage extends GameMessage {
 
-    private InteractiveAction myAction;
+    private Command myCommand;
+    private int myUnitId;
     
-    public RTSMessage (InteractiveAction action, int id) {
-        super(id);
-        myAction = action;
+    public RTSMessage (Command command, int playerId, int unitId) {
+        super(playerId);
+        myCommand = command;
+        myUnitId = unitId;
+    }
+   
+    public Command getCommand () {
+        return myCommand;
     }
     
-    
-    public InteractiveAction getAction () {
-        return myAction;
+    public int getUnitId() {
+        return myUnitId;
     }
 }

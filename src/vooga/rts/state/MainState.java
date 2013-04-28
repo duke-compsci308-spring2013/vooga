@@ -182,7 +182,7 @@ public class MainState implements State, Observer, NetworkedGame {
         myWindow.getJFrame().repaint();
         setActiveState(myGame);    
         myClient = client;
-        System.out.println("startGame is called!!!!");
+        myClient.setMessageReceiver(myGame);
     }
     
     public static IClient getClient () {

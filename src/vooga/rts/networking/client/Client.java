@@ -67,9 +67,12 @@ public class Client extends Thread implements IClient {
         while (myRunning) {
             try {
                 Object object = myInput.readObject();
+                System.out.println("Try Catch checking");
                 if (object instanceof Message) {
                     myReceiver.getMessage((Message) object);
                 }
+                System.out.println("Try Catch checking part two");
+                
             }
             catch (ClassNotFoundException e) {
                 myLogger.log(Level.WARNING,
@@ -85,8 +88,11 @@ public class Client extends Thread implements IClient {
 
     @Override
     public void sendData (Message message) {
+        System.out.println("Input sent to relay");
         try {
             myOutput.writeObject(message);
+
+            System.out.println("Input sent to relay part dos");
         }
         catch (IOException e) {
             myLogger.log(Level.WARNING,

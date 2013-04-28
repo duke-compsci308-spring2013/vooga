@@ -25,6 +25,7 @@ import vooga.rts.gamedesign.state.MovementState;
 import vooga.rts.gamedesign.state.OccupyState;
 import vooga.rts.manager.actions.DragSelectAction;
 import vooga.rts.manager.actions.LeftClickAction;
+import vooga.rts.networking.communications.Message;
 import vooga.rts.networking.communications.gamemessage.GameMessage;
 import vooga.rts.networking.communications.gamemessage.RTSMessage;
 import vooga.rts.state.GameState;
@@ -87,16 +88,8 @@ public class Manager extends Observable implements State, IActOn, Observer {
 
     @Override
     public void receiveCommand (Command command) {
-        updateAction(command);
-    }
-
-    /**
-     * Checks to see if the manager can handle the command, if not sends it to
-     * the selected entities.
-     */
-    @Override
-    public void updateAction (Command command) { //Maybe have this return a message and have player/gamestate send it.
-        if (myActions.containsKey(command.getMethodName())) {
+        //updateAction(command);
+        if(myActions.containsKey(command.getMethodName())) {
             Action current = myActions.get(command.getMethodName());
             current.update(command);
             current.apply();
@@ -104,9 +97,8 @@ public class Manager extends Observable implements State, IActOn, Observer {
         else {
             for (InteractiveEntity ie: mySelectedEntities) {
                 if(ie.containsInput(command)) {
-                    System.out.println("contains input: " + command.getMethodName());
                     ie.updateAction(command);
-                    RTSMessage message = new RTSMessage(ie.getAction(command), myPlayerID); // This may be sent back to Player or something. Or just sent from inside the message
+                    RTSMessage message = new RTSMessage(command, myPlayerID, ie.getId());
                     MainState.getClient().sendData(message);
                 }
             }
@@ -382,9 +374,15 @@ public class Manager extends Observable implements State, IActOn, Observer {
         }
     }
     
-    public void getMessage(RTSMessage message) {
-        InteractiveAction action = message.getAction();
-        action.setEntity(myEntities.get(action.getEntity().getId())); // Not sure how well this will go through the network and can be changed if necessary.
-        action.apply();
+    public void getMessage(Message m) {
+        RTSMessage message = (RTSMessage) m;
+        myEntities.get(message.getUnitId()).updateAction(message.getCommand());
+        myEntities.get(message.getUnitId()).getAction(message.getCommand()).apply();
+    }
+
+    @Override
+    public void updateAction (Command command) {
+        // TODO Auto-generated method stub
+        
     }
 }

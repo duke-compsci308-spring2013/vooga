@@ -26,7 +26,9 @@ import vooga.rts.networking.client.IMessageReceiver;
 import vooga.rts.networking.communications.ExpandedLobbyInfo;
 import vooga.rts.networking.communications.Message;
 import vooga.rts.networking.communications.PlayerInfo;
+import vooga.rts.networking.communications.gamemessage.GameMessage;
 import vooga.rts.networking.communications.gamemessage.RTSMessage;
+import vooga.rts.networking.communications.servermessages.CloseConnectionMessage;
 import vooga.rts.resourcemanager.ResourceManager;
 import vooga.rts.util.Camera;
 import vooga.rts.util.DelayedTask;
@@ -313,8 +315,12 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
 
     @Override
     public void getMessage (Message message) {
+        if(message instanceof CloseConnectionMessage) {
+            connectionClosed();
+            System.out.println("whasssup");
+        }
         System.out.println("receivedmessage");
-        RTSMessage gMessage = (RTSMessage) message;
+        GameMessage gMessage = (GameMessage) message;
         myPlayers.getPlayer(gMessage.getPlayerID()).getManager().getMessage(gMessage);
     }
 
