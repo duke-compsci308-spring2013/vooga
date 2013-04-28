@@ -3,6 +3,7 @@ package util;
 import java.awt.geom.Point2D;
 
 
+
 /**
  * This class represents a mathematical vector as a direction and magnitude.
  * 
@@ -115,7 +116,7 @@ public class Vector {
      * Adjusts this vector's direction by the given change value.
      */
     public void turn (double change) {
-        setDirection(Vector.SanitizeAngle(getDirection() + change));
+        setDirection(getDirection() + change);
     }
 
     /**
@@ -292,7 +293,6 @@ public class Vector {
             return Math.abs(a / b - 1) < EPSILON;
         }
     }
-
     /**
      * Sanitizes angle to in between 0 and 360 degrees
      * e.g. 361 degrees goes to 1 degree
