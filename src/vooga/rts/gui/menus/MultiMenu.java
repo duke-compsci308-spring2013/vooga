@@ -40,14 +40,14 @@ public class MultiMenu extends Menu implements Observer {
     }
 
     public void setFrame () {
-        
         myFrame.setContentPane(myClientModel.getView());
         myFrame.setVisible(true);
     }
     
     public void unsetFrame() {
         //myFrame.remove(myClientModel.getView());
-        myFrame.getContentPane().removeAll();
+        //myFrame.getContentPane().removeAll();
+       
         myFrame.repaint();
         myFrame.validate();
     }

@@ -66,6 +66,7 @@ public class HumanPlayer extends Player implements Observer {
             myGameMenu.receiveCommand(command);
         }
         else {
+            System.out.println("Going through human");
             getManager().receiveCommand(command);
         }
     }

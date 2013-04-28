@@ -142,10 +142,10 @@ public class ExpandedLobbyInfo extends LobbyInfo {
      * @return true if game can be started
      */
     public boolean canStartGame () {
-        for (int i = 0; i < myPlayers.length; i++) {
+        for (int i = 0; i < getMaxPlayers(); i++) {
             if (myPlayers[i] == null) { return false; }
         }
-
+        if (getMaxPlayers() == 1) return true;
         int team1 = myPlayers[0].getTeam();
         for (int i = 0; i < myPlayers.length; i++) {
             if (myPlayers[i].getTeam() != team1) { return true; }

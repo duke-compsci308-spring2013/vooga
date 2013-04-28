@@ -104,6 +104,7 @@ public class Manager extends Observable implements State, IActOn, Observer {
         else {
             for (InteractiveEntity ie: mySelectedEntities) {
                 if(ie.containsInput(command)) {
+                    System.out.println("contains input: " + command.getMethodName());
                     ie.updateAction(command);
                     RTSMessage message = new RTSMessage(ie.getAction(command), myPlayerID); // This may be sent back to Player or something. Or just sent from inside the message
                     MainState.getClient().sendData(message);

@@ -101,7 +101,7 @@ public class Unit extends InteractiveEntity {
 
     @Override
     public void addActions () {
-        addAction(ClickCommand.LEFT_CLICK, new MoveAction(this));
+        addAction(ClickCommand.RIGHT_CLICK, new MoveAction(this));
     }
 
     public void occupy (InteractiveEntity i) {

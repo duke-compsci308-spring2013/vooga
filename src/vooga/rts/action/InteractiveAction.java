@@ -1,5 +1,6 @@
 package vooga.rts.action;
 
+import java.io.Serializable;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 
 /**
@@ -10,8 +11,9 @@ import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
  * 
  * @author Challen Herzberg-Brovold
  */
-public abstract class InteractiveAction implements Action {
-    
+public abstract class InteractiveAction implements Action, Serializable {
+
+    private static final long serialVersionUID = 4194527430419830812L;
     private InteractiveEntity myEntity;
 
     public InteractiveAction (InteractiveEntity ie) {

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
@@ -17,6 +18,7 @@ import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.buildings.Building;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Unit;
 import vooga.rts.gamedesign.sprite.map.Terrain;
+import vooga.rts.gamedesign.strategy.gatherstrategy.CanGather;
 import vooga.rts.leveleditor.components.MapLoader;
 import vooga.rts.manager.PlayerManager;
 import vooga.rts.map.GameMap;
@@ -25,6 +27,7 @@ import vooga.rts.networking.communications.ExpandedLobbyInfo;
 import vooga.rts.networking.communications.Message;
 import vooga.rts.networking.communications.PlayerInfo;
 import vooga.rts.networking.communications.gamemessage.RTSMessage;
+import vooga.rts.resourcemanager.ResourceManager;
 import vooga.rts.util.Camera;
 import vooga.rts.util.DelayedTask;
 import vooga.rts.util.FrameCounter;
@@ -289,7 +292,18 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
     }
     
     public void setUp (ExpandedLobbyInfo info, PlayerInfo userInfo) {
+        Unit worker =
+                new Unit(new Pixmap(ResourceManager.getInstance()
+                                    .<BufferedImage> getFile("images/scv.gif", BufferedImage.class)),
+                                    new Location3D(100, 100, 0), new Dimension(75, 75), null, 1, 200, 40, 150);
+        worker.setGatherStrategy(new CanGather());
+        Information i1 =
+                new Information("Worker",
+                                "I am a worker. I am sent down from Denethor, son of Ecthelion ",
+                                null, "images/scv.png");
+        worker.setInfo(i1);
         myPlayers.addHuman(userInfo); 
+        myPlayers.getHuman().add(worker);
         for(PlayerInfo p: info.getPlayers()) {
             if(p.getId() != userInfo.getId()) {
                 myPlayers.addPlayer(p);
@@ -299,6 +313,7 @@ public class GameState extends SubState implements Controller, IMessageReceiver 
 
     @Override
     public void getMessage (Message message) {
+        System.out.println("receivedmessage");
         RTSMessage gMessage = (RTSMessage) message;
         myPlayers.getPlayer(gMessage.getPlayerID()).getManager().getMessage(gMessage);
     }

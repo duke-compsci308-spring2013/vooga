@@ -18,6 +18,7 @@ import vooga.rts.networking.client.IClient;
 import vooga.rts.networking.client.NetworkedGame;
 import vooga.rts.networking.communications.ExpandedLobbyInfo;
 import vooga.rts.networking.communications.PlayerInfo;
+import vooga.rts.util.Scale;
 
 
 /**
@@ -76,9 +77,7 @@ public class MainState implements State, Observer, NetworkedGame {
 
     @Override
     public void paint (Graphics2D pen) {
-       // Scale.scalePen(pen);
-        if(myActiveState.equals(myMenu)) System.out.println("myMenu is painting");
-        if(myActiveState.equals(myLoadScreen)) System.out.println("myLoading is painting");
+        Scale.scalePen(pen);
         myActiveState.paint(pen);
     }
 
@@ -153,9 +152,11 @@ public class MainState implements State, Observer, NetworkedGame {
                 change /= 1000000000;
                 // System.out.println(change);
                 update(change);
-                if (myWindow.hasFocus()) {
+
+                //if (myWindow.hasFocus()) {
+                    
                     render();
-                }
+                //}
                 lastNano = curNano;
 
             }
@@ -171,13 +172,14 @@ public class MainState implements State, Observer, NetworkedGame {
     public void loadGame (ExpandedLobbyInfo info, PlayerInfo userPlayer) {
         myGame.setUp(info, userPlayer);
         setActiveState(myLoadScreen);
-        System.out.println("loadGame is called!!!");
     }
 
     @Override
     public void startGame (IClient client) {
         myMenu.unset();
         myWindow.getJFrame().setContentPane(myWindow.getCanvas());
+        myWindow.getJFrame().toFront();
+        myWindow.getJFrame().repaint();
         setActiveState(myGame);    
         myClient = client;
         System.out.println("startGame is called!!!!");
