@@ -18,7 +18,7 @@ import vooga.scroller.view.GameView;
 public class StickmanPlayer extends Player {
 
     private static final Pixmap STICKMAN_VIEW = StickmanSpriteLibrary.makePixmap("stickman.png");
-    private static final Dimension SIZE = new Dimension (50, 30);
+    private static final Dimension SIZE = new Dimension (32, 45);
     private static final int HEALTH = 100;
     private static final int DAMAGE = 20;    
     private static final String INPUT_LOCATION = "/games/scroller/stickmansam/keymap";
@@ -114,7 +114,7 @@ public class StickmanPlayer extends Player {
     
     @InputMethodTarget(name = "fire")
     public void fire () {
-
+        // TODO
     }
 
 }
