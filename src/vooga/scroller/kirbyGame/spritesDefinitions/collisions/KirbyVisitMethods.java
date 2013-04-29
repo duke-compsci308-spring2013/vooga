@@ -7,6 +7,7 @@ import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
 import vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib.CutterEnemy;
 import vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib.LaserEnemy;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.Kirby;
+import vooga.scroller.kirbyGame.spritesDefinitions.players.states.CutterAttackLeftState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.InhaleLeftState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.InhaleRightState;
 import vooga.scroller.marioGame.spritesDefinitions.players.Mario;
@@ -39,6 +40,7 @@ public class KirbyVisitMethods extends VisitLibrary {
     
     
     public void visit (Kirby kirby, CutterEnemy cutterEnemy) {
+        System.out.println(kirby.getCurrentStateID());
         if (kirby.getCurrentStateID() == InhaleLeftState.STATE_ID || kirby.getCurrentStateID() == InhaleRightState.STATE_ID) {
             //kirby consumes enemy
             cutterEnemy.takeHit(kirby.getHit());
@@ -46,6 +48,13 @@ public class KirbyVisitMethods extends VisitLibrary {
             kirby.startFullState();
             
         }
+      
+        else if (kirby.isAttack()) {
+             cutterEnemy.takeHit(kirby.getHit());
+           
+            
+        }
+        
         
         else {
             //enemy hurts kirby 

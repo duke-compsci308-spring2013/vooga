@@ -2,12 +2,10 @@ package vooga.scroller.kirbyGame.spritesDefinitions.players.states;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import util.Vector;
 import vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.Kirby;
 import vooga.scroller.sprites.Sprite;
-import vooga.scroller.sprites.animation.movement.MoveLeft;
-import vooga.scroller.sprites.animation.state_movement.MoveLeftState;
+
 import vooga.scroller.sprites.state.SpriteState;
 
 public class CutterAttackLeftState extends SpriteState<Sprite>{
@@ -44,7 +42,6 @@ public class CutterAttackLeftState extends SpriteState<Sprite>{
 
     @Override
     public void activate () {
-        System.out.println("attack left being activated");
         myKirby.setStateID(STATE_ID);        
 
         
@@ -52,6 +49,6 @@ public class CutterAttackLeftState extends SpriteState<Sprite>{
 
     @Override
     public void deactivate () {
-
+        myKirby.setStateID(KirbyCutterWalkLeftState.STATE_ID);
     }
 }
