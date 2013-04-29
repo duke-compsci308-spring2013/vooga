@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<maps>
+    <map mapName="OnlyMap" xSize="800" ySize="600">
+        <startingPos xCoord="100" yCoord="500"/>
+        <startingPos xCoord="700" yCoord="500"/>
+        <state stateName = "background">
+            <frame image = "games/fighter/fightman/images/White.jpg" />
+        </state>
+        <environmentObject objectName="platform" xCoord="0" yCoord="500" />
+        <environmentObject objectName="wall" xCoord="0" yCoord="0" />
+        <environmentObject objectName="wall" xCoord="670" yCoord="0" />
+    </map>
+</maps>

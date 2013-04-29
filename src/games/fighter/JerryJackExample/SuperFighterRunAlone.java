@@ -12,14 +12,11 @@ public class SuperFighterRunAlone extends GameManagerRunAlone {
     
     private static final Dimension CANVAS_SIZE = new Dimension (1200, 900);
 
-    public SuperFighterRunAlone() {
-    }
-
     @Override
-    protected void setup(){
+    protected void setup () {
         setFilePathway(FILE_PATH);
         setCanvas(new Canvas(CANVAS_SIZE));
         setInfo(new GameInfo(new MapLoader(FILE_PATH).getMapNames()));
     }
-
+    
 }

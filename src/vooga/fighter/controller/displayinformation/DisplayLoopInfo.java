@@ -65,6 +65,27 @@ public class DisplayLoopInfo extends DisplayInfo implements ViewDataSource {
     }
     
     /**
+     * Adds HUDElements by checking the annotation and creating
+     * the HUDElements
+     */
+    protected void addHUDElements (String packageName) {
+        try {
+            for (HUDElement e : HUDFactory.getHUDElements(this, packageName)) {
+                addHUDDisplay(e);
+            }
+        }
+        catch (InstantiationException e) {
+            throw new NullPointerException("Could not instantiate HUDElement: " + e.getMessage());
+        }
+        catch (IllegalAccessException e) {
+            throw new NullPointerException("Could not access member variable: " + e.getMessage());
+        }
+        catch (ClassNotFoundException e) {
+            throw new NullPointerException("Could not find class: " + e.getMessage());
+        }
+    }
+    
+    /**
      * Updates by retrieving information from mode
      */
     public void updateInfo(){

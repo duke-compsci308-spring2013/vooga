@@ -76,7 +76,7 @@ public class HUDFactory {
                         newElement = (HUDElement) Class.forName(subclass)
                                 .newInstance();
                     }
-                    catch (InstantiationException e) {
+                    catch (Exception e) {
                         // Attempt to default to the vooga package if the given
                         // package fails.
                         String subclass = DEFAULT_PACKAGE + ".HUD"

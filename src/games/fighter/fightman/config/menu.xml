@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<objects>
+    <menuobject menuobjectname="Play">
+    	<state name = "Unselected">
+            <frame image="games/fighter/fightman/images/Play.png" />
+         </state>
+         <state name = "Selected">
+            <frame image="games/fighter/fightman/images/PlayLight.png" />
+            <frame image="games/fighter/fightman/images/PlayLight.png" />           
+        </state>
+    </menuobject>
+    <menuobject menuobjectname="Quit">
+    	<state name = "Unselected">
+            <frame image="games/fighter/fightman/images/Quit.png" />
+        </state>
+        <state name = "Selected">
+            <frame image="games/fighter/fightman/images/QuitLight.png" />
+            <frame image="games/fighter/fightman/images/QuitLight.png" />   
+        </state>
+    </menuobject>
+    <menuobject menuobjectname="Replay">
+    	<state name = "Unselected">
+            <frame image="games/fighter/fightman/images/Replay.png" />
+        </state>
+        <state name = "Selected">
+            <frame image="games/fighter/fightman/images/ReplayLight.png" />
+            <frame image="games/fighter/fightman/images/ReplayLight.png" />   
+        </state>
+    </menuobject>
+</objects>
