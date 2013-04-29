@@ -7,6 +7,7 @@ import games.fighter.fightman.view.MatchDisplayInfo;
 import games.fighter.fightman.view.MatchLayout;
 import util.Vector;
 import util.input.AlertObject;
+import util.input.InputClassTarget;
 import util.input.InputMethodTarget;
 import vooga.fighter.controller.Controller;
 import vooga.fighter.controller.gameinformation.GameInfo;
@@ -20,6 +21,7 @@ import vooga.fighter.util.CollisionManager;
 import vooga.fighter.util.Physics;
 import vooga.fighter.view.Canvas;
 
+@InputClassTarget
 public class FightManMatch extends LevelController {
     //Is player 1 facing right
     private boolean playerFacingRight[] = {true, false};
@@ -27,7 +29,7 @@ public class FightManMatch extends LevelController {
     /**
      * Player 1 wins when Player 2 is at 0 or less health
      */
-    private ModeCondition P1WinCon = new ModeCondition() {
+    ModeCondition P1WinCon = new ModeCondition() {
         @Override
         public boolean checkCondition(Mode mode) {
             if (getInputObjects().get(1).getHealth().getHealth() <= 0) {
@@ -43,7 +45,7 @@ public class FightManMatch extends LevelController {
     /**
      * Player 2 wins when Player 1 is at 0 or less health
      */
-    private ModeCondition P2WinCon = new ModeCondition() {
+    ModeCondition P2WinCon = new ModeCondition() {
         @Override
         public boolean checkCondition(Mode mode) {
             if (getInputObjects().get(0).getHealth().getHealth() <= 0) {
@@ -66,10 +68,9 @@ public class FightManMatch extends LevelController {
         MatchDisplayInfo gameLoopInfo = new MatchDisplayInfo(getMode());
         setLoopInfo(gameLoopInfo);
         gameinfo.setGameLoopInfo(gameLoopInfo);
-        gameinfo.addCharacters("Red");
-        gameinfo.addCharacters("Blue");
         gameinfo.setMapName("OnlyMap");
         frame.setLayout(new MatchLayout());
+        setupConditions();
     }
 
     @Override
@@ -88,7 +89,7 @@ public class FightManMatch extends LevelController {
     @InputMethodTarget(name = "player1_backhop")
     public void playerOneBackHop (AlertObject alObj)  {
         if (isStanding(0)) {
-            applyForce(0, 25, -40);
+            applyForce(0, 50, -80);
             
             getInputObjects().get(0).setCurrentState("backhop");
         }
@@ -97,7 +98,7 @@ public class FightManMatch extends LevelController {
     @InputMethodTarget(name = "player1_dive")
     public void playerOneDive (AlertObject alObj) {
         if (isStanding(0)) {
-            applyForce(0, 50, -40);
+            applyForce(0, 100, -80);
             
             AttackObject newAttack = getInputObjects().get(0).attack("dive");
             getMode().addObject(newAttack);
@@ -108,7 +109,7 @@ public class FightManMatch extends LevelController {
     @InputMethodTarget(name = "player1_kick")
     public void playerOneRightInput(AlertObject alObj) {
         if (isStanding(0)) {
-            applyForce(0, 60, 0);
+            applyForce(0, 140, 0);
             
             AttackObject newAttack = getInputObjects().get(0).attack("dive");
             getMode().addObject(newAttack);
@@ -119,7 +120,7 @@ public class FightManMatch extends LevelController {
     @InputMethodTarget(name = "player2_backhop")
     public void playerTwoJumpInput (AlertObject alObj)  {
         if (isStanding(1)) {
-            applyForce(1, 25, -40);
+            applyForce(1, 50, -80);
             
             getInputObjects().get(1).setCurrentState("backhop");
         }
@@ -128,7 +129,7 @@ public class FightManMatch extends LevelController {
     @InputMethodTarget(name = "player2_dive")
     public void playerTwoLeftInput (AlertObject alObj) {
         if (isStanding(1)) {
-            applyForce(1, 50, -40);
+            applyForce(1, 100, -80);
             
             AttackObject newAttack = getInputObjects().get(1).attack("dive");
             getMode().addObject(newAttack);
@@ -139,7 +140,7 @@ public class FightManMatch extends LevelController {
     @InputMethodTarget(name = "player2_kick")
     public void playerTwoRightInput(AlertObject alObj) {
         if (isStanding(1)) {
-            applyForce(1, 60, 0);
+            applyForce(1, 140, 0);
             
             AttackObject newAttack = getInputObjects().get(1).attack("dive");
             getMode().addObject(newAttack);
@@ -192,5 +193,13 @@ public class FightManMatch extends LevelController {
         LevelMode temp = new FightManMode(new CollisionManager());
         super.setMode(temp);
         myInputObjects = temp.getCharacterObjects();
+    }
+    
+    @Override
+    public void checkConditions(){
+        if(P1WinCon.checkCondition(getMode()))
+            getManager().notifyEndCondition("FightManMenu");
+        else if(P2WinCon.checkCondition(getMode()))
+            getManager().notifyEndCondition("FightManMenu");
     }
 }

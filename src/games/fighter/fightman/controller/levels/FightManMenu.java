@@ -3,6 +3,7 @@ package games.fighter.fightman.controller.levels;
 import games.fighter.fightman.view.MenuDisplayInfo;
 import games.fighter.fightman.view.MenuLayout;
 import util.input.AlertObject;
+import util.input.InputClassTarget;
 import util.input.InputMethodTarget;
 import vooga.fighter.controller.Controller;
 import vooga.fighter.controller.gameinformation.GameInfo;
@@ -21,6 +22,7 @@ import vooga.fighter.view.Canvas;
  * @author Wayne You
  * 
  */
+@InputClassTarget
 public class FightManMenu extends Controller {
     
     private static final String INPUT_PATHWAY  = "config.menudefault";
@@ -41,11 +43,8 @@ public class FightManMenu extends Controller {
      */
     private ModeCondition       myEndCondition = new ModeCondition() {
                                                    @Override
-                                                   public boolean checkCondition(
-                                                           Mode mode) {
-                                                       return !(""
-                                                               .equals(getMode()
-                                                                       .peekChoice()));
+                                                   public boolean checkCondition(Mode mode) {
+                                                       return !("".equals(getMode().peekChoice()));
                                                    }
                                                };
     
@@ -68,14 +67,14 @@ public class FightManMenu extends Controller {
      * @param gameinfo
      *            GameInfo
      */
-    public FightManMenu(String name, Canvas frame, ControllerDelegate manager,
-            GameInfo gameinfo, String pathway) {
+    public FightManMenu(String name, Canvas frame, ControllerDelegate manager, GameInfo gameinfo, String pathway) {
         super(name, frame, manager, gameinfo, pathway);
         myInputPathway = getHardFilePath() + INPUT_PATHWAY;
         System.out.println(myInputPathway);
         setInput(manager.getInput());
         getInput().replaceMappingResourcePath(myInputPathway);
         getInput().addListenerTo(this);
+        getGameInfo().setMapName("OnlyMap");
         MenuDisplayInfo loopInfo = new MenuDisplayInfo(super.getMode());
         loopInfo.p1Score = p1Score;
         loopInfo.p2Score = p2Score;
@@ -96,8 +95,7 @@ public class FightManMenu extends Controller {
     
     @Override
     public void initializeMode() {
-        MenuGrid grid = new MenuGrid(getMode().getName(), getMode(),
-                getHardFilePath());
+        MenuGrid grid = new MenuGrid(getMode().getName(), getMode(), getHardFilePath());
         getMode().setMenuGrid(grid);
         getMode().setMenuObjects(grid.getMenuObjects());
         getMode().update();
@@ -166,8 +164,8 @@ public class FightManMenu extends Controller {
     }
     
     @Override
-    public Controller getController(String name, Canvas frame,
-            ControllerDelegate manager, GameInfo gameinfo, String filePath) {
+    public Controller getController(String name, Canvas frame, ControllerDelegate manager, GameInfo gameinfo,
+            String filePath) {
         return new FightManMenu(name, frame, manager, gameinfo, filePath);
     }
     
@@ -182,6 +180,9 @@ public class FightManMenu extends Controller {
     protected void notifyEndCondition(String choice) {
         removeListener();
         getMode().resetChoice();
+        if(choice.equals("Exit")) {
+            getManager().exit();
+        }
         getManager().notifyEndCondition(getMode().getMenusNext(choice));
     }
     

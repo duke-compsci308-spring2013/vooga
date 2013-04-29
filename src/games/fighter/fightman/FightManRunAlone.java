@@ -1,5 +1,7 @@
 package games.fighter.fightman;
 
+import games.fighter.fightman.controller.levels.FightManMenu;
+
 import java.awt.Dimension;
 
 import vooga.fighter.controller.GameManagerRunAlone;
@@ -15,9 +17,14 @@ public class FightManRunAlone extends GameManagerRunAlone {
     
     @Override
     protected void setup(){
+        myScore = 0;
+        FightManMenu.p1Score = 0;
+        FightManMenu.p2Score = 0;
         setFilePathway(FILE_PATH);
         setCanvas(new Canvas(CANVAS_SIZE));
         setInfo(new GameInfo(new MapLoader(FILE_PATH).getMapNames()));
+        getGameInfo().addCharacters("Red");
+        getGameInfo().addCharacters("Blue");
     }
     
     public static int getScore () {

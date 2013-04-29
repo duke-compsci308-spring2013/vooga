@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <attacks>
-<attack attackName="dive" damage="10000" duration="36" attackspeed="50" default="default">
+<attack attackName="dive" damage="10000" duration="20" attackspeed="50" default="default">
     <state stateName="default">
         <frame>
             <hitbox cornerX="0" cornerY="4" width="80" height="30"/>

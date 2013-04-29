@@ -1,36 +1,150 @@
 <?xml version="1.0"?>
 <characters>
-    <character charID="Red" charName="RedFightMan" charIcon="red.png" maxHealth="10" mass="10" default="stand">
+    <character charID="Red" charName="Red" charIcon="red.png" maxHealth="10" mass="10" default="stand">
         <state stateName="stand">
             <frame image="games/fighter/fightman/images/red_stand.png">
                 <hitbox cornerX="0" cornerY="0" width="30" height="80"/>
             </frame>
         </state>
         <state stateName="backhop">
-            <frame image="games/fighter/fightman/images/red_backhop.gif">
+            <frame image="games/fighter/fightman/images/red_backhop.png">
                 <hitbox cornerX="0" cornerY="0" width="30" height="80"/>
             </frame>
         </state>
         <state stateName="dive">
-            <frame image="games/fighter/fightman/images/red_kick.gif">
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/red_kick.png">
                 <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
             </frame>
         </state>
         <attack attackName = "dive" />
     </character>
-    <character charID="Blue" charName="BlueFightMan" charIcon="blue.png" maxHealth="10" mass="10" default="stand">
+    <character charID="Blue" charName="Blue" charIcon="blue.png" maxHealth="10" mass="10" default="stand">
         <state stateName="stand">
-            <frame image="games/fighter/fightman/images/blue_stand.gif">
+            <frame image="games/fighter/fightman/images/blue_stand.png">
                 <hitbox cornerX="0" cornerY="0" width="30" height="80"/>
             </frame>
         </state>
         <state stateName="backhop">
-            <frame image="games/fighter/fightman/images/blue_backhop.gif">
+            <frame image="games/fighter/fightman/images/blue_backhop.png">
                 <hitbox cornerX="0" cornerY="0" width="30" height="80"/>
             </frame>
         </state>
         <state stateName="dive">
-            <frame image="games/fighter/fightman/images/blue_kick.gif">
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
+                <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
+            </frame>
+            <frame image="games/fighter/fightman/images/blue_kick.png">
                 <hitbox cornerX="0" cornerY="0" width="80" height="30"/>
             </frame>
         </state>

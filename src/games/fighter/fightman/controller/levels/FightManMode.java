@@ -46,16 +46,16 @@ public class FightManMode extends LevelMode {
         }
     }
     
-    @Override
     /**
      * Only applies gravity.
      */
+    @Override
     public void applyForces() {
         for (CharacterObject ch : getCharacterObjects()) {
             // Physics values hard-coded, could be extensible by using resource
             // manager in this class
-            Vector newVelocity = Physics.gravity(ch.getVelocity(), 10, 20);
-            newVelocity = Physics.friction(newVelocity, .7);
+            Vector newVelocity = Physics.gravity(ch.getVelocity(), 5, 8);
+            newVelocity = Physics.friction(newVelocity, .3);
             ch.getVelocity().setVectorByComponent(newVelocity.getXChange(),
                     newVelocity.getYChange());
             
