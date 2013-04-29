@@ -232,18 +232,21 @@ public class LEController implements IController<LevelEditing> {
      */
     public void simulate (LEGrid grid) {
         SimpleView simContainer = new SimpleView("Level Simulation");
+        //Configure Model dependencies
         ScrollingManager sm = new OmniScrollingManager();
-        GameView display = new GameView(PlatformerConstants.DEFAULT_WINDOW_SIZE, sm);
-        sm.initView(display);
+        GameView display = new GameView(PlatformerConstants.DEFAULT_WINDOW_SIZE);
         Model m = new Model(display, sm);
-        display.setModel(m);
+        //Provide Game flow components
         Level sim = new Level(1, m, grid);
         SplashPage sp = new TestSplashPage(display, sm);
-        m.initializeCollisionManager(mySpriteLibrary.getVisitLibrary());
         m.setGameComponents(sp, sim);
+        //Add interaction elements
+        m.initializeCollisionManager(mySpriteLibrary.getVisitLibrary());
         m.addPlayer(mySamplePlayer);
-        m.start();
+        //Start everything
         display.start();
+        m.start();
+        
         simContainer.add((GameView) display);
         simContainer.start();
     }

@@ -37,9 +37,9 @@ public abstract class ScrollerGame extends Game {
     
     private void intializeInstanceVariables() {
         myScrollingManager = setScrollingManager();
+        myDisplay = new GameView(PlatformerConstants.DEFAULT_WINDOW_SIZE);
         myVisitLibrary = setVisitLibrary();
-        myDisplay = new GameView(PlatformerConstants.DEFAULT_WINDOW_SIZE, myScrollingManager);
-        myPlayer = setPlayer(myScrollingManager,myDisplay);
+        myPlayer = setPlayer(myScrollingManager, myDisplay);
         myLevelsFilePaths = setLevelFileNamesPath();
         myTitle = setTitle();
         mySplashPage = setSplashPage();

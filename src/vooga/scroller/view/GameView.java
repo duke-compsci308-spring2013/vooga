@@ -61,14 +61,24 @@ public class GameView extends JComponent implements Renderer<Gaming>{
         setFocusable(true);
         requestFocus();
         setInputListeners();
-        setScrollManager(sm);
+//        setScrollManager(sm);
+    }
+    
+    /**
+     * Create a panel so that it knows its size.
+     * Updated constructor - doesn't require an sm. sm will be provided by the model.
+     */
+    public GameView (Dimension size) {
+        // set size (a bit of a pain)
+        setPreferredSize(size);
+        setSize(size);
+        // prepare to receive input
+        setFocusable(true);
+        requestFocus();
+        setInputListeners();
+//        setScrollManager(sm);
     }
 
-    private void setScrollManager (ScrollingManager sm) {
-        myScrollManager = sm;
-        myScrollManager.initView(this);
-        
-    }
 
     /**
      * Paint the contents of the canvas.
@@ -124,7 +134,6 @@ public class GameView extends JComponent implements Renderer<Gaming>{
             }
         });
         // start animation
-        myScrollManager.initModel(myGame);
         timer.start();
     }
     
@@ -184,6 +193,10 @@ public class GameView extends JComponent implements Renderer<Gaming>{
     @Override
     public void setRenderable (Renderable<Gaming> renderable) {
         setModel((Model) renderable);        
+    }
+
+    public void setScrollingManager (ScrollingManager sm) {
+      myScrollManager = sm;
     }
 
 }

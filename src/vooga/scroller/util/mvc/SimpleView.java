@@ -30,7 +30,9 @@ public class SimpleView extends JFrame implements IView<Gaming> {
         return null;
     }
 
-   
+   /**
+    * Make Visible
+    */
     public void start () {
         pack();
         setVisible(true);

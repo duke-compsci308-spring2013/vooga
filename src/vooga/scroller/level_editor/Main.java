@@ -28,7 +28,6 @@ public class Main {
                                            "bikini_bottom.jpg" };
         ScrollingManager sm = new OmniScrollingManager();
         GameView display = new GameView(PlatformerConstants.DEFAULT_WINDOW_SIZE, sm);
-        sm.initView(display);
         Player sample = new Mario(new Dimension(20, 32),
                                   display, sm);
 

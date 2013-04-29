@@ -88,10 +88,6 @@ public class Model implements Renderable<Gaming> {
         myLevelManager = initializeLevelManager(splashPage, player, levelFileNames);
     }
 
-    // public Model (GameView gameView, ScrollingManager sm, Level level) {
-    // this(gameView, sm, initTestPlayer(gameView, sm), level);
-    // }
-
     private Model (GameView gameView, ScrollingManager sm, Player player) {
         this(gameView, sm);
         addPlayer(player);
@@ -105,14 +101,26 @@ public class Model implements Renderable<Gaming> {
 
     /**
      * Minimal constructor.
+     * Binds display, model, and scrolling manager together.
      * Need to use set GameComponents soon after
      * @param gameView
      * @param sm
      */
     public Model (GameView gameView, ScrollingManager sm) {
-        myView = gameView;
+        this(gameView);
         setScrollingManager(sm);
+        myView.setModel(this);
 //        myCollisionManager = new CollisionManager(ScrollerGame.getVisitMethods());
+    }
+    
+    /**
+     * Ultra-Minimal constructor.
+     * @param gameView
+     * @param sm
+     */
+    private Model (GameView gameView) {
+        myView = gameView;
+        myView.setModel(this);
     }
 
     public Model (GameView myDisplay,
@@ -152,10 +160,11 @@ public class Model implements Renderable<Gaming> {
         return new LevelManager(myScrollingManager, myView, player, splashPage, levelFileNames);
     }
 
-    private void setScrollingManager (ScrollingManager sm) {
+    public void setScrollingManager (ScrollingManager sm) {
+        sm.initModel(this);
+        sm.initView(myView);
+        myView.setScrollingManager(sm);
         myScrollingManager = sm;
-        myScrollingManager.initModel(this);
-        myScrollingManager.initView(myView);
     }
 
     /**
