@@ -2,7 +2,7 @@ package util;
 
 import java.awt.geom.Point2D;
 import vooga.rts.gui.Window;
-import vooga.rts.util.Vector;
+import util.Vector;
 
 
 /**

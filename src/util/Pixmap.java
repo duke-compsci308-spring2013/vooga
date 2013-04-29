@@ -24,7 +24,7 @@ import javax.swing.ImageIcon;
 public class Pixmap implements Paintable {
     private java.awt.Image myImage;
     private String myFileName;
-    private static final String RESOURCE_LOCATION = "/vooga/";
+    private static final String RESOURCE_LOCATION = "/";
     
     /**
      * Create an image from the given path including filename.

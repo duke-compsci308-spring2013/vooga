@@ -239,7 +239,7 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
             return PORTAL_SIZE;
         }
     }
-
+    
     /**
      * @return
      */

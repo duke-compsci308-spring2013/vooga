@@ -10,6 +10,7 @@ import java.util.List;
  * Creates and updates game table
  * this clearly needs to be refactored because there is duplicate code.
  * @author Natalia Carvalho
+ * @editor Joshua Waldman
  */
 public class GameTable extends Table {
 
@@ -41,7 +42,7 @@ public class GameTable extends Table {
             }
         }
         catch (SQLException e) {
-            writeErrorMessage("Error determining if game name exists in GameTable.jave @Line 70");
+            writeErrorMessage("Error determining if game name exists in GameTable.java");
         }
         return false;
     }
@@ -100,7 +101,7 @@ public class GameTable extends Table {
             myPreparedStatement.executeUpdate();
         }
         catch (SQLException e) {
-            writeErrorMessage("Error creating game in GameTable.java @ Line 119");
+            writeErrorMessage("Error creating game in GameTable.java");
         }
         return true;
     }
@@ -120,7 +121,7 @@ public class GameTable extends Table {
             }
         }
         catch (SQLException e) {
-            writeErrorMessage("Error retrieving game list in GameTable.java @Line 148");
+            writeErrorMessage("Error retrieving game list in GameTable.java");
         }
         return myGameNames; 
     }
@@ -137,7 +138,7 @@ public class GameTable extends Table {
             myPreparedStatement.executeUpdate();
         }
         catch (SQLException e) {
-            writeErrorMessage("Error deleting game in GameTable.java @ Line 168");
+            writeErrorMessage("Error deleting game in GameTable.java");
         }
     }
      
@@ -176,8 +177,7 @@ public class GameTable extends Table {
             }
         }
         catch (SQLException e) {
-            e.printStackTrace();
-            //writeErrorMessage("Error printing entire table in GameTable.java @ Line 182");
+            writeErrorMessage("Error printing entire table in GameTable.java");
         }
     }
     
@@ -297,7 +297,7 @@ public class GameTable extends Table {
             }
         }
         catch (SQLException e) {
-            writeErrorMessage("Error retrieving entry double in GameTable.java @ Line 320");
+            writeErrorMessage("Error retrieving entry double in GameTable.java");
         }
         return entry;
     }

@@ -9,6 +9,7 @@ import java.sql.SQLException;
  * Creates superclass table with variables other subclasses need
  * Establishes connection to database
  * @author Natalia Carvalho
+ * @editor Joshua Waldman
  */
 public abstract class Table {
     
@@ -59,7 +60,7 @@ public abstract class Table {
             executeQuery(Keys.SELECT_FROM + tableName);
         }
         catch (SQLException e) {
-            writeErrorMessage("Error selecting all records from table in Table.java @ Line 82");
+            writeErrorMessage("Error selecting all records from table in Table.java");
         }
         return myResultSet;
     }
@@ -83,7 +84,7 @@ public abstract class Table {
             }
         }
         catch (SQLException e) {
-            writeErrorMessage("Error retrieving entry integer in Table.java @ Line 103");
+            writeErrorMessage("Error retrieving entry integer in Table.java");
         }
         return entry;
     }
@@ -107,7 +108,7 @@ public abstract class Table {
             }
         }
         catch (SQLException e) {
-            writeErrorMessage("Error retrieving entry string in Table.java @ Line 127");
+            writeErrorMessage("Error retrieving entry string in Table.java");
         }
         return entry;
     }
@@ -137,7 +138,7 @@ public abstract class Table {
             }
         }
         catch (SQLException e) {
-            writeErrorMessage("Error retrieving entry boolean in Table.java @ Line 156");
+            writeErrorMessage("Error retrieving entry boolean in Table.java");
         }
         return entry;
     }

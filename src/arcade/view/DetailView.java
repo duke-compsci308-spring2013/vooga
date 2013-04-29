@@ -58,7 +58,7 @@ public class DetailView extends JFrame {
 	private static final String COMMENTS = "Comments";
 	private static final String USER_DIR = "user.dir";
 	private static final String SUBMIT = "Submit";
-	private static final String PRICE = "Price: ";
+	private static final String PRICE = " Price: ";
 	private static final String BUY = "BUY";
 
 	private static final String HTML_BOLD_HEADER = "<b>";
