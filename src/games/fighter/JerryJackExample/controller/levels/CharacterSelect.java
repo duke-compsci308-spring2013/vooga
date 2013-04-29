@@ -10,7 +10,6 @@ import vooga.fighter.controller.levels.CharacterSelectController;
  * @author Jack Matteucci
  */
 
-
 public class CharacterSelect extends CharacterSelectController {
 
 }

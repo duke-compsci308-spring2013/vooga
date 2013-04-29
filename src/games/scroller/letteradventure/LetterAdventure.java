@@ -17,7 +17,7 @@ import vooga.scroller.view.GameView;
  *
  */
 public class LetterAdventure extends ScrollerGame {
-    private static final String LEVELS_DIR = "src/games/scroller/leveladventure/levels/";
+    private static final String LEVELS_DIR = "/games/scroller/leveladventure/levels/";
     private static final String TITLE = "DEG";
 
     public LetterAdventure (ArcadeInteraction arcade) {

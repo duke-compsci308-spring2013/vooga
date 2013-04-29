@@ -89,17 +89,10 @@ import vooga.fighter.view.Canvas;
 			    		    for (int i = 0; i < levelmode.getCharacterObjects().size(); i++) {
 			    		    	if(myCharacterLives.get(i) == 0){
 			    		    		change = true;
-			    		    		for(int j = 0; j < levelmode.getCharacterObjects().size(); j++){
-									if(j!=i) getGameInfo().addWinners(j);
-									getGameInfo().addScore(levelmode.getCharacterObjects().get(j).getHealth().getHealth());
-									getGameInfo().addTotalScore(j, getGameInfo().getScore(j));
-								}
+			    		    		tallyWinners(levelmode, i);
 								break;
 			    		    	}
-			    		    if(!levelmode.getCharacterObjects().get(i).getHealth().hasHealthRemaining()){ 
-			    		    	myCharacterLives.set(i,myCharacterLives.get(i) -1);
-			    		    	levelmode.getCharacterObjects().get(i).getHealth().setHealth(DEFAULT_HEALTH);
-			    		    }		    		    	
+			    		    subtractLife(levelmode, i);	    		    	
 			    		    }
 			    		    return change;
 			    }
@@ -107,6 +100,13 @@ import vooga.fighter.view.Canvas;
 			    
 			    public AdvancedGameInfo getAdvancedGameInfo(){
 			    	return (AdvancedGameInfo) super.getGameInfo();
+			    }
+			    
+			    private void subtractLife(LevelMode mode, int index){
+	    		    if(!mode.getCharacterObjects().get(index).getHealth().hasHealthRemaining()){ 
+	    		    	myCharacterLives.set(index,myCharacterLives.get(index) -1);
+	    		    	mode.getCharacterObjects().get(index).getHealth().setHealth(DEFAULT_HEALTH);
+	    		    }	
 			    }
 
 	}

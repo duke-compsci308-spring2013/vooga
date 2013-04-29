@@ -37,16 +37,15 @@ import vooga.fighter.view.FourPlayerMatchGameLayout;
 @InputClassTarget
 public class OneVOne extends OneVOneController {
 	    private static final String INPUT_PATHWAY = "config.threedefault";
-	    private String myInputPathway;
-	    private String myScorePathway;
-	    private List<Force> myForces;
-	    private ResourceBundle myResources;
+	    private static final int PLAYER_ONE = 0;
+	    private static final int PLAYER_TWO = 1;
+	    private static final int PLAYER_THREE = 2;
+	    private static final int THREE_PLAYERS = 2;
+	    private static final int ATTACK_DELAY = 10;
 	    private CollisionDetector myCollisionDetector;
 	    private int myPlayerOneTicker;
 	    private int myPlayerTwoTicker;
 	    private int myPlayerThreeTicker;
-	    private boolean myThreeplayer;
-
 	    /**
 	     * Initial constructor
 	     */
@@ -69,7 +68,7 @@ public class OneVOne extends OneVOneController {
 	        myPlayerOneTicker = 0;
 	        myPlayerTwoTicker = 0;
 	        myPlayerThreeTicker = 0;
-	        if(getGameInfo().getNumCharacters()>2) getInput().replaceMappingResourcePath(
+	        if(getGameInfo().getNumCharacters()>THREE_PLAYERS) getInput().replaceMappingResourcePath(
 	        		getHardFilePath() + INPUT_PATHWAY );
 	    }
 
@@ -92,8 +91,8 @@ public class OneVOne extends OneVOneController {
 	    	for(GameObject object : getMode().getMyObjects()){
 	    		if(object instanceof EnvironmentObject && 
 	    				myCollisionDetector.hitTop(object.getCurrentState().getCurrentRectangle(),
-	    						getInputObjects().get(0).getCurrentState().getCurrentRectangle() )){
-	    						getInputObjects().get(0).jump();
+	    						getInputObjects().get(PLAYER_ONE).getCurrentState().getCurrentRectangle() )){
+	    						getInputObjects().get(PLAYER_ONE).jump();
 	    						break;
 	    		}
 	    	}
@@ -104,8 +103,8 @@ public class OneVOne extends OneVOneController {
 	    	for(GameObject object : getMode().getMyObjects()){
 	    		if(object instanceof EnvironmentObject && 
 	    				myCollisionDetector.hitTop(object.getCurrentState().getCurrentRectangle(),
-	    						getInputObjects().get(1).getCurrentState().getCurrentRectangle() )){
-	    						getInputObjects().get(1).jump();
+	    						getInputObjects().get(PLAYER_TWO).getCurrentState().getCurrentRectangle() )){
+	    						getInputObjects().get(PLAYER_TWO).jump();
 	    						break;
 	    		}
 	    	}
@@ -113,8 +112,8 @@ public class OneVOne extends OneVOneController {
 	    @Override
 	    @InputMethodTarget(name = "player1_punch")
 	    public void playerOneWeakPunchInput (AlertObject alObj)  {
-	    		if(myPlayerOneTicker>10){
-	    			AttackObject attack = getInputObjects().get(0).attack("weakPunch");
+	    		if(myPlayerOneTicker>ATTACK_DELAY){
+	    			AttackObject attack = getInputObjects().get(PLAYER_ONE).attack("weakPunch");
 	    			getMode().addObject(attack);
 	    			myPlayerOneTicker=0;
 	    		}
@@ -122,8 +121,8 @@ public class OneVOne extends OneVOneController {
 	    @Override
 	    @InputMethodTarget(name = "player2_punch")
 	    public void playerTwoAttacInput (AlertObject alObj)  {
-    		if(myPlayerTwoTicker>10){
-    			AttackObject attack = getInputObjects().get(1).attack("weakPunch");
+    		if(myPlayerTwoTicker>ATTACK_DELAY){
+    			AttackObject attack = getInputObjects().get(PLAYER_TWO).attack("weakPunch");
     			getMode().addObject(attack);
     			myPlayerTwoTicker=0;
     		}
@@ -131,8 +130,8 @@ public class OneVOne extends OneVOneController {
 	    
 	    @InputMethodTarget(name = "player1_kick")
 	    public void playerOneKicknput(AlertObject alObj) {
-	    	if(myPlayerOneTicker>10){
-	        AttackObject newAttack = getInputObjects().get(0).attack("kick");
+	    	if(myPlayerOneTicker>ATTACK_DELAY){
+	        AttackObject newAttack = getInputObjects().get(PLAYER_ONE).attack("kick");
 	        getMode().addObject(newAttack);
 	        myPlayerTwoTicker=0;
 	    	}
@@ -140,8 +139,8 @@ public class OneVOne extends OneVOneController {
 	    
 	    @InputMethodTarget(name = "player2_kick")
 	    public void playerTwoKickInput(AlertObject alObj) {
-	    	if(myPlayerTwoTicker>10){
-	        AttackObject newAttack = getInputObjects().get(1).attack("kick");
+	    	if(myPlayerTwoTicker>ATTACK_DELAY){
+	        AttackObject newAttack = getInputObjects().get(PLAYER_TWO).attack("kick");
 	        getMode().addObject(newAttack);
 	        myPlayerTwoTicker=0;
 	    	}
@@ -152,8 +151,8 @@ public class OneVOne extends OneVOneController {
 	    	for(GameObject object : getMode().getMyObjects()){
 	    		if(object instanceof EnvironmentObject && 
 	    				myCollisionDetector.hitTop(object.getCurrentState().getCurrentRectangle(),
-	    						getInputObjects().get(2).getCurrentState().getCurrentRectangle() )){
-	    						getInputObjects().get(2).jump();
+	    						getInputObjects().get(PLAYER_THREE).getCurrentState().getCurrentRectangle() )){
+	    						getInputObjects().get(PLAYER_THREE).jump();
 	    						break;
 	    		}
 	    	}
@@ -161,8 +160,8 @@ public class OneVOne extends OneVOneController {
 	    
 	    @InputMethodTarget(name = "player3_punch")
 	    public void playerThreeAttackInput (AlertObject alObj)  {
-	    		if(myPlayerThreeTicker>10){
-	    			AttackObject attack = getInputObjects().get(2).attack("weakPunch");
+	    		if(myPlayerThreeTicker>ATTACK_DELAY){
+	    			AttackObject attack = getInputObjects().get(PLAYER_THREE).attack("weakPunch");
 	    			getMode().addObject(attack);
 	    			myPlayerThreeTicker=0;
 	    		}
@@ -170,8 +169,8 @@ public class OneVOne extends OneVOneController {
 	    
 	    @InputMethodTarget(name = "player3_kick")
 	    public void playerThreeKicknput(AlertObject alObj) {
-	    	if(myPlayerThreeTicker>10){
-	        AttackObject newAttack = getInputObjects().get(2).attack("kick");
+	    	if(myPlayerThreeTicker>ATTACK_DELAY){
+	        AttackObject newAttack = getInputObjects().get(PLAYER_THREE).attack("kick");
 	        getMode().addObject(newAttack);
 	        myPlayerThreeTicker=0;
 	    	}
@@ -179,16 +178,19 @@ public class OneVOne extends OneVOneController {
 	    
 	    @InputMethodTarget(name = "player3_left")
 	    public void playerThreeLeftInput (AlertObject alObj) {
-	        getInputObjects().get(2).move(180);
+	        getInputObjects().get(PLAYER_THREE).move(180);
 
 	    }
 
 	    @InputMethodTarget(name = "player3_right")
 	    public void playerThreeRightInput(AlertObject alObj) {
-	        getInputObjects().get(2).move(0);
+	        getInputObjects().get(PLAYER_THREE).move(0);
 
 	    }
-	    
+	    /**
+	     * The developer has chosen to use the update to keep track of tickers 
+	     * for each character.
+	     */
 	    @Override
 	    protected void developerUpdate(){
 	    	myPlayerOneTicker++;
@@ -203,6 +205,13 @@ public class OneVOne extends OneVOneController {
 		public void removeListener(){
 	        super.removeListener();
 	        getInput().removeListener(this);
+	    }
+	    protected void tallyWinners(LevelMode levelmode, int index){
+	    for(int j = 0; j < levelmode.getCharacterObjects().size(); j++){
+			if(j!=index) getGameInfo().addWinners(j);
+			getGameInfo().addScore(levelmode.getCharacterObjects().get(j).getHealth().getHealth());
+			getGameInfo().addTotalScore(j, getGameInfo().getScore(j));
+		}
 	    }
 
 

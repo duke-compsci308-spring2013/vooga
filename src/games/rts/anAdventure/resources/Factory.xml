@@ -132,7 +132,7 @@
 	<buildings src = "vooga.rts.gamedesign.sprite.gamesprites.interactive.buildings.Building">
 		<building>
 			<name>home</name>
-			<img>images/home.png</img>
+			<img>images/castleHaha.gif</img>
 			<sound>pikachu.wav</sound>
 			<health>1000</health>
 			<buildtime>5</buildtime>
@@ -152,7 +152,7 @@
 		</building>
 		<building>
 			<name>garrison</name>
-			<img>images/home.png</img>
+			<img>images/garrisonHaha.gif</img>
 			<sound>pikachu.wav</sound>
 			<health>1000</health>
 			<buildtime>5</buildtime>
@@ -177,7 +177,7 @@
 	<units src = "vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Unit">
 		<unit>
 			<name>Marine</name>
-			<img>images/sprites/halo_soldier.png</img>
+			<img>images/soldierHaha.gif</img>
 			<sound>pikachu.wav</sound>
 			<health>100</health>
 			<buildtime>5</buildtime>
@@ -199,7 +199,7 @@
 		</unit>
 		<unit>
 			<name>worker</name>
-			<img>images/sprites/soldier.png</img>
+			<img>images/workerHaha.gif</img>
 			<sound>pikachu.wav</sound>
 			<health>100</health>
 			<buildtime>5</buildtime>
@@ -251,4 +251,3 @@
 		</projectile>
 	</projectiles>
 </GameElements>
-

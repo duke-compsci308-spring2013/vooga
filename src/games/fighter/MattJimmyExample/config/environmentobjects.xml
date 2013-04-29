@@ -2,7 +2,7 @@
 <environmentObjects>
     <environmentObject objectName="platform" default="default">
         <state stateName = "default">
-            <frame image="fighter/images/brick1.gif">
+            <frame image="games/fighter/MattJimmyExample/images/brick1.gif">
                 <hitbox cornerX="0" cornerY="0" width="700" height="20"/>
             </frame>
         </state>
