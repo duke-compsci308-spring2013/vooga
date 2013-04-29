@@ -15,10 +15,9 @@ public class Main {
      */
     public static void main (String[] args) {
         
-        String[] filenames = new String[]{"underwater1.jpg",
-                                          "underwater2.jpg",
-                                          "underwater3.jpg",
-                                          "bikini_bottom.jpg"};
+        String[] filenames = new String[]{"laserlevel.png",
+                                          "cutterlevel.png",
+                                          "bosslevel.png"};
         
         LEController.runLevelEditor(new KirbyLib(), new BackgroundLib(filenames));
         

@@ -41,8 +41,7 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
 
 
     public static class CutterEnemy extends GameCharacter implements IEnemy {
-        private static final String DEFAULT_IMG = "cutter.png";
-        private static final Dimension KOOPA_SIZE = new Dimension(32, 64);
+        private static final String DEFAULT_IMG = "cutterwalkL.gif";
         private int SPEED = 30;
         private int RADIUS = 45;
         private TrackPlayer movement = new TrackPlayer(this, getLocatable(), SPEED, RADIUS);
@@ -52,7 +51,7 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
         }
 
         public CutterEnemy (Location center) {
-            super(makePixmap(DEFAULT_IMG), center, KOOPA_SIZE, new Integer(1), new Integer(1));
+            super(makePixmap(DEFAULT_IMG), center, DEFAULT_SIZE, new Integer(1), new Integer(1));
         }
 
         public void update (double elapsedTime, Dimension bounds) {
@@ -65,7 +64,6 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
             // TODO Auto-generated method stub   
         }
         
-        // TODO :This is hacky
         @Override
         public void addTarget(Locatable target){
             movement.setTarget(target);
@@ -76,7 +74,7 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
     
     public static class LaserEnemy extends GameCharacter implements IEnemy {
 
-        private static final String DEFAULT_IMG = "laser.png";
+        private static final String DEFAULT_IMG = "laserwalkL.gif";
         private int SPEED = 30;
         private int RADIUS = 45;
         private TrackPlayer movement = new TrackPlayer(this, getLocatable(), SPEED, RADIUS);
@@ -99,8 +97,7 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
         public void handleDeath (vooga.scroller.level_editor.Level level) {
             // TODO Auto-generated method stub   
         }
-        
-        // TODO :This is hacky
+
         @Override
         public void addTarget(Locatable target){
             movement.setTarget(target);
@@ -110,7 +107,8 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
     
     public static class Boss extends GameCharacter implements IEnemy {
 
-        private static final String DEFAULT_IMG = "boss.jpg";
+        private static final String DEFAULT_IMG = "bossstationary.gif";
+        private static final Dimension BOSS_SIZE = new Dimension(128, 80);
         private int SPEED = 30;
         private int RADIUS = 45;
         private TrackPlayer movement = new TrackPlayer(this, getLocatable(), SPEED, RADIUS);
@@ -121,7 +119,7 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
         }
 
         public Boss (Location center) {
-            super(makePixmap(DEFAULT_IMG), center, DEFAULT_SIZE, new Integer(1), new Integer(2));
+            super(makePixmap(DEFAULT_IMG), center, BOSS_SIZE, new Integer(1), new Integer(2));
         }
 
         public void update (double elapsedTime, Dimension bounds) {
@@ -131,7 +129,6 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
 
         @Override
         public void handleDeath (vooga.scroller.level_editor.Level level) {
-            // TODO Auto-generated method stub   
         }
         
         // TODO :This is hacky
@@ -145,7 +142,7 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
 
     public static class PlatformOne extends Sprite implements IPlatform {
 
-        private static final String DEFAULT_IMG = "green_box.png";
+        private static final String DEFAULT_IMG = "laserplatform.png";
 
         public PlatformOne () {
             this(DEFAULT_LOC);
@@ -162,7 +159,7 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
 
     public static class PlatformTwo extends Sprite implements IPlatform {
 
-        private static final String DEFAULT_IMG = "black_box.jpg";
+        private static final String DEFAULT_IMG = "cutterplatform.png";
 
         public PlatformTwo () {
             this(DEFAULT_LOC);
@@ -179,7 +176,7 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
     
     public static class PlatformThree extends Sprite implements IPlatform {
 
-        private static final String DEFAULT_IMG = "red_box.jpg";
+        private static final String DEFAULT_IMG = "bossplatform.png";
 
         public PlatformThree () {
             this(DEFAULT_LOC);
@@ -198,7 +195,9 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
     public static class KirbyLaser extends GameCharacter implements IEnemy {
 
         //has no movement right now 
-        private static final String DEFAULT_IMG = "kirby_laser.jpg";
+        private static final String DEFAULT_IMG = "kirbylaserproj.gif";
+
+        private static final Dimension KIRBY_LASER_SIZE = new Dimension(64,8);
         private int SPEED = 30;
 
 
@@ -207,7 +206,7 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
         }
 
         public KirbyLaser (Location center) {
-            super(makePixmap(DEFAULT_IMG), center, DEFAULT_SIZE, new Integer(1), new Integer(2));
+            super(makePixmap(DEFAULT_IMG), center, KIRBY_LASER_SIZE, new Integer(1), new Integer(2));
         }
 
         public void update (double elapsedTime, Dimension bounds) {
@@ -224,7 +223,8 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
     public static class EnemyLaser extends GameCharacter implements IEnemy {
 
         //has no movement right now 
-        private static final String DEFAULT_IMG = "enemy_laser.jpg";
+        private static final String DEFAULT_IMG = "laserprojectile.png";
+        private static final Dimension LASER_SIZE = new Dimension(32,8);
         private int SPEED = 30;
 
 
@@ -233,7 +233,7 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
         }
 
         public EnemyLaser (Location center) {
-            super(makePixmap(DEFAULT_IMG), center, DEFAULT_SIZE, new Integer(1), new Integer(2));
+            super(makePixmap(DEFAULT_IMG), center, LASER_SIZE, new Integer(1), new Integer(2));
         }
 
         public void update (double elapsedTime, Dimension bounds) {
@@ -250,7 +250,8 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
     public static class FireBall extends GameCharacter implements IEnemy {
 
         //has no movement right now 
-        private static final String DEFAULT_IMG = "fireball.png";
+        private static final String DEFAULT_IMG = "bossprojectile.gif";
+        private static final Dimension FIRE_SIZE = new Dimension(45,45);
         private int SPEED = 30;
 
 
@@ -259,7 +260,7 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
         }
 
         public FireBall (Location center) {
-            super(makePixmap(DEFAULT_IMG), center, DEFAULT_SIZE, new Integer(1), new Integer(2));
+            super(makePixmap(DEFAULT_IMG), center, FIRE_SIZE, new Integer(1), new Integer(2));
         }
 
         public void update (double elapsedTime, Dimension bounds) {
