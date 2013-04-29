@@ -1,0 +1,4 @@
+Apr 28, 2013 9:40:56 PM vooga.rts.networking.server.MatchmakerServer <init>
+INFO: Server Started
+Apr 28, 2013 9:41:00 PM vooga.rts.networking.server.MatchmakerServer <init>
+INFO: Server Started
