@@ -121,7 +121,7 @@ public class OneVOneController extends LevelController {
 
     @InputMethodTarget(name = "player2_jump")
     public void playerTwoJumpInput (AlertObject alObj)  {
-        getInputObjects().get(1).move(270);
+        getInputObjects().get(1).jump();
     }
 
     @InputMethodTarget(name = "player2_left")
@@ -145,7 +145,9 @@ public class OneVOneController extends LevelController {
 
     @InputMethodTarget(name = "player2_attack")
     public void playerTwoAttacknput(AlertObject alObj) {
-        getInputObjects().get(1).attack("weakPunch");
+    	AttackObject newAttack = getInputObjects().get(1).attack("weakPunch");
+        //getInputObjects().get(1).attack("weakPunch");
+    	getMode().addObject(newAttack);
     }
 
     @InputMethodTarget(name = "continue")
