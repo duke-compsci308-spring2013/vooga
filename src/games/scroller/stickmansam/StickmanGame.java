@@ -53,7 +53,6 @@ public class StickmanGame extends ScrollerGame {
 
     @Override
     protected SplashPage setSplashPage () {
-        // TODO Auto-generated method stub
         return new StickmanSplashPage(StickmanSpriteLibrary.makePixmap(SPLASH_IMAGE), 0,
                                       getDisplay(), getScrollingManager());
     }

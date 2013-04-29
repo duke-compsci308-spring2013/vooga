@@ -9,23 +9,47 @@ import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.animation.state_movement.MoveLeftState;
 import vooga.scroller.sprites.animation.state_movement.MoveRightState;
 import vooga.scroller.sprites.superclasses.Player;
+import vooga.scroller.util.ISpriteView;
 import vooga.scroller.util.Pixmap;
+import vooga.scroller.util.physics.Force;
+import vooga.scroller.util.physics.Gravity;
 import vooga.scroller.view.GameView;
 
 public class StickmanPlayer extends Player {
 
-    private static final Pixmap STICKMAN_VIEW = StickmanSpriteLibrary.makePixmap("e.png");
+    private static final Pixmap STICKMAN_VIEW = StickmanSpriteLibrary.makePixmap("stickman.png");
     private static final Dimension SIZE = new Dimension (50, 30);
     private static final int HEALTH = 100;
-    private static final int DAMAGE = 1;    
+    private static final int DAMAGE = 20;    
     private static final String INPUT_LOCATION = "/games/scroller/stickmansam/keymap";
     private static final Vector JUMP_VELOCITY = new Vector(Sprite.UP_DIRECTION, 100);
     private static final double MAX_JUMP_VELOCITY = 0.5;
+    private static final int SPEED = 100;
+    private static final int MAX_JUMPS = 1;
+    private static final double MAX_SPEED = 300;
+    
+    private static final ISpriteView MOVE_LEFT = StickmanSpriteLibrary.makePixmap("stickmanleft.png");
+    private static final ISpriteView STAND_LEFT = StickmanSpriteLibrary.makePixmap("stickmanleft.png");
+    private static final ISpriteView MOVE_RIGHT = StickmanSpriteLibrary.makePixmap("stickman.png");
+    private static final ISpriteView STAND_RIGHT = StickmanSpriteLibrary.makePixmap("stickman.png");
+
+
+    
+    private int myJumpCount;
+    private Force myGravity;
+
     
    public StickmanPlayer (GameView gameView,
                            ScrollingManager sm) {
         super(STICKMAN_VIEW, SIZE, gameView, sm, HEALTH, DAMAGE);
-        // TODO Auto-generated constructor stub
+        
+        myJumpCount = 0;
+        myGravity = new Gravity(this);
+        
+        this.addPossibleState(MoveLeftState.STATE_ID, new MoveLeftState(this, MOVE_LEFT,
+                                                                        STAND_LEFT, SPEED));
+        this.addPossibleState(MoveRightState.STATE_ID, new MoveRightState(this, MOVE_RIGHT,
+                                                                          STAND_RIGHT, SPEED));
     }
 
     @Override
@@ -37,6 +61,27 @@ public class StickmanPlayer extends Player {
     public void handleDeath (Level level) {
         // TODO Auto-generated method stub
 
+    }
+    
+    @Override
+    public void update (double elapsedTime, Dimension bounds) {
+        myGravity.apply();
+
+        if (myJumpCount == MAX_JUMPS &&
+            this.getVelocity().getComponentVector(Sprite.UP_DIRECTION).getMagnitude() < .5) {
+            myJumpCount = 0;
+        }
+
+        super.update(elapsedTime, bounds);
+        checkSpeed();
+    }
+    
+    private void checkSpeed () {
+        double speed = this.getVelocity().getMagnitude();
+        if (speed > MAX_SPEED) {
+            double angle = this.getVelocity().getDirection();
+            this.setVelocity(angle, MAX_SPEED);
+        }
     }
     
     @InputMethodTarget(name = "leftstart")
