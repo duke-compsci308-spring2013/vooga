@@ -60,7 +60,9 @@ public class Kirby extends Player implements IInputListener{
 
     private static final double SPEED = 100;
 
-
+    private static String myCurrentState; 
+    private static String LASER_ENEMY = "laserEnemy";
+    private static String DEFAULT = "default";
 
 
     private int myJumpCount;
@@ -84,6 +86,7 @@ public class Kirby extends Player implements IInputListener{
         consumedEnemy = null;
 
         intializeStates();
+        myCurrentState = DEFAULT;
 
     }
 
@@ -157,6 +160,11 @@ public class Kirby extends Player implements IInputListener{
             this.activateState(WalkLeftFullState.STATE_ID);
         }
         
+        
+        if (myCurrentState.equals(LASER_ENEMY)) {
+            this.activateState(KirbyLaserWalkLeftState.STATE_ID);
+        }
+        
         else if(this.getCurrentStateID() == FloatRightState.STATE_ID) {
             this.deactivateState(getCurrentStateID());
             this.activateState(FloatLeftState.STATE_ID);
@@ -170,6 +178,8 @@ public class Kirby extends Player implements IInputListener{
     public void stopLeft() {        
         this.deactivateState(MoveLeft.STATE_ID);
         this.deactivateState(WalkLeftFullState.STATE_ID);
+        this.deactivateState(KirbyLaserWalkLeftState.STATE_ID);
+
     }
     
 
@@ -178,6 +188,10 @@ public class Kirby extends Player implements IInputListener{
 
         if (isConsumedEnemy()) {
             this.activateState(WalkRightFullState.STATE_ID);
+        }
+        
+        if (myCurrentState.equals(LASER_ENEMY)) {
+            this.activateState(KirbyLaserWalkRightState.STATE_ID);
         }
         
         else if (this.getCurrentStateID() == FloatLeftState.STATE_ID) {
@@ -193,6 +207,8 @@ public class Kirby extends Player implements IInputListener{
     public void stopRight() {
         this.deactivateState(MoveRight.STATE_ID);
         this.deactivateState(WalkRightFullState.STATE_ID);
+        this.deactivateState(KirbyLaserWalkRightState.STATE_ID);
+
 
     }
 
@@ -265,6 +281,7 @@ public class Kirby extends Player implements IInputListener{
         this.deactivateState(ConsumeState.STATE_ID);
         if (consumedEnemy instanceof KirbyLib.LaserEnemy) {
             this.activateState(KirbyLaserWalkRightState.STATE_ID);
+            myCurrentState = LASER_ENEMY;
         }
         consumedEnemy = null; 
 

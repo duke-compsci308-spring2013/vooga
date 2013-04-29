@@ -12,7 +12,7 @@ import vooga.scroller.sprites.state.SpriteState;
 
 public class KirbyLaserWalkRightState extends SpriteState<Sprite>{
 
-    private static final String DEFAULT_IMG = "kirbylaserswalkR.gif";
+    private static final String DEFAULT_IMG = "kirbylaserswalkL.gif";
     public static int STATE_ID = 12;
     private Kirby myKirby;
 
@@ -45,16 +45,16 @@ public class KirbyLaserWalkRightState extends SpriteState<Sprite>{
     @Override
     public void activate () {
         myKirby.setStateID(STATE_ID);        
-        Vector component = getUnit().getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
+        Vector component = getUnit().getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
         component.negate();
         getUnit().addVector(component);
-        getUnit().addVector(new Vector(Sprite.LEFT_DIRECTION, 40));
+        getUnit().addVector(new Vector(Sprite.RIGHT_DIRECTION, 40));
         
     }
 
     @Override
     public void deactivate () {
-        Vector component = getUnit().getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
+        Vector component = getUnit().getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
         component.negate();
         getUnit().addVector(component);    }
 

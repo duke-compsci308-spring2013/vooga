@@ -12,7 +12,7 @@ import vooga.scroller.sprites.state.SpriteState;
 
 public class KirbyLaserWalkLeftState extends SpriteState<Sprite>{
 
-    private static final String DEFAULT_IMG = "kirbylaserswalkL.gif";
+    private static final String DEFAULT_IMG = "kirbylaserswalkR.gif";
     public static int STATE_ID = 11;
     private Kirby myKirby;
 
