@@ -1,0 +1,177 @@
+<map>
+
+    <info>
+
+        <name>
+The Most Amazing Map
+        </name>
+
+        <desc>
+This map is quite fantastic.
+        </desc>
+
+        <players number="4" >
+
+            <player
+                ID="1"
+                X="100"
+                Y="10" />
+
+            <player
+                ID="2"
+                X="100"
+                Y="400" />
+
+            <player
+                ID="3"
+                X="400"
+                Y="10" />
+
+            <player
+                ID="4"
+                X="400"
+                Y="400" />
+        </players>
+
+        <screenshot>
+amazingmap.jpg
+        </screenshot>
+    </info>
+
+    <resources>
+
+        <info>
+
+            <tilesize
+                height="128"
+                width="128" />
+
+            <tileamount
+                X="4"
+                Y="4" />
+        </info>
+
+        <tiles>
+
+            <tile
+                name="”Plain"
+                Grass=""
+                ID="1"
+                image="”tiles/grass.jpg”" />
+
+            <tile
+                name="”Dirty"
+                Dirt=""
+                ID="2"
+                image="”tiles/dirt.jpg”" />
+...
+
+            <tile
+                name="”Burnt"
+                Grass=""
+                ID="120"
+                image="”tiles/burnt_grass.jpg”" />
+        </tiles>
+
+        <terraintype>
+
+            <terrain
+                name="”Tree”"
+                ID="1"
+                image="”terrain/tree.jpg”"
+                walkability="5" />
+
+            <terrain
+                name="”Bush”"
+                ID="2"
+                image="”terrain/bush.jpg”"
+                walkability="3" />
+	...
+
+            <terrain
+                name="”Rock”"
+                ID="30"
+                image="”terrain/rock.jpg”"
+                walkability="10" />
+        </terraintype>
+    </resources>
+
+    <graphic>
+	XOXOXOXOXOXOXOXOXXOXOXOXOXOX
+	XOXOXOXOXOXOXOXOXXOXOXOXOXOX
+	XOXOXOXOXOXOXOXOXXOXOXOXOXOX
+	XOXOXOXOXOXOXOXOXXOXOXOXOXOX
+	XOXOXOXOXOXOXOXOXXOXOXOXOXOX
+	XOXOXOXOXOXOXOXOXXOXOXOXOXOX
+	XOXOXOXOXOXOXOXOXXOXOXOXOXOX
+	XOXOXOXOXOXOXOXOXXOXOXOXOXOX
+	XOXOXOXOXOXOXOXOXXOXOXOXOXOX
+	XOXOXOXOXOXOXOXOXXOXOXOXOXOX
+	XOXOXOXOXOXOXOXOXXOXOXOXOXOX
+    </graphic>
+
+    <terrain>
+
+        <layer level="1" >
+
+            <terrain
+                ID="1"
+                X="100"
+                Y="50" />
+
+            <terrain
+                ID="2"
+                X="300"
+                Y="300" />
+...
+
+            <terrain
+                ID="30"
+                X="400"
+                Y="50" />
+        </layer>
+
+        <layer level="2" >
+
+            <terrain
+                ID="30"
+                X="400"
+                Y="50" />
+		...
+        </layer>
+    </terrain>
+
+    <resources>
+
+        <resource
+            X="200"
+            Y="250"
+            type="”TallTree”" />
+
+        <resource
+            X="300"
+            Y="250"
+            type="”TallTree”" />
+
+        <resource
+            X="400"
+            Y="250"
+            type="”TallTree”" />
+
+        <resource
+            X="2500"
+            Y="2500"
+            type="”GoldRock”" />
+
+        <resource
+            X="2500"
+            Y="2000"
+            type="”GoldRock”" />
+
+        <resource
+            X="2500"
+            Y="3000"
+            type="”GoldRock”" />
+    </resources>
+
+</map>
