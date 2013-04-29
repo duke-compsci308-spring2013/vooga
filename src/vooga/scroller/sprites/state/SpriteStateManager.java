@@ -121,9 +121,5 @@ public class SpriteStateManager {
         myStates.remove(stateID);
     }
     
-    
-    public SpriteState getCurrentState() {
-        return myActiveStates.poll();
-        
-    }
+
 }

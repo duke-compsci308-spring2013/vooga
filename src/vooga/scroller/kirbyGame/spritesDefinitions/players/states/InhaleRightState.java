@@ -3,6 +3,7 @@ package vooga.scroller.kirbyGame.spritesDefinitions.players.states;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib;
+import vooga.scroller.kirbyGame.spritesDefinitions.players.Kirby;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.state.SpriteState;
 
@@ -10,10 +11,13 @@ public class InhaleRightState extends SpriteState<Sprite>{
 
     private static final String DEFAULT_IMG = "kirbyinhaleR.gif";
     public static int STATE_ID = 7;
+    private Kirby myKirby;
 
 
     public InhaleRightState (Sprite unit) {
         super(unit);
+        myKirby = (Kirby) unit;
+
         // TODO Auto-generated constructor stub
     }
 
@@ -37,14 +41,13 @@ public class InhaleRightState extends SpriteState<Sprite>{
 
     @Override
     public void activate () {
-        // TODO Auto-generated method stub
+        myKirby.setStateID(STATE_ID);
         
     }
 
     @Override
     public void deactivate () {
-        // TODO Auto-generated method stub
-        
+        getUnit().setView(KirbyLib.makePixmap("kw3.png"));
     }
 
 }

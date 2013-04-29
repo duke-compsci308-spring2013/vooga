@@ -10,6 +10,7 @@ import vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.FloatLeftState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.FloatRightState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.InhaleLeftState;
+import vooga.scroller.kirbyGame.spritesDefinitions.players.states.InhaleRightState;
 import vooga.scroller.level_editor.Level;
 import vooga.scroller.level_management.IInputListener;
 import vooga.scroller.scrollingmanager.ScrollingManager;
@@ -78,6 +79,10 @@ public class Kirby extends Player implements IInputListener{
         this.addPossibleState(MoveRight.STATE_ID, new MoveRight(this, MOVE_RIGHT, STAND_RIGHT, SPEED));
         this.addPossibleState(FloatLeftState.STATE_ID, new FloatLeftState(this));
         this.addPossibleState(FloatRightState.STATE_ID, new FloatRightState(this));
+        this.addPossibleState(InhaleLeftState.STATE_ID, new InhaleLeftState(this));
+        this.addPossibleState(InhaleRightState.STATE_ID, new InhaleRightState(this));
+
+
     }
 
     @Override
@@ -136,9 +141,9 @@ public class Kirby extends Player implements IInputListener{
 
     @InputMethodTarget(name = "leftend")
     public void stopLeft() {        
-        System.out.println("end");
         this.deactivateState(MoveLeft.STATE_ID);
     }
+    
 
     @InputMethodTarget(name = "rightstart")
     public void walkRight() {
@@ -163,21 +168,27 @@ public class Kirby extends Player implements IInputListener{
 
     }
 
-
     @InputMethodTarget(name = "inhalestart")
-    public void startLeftInhale() {
-        this.activateState(InhaleLeftState.STATE_ID);
+    public void startInhale() {
+        
+        System.out.println("Current StateID: " + getCurrentStateID() + " MoveRight stateid: " + MoveRight.STATE_ID + " MoveLeft stateid: " + MoveLeft.STATE_ID);
+
+        if (getCurrentStateID() == MoveLeft.STATE_ID) {
+            this.activateState(InhaleLeftState.STATE_ID);
+            return;
+        }
+        
+        if (getCurrentStateID() == MoveRight.STATE_ID) {
+            this.activateState(InhaleRightState.STATE_ID);
+            return;
+        }
     }
-
-    @InputMethodTarget(name = "inhalestart")
-    public void startRightInhale() {
-
-    }
-
+    
 
     @InputMethodTarget(name = "inhalestop")
     public void stopInhale() {
-
+        this.deactivateState(InhaleLeftState.STATE_ID);
+        this.deactivateState(InhaleRightState.STATE_ID);
     }
 
     // @InputMethodTarget(name = "leftstart")

@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.Kirby;
 import vooga.scroller.sprites.Sprite;
+import vooga.scroller.sprites.animation.movement.MoveLeft;
+import vooga.scroller.sprites.animation.state_movement.MoveLeftState;
 import vooga.scroller.sprites.state.SpriteState;
 
 public class InhaleLeftState extends SpriteState<Sprite>{
@@ -16,7 +18,7 @@ public class InhaleLeftState extends SpriteState<Sprite>{
 
     public InhaleLeftState (Sprite unit) {
         super(unit);
-        myKirby.setStateID(STATE_ID);
+        myKirby = (Kirby) unit;
         // TODO Auto-generated constructor stub
     }
 
@@ -40,14 +42,13 @@ public class InhaleLeftState extends SpriteState<Sprite>{
 
     @Override
     public void activate () {
-        // TODO Auto-generated method stub
+        myKirby.setStateID(STATE_ID);
         
     }
 
     @Override
     public void deactivate () {
-        // TODO Auto-generated method stub
-        
+        getUnit().setView(KirbyLib.makePixmap("kw3l.png"));
     }
 
 }

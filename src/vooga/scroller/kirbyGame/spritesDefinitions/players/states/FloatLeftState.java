@@ -48,6 +48,8 @@ public class FloatLeftState extends SpriteState<Sprite>{
 
     @Override
     public void deactivate () {
+        getUnit().setView(KirbyLib.makePixmap("kw3l.png"));
+
     }
 
 }

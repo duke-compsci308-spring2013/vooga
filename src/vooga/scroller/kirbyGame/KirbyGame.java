@@ -67,7 +67,7 @@ public class KirbyGame extends ScrollerGame {
 
     @Override
     protected ScrollingManager setScrollingManager () {
-        return new UniScrollingManager(Direction.LEFT);
+        return new OmniScrollingManager();
     }
 
 
