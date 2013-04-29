@@ -2,7 +2,8 @@
 <maps>
     <map mapName="StreetMap" xSize="1024" ySize="871">
         <startingPos xCoord="140" yCoord="600"/>
-        <startingPos xCoord="200" yCoord="600"/>
+        <startingPos xCoord="500" yCoord="600"/>
+        <startingPos xCoord="300" yCoord="600"/>
         <state stateName = "background">
             <frame image = "games/fighter/JerryJackExample/images/Streets.jpg" />
         </state>

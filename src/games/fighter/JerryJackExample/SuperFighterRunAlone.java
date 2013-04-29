@@ -19,7 +19,7 @@ public class SuperFighterRunAlone extends GameManagerRunAlone {
     protected void setup(){
         setFilePathway(FILE_PATH);
         setCanvas(new Canvas(CANVAS_SIZE));
-        setInfo(new GameInfo(new MapLoader(FILE_PATH).getMapNames()));
+        setInfo(new AdvancedGameInfo(new MapLoader(FILE_PATH).getMapNames()));
     }
 
 }

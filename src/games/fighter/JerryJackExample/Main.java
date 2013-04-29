@@ -19,8 +19,7 @@ public class Main extends JFrame
      */
     public static void main (String args[])
     {
-
-        SuperFighterRunAlone control = new SuperFighterRunAlone();
+      SuperFighterRunAlone control = new SuperFighterRunAlone();
         control.run();
     }
 }
