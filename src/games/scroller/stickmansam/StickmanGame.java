@@ -13,8 +13,9 @@ import vooga.scroller.view.GameView;
 
 public class StickmanGame extends ScrollerGame {
 
+    private static final String SPLASH_IMAGE = "splash.jpg";
     private static final String TITLE = "Stickman Sam";
-    private static final String LEVELS = "src/games/scroller/stickmansam/levels/";
+    private static final String LEVELS = "/games/scroller/stickmansam/levels/";
 
     public StickmanGame (ArcadeInteraction arcade) {
         super(arcade);
@@ -27,7 +28,7 @@ public class StickmanGame extends ScrollerGame {
 
     @Override
     protected VisitLibrary setVisitLibrary () {
-        return new VisitMethods();
+        return new StickmanVisitMethods();
     }
 
     @Override
@@ -42,7 +43,7 @@ public class StickmanGame extends ScrollerGame {
 
     @Override
     protected String[] setLevelFileNames () {
-        return new String[] { /* TODO */};
+        return new String[] { /*TODO */ };
     }
 
     @Override
@@ -53,7 +54,7 @@ public class StickmanGame extends ScrollerGame {
     @Override
     protected SplashPage setSplashPage () {
         // TODO Auto-generated method stub
-        return new StickmanSplashPage(StickmanSamSpriteLibrary.makePixmap("splash.jpg"), 0,
+        return new StickmanSplashPage(StickmanSpriteLibrary.makePixmap(SPLASH_IMAGE), 0,
                                       getDisplay(), getScrollingManager());
     }
 
