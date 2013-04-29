@@ -53,7 +53,7 @@ public class KirbyGame extends ScrollerGame {
 
     @Override
     protected String[] setLevelFileNames () {
-        String[] levelsFiles = {"longlevel.level"};
+        String[] levelsFiles = {"kirbytest.level"};
         return levelsFiles;
     }
 
@@ -67,7 +67,7 @@ public class KirbyGame extends ScrollerGame {
 
     @Override
     protected ScrollingManager setScrollingManager () {
-        return new UniScrollingManager(Direction.LEFT);
+        return new OmniScrollingManager();
     }
 
 
