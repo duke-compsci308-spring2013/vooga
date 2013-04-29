@@ -1,10 +1,17 @@
 package vooga.rts.gamedesign.upgrades;
 
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
+import vooga.rts.util.ReflectionHelper;
 
-
+/**
+*
+* This class represents the upgrade taken place on the InteractiveEntity's
+* max health.
+* 
+* @author Wenshun Liu
+*
+*/
 public class HealthUpgradeNode extends UpgradeNode {
-
     public HealthUpgradeNode (UpgradeTree upgradeTree,
                               String upgradeType,
                               int upgradeValue,
@@ -13,12 +20,15 @@ public class HealthUpgradeNode extends UpgradeNode {
     }
 
     /**
-     * Applies the upgrade to an individual InteractiveEntity by calling
-     * related method.
+     * Applies the upgrade to an InteractiveEntity using reflection helper,
+     * which locates the property to be upgraded and applies the upgrade.
      */
     @Override
-    public void apply (InteractiveEntity requester) {
-        requester.addMaxHealth(getUpgradeValue());
+    public void upgrade (InteractiveEntity requester) {
+    	ReflectionHelper.changeValue("myCurrentHealth", requester,
+    			getUpgradeValue());
+    	ReflectionHelper.changeValue("myMaxHealth", requester,
+    			getUpgradeValue());
     }
 
 }

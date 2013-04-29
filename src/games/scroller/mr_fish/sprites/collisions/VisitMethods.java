@@ -6,6 +6,7 @@ import games.scroller.mr_fish.sprites.FishLib.Shark;
 import games.scroller.mr_fish.sprites.player.MrFish;
 import util.Vector;
 import vooga.scroller.collision_manager.CollisionDirection;
+import vooga.scroller.collision_manager.VisitLibrary;
 import vooga.scroller.extra_resources.inventory.Item;
 import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
 import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
@@ -24,7 +25,7 @@ import vooga.scroller.util.Direction;
  * @author Jay Wang
  *
  */
-public class VisitMethods {
+public class VisitMethods extends VisitLibrary{
 
     private CollisionDirection direction = new CollisionDirection();
 

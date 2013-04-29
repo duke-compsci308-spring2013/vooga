@@ -2,121 +2,193 @@ package vooga.rts.gui.menus;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
-import javax.imageio.ImageIO;
+import util.Location;
 import vooga.rts.commands.ClickCommand;
 import vooga.rts.commands.Command;
+import vooga.rts.commands.InformationCommand;
 import vooga.rts.commands.PositionCommand;
+import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 import vooga.rts.gui.Button;
 import vooga.rts.gui.Menu;
 import vooga.rts.gui.Window;
 import vooga.rts.gui.buttons.ImageButton;
-import vooga.rts.gui.buttons.MainMenuButton;
-import vooga.rts.resourcemanager.ResourceManager;
-import vooga.rts.util.Location;
+import vooga.rts.gui.menus.gamesubmenus.ActionsSubMenu;
+import vooga.rts.gui.menus.gamesubmenus.InfoSubMenu;
+import vooga.rts.gui.menus.gamesubmenus.MiniMapSubMenu;
+import vooga.rts.gui.menus.gamesubmenus.SubMenu;
+import vooga.rts.manager.Manager;
 
 
 public class GameMenu extends Menu {
 
-    private static final String BG_IMAGE_LOCATION = "images/gamemenu/menu_bg.png";
-    private static final String EXIT_IMAGE_LOCATION = "images/gamemenu/menu_button.png";
-    private static final String ACTION_IMAGE_LOCATION = "images/gamemenu/action_button.png";
-    private BufferedImage myBGImage;
-    private static final Dimension ACTION_BUTTON_DIMENSION = new Dimension(50, 50);
+    // Image paths
+    private static final String EXIT_IMAGE_URL = "images/gamemenu/menu_button.png";
+    private static final String MINIMAP_IMAGE_URL = "images/gamemenu/menu_minimap.png";
+    private static final String INFO_IMAGE_URL = "images/gamemenu/menu_info.png";
+    private static final String ACTIONS_IMAGE_URL = "images/gamemenu/menu_actions.png";
 
+    // Dimensions
     private static final Dimension EXIT_BUTTON_DIMENSION = new Dimension(200, 40);
+    private static final Dimension MINIMAP_DIMENSION = new Dimension(206, 206);
+
+    private static final Dimension INFO_DIMENSION = new Dimension(800, 135);
+    private static final Dimension ACTIONS_DIMENSION = new Dimension(360, 175);
+
     private static final Location EXIT_BUTTON_LOCATION =
-            new Location(Window.SCREEN_SIZE.getWidth() - EXIT_BUTTON_DIMENSION.getWidth(), 0);
-    private static final int ACTION_MENU_WIDTH = 350;
-    private static final int ACTION_MENU_HEIGHT = 180;
+            new Location(Window.D_X - EXIT_BUTTON_DIMENSION.getWidth(), 0);
+    private static final Location MINIMAP_LOCATION = new Location(0,
+                                                                  Window.D_Y -
+                                                                          MINIMAP_DIMENSION
+                                                                                  .getHeight());
+    private static final Location INFO_LOCATION = new Location(MINIMAP_LOCATION.getX() +
+                                                               MINIMAP_DIMENSION.getWidth(),
+                                                               Window.D_Y -
+                                                                       INFO_DIMENSION
+                                                                               .getHeight());
+    private static final Location ACTIONS_LOCATION = new Location(INFO_LOCATION.getX() +
+                                                                  INFO_DIMENSION.getWidth(),
+                                                                  Window.D_Y -
+                                                                          ACTIONS_DIMENSION
+                                                                                  .getHeight());
+
+    private InteractiveEntity mySelectedEntity;
 
     private Button myExitButton;
-    private ArrayList<Button> myActionButtons;
+
+    private List<SubMenu> mySubMenus;
+    private SubMenu myMiniMapSubMenu;
+    private SubMenu myInfoSubMenu;
+    private SubMenu myActionsSubMenu;
 
     public GameMenu () {
 
-        myBGImage =
-                ResourceManager.getInstance().<BufferedImage> getFile(BG_IMAGE_LOCATION,
-                                                                      BufferedImage.class);
-        setBGImage(myBGImage);
-
-        myExitButton =
-                new ImageButton(EXIT_IMAGE_LOCATION, EXIT_BUTTON_DIMENSION, EXIT_BUTTON_LOCATION);
+        myExitButton = new ImageButton(EXIT_IMAGE_URL, EXIT_BUTTON_DIMENSION, EXIT_BUTTON_LOCATION);
         addButton(myExitButton);
 
-        myActionButtons = new ArrayList<Button>();
-        createActionButtons();
+        mySubMenus = new ArrayList<SubMenu>();
+
+        myMiniMapSubMenu =
+                new MiniMapSubMenu(MINIMAP_IMAGE_URL, MINIMAP_DIMENSION, MINIMAP_LOCATION);
+        addSubMenu(myMiniMapSubMenu);
+
+        myInfoSubMenu = new InfoSubMenu(INFO_IMAGE_URL, INFO_DIMENSION, INFO_LOCATION);
+        addSubMenu(myInfoSubMenu);
+
+        myActionsSubMenu =
+                new ActionsSubMenu(ACTIONS_IMAGE_URL, ACTIONS_DIMENSION, ACTIONS_LOCATION);
+        addSubMenu(myActionsSubMenu);
+
     }
 
-    private void createActionButtons () {
-        int iy = (int) (Window.SCREEN_SIZE.getHeight() - ACTION_MENU_HEIGHT);
-        int ix = (int) (Window.SCREEN_SIZE.getWidth() - ACTION_MENU_WIDTH);
-        int xPadding = 30;
-        int yPadding = 30;
-        int numPerRow = 4;
+    private void addSubMenu (SubMenu m) {
+        mySubMenus.add(m);
+        m.addObserver(this);
+    }
 
-        int ly = iy + yPadding;
-
-        for (int i = 1; i <= numPerRow; i++) {
-            int lx = ix + (int) (ACTION_BUTTON_DIMENSION.getWidth() * (i - 1) + xPadding * i);
-            Button b =
-                    new ImageButton(ACTION_IMAGE_LOCATION, ACTION_BUTTON_DIMENSION,
-                                    new Location(lx, ly));
-            myActionButtons.add(b);
-            addButton(b);
+    public boolean withinBoundary (Command command) {
+        Location l = null;
+        if (command instanceof ClickCommand) {
+            ClickCommand c = (ClickCommand) command;
+            l = c.getPosition();
         }
-        ly += yPadding + ACTION_BUTTON_DIMENSION.getHeight();
-        for (int i = 1; i <= numPerRow; i++) {
-            int lx = ix + (int) (ACTION_BUTTON_DIMENSION.getWidth() * (i - 1) + xPadding * i);
-            Button b =
-                    new ImageButton(ACTION_IMAGE_LOCATION, ACTION_BUTTON_DIMENSION,
-                                    new Location(lx, ly));
-            myActionButtons.add(b);
-            addButton(b);
+        else if (command instanceof PositionCommand) {
+            PositionCommand c = (PositionCommand) command;
+            l = c.getPosition();
         }
-    }
+        if (l == null)
+            return false;
+        for (SubMenu s : mySubMenus) {
+            if (s.checkWithinBounds(l)) { return true; }
+        }
+        for (Button b : myButtons) {
+            if (b.checkWithinBounds(l)) { return true; }
+        }
 
-    public void setResources () {
-
-    }
-
-    public void setSelected () {
-
+        return false;
     }
 
     @Override
-    protected void paintBG (Graphics2D pen) {
-
-        int screenX = (int) Window.SCREEN_SIZE.getWidth();
-        int screenY = (int) Window.SCREEN_SIZE.getHeight();
-
-        int bgImgHeight = myBGImage.getHeight();
-        int bgImgWidth = myBGImage.getWidth();
-
-        int x = 0;
-
-        double xFactor = (double) screenX / (double) bgImgWidth;
-        int newHeight = (int) (xFactor * bgImgHeight);
-        int y = screenY - newHeight;
-
-        pen.drawImage(myImage, x, y, screenX, newHeight, null);
+    public void paint (Graphics2D pen) {
+        super.paint(pen);
+        for (SubMenu s : mySubMenus) {
+            s.paint(pen);
+        }
 
     }
 
     @Override
     public void update (Observable o, Object arg) {
 
-        if (o.equals(myExitButton)) {
-            System.exit(0);
+        if (arg instanceof InformationCommand) {
+            InformationCommand i = (InformationCommand) arg;
+            setChanged();
+            notifyObservers(i);
+
         }
 
-        setChanged();
-        notifyObservers(arg);
+        if (o instanceof Manager) {
+            Boolean b = (Boolean) arg;
+            Manager m = (Manager) o;
+            if (b) {
+                setSelected(m.getSelected());
+            }
+            else {
+                setDeselected();
+            }
+            return;
+        }
+
+        if (o.equals(myExitButton)) {
+            System.exit(0);
+            // setChanged();
+            // notifyObservers();
+        }
+    }
+
+    private void setDeselected () {
+        mySelectedEntity = null;
+        for (SubMenu b : mySubMenus) {
+            b.setSelectedEntity(null);
+        }
+    }
+
+    private void setSelected (List<InteractiveEntity> selected) {
+        if (selected.size() == 0) {
+            return;            
+        }
+        mySelectedEntity = selected.get(0); // The current select method if there is more than
+                                            // one is just to choose the first one
+        for (SubMenu b : mySubMenus) {
+            b.setSelectedEntity(mySelectedEntity);
+        }
+    }
+
+    public void handleMouseDown (int x, int y) {
+        for (SubMenu b : mySubMenus) {
+            if (b.checkWithinBounds(x, y)) {
+                b.processClick(x, y);
+            }
+        }
+        for (Button b : myButtons) {
+            if (b.checkWithinBounds(x, y)) {
+                b.processClick();
+            }
+        }
+    }
+
+    public void handleMouseMovement (int x, int y) {
+        for (SubMenu b : mySubMenus) {
+            if (b.checkWithinBounds(x, y)) {
+                b.processHover(x, y);
+                b.setFocused(true);
+            }
+            else {
+                b.setFocused(false);
+            }
+        }
     }
 
 }

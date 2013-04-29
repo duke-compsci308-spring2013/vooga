@@ -29,7 +29,7 @@ public class MarioCollisions {
     private static final double FRICTION = .5;
     private CollisionDirection direction = new CollisionDirection();
 
-    protected void marioAndLevelPortalCollision (Player player, IDoor levelPortal) {
+    protected void marioAndLevelPortalCollision (IDoor levelPortal) {
         levelPortal.goToNextLevel();
     }
 
@@ -60,23 +60,23 @@ public class MarioCollisions {
                 v.negate();
                 player.addVector(v);
 
-                Vector right = player.getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
-                Vector left = player.getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
-
-                right.negate();
-                right.scale(FRICTION);
-                left.negate();
-                left.scale(FRICTION);
-                player.addVector(right);
-                player.addVector(left);
-
-                Vector sLeft = platform.getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
-                sLeft.scale(FRICTION);
-                Vector sRight = platform.getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
-                sRight.scale(FRICTION);
-
-                player.addVector(sRight);
-                player.addVector(sLeft);
+//                Vector right = player.getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
+//                Vector left = player.getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
+//
+//                right.negate();
+//                right.scale(FRICTION);
+//                left.negate();
+//                left.scale(FRICTION);
+//                player.addVector(right);
+//                player.addVector(left);
+//
+//                Vector sLeft = platform.getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
+//                sLeft.scale(FRICTION);
+//                Vector sRight = platform.getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
+//                sRight.scale(FRICTION);
+//
+//                player.addVector(sRight);
+//                player.addVector(sLeft);
 
                 break;
             case BOTTOM:

@@ -1,6 +1,9 @@
 package vooga.scroller.kirbyGame;
 
 
+import vooga.scroller.kirbyGame.KirbyGame;
+import vooga.scroller.kirbyGame.splash_page.KirbySplashPage;
+import vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib;
 import java.awt.Dimension;
 import arcade.games.ArcadeInteraction;
 import arcade.games.GameData;
@@ -33,7 +36,7 @@ public class KirbyGame extends ScrollerGame {
     // constants
     public static final String TITLE = "Kirby Demo";
     public static final String LEVELS_DIR = "src/vooga/scroller/kirbyGame/sampleLevels/";
-    public static final String SPLASH_DIR = "MARIO SPLASH.png";
+    public static final String SPLASH_DIR = "KirbySplash.png";
 
 
     /**
@@ -99,7 +102,7 @@ public class KirbyGame extends ScrollerGame {
 
     @Override
     protected SplashPage setSplashPage () {
-        return new MarioSplashPage(MarioLib.makePixmap("MARIO SPLASH.png"), 0, getDisplay(), getScrollingManager());
+        return new KirbySplashPage(KirbyLib.makePixmap("KirbySplash.png"), 0, getDisplay(), getScrollingManager());
     }
 
 

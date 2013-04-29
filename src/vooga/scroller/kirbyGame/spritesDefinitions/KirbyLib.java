@@ -69,7 +69,6 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
         public void addTarget(Locatable target){
             movement.setTarget(target);
         }
-
     }
 
     

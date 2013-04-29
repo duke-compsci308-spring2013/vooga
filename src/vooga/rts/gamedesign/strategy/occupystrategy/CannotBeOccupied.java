@@ -1,11 +1,13 @@
 package vooga.rts.gamedesign.strategy.occupystrategy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import vooga.rts.action.InteractiveAction;
 import vooga.rts.commands.Command;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Unit;
+import vooga.rts.gamedesign.strategy.Strategy;
 
 
 /**
@@ -24,11 +26,6 @@ public class CannotBeOccupied implements OccupyStrategy{
 	public CannotBeOccupied(){
 		
 	}
-	
-	
-	public void addValidClassType(Unit u) {
-		return;
-	}
 
 	@Override
 	public void setOccupierID(int id) {
@@ -37,7 +34,7 @@ public class CannotBeOccupied implements OccupyStrategy{
 
 	@Override
 	public List<Integer> getOccupiers() {
-		return null;
+		return new ArrayList<Integer>();
 	}
 
 	@Override
@@ -55,10 +52,12 @@ public class CannotBeOccupied implements OccupyStrategy{
 		
 	}
 
-	@Override
 	public void getOccupied(InteractiveEntity entity, Unit u) {
-		// TODO Auto-generated method stub
-		
+		return;
+	}
+
+	public void affect(InteractiveEntity entity) {
+		entity.setOccupyStrategy(this);
 	}
 
 

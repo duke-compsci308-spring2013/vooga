@@ -1,11 +1,5 @@
 package vooga.fighter.model.objects;
 
-import util.Location;
-import util.Pixmap;
-import vooga.fighter.model.loaders.ObjectLoader;
-import vooga.fighter.model.utils.ImageDataObject;
-import vooga.fighter.model.utils.State;
-import vooga.fighter.model.utils.UpdatableLocation;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -13,6 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import util.Location;
+import util.Pixmap;
+import vooga.fighter.model.loaders.ObjectLoader;
+import vooga.fighter.model.utils.ImageDataObject;
+import vooga.fighter.model.utils.State;
+import vooga.fighter.model.utils.UpdatableLocation;
 
 /**
  * Represents a single object in the game.
@@ -30,8 +30,8 @@ public abstract class GameObject {
     private State myDefaultState;
     private String myDefaultStateKey;
     private ImageDataObject myImageData;
-    private Map<String,State> myStates;
-    private Map<String,Integer> myProperties;
+    private Map<String, State> myStates;
+    private Map<String, Integer> myProperties;
     private List<Integer> myImageEffects;
     private boolean myRemoveState;
     
@@ -41,9 +41,9 @@ public abstract class GameObject {
      */
     public GameObject() {
         myInstanceId = System.currentTimeMillis();
-    	myImageEffects = new ArrayList<Integer>();
-        myStates = new HashMap<String,State>();
-        myProperties = new HashMap<String,Integer>();
+        myImageEffects = new ArrayList<Integer>();
+        myStates = new HashMap<String, State>();
+        myProperties = new HashMap<String, Integer>();
         myLoader = null;
         myCurrentState = null;
         myCurrentStateKey = null;
@@ -52,9 +52,11 @@ public abstract class GameObject {
         myImageData = null;
         myRemoveState = false;
         try {
+            // to prevent repetition of instance ids
             Thread.sleep(1);
-        } catch (InterruptedException e) {
-            
+        }
+        catch (InterruptedException e) {
+            return;
         }
     }
     
@@ -68,9 +70,10 @@ public abstract class GameObject {
 
     /**
      * Sets game object's center.
+     * @param location is the new location
      */
-    public void setLocation(UpdatableLocation ul) {
-        myCenter = ul;
+    public void setLocation(UpdatableLocation location) {
+        myCenter = location;
     }
 
     /**
@@ -83,6 +86,8 @@ public abstract class GameObject {
     
     /**
      * Adds a property for this object. Overwrites any existing value.
+     * @param key is the String name of the property
+     * @param value is the int value of the property
      */
     public void addProperty(String key, int value) {
         myProperties.put(key, value);
@@ -90,11 +95,13 @@ public abstract class GameObject {
 
     /**
      * Returns a property for this object. Returns -1 if property does not exist.
+     * @param key is the property to get
      */
     public int getProperty(String key) {
         if (myProperties.containsKey(key)) {
             return myProperties.get(key);
-        } else {
+        }
+        else {
             return -1;
         }
     }
@@ -108,6 +115,8 @@ public abstract class GameObject {
     
     /**
      * Adds a state for this object. Overwrites any existing value.
+     * @param key is the name of the state
+     * @param value is the actual state
      */
     public void addState(String key, State value) {
         myStates.put(key, value);
@@ -115,11 +124,13 @@ public abstract class GameObject {
     
     /**
      * Returns a state for this object. Returns null if it doesn't exist.
+     * @param key is the name of the state
      */
     public State getState(String key) {
         if (myStates.containsKey(key)) {
             return myStates.get(key);
-        } else {
+        }
+        else {
             return null;
         }
     }
@@ -127,6 +138,7 @@ public abstract class GameObject {
     /**
      * Sets the current state for this object. Resets the current state after
      * switching.
+     * @param key is the state to set as current
      */
     public void setCurrentState(String key) {
         myCurrentState = getState(key);
@@ -138,11 +150,12 @@ public abstract class GameObject {
      * Sets the current state to the default state.
      */
     public void setToDefaultState() {
-    	setCurrentState(getDefaultStateKey());
+        setCurrentState(getDefaultStateKey());
     }
     
     /**
      * Sets the default state for this object.
+     * @param key is the name of the state to set at default
      */
     public void defineDefaultState(String key) {
         myDefaultState = getState(key);
@@ -179,6 +192,7 @@ public abstract class GameObject {
     
     /**
      * Sets the object loader for this object.
+     * @param loader is the object loader to set for this object
      */
     public void setLoader(ObjectLoader loader) {
         myLoader = loader;
@@ -201,15 +215,18 @@ public abstract class GameObject {
         Dimension myCurrentSize = myCurrentState.getCurrentSize();
         Location myCurrentLocation = myCenter.getLocation();
         if (!(myCurrentSize == null || myCurrentImage == null || myCenter == null)) {
-        	myImageData = new ImageDataObject(myCurrentImage, myCurrentLocation, myCurrentSize, myImageEffects);
+            myImageData = new ImageDataObject(myCurrentImage, myCurrentLocation,
+                                              myCurrentSize, myImageEffects);
         }
     }
     
     /**
      * Sets image data to the information from an ImageDataObject
+     * @param image is the image data object to set
      */
-    public void setImageData(ImageDataObject image){
-    	myImageData= new ImageDataObject(image.getImage(), image.getLocation(),image.getSize(), image.getImageEffect() );
+    public void setImageData(ImageDataObject image) {
+        myImageData = new ImageDataObject(image.getImage(), image.getLocation(),
+                                          image.getSize(), image.getImageEffect());
     }
     
     /**
@@ -224,7 +241,7 @@ public abstract class GameObject {
      * necessary, but all overrides should first call superclass method.
      */
     public void update() {
-    	setImageData();
+        setImageData();
         if (myCenter != null) {
             myCenter.update();
         }
@@ -258,6 +275,7 @@ public abstract class GameObject {
     
     /**
      * Returns true if this object is colliding with another.
+     * @param other is the other game object to check collisions with
      */
     public boolean checkCollision(GameObject other) {
         Rectangle thisRect = getCurrentState().getCurrentRectangle(); 
@@ -268,7 +286,7 @@ public abstract class GameObject {
     /**
      * Returns the map of states for this object.
      */
-    public Map<String,State> getStates(){
+    public Map<String, State> getStates() {
         return myStates;
     }
     
@@ -276,27 +294,31 @@ public abstract class GameObject {
      * Indicates whether or not the object is ready to be removed.
      */
     public boolean shouldBeRemoved() {
-    	return myRemoveState;
+        return myRemoveState;
     }
     
     /**
      * Sets the removeState of this object
+     * @param remove is the new remove state of the object
      */
-    public void setRemoveState(boolean bool) {
-    	myRemoveState = bool;
+    public void setRemoveState(boolean remove) {
+        myRemoveState = remove;
     }
     
     /**
      * Checks if this object is equal to another by using the instance id.
+     * @param o is the object to check equality with
      */
-    public boolean equals(Object o) {
+    @Override
+	public boolean equals(Object o) {
         if (o == null) {
             return false;
         }
         GameObject other;
         if (o instanceof GameObject) {
             other = (GameObject) o;
-        } else {
+        }
+        else {
             return false;
         }        
         return myInstanceId == other.getInstanceId();
@@ -305,7 +327,7 @@ public abstract class GameObject {
     /**
      * Returns hashcode for the game object by casting instance id to int.
      */
-    public int hashcode() {
+    public int hashCode() {
         return (int) myInstanceId;
     }
     
