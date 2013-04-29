@@ -2,6 +2,7 @@ package vooga.scroller.kirbyGame.spritesDefinitions.players.states;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import util.Vector;
 import vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.Kirby;
 import vooga.scroller.sprites.Sprite;
@@ -24,7 +25,8 @@ public class WalkLeftFullState extends SpriteState<Sprite>{
 
     @Override
     public void update (double elapsedTime, Dimension bounds) {
-        // TODO Auto-generated method stub
+
+        
         
     }
 
@@ -42,13 +44,19 @@ public class WalkLeftFullState extends SpriteState<Sprite>{
 
     @Override
     public void activate () {
-        myKirby.setStateID(STATE_ID);
+        myKirby.setStateID(STATE_ID);        
+        Vector component = getUnit().getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
+        component.negate();
+        getUnit().addVector(component);
+        getUnit().addVector(new Vector(Sprite.LEFT_DIRECTION, 40));
         
     }
 
     @Override
     public void deactivate () {
-        getUnit().setView(KirbyLib.makePixmap("kw3l.png"));
+        Vector component = getUnit().getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
+        component.negate();
+        getUnit().addVector(component);  
     }
 
 }

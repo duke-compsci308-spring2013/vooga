@@ -6,14 +6,18 @@ import util.Location;
 import util.Vector;
 import util.input.InputClassTarget;
 import util.input.InputMethodTarget;
+import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
 import vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.ConsumeState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.FloatLeftState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.FloatRightState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.InhaleLeftState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.InhaleRightState;
+import vooga.scroller.kirbyGame.spritesDefinitions.players.states.KirbyLaserWalkLeftState;
+import vooga.scroller.kirbyGame.spritesDefinitions.players.states.KirbyLaserWalkRightState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.WalkLeftFullState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.WalkRightFullState;
+
 import vooga.scroller.level_editor.Level;
 import vooga.scroller.level_management.IInputListener;
 import vooga.scroller.scrollingmanager.ScrollingManager;
@@ -61,14 +65,23 @@ public class Kirby extends Player implements IInputListener{
 
     private int myJumpCount;
     private Gravity myGravity;
+    private IEnemy consumedEnemy;
 
+
+    public boolean isConsumedEnemy () {
+        return (consumedEnemy != null);
+    }
+
+    public void setConsumedEnemy (IEnemy consumedEnemy) {
+        this.consumedEnemy = consumedEnemy;
+    }
 
     public Kirby (Location center, Dimension size, GameView gameView, ScrollingManager sm) {
         super(DEFAULT_IMAGE, center, size, gameView, sm, new Integer(1), new Integer (1));
         //MarioLib.addLeftRightAnimationToPlayer(this, "mario.gif");
         myJumpCount = 0;
         myGravity = new Gravity(this);
-
+        consumedEnemy = null;
 
         intializeStates();
 
@@ -87,6 +100,9 @@ public class Kirby extends Player implements IInputListener{
         this.addPossibleState(WalkLeftFullState.STATE_ID, new WalkLeftFullState(this));
         this.addPossibleState(WalkRightFullState.STATE_ID, new WalkRightFullState(this));
         this.addPossibleState(ConsumeState.STATE_ID, new ConsumeState(this));
+        this.addPossibleState(KirbyLaserWalkLeftState.STATE_ID, new KirbyLaserWalkLeftState(this));
+        this.addPossibleState(KirbyLaserWalkRightState.STATE_ID, new KirbyLaserWalkRightState(this));
+
 
 
     }
@@ -137,11 +153,11 @@ public class Kirby extends Player implements IInputListener{
     @InputMethodTarget(name = "leftstart")
     public void walkLeft() {
         
-//        if (this.getCurrentStateID() == InhaleRightState.STATE_ID || this.getCurrentStateID() == WalkRightFullState.STATE_ID) {
-//            this.activateState(WalkLeftFullState.STATE_ID);
-//        }
+        if (isConsumedEnemy()) {
+            this.activateState(WalkLeftFullState.STATE_ID);
+        }
         
-        if(this.getCurrentStateID() == FloatRightState.STATE_ID) {
+        else if(this.getCurrentStateID() == FloatRightState.STATE_ID) {
             this.deactivateState(getCurrentStateID());
             this.activateState(FloatLeftState.STATE_ID);
         } 
@@ -153,17 +169,18 @@ public class Kirby extends Player implements IInputListener{
     @InputMethodTarget(name = "leftend")
     public void stopLeft() {        
         this.deactivateState(MoveLeft.STATE_ID);
+        this.deactivateState(WalkLeftFullState.STATE_ID);
     }
     
 
     @InputMethodTarget(name = "rightstart")
     public void walkRight() {
+
+        if (isConsumedEnemy()) {
+            this.activateState(WalkRightFullState.STATE_ID);
+        }
         
-//        if (this.getCurrentStateID() == InhaleLeftState.STATE_ID || this.getCurrentStateID() == WalkLeftFullState.STATE_ID) {
-//            this.activateState(WalkRightFullState.STATE_ID);
-//        }
-        
-        if (this.getCurrentStateID() == FloatLeftState.STATE_ID) {
+        else if (this.getCurrentStateID() == FloatLeftState.STATE_ID) {
             this.deactivateState(getCurrentStateID());
             this.activateState(FloatRightState.STATE_ID);
         }
@@ -175,6 +192,8 @@ public class Kirby extends Player implements IInputListener{
     @InputMethodTarget(name = "rightend")
     public void stopRight() {
         this.deactivateState(MoveRight.STATE_ID);
+        this.deactivateState(WalkRightFullState.STATE_ID);
+
     }
 
     @InputMethodTarget(name = "jumpstart")
@@ -186,15 +205,15 @@ public class Kirby extends Player implements IInputListener{
 
     @InputMethodTarget(name = "inhalestart")
     public void startInhale() {
-        
+                
         System.out.println("Current StateID: " + getCurrentStateID() + " MoveRight stateid: " + MoveRight.STATE_ID + " MoveLeft stateid: " + MoveLeft.STATE_ID);
 
-        if (getCurrentStateID() == MoveLeft.STATE_ID) {
+        if (getCurrentStateID() == MoveLeft.STATE_ID || getCurrentStateID() == InhaleLeftState.STATE_ID) {
             this.activateState(InhaleLeftState.STATE_ID);
             return;
         }
         
-        if (getCurrentStateID() == MoveRight.STATE_ID) {
+        if (getCurrentStateID() == MoveRight.STATE_ID || getCurrentStateID() == InhaleRightState.STATE_ID) {
             this.activateState(InhaleRightState.STATE_ID);
             return;
         }
@@ -233,8 +252,36 @@ public class Kirby extends Player implements IInputListener{
     }
     
 
+    @InputMethodTarget(name = "consumestart")
+    public void startConsumeState() {
+        if (isConsumedEnemy()) {
+            this.activateState(ConsumeState.STATE_ID);
+        }
+
+    }
+    
+    @InputMethodTarget(name = "consumestop")
+    public void stopConsumeState() {
+        this.deactivateState(ConsumeState.STATE_ID);
+        if (consumedEnemy instanceof KirbyLib.LaserEnemy) {
+            this.activateState(KirbyLaserWalkRightState.STATE_ID);
+        }
+        consumedEnemy = null; 
+
+    }
+    
+    
+    
 
 
+    public void startFullState() {
+        if (getCurrentStateID() == InhaleLeftState.STATE_ID) {
+            this.activateState(WalkLeftFullState.STATE_ID);
+        }
+        else {
+            this.activateState(WalkRightFullState.STATE_ID);
+        }
+    }
 
     public void incrementScore (int increment) {
         // TODO Auto-generated method stub

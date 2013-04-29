@@ -6,17 +6,18 @@ import util.Vector;
 import vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.Kirby;
 import vooga.scroller.sprites.Sprite;
-
+import vooga.scroller.sprites.animation.movement.MoveLeft;
+import vooga.scroller.sprites.animation.state_movement.MoveLeftState;
 import vooga.scroller.sprites.state.SpriteState;
 
-public class WalkRightFullState extends SpriteState<Sprite>{
+public class KirbyLaserWalkLeftState extends SpriteState<Sprite>{
 
-    private static final String DEFAULT_IMG = "kirbywalkfullR.gif";
-    public static int STATE_ID = 9;
+    private static final String DEFAULT_IMG = "kirbylaserswalkL.gif";
+    public static int STATE_ID = 11;
     private Kirby myKirby;
 
 
-    public WalkRightFullState (Sprite unit) {
+    public KirbyLaserWalkLeftState (Sprite unit) {
         super(unit);
         myKirby = (Kirby) unit;
         // TODO Auto-generated constructor stub
@@ -24,7 +25,9 @@ public class WalkRightFullState extends SpriteState<Sprite>{
 
     @Override
     public void update (double elapsedTime, Dimension bounds) {
-   
+
+        
+        
     }
 
     @Override
@@ -42,18 +45,17 @@ public class WalkRightFullState extends SpriteState<Sprite>{
     @Override
     public void activate () {
         myKirby.setStateID(STATE_ID);        
-        Vector component = getUnit().getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
+        Vector component = getUnit().getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
         component.negate();
         getUnit().addVector(component);
-        getUnit().addVector(new Vector(Sprite.RIGHT_DIRECTION, 40));
+        getUnit().addVector(new Vector(Sprite.LEFT_DIRECTION, 40));
         
     }
 
     @Override
     public void deactivate () {
-        Vector component = getUnit().getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
+        Vector component = getUnit().getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
         component.negate();
-        getUnit().addVector(component);
-    }
+        getUnit().addVector(component);    }
 
 }

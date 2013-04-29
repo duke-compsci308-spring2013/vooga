@@ -40,6 +40,10 @@ public class KirbyVisitMethods extends VisitLibrary {
     public void visit (Kirby kirby, LaserEnemy laserEnemy) {
         if (kirby.getCurrentStateID() == InhaleLeftState.STATE_ID || kirby.getCurrentStateID() == InhaleRightState.STATE_ID) {
             //kirby consumes enemy
+            laserEnemy.takeHit(kirby.getHit());
+            kirby.setConsumedEnemy(laserEnemy);
+            kirby.startFullState();
+            
         }
         
         else {
