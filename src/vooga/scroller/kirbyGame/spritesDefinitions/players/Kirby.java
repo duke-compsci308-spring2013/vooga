@@ -137,11 +137,11 @@ public class Kirby extends Player implements IInputListener{
     @InputMethodTarget(name = "leftstart")
     public void walkLeft() {
         
-        if (this.getCurrentStateID() == InhaleRightState.STATE_ID || this.getCurrentStateID() == WalkRightFullState.STATE_ID) {
-            this.activateState(WalkLeftFullState.STATE_ID);
-        }
+//        if (this.getCurrentStateID() == InhaleRightState.STATE_ID || this.getCurrentStateID() == WalkRightFullState.STATE_ID) {
+//            this.activateState(WalkLeftFullState.STATE_ID);
+//        }
         
-        else if(this.getCurrentStateID() == FloatRightState.STATE_ID) {
+        if(this.getCurrentStateID() == FloatRightState.STATE_ID) {
             this.deactivateState(getCurrentStateID());
             this.activateState(FloatLeftState.STATE_ID);
         } 
@@ -159,11 +159,11 @@ public class Kirby extends Player implements IInputListener{
     @InputMethodTarget(name = "rightstart")
     public void walkRight() {
         
-        if (this.getCurrentStateID() == InhaleLeftState.STATE_ID || this.getCurrentStateID() == WalkLeftFullState.STATE_ID) {
-            this.activateState(WalkRightFullState.STATE_ID);
-        }
+//        if (this.getCurrentStateID() == InhaleLeftState.STATE_ID || this.getCurrentStateID() == WalkLeftFullState.STATE_ID) {
+//            this.activateState(WalkRightFullState.STATE_ID);
+//        }
         
-        else if (this.getCurrentStateID() == FloatLeftState.STATE_ID) {
+        if (this.getCurrentStateID() == FloatLeftState.STATE_ID) {
             this.deactivateState(getCurrentStateID());
             this.activateState(FloatRightState.STATE_ID);
         }

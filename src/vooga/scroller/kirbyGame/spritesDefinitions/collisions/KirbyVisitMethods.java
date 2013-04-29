@@ -4,7 +4,10 @@ import vooga.scroller.collision_manager.VisitLibrary;
 import vooga.scroller.extra_resources.sprite_interfaces.ICollectible;
 import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
 import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
+import vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib.LaserEnemy;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.Kirby;
+import vooga.scroller.kirbyGame.spritesDefinitions.players.states.InhaleLeftState;
+import vooga.scroller.kirbyGame.spritesDefinitions.players.states.InhaleRightState;
 import vooga.scroller.marioGame.spritesDefinitions.players.Mario;
 import vooga.scroller.sprites.interfaces.IDoor;
 import vooga.scroller.sprites.superclasses.Player;
@@ -31,6 +34,17 @@ public class KirbyVisitMethods extends VisitLibrary {
     
     public void visit (Kirby kirby, IPlatform platform) {
         collisions.kirbyAndPlatformCollision(kirby, platform);
+    }
+    
+    
+    public void visit (Kirby kirby, LaserEnemy laserEnemy) {
+        if (kirby.getCurrentStateID() == InhaleLeftState.STATE_ID || kirby.getCurrentStateID() == InhaleRightState.STATE_ID) {
+            //kirby consumes enemy
+        }
+        
+        else {
+            //enemy hurts kirby 
+        }
     }
     
 }
