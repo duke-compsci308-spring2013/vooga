@@ -2,12 +2,14 @@ package vooga.scroller.marioGame.spritesDefinitions;
 
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
+import vooga.scroller.collision_manager.VisitLibrary;
 import vooga.scroller.extra_resources.sprite_interfaces.ICollectible;
 import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
 import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
 import vooga.scroller.level_editor.Level;
 import vooga.scroller.level_editor.library.EncapsulatedSpriteLibrary;
 import vooga.scroller.level_management.LevelPortal;
+import vooga.scroller.marioGame.spritesDefinitions.collisions.MarioVisitMethods;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.animation.Animation;
 import vooga.scroller.sprites.animation.MovingSpriteAnimationFactory;
@@ -245,6 +247,11 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
                 new MovingSpriteAnimationFactory(getImagesDirectory(), baseFileName);
         Animation<Sprite> playerAnimation = msaf.generateAnimation(player);
         player.setView(playerAnimation);
+    }
+
+    @Override
+    public VisitLibrary getVisitLibrary () {
+        return new MarioVisitMethods();
     }
 
 }

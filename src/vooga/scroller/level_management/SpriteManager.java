@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import vooga.scroller.collision_manager.CollisionManager;
 import vooga.scroller.level_editor.Level;
-import vooga.scroller.marioGame.MarioGame;
-import vooga.scroller.model.ScrollerGame;
+import vooga.scroller.model.Model;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.superclasses.GameCharacter;
 import vooga.scroller.sprites.superclasses.Player;
@@ -29,7 +28,8 @@ public class SpriteManager {
     private Player myPlayer;
     private Dimension myFramceOfReferenceSize;
     private Level myLevel;
-    private CollisionManager myCollisionManager;
+//    private CollisionManager myCollisionManager;
+    private Model myModel;
 
 
     /**
@@ -42,7 +42,18 @@ public class SpriteManager {
         myLevel = level;
         mySprites = new ArrayList<Sprite>();
         initFrames();
-        myCollisionManager = new CollisionManager(ScrollerGame.getVisitMethods());
+    }
+    
+    /**
+     * Constructor registering the model (to specify and delegate collisions handling)
+     * @param m
+     * @param level
+     */
+    public SpriteManager (Model m, Level level) {
+        myLevel = level;
+        myModel = m;
+        mySprites = new ArrayList<Sprite>();
+        initFrames();
     }
 
     private void initFrames () {
@@ -179,11 +190,15 @@ public class SpriteManager {
                 obj1 = mySprites.get(i);
                 obj2 = mySprites.get(j);
                 if (obj1.intersects(obj2)) {
-                    myCollisionManager.handleCollision(obj1, obj2);
+                    getCollisionManager().handleCollision(obj1, obj2);
                 }
             }
         }
         mySprites.remove(mySprites.size() - 1);
+    }
+
+    private CollisionManager getCollisionManager () {
+        return myModel.getCollisionManager();
     }
 
     private void updateFrameOfActionSprites (Sprite sprite, Dimension frame) {

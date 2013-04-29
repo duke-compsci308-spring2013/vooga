@@ -4,9 +4,12 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
+import vooga.scroller.collision_manager.CollisionManager;
+import vooga.scroller.collision_manager.VisitLibrary;
 import vooga.scroller.level_editor.Level;
 import vooga.scroller.level_management.LevelManager;
 import vooga.scroller.level_management.splash_page.SplashPage;
+import vooga.scroller.marioGame.spritesDefinitions.collisions.MarioVisitMethods;
 import vooga.scroller.scrollingmanager.ScrollingManager;
 import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.util.Renderable;
@@ -31,6 +34,7 @@ public class Model implements Renderable<Gaming> {
     private Player myPlayer;
     private LevelManager myLevelManager;
     private ScrollingManager myScrollingManager;
+    private CollisionManager myCollisionManager;
 
     /**
      * Constructs a new Model based on the view and the scrolling manager used by the game.
@@ -47,6 +51,23 @@ public class Model implements Renderable<Gaming> {
                   Level ... levels) {
         this(gameView, sm, player);
         myLevelManager = initializeLevelManager(splashPage, player, levels);
+    }
+    
+    public Model (GameView gameView,
+                  ScrollingManager sm,
+                  SplashPage splashPage,
+                  Level ... levels) {
+        this(gameView, sm);
+        setGameComponents(splashPage, levels);
+    }
+
+    /**
+     * Define the game flow
+     * @param splashPage
+     * @param levels
+     */
+    public void setGameComponents (SplashPage splashPage, Level... levels) {
+        myLevelManager = new LevelManager(this, splashPage, levels);
     }
 
     /**
@@ -72,9 +93,40 @@ public class Model implements Renderable<Gaming> {
     // }
 
     private Model (GameView gameView, ScrollingManager sm, Player player) {
+        this(gameView, sm);
+        addPlayer(player);
+    }
+    
+    public void addPlayer (Player player) {
+        myPlayer = player;
+        player.setModel(this);
+        addPlayerToLevel();
+    }
+
+    /**
+     * Minimal constructor.
+     * Need to use set GameComponents soon after
+     * @param gameView
+     * @param sm
+     */
+    public Model (GameView gameView, ScrollingManager sm) {
         myView = gameView;
         setScrollingManager(sm);
-        myPlayer = player;
+//        myCollisionManager = new CollisionManager(ScrollerGame.getVisitMethods());
+    }
+
+    public Model (GameView myDisplay,
+                  ScrollingManager myScrollingManager2,
+                  Player myPlayer2,
+                  VisitLibrary myVisitLibrary,
+                  SplashPage mySplashPage,
+                  String[] myLevelsFilePaths) {
+        this(myDisplay, myScrollingManager2, myPlayer2, mySplashPage, myLevelsFilePaths);
+        initializeCollisionManager(myVisitLibrary);
+    }
+
+    public void initializeCollisionManager (VisitLibrary myVisitLibrary) {
+        myCollisionManager = new CollisionManager(new MarioVisitMethods()); //TODO
     }
 
     /**
@@ -162,5 +214,21 @@ public class Model implements Renderable<Gaming> {
     @Override
     public Renderer<Gaming> initializeRenderer (IView<?> parent) {
         return myView;
+    }
+
+    public GameView getView () {
+        return myView;
+    }
+
+    public ScrollingManager getScrollingManager () {
+        return myScrollingManager;
+    }
+
+    public CollisionManager getCollisionManager () {
+        return myCollisionManager;
+    }
+
+    public LevelManager getLevelManager () {
+        return myLevelManager;
     }
 }

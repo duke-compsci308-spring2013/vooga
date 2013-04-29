@@ -11,6 +11,7 @@ import vooga.scroller.level_editor.controllerSuite.LEGrid;
 import vooga.scroller.level_editor.model.LevelParser;
 import vooga.scroller.level_management.splash_page.SplashPage;
 import vooga.scroller.marioGame.spritesDefinitions.MarioLib;
+import vooga.scroller.model.Model;
 import vooga.scroller.scrollingmanager.ScrollingManager;
 import vooga.scroller.util.IGameComponent;
 import vooga.scroller.util.Pixmap;
@@ -31,22 +32,27 @@ public class LevelFactory {
     private LevelManager myLevelManager;
 //    private LevelParser myLevelReader;
     private ScrollingManager mySM;
-    private GameView myView;
+    private Model myModel;
 
-    public LevelFactory (LevelManager lm, ScrollingManager sm, GameView gameView) {
+    public LevelFactory (LevelManager lm, Model m) {
         myLevelManager = lm;
-        mySM = sm;
-        myView = gameView;
+        mySM = m.getScrollingManager();
     }
     
 
-    public static Level buildLevel (int id, ScrollingManager sm, LEGrid grid) {
-        Level result = new Level(id, sm, grid);
+    public LevelFactory (LevelManager levelManager, ScrollingManager sm, GameView gameView) {
+        myLevelManager = levelManager;
+        mySM = sm;
+    }
+
+
+    public static Level buildLevel (int id, Model m, LEGrid grid) {
+        Level result = new Level(id, m, grid);
         return result;
     }
     
     private Level buildLevel (int id, LEGrid grid) {
-        return buildLevel(id, mySM, grid);
+        return buildLevel(id, myModel, grid);
     }
 
     /**
@@ -87,10 +93,10 @@ public class LevelFactory {
         return result;
     }
     
-    public static Level[] generateLevels (ScrollingManager sm, String[] levelFileNames) {
+    public static Level[] generateLevels (Model m, String[] levelFileNames) {
         Level[] levels = new Level[levelFileNames.length];
         for (int i=0; i<levelFileNames.length; i++) {
-             Level curr = buildLevel(i+1, sm, loadGridFromFile(levelFileNames[i]));
+             Level curr = buildLevel(i+1, m, loadGridFromFile(levelFileNames[i]));
              levels[i]=curr;
         }
 

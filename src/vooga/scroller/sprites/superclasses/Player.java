@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import util.Location;
 import vooga.scroller.level_management.IInputListener;
+import vooga.scroller.model.Model;
 import vooga.scroller.scrollingmanager.ScrollingManager;
 import vooga.scroller.sprites.interfaces.Locatable;
 import vooga.scroller.util.IGameComponent;
@@ -27,10 +28,33 @@ public abstract class Player extends GameCharacter implements IInputListener, Lo
 
     public Player (ISpriteView image, Dimension size, GameView gameView,
                    ScrollingManager sm, int health, int damage) {
-        super(image, size, health, damage);
+        this(image, size, health, damage);
         myView = gameView;
         myPaintCenter = new Location(myView.getWidth() / 2, myView.getHeight() / 2);
         myScrollingManager = sm;
+    }
+    
+    public Player (ISpriteView image, Dimension size, int health, int damage, Model model) {
+        this(image, size, health, damage);
+        setModel(model);
+    }
+    
+    /**
+     * This is the minimal constructor. Make sure to set the model at some point when 
+     * using this constructor
+     * @param image
+     * @param size
+     * @param health
+     * @param damage
+     */
+    public Player (ISpriteView image, Dimension size, int health, int damage) {
+        super(image, size, health, damage);
+    }
+    
+    public void setModel(Model model) {
+        myView = model.getView();
+        myScrollingManager = model.getScrollingManager();
+        myPaintCenter = new Location(myView.getWidth() / 2, myView.getHeight() / 2);
     }
 
     @Override

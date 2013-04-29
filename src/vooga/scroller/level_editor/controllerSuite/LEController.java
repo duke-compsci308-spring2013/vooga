@@ -1,7 +1,5 @@
 package vooga.scroller.level_editor.controllerSuite;
 
-import games.scroller.marioGame.spritesDefinitions.players.Mario;
-import java.awt.Dimension;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,6 +65,7 @@ public class LEController implements IController<LevelEditing> {
     public static final int MIN_SPRITE_GRID_SIZE = 20;
     public static final int MAX_SPRITE_GRID_SIZE = 1000;
     private Player mySamplePlayer;
+    private ISpriteLibrary mySpriteLibrary;
 
     /**
      * Preferred constructor, specifies sprites and background to be availed in the
@@ -78,6 +77,7 @@ public class LEController implements IController<LevelEditing> {
     public LEController (ISpriteLibrary lib, IBackgroundLibrary bgLib, Player samp) {
         myDomainInfo = new LevelEditing();
         myToolsManager = new ToolsManager(lib, bgLib);
+        mySpriteLibrary = lib;
         myTools = myToolsManager.getViewTools();
         initLevelEditor();
         myModel.setSpriteMap(myToolsManager.getSpriteMap());
@@ -235,12 +235,13 @@ public class LEController implements IController<LevelEditing> {
         ScrollingManager sm = new OmniScrollingManager();
         GameView display = new GameView(PlatformerConstants.DEFAULT_WINDOW_SIZE, sm);
         sm.initView(display);
-        mySamplePlayer = new Mario(new Dimension(20, 32), display, sm);
-        Level sim = new Level(1, sm, grid);
-        SplashPage sp = new TestSplashPage(display, sm);
-        Model m = new Model(display, sm, mySamplePlayer, sp, sim);
+        Model m = new Model(display, sm);
         display.setModel(m);
-        sim.addPlayer(mySamplePlayer);
+        Level sim = new Level(1, m, grid);
+        SplashPage sp = new TestSplashPage(display, sm);
+        m.initializeCollisionManager(mySpriteLibrary.getVisitLibrary());
+        m.setGameComponents(sp, sim);
+        m.addPlayer(mySamplePlayer);
         m.start();
         display.start();
         simContainer.add((GameView) display);

@@ -9,10 +9,12 @@ import util.input.Input;
 import util.input.InputClassTarget;
 import util.input.InputMethodTarget;
 import vooga.scroller.util.IGameComponent;
+import vooga.scroller.collision_manager.CollisionManager;
 import vooga.scroller.level_editor.controllerSuite.LEGrid;
 import vooga.scroller.level_editor.model.SpriteBox;
 import vooga.scroller.level_management.LevelPortal;
 import vooga.scroller.level_management.SpriteManager;
+import vooga.scroller.model.Model;
 import vooga.scroller.scrollingmanager.ScrollingManager;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.interfaces.IDoor;
@@ -59,12 +61,12 @@ public class Level implements IGameComponent {
     // this(); // TODO Incomplete. figure out SM constraints...
     // }
 
-    public Level (int id, ScrollingManager sm) {
+    public Level (int id, Model m) {
         // MIGHT WANT TO INITIALIZE THIS WITH A PLAYER AS WELL
         this();
-        mySpriteManager = new SpriteManager(this);
+        mySpriteManager = new SpriteManager(m, this);
         myStateManager = new LevelStateManager(mySpriteManager);
-        myScrollingManager = sm;
+        myScrollingManager = m.getScrollingManager();
         myID = id;
     }
 
@@ -72,8 +74,8 @@ public class Level implements IGameComponent {
     // this(); // TODO Incomplete. figure out SM constraints...
     // }
 
-    public Level (int id, ScrollingManager sm, LEGrid grid) {
-        this(id, sm);
+    public Level (int id, Model m, LEGrid grid) {
+        this(id, m);
         setSize(grid.getPixelSize());
         for (SpriteBox box : grid.getBoxes()) {
             addSprite(box.getSprite());

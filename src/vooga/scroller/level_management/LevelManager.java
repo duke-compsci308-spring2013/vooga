@@ -11,6 +11,7 @@ import vooga.scroller.util.IGameComponent;
 import vooga.scroller.view.GameView;
 import vooga.scroller.level_editor.Level;
 import vooga.scroller.level_management.splash_page.SplashPage;
+import vooga.scroller.model.Model;
 
 /**
  * Manages the flow and order of levels in gameplay.
@@ -63,7 +64,36 @@ public class LevelManager {
         myCurrentLevel.addPlayer(player);
     }
     
+    /**
+     * Creates a new level manager based on the view used by individual levels.
+     * This constructor does not require the player to be passed
+     * @param gameView to be used in constructing individual levels.
+     */
+    public LevelManager(ScrollingManager sm, GameView gameView, SplashPage splashPage, Level ...levels) {   
+        myView = gameView;
+        LevelFactory lf = new LevelFactory(this, sm, gameView);
+        List<IGameComponent> gameComponents = new ArrayList<IGameComponent>();
+        for (int i=0; i<levels.length; i++) {
+            gameComponents.add(levels[i]);
+        }
+        myInitialLevel = lf.linkLevels(splashPage, gameComponents);        
+        //myCurrentLevel = myLevels.get(DEFAULT_START_LEVEL_ID); 
+        myInput = new Input(DEFAULT_INPUT_CONTROLS, gameView);
+        setCurrentLevel(myInitialLevel);
+    }
     
+    public LevelManager (Model model, SplashPage splashPage, Level[] levels) {
+        myView = model.getView();
+        LevelFactory lf = new LevelFactory(this, model);
+        List<IGameComponent> gameComponents = new ArrayList<IGameComponent>();
+        for (int i=0; i<levels.length; i++) {
+            gameComponents.add(levels[i]);
+        }
+        myInitialLevel = lf.linkLevels(splashPage, gameComponents);
+        myInput = new Input(DEFAULT_INPUT_CONTROLS, model.getView());
+        setCurrentLevel(myInitialLevel);
+    }
+
     /**
      * Gives the current level.
      * 

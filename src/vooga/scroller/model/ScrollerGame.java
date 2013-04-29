@@ -69,6 +69,7 @@ public abstract class ScrollerGame extends Game {
     
     private void makeModel() {
         myModel = new Model(myDisplay, myScrollingManager, myPlayer, mySplashPage, myLevelsFilePaths);
+        myModel.initializeCollisionManager(setVisitLibrary());
         myDisplay.setModel(myModel);
         myModel.start();
     }
