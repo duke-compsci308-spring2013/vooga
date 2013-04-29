@@ -9,13 +9,9 @@ import vooga.scroller.view.GameView;
 
 public class StickmanPlayer extends Player {
 
-    public StickmanPlayer (ISpriteView image,
-                           Dimension size,
-                           GameView gameView,
-                           ScrollingManager sm,
-                           int health,
-                           int damage) {
-        super(image, size, gameView, sm, health, damage);
+   public StickmanPlayer (GameView gameView,
+                           ScrollingManager sm) {
+        super(null, null, gameView, sm, 0, 0);
         // TODO Auto-generated constructor stub
     }
 
@@ -30,5 +26,13 @@ public class StickmanPlayer extends Player {
         // TODO Auto-generated method stub
 
     }
+    /**
+     * ISpriteView image,
+                           Dimension size,
+                           GameView gameView,
+                           ScrollingManager sm,
+                           int health,
+                           int damage
+     */
 
 }

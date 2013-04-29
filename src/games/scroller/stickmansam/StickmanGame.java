@@ -1,5 +1,6 @@
 package games.scroller.stickmansam;
 
+import arcade.controller.Controller;
 import arcade.games.ArcadeInteraction;
 import vooga.scroller.collision_manager.VisitLibrary;
 import vooga.scroller.level_management.splash_page.SplashPage;
@@ -9,7 +10,11 @@ import vooga.scroller.scrollingmanager.ScrollingManager;
 import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.view.GameView;
 
+
 public class StickmanGame extends ScrollerGame {
+
+    private static final String TITLE = "Stickman Sam";
+    private static final String LEVELS = "src/games/scroller/stickmansam/levels/";
 
     public StickmanGame (ArcadeInteraction arcade) {
         super(arcade);
@@ -22,42 +27,38 @@ public class StickmanGame extends ScrollerGame {
 
     @Override
     protected VisitLibrary setVisitLibrary () {
-        // TODO Auto-generated method stub
-        return null;
+        return new VisitMethods();
     }
 
     @Override
     protected Player setPlayer (ScrollingManager sm, GameView gameView) {
-        // TODO Auto-generated method stub
-        return null;
+        return new StickmanPlayer(gameView, sm);
     }
 
     @Override
     protected String setTitle () {
-        // TODO Auto-generated method stub
-        return null;
+        return TITLE;
     }
 
     @Override
     protected String[] setLevelFileNames () {
-        // TODO Auto-generated method stub
-        return null;
+        return new String[] { /* TODO */};
     }
 
     @Override
     protected String setLevelsDirPath () {
-        // TODO Auto-generated method stub
-        return null;
+        return LEVELS;
     }
 
     @Override
     protected SplashPage setSplashPage () {
         // TODO Auto-generated method stub
-        return null;
+        return new StickmanSplashPage(StickmanSamSpriteLibrary.makePixmap("splash.jpg"), 0,
+                                      getDisplay(), getScrollingManager());
     }
-    
+
     public static void main (String[] args) {
-        //runLevelEditor(null, myPlayer, myTitle, args);
+        new StickmanGame(new Controller("English")).run();
     }
 
 }
