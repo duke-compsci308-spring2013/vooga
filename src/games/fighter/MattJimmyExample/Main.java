@@ -1,6 +1,6 @@
-package games.fighter.JerryJackExample;
+package games.fighter.MattJimmyExample;
 
-import javax.swing.JFrame;
+import javax.swing.JFrame; 
 
 import vooga.fighter.controller.GameManagerRunAlone;
 

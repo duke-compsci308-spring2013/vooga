@@ -5,7 +5,11 @@
             <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
         </frame>
         <frame>
+<<<<<<< HEAD
+            <hitbox cornerX="35" cornerY="14" width="10" height="10"/>
+=======
             <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+>>>>>>> 5c2a19686ffbef21a3d9ffb5c6320a3c4355fb32
         </frame>
         <frame>
             <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
