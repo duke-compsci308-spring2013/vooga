@@ -78,8 +78,7 @@ public class CollisionManager {
      * 
      */
     public void collide (AttackObject o1, AttackObject o2) {
-        o1.endCounter();
-        o2.endCounter(); 
+
     }
 
     /**
@@ -98,7 +97,6 @@ public class CollisionManager {
         	o1.inflictDamage(o2);
             o1.addTargetForEffects(o2);
         }
-        o1.endCounter();
     }
 
     /**

@@ -1,15 +1,75 @@
 <?xml version="1.0"?>
-<attack attackName="weakPunch" damage="0" duration="20" attackspeed="50" default="default">
-    <effect effectName="BurnEffect" duration="8" damage="1" />
+<attack attackName="weakPunch" damage="5" duration="20" attackspeed="50" default="default">
     <state stateName="default">
         <frame>
-            <hitbox cornerX="35" cornerY="14" width="10" height="10"/>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
         </frame>
         <frame>
-            <hitbox cornerX="35" cornerY="14" width="26" height="10"/>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
         </frame>
         <frame>
-            <hitbox cornerX="35" cornerY="14" width="10" height="10"/>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+    </state>
+</attack>
+<attack attackName="medPunch" damage="10" duration="20" attackspeed="50" default="default">
+    <state stateName="default">
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+    </state>
+</attack>
+<attack attackName="weakKick" damage="5" duration="20" attackspeed="50" default="default">
+    <state stateName="default">
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+    </state>
+</attack>
+<attack attackName="medKick" damage="10" duration="20" attackspeed="50" default="default">
+    <state stateName="default">
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+    </state>
+</attack>
+<attack attackName="hadouken" damage="100" duration="2000" attackspeed="100" default="default">
+    <state stateName="default">
+        <frame>
+            <hitbox cornerX="0" cornerY="0" width="40" height="40"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="0" cornerY="0" width="40" height="40"/>
         </frame>
     </state>
 </attack>

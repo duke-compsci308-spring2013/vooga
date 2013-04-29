@@ -206,7 +206,6 @@ public class CharacterObject extends GameObject {
     public void move(int direction) {
         myMovingDirection = direction; 
         getLocation().translate(new Vector(direction, getProperty(ModelConstants.MOVESPEED_PROPERTY)));
-
     }
 
     /**
@@ -254,6 +253,13 @@ public class CharacterObject extends GameObject {
      */
     public void setAppliedForces(Vector sumOfForces) {
         myForcesApplied = sumOfForces;
+    }
+    
+    /**
+     * Gets the attackobjects of characters
+     */
+    public Map<String, AttackObject> getAttackMapping(){
+    	return myAttacks; 
     }
     
 }

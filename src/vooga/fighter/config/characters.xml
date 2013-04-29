@@ -41,6 +41,10 @@
             </frame>
         </state>
         <attack attackName = "weakPunch" />
+        <attack attackName = "medPunch" />
+        <attack attackName = "weakKick" />
+        <attack attackName = "medKick" />
+        <attack attackName = "hadouken" />
     </character>
     <character charID="Ken" charName="Ken" charIcon="kenicon.png" maxHealth="100" movespeed="15" mass="20" default="stand">
         <state stateName="stand">

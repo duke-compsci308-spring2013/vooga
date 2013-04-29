@@ -3,7 +3,7 @@ package vooga.fighter.controller;
 import javax.swing.JFrame;
 
 import vooga.fighter.controller.GameManagerRunAlone;
-
+import games.fighter.davidalan.*;
 
 /**
  * Creates window that can be moved, resized, and closed by the user.
@@ -20,7 +20,7 @@ public class Main extends JFrame
     public static void main (String args[])
     {
 
-        GameManagerRunAlone control = new GameManagerRunAlone();
+        StreetFighterGameManager control = new StreetFighterGameManager();
         control.run();
     }
 }
