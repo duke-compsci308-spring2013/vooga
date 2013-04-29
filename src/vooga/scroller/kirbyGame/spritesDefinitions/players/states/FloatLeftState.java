@@ -6,7 +6,6 @@ import vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.Kirby;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.state.SpriteState;
-import vooga.scroller.util.ISpriteView;
 
 public class FloatLeftState extends SpriteState<Sprite>{
 
@@ -30,8 +29,7 @@ public class FloatLeftState extends SpriteState<Sprite>{
     }
 
     @Override
-    public void paint (Graphics2D pen, double angle) {
-        
+    public void paint (Graphics2D pen, double angle) {        
         getUnit().setView(KirbyLib.makePixmap(DEFAULT_IMG));
         getUnit().getView().paint(pen, getUnit().getCenter(), getUnit().getSize());        
     }
@@ -44,14 +42,12 @@ public class FloatLeftState extends SpriteState<Sprite>{
 
     @Override
     public void activate () {
-        // TODO Auto-generated method stub
+        myKirby.setStateID(STATE_ID);
         
     }
 
     @Override
     public void deactivate () {
-        // TODO Auto-generated method stub
-        
     }
 
 }

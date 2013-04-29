@@ -39,6 +39,7 @@ public class Sprite {
     private Rectangle myBounds;
     private Location myLastLocation;
     private Location myLastLocation2;
+    private int myStateID;
 
     
     private SpriteStateManager myStateManager;
@@ -389,15 +390,19 @@ public class Sprite {
         myStateManager.deactivateState(stateID);
     }
     
-    
+    public void setStateID(int s) {
+       myStateID = s; 
+    }      
+
     public int getCurrentStateID() {
-        return myStateManager.getCurrentState().STATE_ID;
+        return myStateID;
     }
 
     public void updateLastLocation () {
         myLastLocation2 = new Location(myLastLocation.x, myLastLocation.y);
         myLastLocation = new Location(myCenter.x, myCenter.y); 
     }
+    
     
 //    public void rotate(double angle){
 //        myAngle += angle;

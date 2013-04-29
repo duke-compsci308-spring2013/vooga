@@ -139,26 +139,22 @@ public class UniScrollingManager extends ScrollingManager {
         int lowerpaintbound = lowerpaintbound();
 
         if (getModel().getLeftBoundary() < levelLeftBoundary()) {
-            System.out.println("##1");
             leftpaintbound = (int) levelLeftBoundary();
             rightpaintbound = leftpaintbound + getBackground().getWidth(null);
         }
 
         if (getModel().getRightBoundary() > levelRightBoundary()) {
-            System.out.println("##2");
             rightpaintbound = getView().getWidth() - ((int) levelRightBoundary()
                     % getModel().getBackground().getWidth(null));
             leftpaintbound =  rightpaintbound - getBackground().getWidth(null);
 
         }
         if (getModel().getLowerBoundary() > levelLowerBoundary()) {
-            System.out.println("##3");
             lowerpaintbound = getView().getHeight()  - ((int) levelLowerBoundary() 
                     % getModel().getBackground().getHeight(null));
             upperpaintbound = lowerpaintbound - getBackground().getHeight(null);
         }
         if (getModel().getUpperBoundary() < levelUpperBoundary()) {
-            System.out.println("##4");
             upperpaintbound = (int) levelUpperBoundary();
             lowerpaintbound = upperpaintbound + getBackground().getHeight(null);
         }
@@ -172,9 +168,6 @@ public class UniScrollingManager extends ScrollingManager {
         Image img = getBackground();
         int imgwidth = img.getWidth(null);
         int imgheight = img.getHeight(null);
-        
-        System.out.println("Horizontal: " + myHorizontalScrollActive);
-        System.out.println("Vertical: " + myVerticalScrollActive);
         pen.drawImage(img, myLeftPaintBound, myUpperPaintBound, imgwidth, imgheight, null);
         pen.drawImage(img, myRightPaintBound, myUpperPaintBound, imgwidth, imgheight, null);
         pen.drawImage(img, myLeftPaintBound, myLowerPaintBound, imgwidth, imgheight, null);

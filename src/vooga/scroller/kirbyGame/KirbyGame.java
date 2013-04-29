@@ -74,7 +74,7 @@ public class KirbyGame extends ScrollerGame {
 
     @Override
     protected Player setPlayer (ScrollingManager sm, GameView gameView) {
-        return new Kirby(new Location(), new Dimension(20, 32), gameView, sm);
+        return new Kirby(new Location(), new Dimension(32, 32), gameView, sm);
     }
 
 

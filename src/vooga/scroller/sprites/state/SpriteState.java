@@ -27,7 +27,7 @@ import java.awt.Graphics2D;
 
 public abstract class SpriteState<T> implements Comparable<SpriteState<T>>{
     
-    public static final int STATE_ID = 0;
+    private int mySTATE_ID;
     
     private T myUnit;
     
@@ -71,5 +71,4 @@ public abstract class SpriteState<T> implements Comparable<SpriteState<T>>{
     public int compareTo (@SuppressWarnings("rawtypes") SpriteState other) {
         return this.getPaintPriority() - other.getPaintPriority();
     }
-      
 }

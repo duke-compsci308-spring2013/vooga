@@ -44,14 +44,11 @@ public class FloatRightState extends SpriteState<Sprite>{
 
     @Override
     public void activate () {
-        // TODO Auto-generated method stub
-        
+        myKirby.setStateID(STATE_ID);        
     }
 
     @Override
     public void deactivate () {
-        // TODO Auto-generated method stub
-        
     }
 
 }
