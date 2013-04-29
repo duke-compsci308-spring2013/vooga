@@ -23,8 +23,8 @@
                      	
    	</menumode>
     <menumode menuname="MapSelectMenu" >
-        <menuobject menuobjectname="StreetMap" xCoord = "250" yCoord = "150" xSize = "150" ySize = "150" nextState = "1v1" gridnum = "1" up="1" down="1" left="1" right="1" />
-        <menuobject menuobjectname="OtherMap" xCoord = "600" yCoord = "150" xSize = "150" ySize = "150" nextState = "1v1" gridnum = "1" up="3" down="3" left="2" right="2" />   
+        <menuobject menuobjectname="StreetMap" xCoord = "250" yCoord = "150" xSize = "150" ySize = "150" nextState = "1v1" gridnum = "1" up="2" down="2" left="2" right="2" />
+        <menuobject menuobjectname="OtherMap" xCoord = "600" yCoord = "150" xSize = "150" ySize = "150" nextState = "1v1" gridnum = "2" up="1" down="1" left="1" right="1" />   
     </menumode>
     <menumode menuname="NumberCharacterSelect" >
         <menuobject menuobjectname="2" xCoord = "250" yCoord = "150" xSize = "150" ySize = "150" nextState = "CharacterSelectMenu" gridnum = "1" up="2" down="2" left="2" right="2" />

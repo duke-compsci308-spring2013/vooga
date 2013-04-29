@@ -1,5 +1,7 @@
 package games.fighter.JerryJackExample.controller.levels;
 
+import games.fighter.JerryJackExample.DooperStreetFighter;
+
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -23,15 +25,7 @@ import vooga.fighter.view.Canvas;
 
 		@InputClassTarget
 		public class OutOfBounds extends OneVOne {
-			    private static final String INPUT_PATHWAY = "config.leveldefault";
 			    private static final String SCORESCREEN = "ScoreScreen";
-			    private String myInputPathway;
-			    private String myScorePathway;
-			    private List<Force> myForces;
-			    private ResourceBundle myResources;
-			    private CollisionDetector myCollisionDetector;
-			    private int myPlayerOneTicker;
-			    private int myPlayerTwoTicker;
 
 			    /**
 			     * Initial constructor
@@ -51,7 +45,6 @@ import vooga.fighter.view.Canvas;
 			    public OutOfBounds(String name, Canvas frame, ControllerDelegate manager, 
 			    		GameInfo gameinfo, String filepath) {
 			    	super(name, frame, manager, gameinfo, filepath);
-			    	myCollisionDetector = new CollisionDetector();
 			    }
 
 			    /**
@@ -87,16 +80,17 @@ import vooga.fighter.view.Canvas;
 			    		    for (int i = 0; i < levelmode.getCharacterObjects().size(); i++) {
 							if(levelmode.getCharacterObjects().get(i).getLocation().getX()>GameManager.SIZE.getWidth()+100) {
 								change = true;
-								for(int j = 0; j < levelmode.getCharacterObjects().size(); j++){
-									if(j!=i) getGameInfo().addWinners(j);
-									getGameInfo().addScore(levelmode.getCharacterObjects().get(j).getHealth().getHealth());
-									getGameInfo().addTotalScore(j, getGameInfo().getScore(j));
-								}
+								tallyWinners(levelmode, i);
 								break;
 							}
 						}
 			    		    return change;
 					}
 			    };
+			    
+			    private boolean beyondbounds(LevelMode levelmode, int index){
+			    	return levelmode.getCharacterObjects().get(index).getLocation().getX()>DooperStreetFighter.SIZE.getWidth()
+			    	|| levelmode.getCharacterObjects().get(index).getLocation().getX()<0;
+			    }
 
 	}

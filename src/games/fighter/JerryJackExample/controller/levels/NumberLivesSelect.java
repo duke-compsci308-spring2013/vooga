@@ -6,6 +6,7 @@ import vooga.fighter.controller.gameinformation.GameInfo;
 import vooga.fighter.controller.interfaces.ControllerDelegate;
 import vooga.fighter.controller.interfaces.ModeCondition;
 import vooga.fighter.controller.levels.CharacterSelectController;
+import vooga.fighter.controller.levels.MenuController;
 import vooga.fighter.view.Canvas;
 
 
@@ -54,7 +55,6 @@ public class NumberLivesSelect extends MenuController {
 	public void notifyEndCondition(String choice) {
         removeListener();
         getMode().resetChoice();
-        AdvancedGameInfo info = (AdvancedGameInfo) getGameInfo();
         getAdvancedGameInfo().setMaxLives(Integer.parseInt(choice));
         getManager().notifyEndCondition(getMode().getMenusNext(choice));
     }

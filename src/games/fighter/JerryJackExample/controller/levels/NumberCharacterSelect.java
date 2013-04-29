@@ -6,6 +6,7 @@ import vooga.fighter.controller.gameinformation.GameInfo;
 import vooga.fighter.controller.interfaces.ControllerDelegate;
 import vooga.fighter.controller.interfaces.ModeCondition;
 import vooga.fighter.controller.levels.CharacterSelectController;
+import vooga.fighter.controller.levels.MenuController;
 import vooga.fighter.view.Canvas;
 
 
@@ -56,15 +57,6 @@ public class NumberCharacterSelect extends MenuController {
         getMode().resetChoice();
         getGameInfo().setNumCharacters(Integer.parseInt(choice));
         getManager().notifyEndCondition(getMode().getMenusNext(choice));
-    }
-
-    /**
-     * Removes input
-     */
-    @Override
-	public void removeListener(){
-        super.removeListener();
-        getInput().removeListener(this);
     }
 
     /**
