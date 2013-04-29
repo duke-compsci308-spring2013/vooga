@@ -5,18 +5,17 @@ import java.awt.Graphics2D;
 import vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.Kirby;
 import vooga.scroller.sprites.Sprite;
-import vooga.scroller.sprites.animation.movement.MoveLeft;
-import vooga.scroller.sprites.animation.state_movement.MoveLeftState;
+
 import vooga.scroller.sprites.state.SpriteState;
 
-public class ConsumeState extends SpriteState<Sprite>{
+public class WalkRightFullState extends SpriteState<Sprite>{
 
-    private static final String DEFAULT_IMG = "kirbyconsume.gif";
-    public static int STATE_ID = 10;
+    private static final String DEFAULT_IMG = "kirbywalkfullR.gif";
+    public static int STATE_ID = 9;
     private Kirby myKirby;
 
 
-    public ConsumeState (Sprite unit) {
+    public WalkRightFullState (Sprite unit) {
         super(unit);
         myKirby = (Kirby) unit;
         // TODO Auto-generated constructor stub

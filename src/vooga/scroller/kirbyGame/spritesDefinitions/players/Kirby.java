@@ -7,10 +7,13 @@ import util.Vector;
 import util.input.InputClassTarget;
 import util.input.InputMethodTarget;
 import vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib;
+import vooga.scroller.kirbyGame.spritesDefinitions.players.states.ConsumeState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.FloatLeftState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.FloatRightState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.InhaleLeftState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.InhaleRightState;
+import vooga.scroller.kirbyGame.spritesDefinitions.players.states.WalkLeftFullState;
+import vooga.scroller.kirbyGame.spritesDefinitions.players.states.WalkRightFullState;
 import vooga.scroller.level_editor.Level;
 import vooga.scroller.level_management.IInputListener;
 import vooga.scroller.scrollingmanager.ScrollingManager;
@@ -81,6 +84,9 @@ public class Kirby extends Player implements IInputListener{
         this.addPossibleState(FloatRightState.STATE_ID, new FloatRightState(this));
         this.addPossibleState(InhaleLeftState.STATE_ID, new InhaleLeftState(this));
         this.addPossibleState(InhaleRightState.STATE_ID, new InhaleRightState(this));
+        this.addPossibleState(WalkLeftFullState.STATE_ID, new WalkLeftFullState(this));
+        this.addPossibleState(WalkRightFullState.STATE_ID, new WalkRightFullState(this));
+        this.addPossibleState(ConsumeState.STATE_ID, new ConsumeState(this));
 
 
     }
@@ -130,7 +136,12 @@ public class Kirby extends Player implements IInputListener{
 
     @InputMethodTarget(name = "leftstart")
     public void walkLeft() {
-        if(this.getCurrentStateID() == FloatRightState.STATE_ID) {
+        
+        if (this.getCurrentStateID() == InhaleRightState.STATE_ID || this.getCurrentStateID() == WalkRightFullState.STATE_ID) {
+            this.activateState(WalkLeftFullState.STATE_ID);
+        }
+        
+        else if(this.getCurrentStateID() == FloatRightState.STATE_ID) {
             this.deactivateState(getCurrentStateID());
             this.activateState(FloatLeftState.STATE_ID);
         } 
@@ -147,7 +158,12 @@ public class Kirby extends Player implements IInputListener{
 
     @InputMethodTarget(name = "rightstart")
     public void walkRight() {
-        if(this.getCurrentStateID() == FloatLeftState.STATE_ID) {
+        
+        if (this.getCurrentStateID() == InhaleLeftState.STATE_ID || this.getCurrentStateID() == WalkLeftFullState.STATE_ID) {
+            this.activateState(WalkRightFullState.STATE_ID);
+        }
+        
+        else if (this.getCurrentStateID() == FloatLeftState.STATE_ID) {
             this.deactivateState(getCurrentStateID());
             this.activateState(FloatRightState.STATE_ID);
         }
