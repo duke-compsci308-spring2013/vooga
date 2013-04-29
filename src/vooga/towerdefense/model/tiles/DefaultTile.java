@@ -26,7 +26,7 @@ public class DefaultTile extends Tile {
     public DefaultTile (Location center, Dimension size) {	 
         super(PIXMAP, center, size);	
         setBuildable(true);
-        setWalkable(true);
+        setWalkable(false);
     }
     
     /**
