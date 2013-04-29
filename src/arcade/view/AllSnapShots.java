@@ -39,10 +39,7 @@ public class AllSnapShots extends JPanel implements Scrollable {
      * @param resources
      * @param size
      */
-    public AllSnapShots (Controller controller,
-                         ResourceBundle resources,
-                         Collection<GameInfo> games,
-                         Dimension size) {
+    public AllSnapShots (Controller controller, ResourceBundle resources, Collection<GameInfo> games, Dimension size) {
         myController = controller;
         myResources = resources;
         mySize = size;
@@ -60,7 +57,7 @@ public class AllSnapShots extends JPanel implements Scrollable {
     private void addSnapShots (Collection<GameInfo> games) {
         int counter = 0;
         JPanel row = createNewRow();
-        for (GameInfo game : games) {
+        for (GameInfo game : games){
             SnapShot snapshot = new SnapShot(game, myResources, myController);
             if (counter % SNAPSHOTS_PER_ROW == 0) {
                 row = createNewRow();
@@ -118,7 +115,7 @@ public class AllSnapShots extends JPanel implements Scrollable {
 
     @Override
     public boolean getScrollableTracksViewportWidth () {
-        return true;
+        return false;
     }
 
     @Override

@@ -1,0 +1,40 @@
+/level
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+         a                    
+     b                        
+cccccccccc                    
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+/lib
+vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib
+/key
+b=LaserEnemy
+a=DoorPortal
+c=PlatformTwo
+/settings
+StartPoint=16 272
+Background=/vooga/scroller/images/backgrounds/laserlevel.png

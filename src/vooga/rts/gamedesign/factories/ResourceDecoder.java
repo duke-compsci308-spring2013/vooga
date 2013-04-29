@@ -1,7 +1,6 @@
 package vooga.rts.gamedesign.factories;
 
 import java.awt.Dimension;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +12,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import util.Location;
 import vooga.rts.gamedesign.sprite.gamesprites.*;
-import vooga.rts.util.Location;
 import vooga.rts.util.Location3D;
 import vooga.rts.util.Pixmap;
 import vooga.rts.util.ReflectionHelper;
@@ -31,37 +30,27 @@ public class ResourceDecoder extends Decoder{
 	
 	private static final Dimension RESOURCE_SIZE = new Dimension(50,50);
 	
-	private static final String HEAD_TAG = "resources";
-	private static final String TYPE_TAG = "resource";
-	private static final String NAME_TAG = "name";
-	private static final String IMAGE_TAG = "img";
-	private static final String HEALTH_TAG = "health";
-	private static final String SOURCE_TAG = "src";
-	
 	private Factory myFactory;
+	private CustomHandler myCustomHandler;
 	
 	
 	public ResourceDecoder(Factory factory){
 		myFactory = factory;
+		myCustomHandler = new CustomHandler(factory);
 	}
 		
 	/**
 	 * Adds the resources defined in the XML file to the map of Sprites found in the factory. 
 	 * 
 	 * @Override
-	 * @throws ClassNotFoundException
-	 * @throws IllegalArgumentException
-	 * @throws SecurityException
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 */
-	public void create(Document doc) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		String path = doc.getElementsByTagName(HEAD_TAG).item(0).getAttributes().getNamedItem(SOURCE_TAG).getTextContent();
-		NodeList nodeLst = doc.getElementsByTagName(TYPE_TAG);
+	public void create(Document doc, String type) {
+		String path = doc.getElementsByTagName(type).item(0).getAttributes().getNamedItem(SOURCE_TAG).getTextContent();
+		String subtype = type.substring(0, type.length()-1);
+		myCustomHandler.create(doc,subtype);
+		NodeList nodeLst = doc.getElementsByTagName(subtype);
 		
 		for(int i = 0 ; i < nodeLst.getLength() ; i++){
 			Element nElement = (Element) nodeLst.item(i);

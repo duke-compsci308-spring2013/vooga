@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<attack attackName="weakPunch" damage="5" duration="20" attackspeed="50" default="default">
+<attack attackName="weakPunch" damage="0" duration="20" attackspeed="50" default="default">
+    <effect effectName="BurnEffect" duration="8" damage="1" />
     <state stateName="default">
         <frame>
             <hitbox cornerX="35" cornerY="14" width="10" height="10"/>

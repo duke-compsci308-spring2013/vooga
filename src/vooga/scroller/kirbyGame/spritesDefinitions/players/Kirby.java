@@ -185,7 +185,6 @@ public class Kirby extends Player implements IInputListener{
 
     @InputMethodTarget(name = "rightstart")
     public void walkRight() {
-
         if (isConsumedEnemy()) {
             this.activateState(WalkRightFullState.STATE_ID);
         }
@@ -208,15 +207,12 @@ public class Kirby extends Player implements IInputListener{
         this.deactivateState(MoveRight.STATE_ID);
         this.deactivateState(WalkRightFullState.STATE_ID);
         this.deactivateState(KirbyLaserWalkRightState.STATE_ID);
-
-
     }
 
     @InputMethodTarget(name = "jumpstart")
     public void startJump() {
         addVector(JUMP_VELOCITY);
         this.activateState(FloatLeftState.STATE_ID);
-
     }
 
     @InputMethodTarget(name = "inhalestart")
@@ -235,7 +231,6 @@ public class Kirby extends Player implements IInputListener{
         }
     }
     
-
     @InputMethodTarget(name = "inhalestop")
     public void stopInhale() {
         this.deactivateState(InhaleLeftState.STATE_ID);
@@ -261,13 +256,11 @@ public class Kirby extends Player implements IInputListener{
         this.deactivateState(FloatRightState.STATE_ID);
     }
 
-
     public void stopFloat() {
         this.deactivateState(FloatLeftState.STATE_ID);
         this.deactivateState(FloatRightState.STATE_ID);
     }
     
-
     @InputMethodTarget(name = "consumestart")
     public void startConsumeState() {
         if (isConsumedEnemy()) {
@@ -287,10 +280,6 @@ public class Kirby extends Player implements IInputListener{
 
     }
     
-    
-    
-
-
     public void startFullState() {
         if (getCurrentStateID() == InhaleLeftState.STATE_ID) {
             this.activateState(WalkLeftFullState.STATE_ID);
@@ -303,8 +292,6 @@ public class Kirby extends Player implements IInputListener{
     public void incrementScore (int increment) {
         // TODO Auto-generated method stub
     }
-
-
 }
 
 

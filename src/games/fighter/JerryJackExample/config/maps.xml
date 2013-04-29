@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<maps>
+    <map mapName="StreetMap" xSize="1024" ySize="871">
+        <startingPos xCoord="140" yCoord="600"/>
+        <startingPos xCoord="200" yCoord="600"/>
+        <state stateName = "background">
+            <frame image = "games/fighter/JerryJackExample/images/Streets.jpg" />
+        </state>
+        <environmentObject objectName="platform" xCoord="450" yCoord="700" />
+    </map>
+    <map mapName="RainbowBackground" xSize="1024" ySize="871">
+        <startingPos xCoord="140" yCoord="300"/>
+        <startingPos xCoord="200" yCoord="300"/>
+        <state stateName = "background">
+            <frame image = "games/fighter/JerryJackExample/images/RainbowBackground.jpeg" />
+        </state>
+        <environmentObject objectName="platform" xCoord="300" yCoord="300" />
+    </map>
+    <map mapName="NewMap" xSize="1024" ySize="871">
+    </map>
+</maps>

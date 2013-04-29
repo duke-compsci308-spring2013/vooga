@@ -1,0 +1,39 @@
+/level
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+           a                  
+                              
+  bbbbbbbbbb                  
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+/lib
+vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib
+/key
+a=StarPortal
+b=PlatformThree
+/settings
+StartPoint=80 336
+Background=/games/scroller/mr_fish/images/underwater2.jpg

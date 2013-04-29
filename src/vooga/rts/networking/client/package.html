@@ -23,7 +23,8 @@ the client-side server working
 <p> 
 Client.java is responsible for the communication between the user and 
 the server. It relies on Sockets to conduct the stream of data. ClientModel
-manages the user interface and what gets displayed. <br>
+manages the user interface and what gets displayed with the aid of a
+ClientViewAdapter. <br>
 The class MapsAccessor is a helper that finds a specific .properties file
 and returns a map with values in that file that are later used to fill up
 the GUIs
