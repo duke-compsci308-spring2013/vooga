@@ -46,7 +46,6 @@ public class ControllerManager implements ControllerDelegate {
         myControllerMap = factory.getMap();
         myGameInfo = gameinfo;
         myProgressionManager = progressionmanager;
-        // myProgressionManager.setControllerProgression(myControllerMap);
         myCurrentController = myProgressionManager.getNextController("MainMenu");
         String name = myCurrentController.getName();
         myCurrentController =
