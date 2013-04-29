@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<characters>
+    <character charID="Ryu" charName="Ryu" charIcon="ryuicon.png" maxHealth="100" mass="20" default="stand">
+        <state stateName="stand">
+            <frame image="games/fighter/davidalan/images/ryu_stand1.gif">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_stand2.gif">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_stand3.gif">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_stand4.gif">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+        </state>
+        <state stateName="moveRight">
+            <frame image="games/fighter/davidalan/images/ryu_walk1.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_walk2.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_walk3.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_walk4.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_walk5.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+        </state>
+        <state stateName="weakPunch">
+            <frame image="games/fighter/davidalan/images/ryu_punch1.gif">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_punch2.gif">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_punch3.gif">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+        </state>
+        <state stateName="medPunch">
+            <frame image="games/fighter/davidalan/images/ryu_mpunch1.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_mpunch2.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_mpunch3.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_mpunch4.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_mpunch5.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+        </state>
+        <state stateName="weakKick">
+            <frame image="games/fighter/davidalan/images/ryu_lkick1.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_lkick2.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_lkick3.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+        </state>
+        <state stateName="medKick">
+            <frame image="games/fighter/davidalan/images/ryu_mkick1.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_mkick2.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_mkick3.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_mkick4.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_mkick5.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+        </state>
+        <state stateName="hadouken">
+            <frame image="games/fighter/davidalan/images/ryu_hadouken1.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_hadouken2.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_hadouken3.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+            <frame image="games/fighter/davidalan/images/ryu_hadouken4.png">
+                <hitbox cornerX="20" cornerY="6" width="56" height="150"/>
+            </frame>
+        </state>
+        <attack attackName = "weakPunch" />
+        <attack attackName = "medPunch" />
+        <attack attackName = "weakKick" />
+        <attack attackName = "medKick" />
+        <attack attackName = "hadouken" />
+    </character>
+</characters>

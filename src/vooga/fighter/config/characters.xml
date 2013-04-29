@@ -2,17 +2,17 @@
 <characters>
     <character charID="Ryu" charName="Ryu" charIcon="ryuicon.png" maxHealth="100" mass="20" default="stand">
         <state stateName="stand">
-            <frame image="fighter/images/ryu_stand1.gif">
-                <hitbox cornerX="10" cornerY="3" width="28" height="78"/>
+            <frame image="fighter/images/grumple1.png">
+                <hitbox cornerX="10" cornerY="3" width="36" height="36"/>
             </frame>
-            <frame image="fighter/images/ryu_stand2.gif">
-                <hitbox cornerX="10" cornerY="3" width="28" height="78"/>
+            <frame image="fighter/images/grumple2.png">
+                <hitbox cornerX="10" cornerY="3" width="36" height="36"/>
             </frame>
-            <frame image="fighter/images/ryu_stand3.gif">
-                <hitbox cornerX="10" cornerY="3" width="28" height="78"/>
+            <frame image="fighter/images/grumple3.png">
+                <hitbox cornerX="10" cornerY="3" width="36" height="36"/>
             </frame>
-            <frame image="fighter/images/ryu_stand4.gif">
-                <hitbox cornerX="10" cornerY="3" width="28" height="78"/>
+            <frame image="fighter/images/grumple4.png">
+                <hitbox cornerX="10" cornerY="3" width="36" height="36"/>
             </frame>
         </state>
         <state stateName="moveRight">
@@ -30,17 +30,21 @@
             </frame>
         </state>
         <state stateName="weakPunch">
-            <frame image="fighter/images/ryu_punch1.gif">
-                <hitbox cornerX="10" cornerY="3" width="35" height="78"/>
+            <frame image="fighter/images/grumpleshout1.png">
+                <hitbox cornerX="10" cornerY="3" width="36" height="36"/>
             </frame>
-            <frame image="fighter/images/ryu_punch2.gif">
-                <hitbox cornerX="10" cornerY="3" width="35" height="78"/>
+            <frame image="fighter/images/grumpleshout2.png">
+                <hitbox cornerX="10" cornerY="3" width="36" height="36"/>
             </frame>
-            <frame image="fighter/images/ryu_punch3.gif">
-                <hitbox cornerX="10" cornerY="3" width="35" height="78"/>
+            <frame image="fighter/images/grumpleshout3.png">
+                <hitbox cornerX="10" cornerY="3" width="36" height="36"/>
             </frame>
         </state>
         <attack attackName = "weakPunch" />
+        <attack attackName = "medPunch" />
+        <attack attackName = "weakKick" />
+        <attack attackName = "medKick" />
+        <attack attackName = "hadouken" />
     </character>
     <character charID="Ken" charName="Ken" charIcon="kenicon.png" maxHealth="100" movespeed="15" mass="20" default="stand">
         <state stateName="stand">

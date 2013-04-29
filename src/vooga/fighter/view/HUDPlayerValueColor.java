@@ -45,7 +45,7 @@ public class HUDPlayerValueColor extends HUDPlayerValue {
 	public int maxValueToRangeRatio(int maxValue, int currentValue) {
 		int ratio;
 		if (maxValue == currentValue) {
-			ratio = 1;
+			ratio = maxValue;
 		} else {
 			ratio = maxValue / (maxValue - currentValue);
 		}

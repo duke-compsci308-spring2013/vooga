@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<attacks>
+<attack attackName="weakPunch" damage="5" duration="20" movespeed="50" default="default">
+    <state stateName="default">
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+    </state>
+</attack>
+<attack attackName="medPunch" damage="10" duration="20" movespeed="50" default="default">
+    <state stateName="default">
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+    </state>
+</attack>
+<attack attackName="weakKick" damage="5" duration="20" movespeed="50" default="default">
+    <state stateName="default">
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+    </state>
+</attack>
+<attack attackName="medKick" damage="10" duration="20" movespeed="50" default="default">
+    <state stateName="default">
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+        <frame>
+            <hitbox cornerX="50" cornerY="0" width="50" height="160"/>
+        </frame>
+    </state>
+</attack>
+<attack attackName="hadouken" damage="100" duration="2000" movespeed="100" default="default">
+    <state stateName="default">
+        <frame image = "games/fighter/davidalan/images/hadouken1.gif">
+            <hitbox cornerX="0" cornerY="0" width="40" height="40"/>
+        </frame>
+        <frame image = "games/fighter/davidalan/images/hadouken2.gif">
+            <hitbox cornerX="0" cornerY="0" width="40" height="40"/>
+        </frame>
+    </state>
+</attack>
+</attacks>
