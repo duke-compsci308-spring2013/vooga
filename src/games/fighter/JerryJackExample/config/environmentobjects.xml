@@ -7,4 +7,11 @@
             </frame>
         </state>
     </environmentObject>
+     <environmentObject objectName="newPlatform" default="default">
+        <state stateName = "default">
+            <frame image = "games/fighter/JerryJackExample/images/brick1.gif">
+                <hitbox cornerX="0" cornerY="0" width="100" height="20"/>
+            </frame>
+        </state>
+    </environmentObject>
 </environmentObjects>

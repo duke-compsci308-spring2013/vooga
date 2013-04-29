@@ -22,7 +22,9 @@
    	</menumode>
     <menumode menuname="MapSelectMenu" >
         <menuobject menuobjectname="StreetMap" xCoord = "250" yCoord = "150" xSize = "150" ySize = "150" nextState = "1v1" gridnum = "1" up="3" down="3" left="2" right="2" />
-       
+    </menumode>
+    <menumode menuname="MapSelectMenu" >
+        <menuobject menuobjectname="OtherMap" xCoord = "600" yCoord = "150" xSize = "150" ySize = "150" nextState = "1v1" gridnum = "1" up="3" down="3" left="2" right="2" />
     </menumode>
     
     

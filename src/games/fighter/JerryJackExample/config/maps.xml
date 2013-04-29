@@ -8,13 +8,14 @@
         </state>
         <environmentObject objectName="platform" xCoord="450" yCoord="700" />
     </map>
-    <map mapName="RainbowBackground" xSize="1024" ySize="871">
+    <map mapName="OtherMap" xSize="1024" ySize="871">
         <startingPos xCoord="140" yCoord="300"/>
         <startingPos xCoord="200" yCoord="300"/>
         <state stateName = "background">
-            <frame image = "games/fighter/JerryJackExample/images/RainbowBackground.jpeg" />
+            <frame image = "games/fighter/JerryJackExample/images/night.jpg" />
         </state>
-        <environmentObject objectName="platform" xCoord="300" yCoord="300" />
+        <environmentObject objectName="platform" xCoord="450" yCoord="700" />
+        <environmentObject objectName="newPlatform" xCoord="450" yCoord="550" />
     </map>
     <map mapName="NewMap" xSize="1024" ySize="871">
     </map>

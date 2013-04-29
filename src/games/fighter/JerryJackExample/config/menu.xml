@@ -47,11 +47,20 @@
     </menuobject>
     <menuobject menuobjectname = "StreetMap">
     	<state name = "Unselected">
-    		<frame image = "games/fighter/JerryJackExample/images/explosion.jpg" />
+    		<frame image = "games/fighter/JerryJackExample/images/Streets.jpg" />
     	</state>
     	<state name = "Selected">
             <frame image="games/fighter/JerryJackExample/images/Streets.jpg" />
             <frame image="games/fighter/JerryJackExample/images/explosion.jpg" />   
+        </state>
+   	</menuobject>
+   	<menuobject menuobjectname = "OtherMap">
+    	<state name = "Unselected">
+    		<frame image = "games/fighter/JerryJackExample/images/night.jpg" />
+    	</state>
+    	<state name = "Selected">
+            <frame image="games/fighter/JerryJackExample/images/night.jpg" />
+            <frame image="games/fighter/JerryJackExample/images/night.jpg" />   
         </state>
    	</menuobject>
    	 <menuobject menuobjectname = "BacktoCharacter">
