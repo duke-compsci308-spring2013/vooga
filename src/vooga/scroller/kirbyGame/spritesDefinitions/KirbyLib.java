@@ -89,7 +89,7 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
         }
 
         public void update (double elapsedTime, Dimension bounds) {
-            movement.execute();
+//            movement.execute();
             super.update(elapsedTime, bounds);
         }
 
@@ -100,7 +100,7 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
 
         @Override
         public void addTarget(Locatable target){
-            movement.setTarget(target);
+//            movement.setTarget(target);
         }
         
     }

@@ -1,14 +1,14 @@
 /level
                               
                               
-          a                   
                               
                               
                               
-        b                     
-   c                d         
-     ae     f                 
-ggggggggggggggggggggg         
+                              
+                              
+         a                    
+     b                        
+cccccccccc                    
                               
                               
                               
@@ -32,13 +32,9 @@ ggggggggggggggggggggg
 /lib
 vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib
 /key
-c=FireBall
-a=LaserEnemy
-d=DoorPortal
-f=CutterEnemy
-e=KirbyLaser
-b=Boss
-g=PlatformOne
+b=LaserEnemy
+a=DoorPortal
+c=PlatformTwo
 /settings
 StartPoint=16 272
-Background=/vooga/scroller/images/backgrounds/bosslevel.png
+Background=/vooga/scroller/images/backgrounds/laserlevel.png
