@@ -59,6 +59,6 @@ public class HUDPlayerValue extends HUDElement {
         myPlayerNameText.paint(pen, center, java.awt.Color.BLACK);
         center.setLocation(center.getX(), center.getY()
                 + HUDElement.DEFAULT_TEXT_HEIGHT);
-        myPlayerValue.paint(pen, center, java.awt.Color.BLACK);
+        myPlayerValue.paint(pen, center, java.awt.Color.RED);
     }
 }

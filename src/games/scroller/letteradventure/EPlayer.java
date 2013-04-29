@@ -28,7 +28,7 @@ import vooga.scroller.view.GameView;
 public class EPlayer extends Player implements IInputListener{
 
     
-    private static final Pixmap E_VIEW = SpriteLibrary.makePixmap(SpriteLibrary.IMAGES_DIRECTORY , "e.png");
+    private static final Pixmap E_VIEW = SpriteLibrary.makePixmap(SpriteLibrary.IMAGES_DIRECTORY , "e.jpg");
     private static final int HEALTH = 1;
     private static final int DAMAGE = 0;    
     private static final int SPEED = 300;

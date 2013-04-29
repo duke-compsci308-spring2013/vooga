@@ -9,7 +9,7 @@
             <frame image="games/fighter/JerryJackExample/images/explosion.jpg" />           
         </state>
     </menuobject>
-    <menuobject menuobjectname="1v1">
+    <menuobject menuobjectname="deathmatch">
     	<state name = "Unselected">
             <frame image="games/fighter/JerryJackExample/images/Deathmatch.jpg" />
         </state>
@@ -47,11 +47,20 @@
     </menuobject>
     <menuobject menuobjectname = "StreetMap">
     	<state name = "Unselected">
-    		<frame image = "games/fighter/JerryJackExample/images/explosion.jpg" />
+    		<frame image = "games/fighter/JerryJackExample/images/Streets.jpg" />
     	</state>
     	<state name = "Selected">
             <frame image="games/fighter/JerryJackExample/images/Streets.jpg" />
             <frame image="games/fighter/JerryJackExample/images/explosion.jpg" />   
+        </state>
+   	</menuobject>
+   	<menuobject menuobjectname = "OtherMap">
+    	<state name = "Unselected">
+    		<frame image = "games/fighter/JerryJackExample/images/night.jpg" />
+    	</state>
+    	<state name = "Selected">
+            <frame image="games/fighter/JerryJackExample/images/night.jpg" />
+            <frame image="games/fighter/JerryJackExample/images/night.jpg" />   
         </state>
    	</menuobject>
    	 <menuobject menuobjectname = "BacktoCharacter">
@@ -69,6 +78,60 @@
     	</state>
     	<state name = "Selected">
             <frame image="games/fighter/JerryJackExample/images/new2.jpg" />
+            <frame image="games/fighter/JerryJackExample/images/explosion.jpg" />   
+        </state>
+   	</menuobject>
+   	   	<menuobject menuobjectname = "2">
+    	<state name = "Unselected">
+    		<frame image = "games/fighter/JerryJackExample/images/1v1.jpg" />
+    	</state>
+    	<state name = "Selected">
+            <frame image="games/fighter/JerryJackExample/images/1v1.jpg" />
+            <frame image="games/fighter/JerryJackExample/images/explosion.jpg" />   
+        </state>
+   	</menuobject>
+   	   	<menuobject menuobjectname = "3">
+    	<state name = "Unselected">
+    		<frame image = "games/fighter/JerryJackExample/images/three.jpeg" />
+    	</state>
+    	<state name = "Selected">
+            <frame image="games/fighter/JerryJackExample/images/three.jpeg" />
+            <frame image="games/fighter/JerryJackExample/images/explosion.jpg" />   
+        </state>
+   	</menuobject>
+   	   	   	<menuobject menuobjectname = "stock">
+    	<state name = "Unselected">
+    		<frame image = "games/fighter/JerryJackExample/images/stocklives.jpg" />
+    	</state>
+    	<state name = "Selected">
+            <frame image="games/fighter/JerryJackExample/images/stocklives.jpg" />
+            <frame image="games/fighter/JerryJackExample/images/explosion.jpg" />   
+        </state>
+   	</menuobject>
+   	   	<menuobject menuobjectname = "outofbounds">
+    	<state name = "Unselected">
+    		<frame image = "games/fighter/JerryJackExample/images/outbounds.jpeg" />
+    	</state>
+    	<state name = "Selected">
+            <frame image="games/fighter/JerryJackExample/images/outbounds.jpeg" />
+            <frame image="games/fighter/JerryJackExample/images/explosion.jpg" />   
+        </state>
+   	</menuobject>
+   	   	<menuobject menuobjectname = "5">
+    	<state name = "Unselected">
+    		<frame image = "games/fighter/JerryJackExample/images/five.jpeg" />
+    	</state>
+    	<state name = "Selected">
+            <frame image="games/fighter/JerryJackExample/images/five.jpeg" />
+            <frame image="games/fighter/JerryJackExample/images/explosion.jpg" />   
+        </state>
+   	</menuobject>
+   	   	   	<menuobject menuobjectname = "1">
+    	<state name = "Unselected">
+    		<frame image = "games/fighter/JerryJackExample/images/one.jpeg" />
+    	</state>
+    	<state name = "Selected">
+            <frame image="games/fighter/JerryJackExample/images/one.jpeg" />
             <frame image="games/fighter/JerryJackExample/images/explosion.jpg" />   
         </state>
    	</menuobject>

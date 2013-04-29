@@ -1,0 +1,52 @@
+/level
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+           a                              
+        a                                 
+           b  b                           
+     a  b                                 
+                b                         
+   b  b                                   
+                 b                        
+ b   a a   a a a   c                      
+                                          
+   b b b b b b b b b                      
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          
+/lib
+games.scroller.letteradventure.SpriteLibrary
+/key
+a=GEnemy
+c=Portal
+b=Platform
+/settings
+StartPoint=112 464
+Background=/games/scroller/letteradventure/images/backgrounds/background.png
