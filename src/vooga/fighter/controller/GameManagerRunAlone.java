@@ -48,7 +48,7 @@ public class GameManagerRunAlone{
     /**
     * Runs the entire engine
     */
-    public void run () {
+    public void run() {
         myControllerManager.run();
     }
 

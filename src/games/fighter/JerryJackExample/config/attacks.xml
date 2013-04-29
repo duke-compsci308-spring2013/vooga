@@ -6,7 +6,7 @@
             <hitbox cornerX="35" cornerY="14" width="10" height="10"/>
         </frame>
         <frame>
-            <hitbox cornerX="35" cornerY="14" width="10" height="10"/>
+            <hitbox cornerX="35" cornerY="14" width="26" height="10"/>
         </frame>
         <frame>
             <hitbox cornerX="35" cornerY="14" width="10" height="10"/>
