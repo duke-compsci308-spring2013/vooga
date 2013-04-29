@@ -5,6 +5,7 @@ import vooga.scroller.collision_manager.VisitLibrary;
 import vooga.scroller.extra_resources.sprite_interfaces.ICollectible;
 import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
 import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
+import vooga.scroller.extra_resources.sprite_interfaces.StandardPlayerCollisions;
 import vooga.scroller.marioGame.spritesDefinitions.players.Mario;
 import vooga.scroller.sprites.interfaces.IDoor;
 import vooga.scroller.sprites.superclasses.Player;
@@ -25,21 +26,21 @@ import vooga.scroller.sprites.superclasses.Player;
 public class MarioVisitMethods extends VisitLibrary {
 
        
-    private MarioCollisions collisions = new MarioCollisions();
+    private StandardPlayerCollisions collisions = new StandardPlayerCollisions();
 
     public void visit (Mario mario, IPlatform platform) {
-        collisions.marioAndPlatformCollision(mario, platform);
+        collisions.visit(mario, platform);
     }
     
     public void visit (Mario mario, ICollectible collectible) {
-        collisions.marioAndCollectibleCollision(mario, collectible);
+        collisions.visit(mario, collectible);
     }
         
     public void visit (Mario mario, IEnemy enemy) {
-        collisions.marioAndEnemyCollision(mario, enemy);
+        collisions.visit(mario, enemy);
     }
     
     public void visit (Player player, IDoor levelPortal) {
-        collisions.marioAndLevelPortalCollision(levelPortal);
+        collisions.visit(player, levelPortal);
     }
 }

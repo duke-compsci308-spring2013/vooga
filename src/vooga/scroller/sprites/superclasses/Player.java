@@ -89,4 +89,6 @@ public abstract class Player extends GameCharacter implements IInputListener, Lo
     public IGameComponent getLevel () {
         return myLevel;
     }
+
+    public abstract void incrementScore (int value);
 }

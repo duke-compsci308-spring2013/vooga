@@ -6,10 +6,10 @@ import vooga.scroller.collision_manager.VisitLibrary;
 import vooga.scroller.extra_resources.sprite_interfaces.ICollectible;
 import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
 import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
+import vooga.scroller.extra_resources.sprite_interfaces.StandardPlayerCollisions;
 import vooga.scroller.level_editor.Level;
 import vooga.scroller.level_editor.library.EncapsulatedSpriteLibrary;
 import vooga.scroller.level_management.LevelPortal;
-import vooga.scroller.marioGame.spritesDefinitions.collisions.MarioVisitMethods;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.interfaces.Locatable;
 import vooga.scroller.sprites.movement.BackAndForth;
@@ -20,6 +20,7 @@ import vooga.scroller.util.ISpriteView;
 import vooga.scroller.util.Pixmap;
 
 public class SuperMarioLib extends EncapsulatedSpriteLibrary {
+
     private static final Dimension DEFAULT_SIZE = new Dimension(32, 32);
     private static final int DEFAULT_HEALTH = 1;
     private static final int DEFAULT_DAMAGE = 0;
@@ -210,10 +211,4 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
             return PORTAL_SIZE;
         }
     }
-
-    @Override
-    public VisitLibrary getVisitLibrary () {
-        return new MarioVisitMethods(); //TODO - needs to implement legit ones
-    }
-
 }

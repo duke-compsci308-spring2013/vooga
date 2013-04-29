@@ -1,11 +1,8 @@
-package vooga.scroller.marioGame.spritesDefinitions.collisions;
+package vooga.scroller.extra_resources.sprite_interfaces;
 
 import util.Vector;
 import vooga.scroller.collision_manager.CollisionDirection;
-import vooga.scroller.extra_resources.sprite_interfaces.ICollectible;
-import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
-import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
-import vooga.scroller.marioGame.spritesDefinitions.players.Mario;
+import vooga.scroller.collision_manager.VisitLibrary;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.interfaces.IDoor;
 import vooga.scroller.sprites.superclasses.Player;
@@ -13,27 +10,21 @@ import vooga.scroller.util.Direction;
 
 
 /**
- * This class is specific to our game and is not intended to be a part of the
- * framework. It is meant to handle certain collisions specific to our Mario
- * game. If the game designer wants to implement specific collision helper methods
- * this is the place where those methods should go. <br>
- * <br>
- * Ultimately, this is the place where the game designer should dump all collision
- * logic into. He/She can then call these methods because VisitMethods.java
- * has a instance of this class.
+ * This class handles standard player collisions and is used by default 
+ * in encapsulated libraries when a designer doesn't specify explicit 
+ * visit methods and uses the standard interfaces provided.
  * 
- * @author Jay Wang
+ * @author Jay Wang, Dagbedji Fagnisse
  */
-public class MarioCollisions {
+public class StandardPlayerCollisions extends VisitLibrary {
 
-    private static final double FRICTION = .5;
     private CollisionDirection direction = new CollisionDirection();
 
-    protected void marioAndLevelPortalCollision (IDoor levelPortal) {
+    public void visit (Player player, IDoor levelPortal) {
         levelPortal.goToNextLevel();
     }
 
-    protected void marioAndEnemyCollision (Mario player, IEnemy enemy) {
+    public void visit (Player player, IEnemy enemy) {
         if (direction.collisionDirection(player, enemy).equals(Direction.TOP)) {
             enemy.takeHit(player.getHit());
         }
@@ -42,12 +33,12 @@ public class MarioCollisions {
         }
     }
 
-    protected void marioAndCollectibleCollision (Mario player, ICollectible collectible) {
+    public void visit (Player player, ICollectible collectible) {
         player.incrementScore(collectible.getValue());
         collectible.takeHit(player.getHit());
     }
 
-    protected void marioAndPlatformCollision (Mario player, IPlatform platform) {
+    public void visit (Player player, IPlatform platform) {
 
         Direction collisionType = direction.collisionDirection(player, platform);
 

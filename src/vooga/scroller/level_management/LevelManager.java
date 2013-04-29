@@ -94,6 +94,15 @@ public class LevelManager {
         setCurrentLevel(myInitialLevel);
     }
 
+    public LevelManager (Model model, SplashPage splashPage, String[] levelsFilePaths) {
+        // TODO - refactoring needed
+        LevelFactory lf = new LevelFactory(this, model);
+        myInitialLevel = lf.linkLevels(splashPage, lf.generateLevels(levelsFilePaths));        
+        //myCurrentLevel = myLevels.get(DEFAULT_START_LEVEL_ID); 
+        myInput = new Input(DEFAULT_INPUT_CONTROLS, model.getView());
+        setCurrentLevel(myInitialLevel);
+    }
+
     /**
      * Gives the current level.
      * 

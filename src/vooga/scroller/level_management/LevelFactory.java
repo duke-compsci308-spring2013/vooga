@@ -37,6 +37,7 @@ public class LevelFactory {
     public LevelFactory (LevelManager lm, Model m) {
         myLevelManager = lm;
         mySM = m.getScrollingManager();
+        myModel = m;
     }
     
 

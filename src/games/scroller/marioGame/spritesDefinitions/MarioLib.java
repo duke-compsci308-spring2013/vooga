@@ -1,8 +1,10 @@
 package games.scroller.marioGame.spritesDefinitions;
 
+import games.scroller.marioGame.spritesDefinitions.collisions.MarioVisitMethods;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import util.Location;
+import vooga.scroller.collision_manager.VisitLibrary;
 import vooga.scroller.extra_resources.sprite_interfaces.ICollectible;
 import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
 import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
@@ -33,10 +35,20 @@ import util.Vector;
  * will need to provide.
  */
 public class MarioLib extends EncapsulatedSpriteLibrary {
+    
+
+    private static final VisitLibrary DEFAULT_VISIT_LIB = new MarioVisitMethods();
     private static final Dimension DEFAULT_SIZE = new Dimension(32, 32);
-    private static final Location DEFAULT_LOC = new Location(32, 32);
     private static final int DEFAULT_HEALTH = 1;
     private static final int DEFAULT_DAMAGE = 0;
+    
+    public MarioLib (VisitLibrary lib) {
+        super(lib);
+    }
+    
+    public MarioLib () {
+        super(DEFAULT_VISIT_LIB);
+    }
 
     public static class Coin extends GameCharacter implements ICollectible {
 

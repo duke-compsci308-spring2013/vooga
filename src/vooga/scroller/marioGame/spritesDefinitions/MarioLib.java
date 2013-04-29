@@ -33,6 +33,15 @@ import vooga.scroller.util.Pixmap;
  * will need to provide.
  */
 public class MarioLib extends EncapsulatedSpriteLibrary {
+    protected MarioLib (VisitLibrary lib) {
+        super(lib);
+    }
+    
+    public MarioLib() {
+        this(DEFAULT_VISIT_LIB);
+    }
+
+    private static final VisitLibrary DEFAULT_VISIT_LIB = new MarioVisitMethods();
     private static final Dimension DEFAULT_SIZE = new Dimension(32, 32);
     private static final int DEFAULT_HEALTH = 1;
     private static final int DEFAULT_DAMAGE = 0;
@@ -247,11 +256,6 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
                 new MovingSpriteAnimationFactory(getImagesDirectory(), baseFileName);
         Animation<Sprite> playerAnimation = msaf.generateAnimation(player);
         player.setView(playerAnimation);
-    }
-
-    @Override
-    public VisitLibrary getVisitLibrary () {
-        return new MarioVisitMethods();
     }
 
 }

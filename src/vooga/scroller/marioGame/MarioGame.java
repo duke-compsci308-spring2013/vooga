@@ -5,6 +5,7 @@ import arcade.games.ArcadeInteraction;
 import arcade.games.GameData;
 import arcade.games.UserGameData;
 import vooga.scroller.collision_manager.VisitLibrary;
+import vooga.scroller.extra_resources.sprite_interfaces.StandardPlayerCollisions;
 import vooga.scroller.level_management.splash_page.SplashPage;
 import vooga.scroller.marioGame.splash_page.MarioSplashPage;
 import vooga.scroller.marioGame.spritesDefinitions.MarioLib;

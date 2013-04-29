@@ -135,6 +135,7 @@ public class Mario extends Player implements IInputListener {
         }
     }
 
+    @Override
     public void incrementScore (int increment) {
         // TODO Auto-generated method stub
 

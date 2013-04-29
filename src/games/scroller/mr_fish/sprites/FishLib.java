@@ -1,5 +1,6 @@
 package games.scroller.mr_fish.sprites;
 
+import games.scroller.mr_fish.sprites.collisions.VisitMethods;
 import games.scroller.mr_fish.sprites.player.MrFish;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import util.Location;
+import vooga.scroller.collision_manager.VisitLibrary;
 import vooga.scroller.extra_resources.inventory.Item;
 import vooga.scroller.extra_resources.movements.TimedMovement;
 import vooga.scroller.extra_resources.sprite_interfaces.ICollectible;
@@ -28,6 +30,15 @@ import vooga.scroller.util.Pixmap;
 
 public class FishLib extends EncapsulatedSpriteLibrary {
 
+    protected FishLib (VisitLibrary lib) {
+        super(lib);
+    }
+    
+    public FishLib() {
+        this(DEFAULT_VISIT_LIB);
+    }
+
+    private static final VisitLibrary DEFAULT_VISIT_LIB = new VisitMethods();
     public static final String IMAGE_LOCATION = "/games/scroller/mr_fish/images/";
     public static final Location DEFAULT_CENTER = new Location(0, 0);
     private static Random myRandom = new Random();

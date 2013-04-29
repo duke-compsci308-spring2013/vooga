@@ -125,8 +125,8 @@ public class Model implements Renderable<Gaming> {
         initializeCollisionManager(myVisitLibrary);
     }
 
-    public void initializeCollisionManager (VisitLibrary myVisitLibrary) {
-        myCollisionManager = new CollisionManager(new MarioVisitMethods()); //TODO
+    public void initializeCollisionManager (VisitLibrary visitLibrary) {
+        myCollisionManager = new CollisionManager(visitLibrary); //TODO
     }
 
     /**
@@ -230,5 +230,9 @@ public class Model implements Renderable<Gaming> {
 
     public LevelManager getLevelManager () {
         return myLevelManager;
+    }
+
+    public void setGameComponents (SplashPage splashPage, String[] levelsFilePaths) {
+        myLevelManager = new LevelManager(this, splashPage, levelsFilePaths);
     }
 }
