@@ -40,6 +40,7 @@ public class OneVOneController extends LevelController {
      */
     public OneVOneController () {
         super();
+        System.out.printf("OneVOneController constructor : 1v1 runtime class: %s\n", this.getClass().toString());        
     }   
 
     /**
@@ -104,6 +105,7 @@ public class OneVOneController extends LevelController {
      */
     @InputMethodTarget(name = "player1_jump")
     public void playerOneJumpInput (AlertObject alObj)  {
+        System.out.printf("OneVOneController playerOneJumpInput : Base controller p1 jump call\n");
         getInputObjects().get(0).jump();
     }
 
@@ -114,7 +116,7 @@ public class OneVOneController extends LevelController {
     }
 
     @InputMethodTarget(name = "player1_right")
-    public void playerOneRightInput(AlertObject alObj) {
+    public void playerOneRightInput(AlertObject alObj) {        
         getInputObjects().get(0).move(0);
 
     }
@@ -139,13 +141,25 @@ public class OneVOneController extends LevelController {
 
     @InputMethodTarget(name = "player1_attack")
     public void playerOneAttackInput(AlertObject alObj) {
-        AttackObject newAttack = getInputObjects().get(0).attack("weakPunch");
-        getMode().addObject(newAttack);
+        System.out.printf("OneVOneController playerOneAttackInput : Base controller p1 attack call\n");
+        playerOneAttack(alObj);
     }
 
     @InputMethodTarget(name = "player2_attack")
     public void playerTwoAttacknput(AlertObject alObj) {
-        getInputObjects().get(1).attack("weakPunch");
+        playerTwoAttack(alObj);
+    }
+    
+    public void playerOneAttack(AlertObject obj) {
+        System.out.printf("OneVOneController playerOneAttack : Base controller p1 attack call\n");
+        AttackObject newAttack = getInputObjects().get(0).attack("weakRyuPunch");
+        getMode().addObject(newAttack);
+    }
+    
+    public void playerTwoAttack(AlertObject obj) {
+        System.out.printf("OneVOneController playerTwoAttack : Base controller p2 attack call\n");
+        AttackObject newAttack = getInputObjects().get(1).attack("weakKenPunch");
+        getMode().addObject(newAttack);
     }
 
     @InputMethodTarget(name = "continue")
