@@ -9,12 +9,13 @@ import util.input.InputMethodTarget;
 import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
 import vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.ConsumeState;
+import vooga.scroller.kirbyGame.spritesDefinitions.players.states.CutterAttackLeftState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.FloatLeftState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.FloatRightState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.InhaleLeftState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.InhaleRightState;
-import vooga.scroller.kirbyGame.spritesDefinitions.players.states.KirbyLaserWalkLeftState;
-import vooga.scroller.kirbyGame.spritesDefinitions.players.states.KirbyLaserWalkRightState;
+import vooga.scroller.kirbyGame.spritesDefinitions.players.states.KirbyCutterWalkLeftState;
+import vooga.scroller.kirbyGame.spritesDefinitions.players.states.KirbyCutterWalkRightState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.WalkLeftFullState;
 import vooga.scroller.kirbyGame.spritesDefinitions.players.states.WalkRightFullState;
 
@@ -62,6 +63,7 @@ public class Kirby extends Player implements IInputListener{
 
     private static String myCurrentState; 
     private static String LASER_ENEMY = "laserEnemy";
+    private static String CUTTER_ENEMY = "cutterEnemy";
     private static String DEFAULT = "default";
 
 
@@ -103,8 +105,9 @@ public class Kirby extends Player implements IInputListener{
         this.addPossibleState(WalkLeftFullState.STATE_ID, new WalkLeftFullState(this));
         this.addPossibleState(WalkRightFullState.STATE_ID, new WalkRightFullState(this));
         this.addPossibleState(ConsumeState.STATE_ID, new ConsumeState(this));
-        this.addPossibleState(KirbyLaserWalkLeftState.STATE_ID, new KirbyLaserWalkLeftState(this));
-        this.addPossibleState(KirbyLaserWalkRightState.STATE_ID, new KirbyLaserWalkRightState(this));
+        this.addPossibleState(KirbyCutterWalkLeftState.STATE_ID, new KirbyCutterWalkLeftState(this));
+        this.addPossibleState(KirbyCutterWalkRightState.STATE_ID, new KirbyCutterWalkRightState(this));
+        this.addPossibleState(CutterAttackLeftState.STATE_ID, new CutterAttackLeftState(this));
 
 
 
@@ -161,8 +164,8 @@ public class Kirby extends Player implements IInputListener{
         }
         
         
-        if (myCurrentState.equals(LASER_ENEMY)) {
-            this.activateState(KirbyLaserWalkLeftState.STATE_ID);
+        if (myCurrentState.equals(CUTTER_ENEMY)) {
+            this.activateState(KirbyCutterWalkLeftState.STATE_ID);
         }
         
         else if(this.getCurrentStateID() == FloatRightState.STATE_ID) {
@@ -178,7 +181,7 @@ public class Kirby extends Player implements IInputListener{
     public void stopLeft() {        
         this.deactivateState(MoveLeft.STATE_ID);
         this.deactivateState(WalkLeftFullState.STATE_ID);
-        this.deactivateState(KirbyLaserWalkLeftState.STATE_ID);
+        this.deactivateState(KirbyCutterWalkLeftState.STATE_ID);
 
     }
     
@@ -190,8 +193,8 @@ public class Kirby extends Player implements IInputListener{
             this.activateState(WalkRightFullState.STATE_ID);
         }
         
-        if (myCurrentState.equals(LASER_ENEMY)) {
-            this.activateState(KirbyLaserWalkRightState.STATE_ID);
+        if (myCurrentState.equals(CUTTER_ENEMY)) {
+            this.activateState(KirbyCutterWalkRightState.STATE_ID);
         }
         
         else if (this.getCurrentStateID() == FloatLeftState.STATE_ID) {
@@ -207,7 +210,7 @@ public class Kirby extends Player implements IInputListener{
     public void stopRight() {
         this.deactivateState(MoveRight.STATE_ID);
         this.deactivateState(WalkRightFullState.STATE_ID);
-        this.deactivateState(KirbyLaserWalkRightState.STATE_ID);
+        this.deactivateState(KirbyCutterWalkRightState.STATE_ID);
 
 
     }
@@ -279,16 +282,29 @@ public class Kirby extends Player implements IInputListener{
     @InputMethodTarget(name = "consumestop")
     public void stopConsumeState() {
         this.deactivateState(ConsumeState.STATE_ID);
-        if (consumedEnemy instanceof KirbyLib.LaserEnemy) {
-            this.activateState(KirbyLaserWalkRightState.STATE_ID);
-            myCurrentState = LASER_ENEMY;
+        if (consumedEnemy instanceof KirbyLib.CutterEnemy) {
+            this.activateState(KirbyCutterWalkRightState.STATE_ID);
+            myCurrentState = CUTTER_ENEMY;
         }
         consumedEnemy = null; 
 
     }
     
     
+    @InputMethodTarget(name = "attackstart")
+    public void startAttackLeftState() {
+        if (myCurrentState.equals(CUTTER_ENEMY)) {
+            System.out.println("Getting into attack state. mycurrentstate: " + myCurrentState);
+            this.activateState(CutterAttackLeftState.STATE_ID);
+        }
+
+    }
     
+    @InputMethodTarget(name = "attackstop")
+    public void stopAttackState() {
+      //  this.deactiv
+
+    }
 
 
     public void startFullState() {

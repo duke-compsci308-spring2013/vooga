@@ -32,7 +32,7 @@ cccccccccc
 /lib
 vooga.scroller.kirbyGame.spritesDefinitions.KirbyLib
 /key
-b=LaserEnemy
+b=CutterEnemy
 a=DoorPortal
 c=PlatformTwo
 /settings

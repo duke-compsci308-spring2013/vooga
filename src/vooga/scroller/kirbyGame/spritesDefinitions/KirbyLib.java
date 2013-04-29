@@ -7,6 +7,7 @@ import util.Location;
 import vooga.scroller.extra_resources.sprite_interfaces.ICollectible;
 import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
 import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
+import vooga.scroller.kirbyGame.spritesDefinitions.movements.Shooting;
 import vooga.scroller.level_editor.Level;
 import vooga.scroller.level_editor.library.EncapsulatedSpriteLibrary;
 import vooga.scroller.level_management.LevelPortal;
@@ -139,6 +140,34 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
         
     }
 
+    public static class KirbyLaser extends GameCharacter implements IEnemy {
+
+        //has no movement right now 
+        private static final String DEFAULT_IMG = "kirbylaserproj.gif";
+
+        private static final Dimension KIRBY_LASER_SIZE = new Dimension(64,8);
+        private int SPEED = 30;
+        private Shooting movement = new Shooting(this, SPEED, true);
+        
+
+        public KirbyLaser () {
+            this(DEFAULT_LOC);
+        }
+
+        public KirbyLaser (Location center) {
+            super(makePixmap(DEFAULT_IMG), center, KIRBY_LASER_SIZE, new Integer(1), new Integer(2));
+        }
+
+        public void update (double elapsedTime, Dimension bounds) {
+            movement.execute();
+            super.update(elapsedTime, bounds);
+        }
+
+        @Override
+        public void handleDeath (vooga.scroller.level_editor.Level level) {
+            // TODO Auto-generated method stub   
+        }
+    }
 
     public static class PlatformOne extends Sprite implements IPlatform {
 
@@ -191,34 +220,6 @@ public class KirbyLib extends EncapsulatedSpriteLibrary {
         }
     }
     
-    
-    public static class KirbyLaser extends GameCharacter implements IEnemy {
-
-        //has no movement right now 
-        private static final String DEFAULT_IMG = "kirbylaserproj.gif";
-
-        private static final Dimension KIRBY_LASER_SIZE = new Dimension(64,8);
-        private int SPEED = 30;
-
-
-        public KirbyLaser () {
-            this(DEFAULT_LOC);
-        }
-
-        public KirbyLaser (Location center) {
-            super(makePixmap(DEFAULT_IMG), center, KIRBY_LASER_SIZE, new Integer(1), new Integer(2));
-        }
-
-        public void update (double elapsedTime, Dimension bounds) {
-            //movement.execute();
-            super.update(elapsedTime, bounds);
-        }
-
-        @Override
-        public void handleDeath (vooga.scroller.level_editor.Level level) {
-            // TODO Auto-generated method stub   
-        }
-    }
     
     public static class EnemyLaser extends GameCharacter implements IEnemy {
 

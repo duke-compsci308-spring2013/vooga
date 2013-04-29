@@ -10,14 +10,14 @@ import vooga.scroller.sprites.animation.movement.MoveLeft;
 import vooga.scroller.sprites.animation.state_movement.MoveLeftState;
 import vooga.scroller.sprites.state.SpriteState;
 
-public class KirbyLaserWalkLeftState extends SpriteState<Sprite>{
+public class KirbyCutterWalkLeftState extends SpriteState<Sprite>{
 
-    private static final String DEFAULT_IMG = "kirbylaserswalkR.gif";
+    private static final String DEFAULT_IMG = "kirbycutterwalkR.gif";
     public static int STATE_ID = 11;
     private Kirby myKirby;
 
 
-    public KirbyLaserWalkLeftState (Sprite unit) {
+    public KirbyCutterWalkLeftState (Sprite unit) {
         super(unit);
         myKirby = (Kirby) unit;
         // TODO Auto-generated constructor stub
