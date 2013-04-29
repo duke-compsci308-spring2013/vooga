@@ -254,6 +254,10 @@ public abstract class InteractiveEntity extends GameEntity implements
 	public void addActionInfo(String command, Information info) {
 		myActionInfos.put(command, info);
 	}
+	
+	public void removeActionInfo(String command) {
+		myActionInfos.remove(command);
+	}
 
 	/**
 	 * This method specifies that the interactive entity is attacking an
@@ -372,6 +376,14 @@ public abstract class InteractiveEntity extends GameEntity implements
 			if (isMake.equals("make")) { // very buggy
 				infoCommands
 						.add(new InformationCommand(s, myActionInfos.get(s)));
+			}
+			else if (isMake.equals("upgrade")) {
+				infoCommands
+					.add(new InformationCommand(s, myActionInfos.get(s)));
+			}
+			else if (isMake.equals("deoccupy")) {
+				infoCommands
+					.add(new InformationCommand(s, myActionInfos.get(s)));
 			}
 
 		}
@@ -619,12 +631,24 @@ public abstract class InteractiveEntity extends GameEntity implements
 		updateTasks(elapsedTime);
 		updateQueueableTasks(elapsedTime);
 		updateAttack(elapsedTime);
+		//updateOccupy(elapsedTime);
 		getEntityState().update(elapsedTime);
 		getGatherStrategy().update(elapsedTime);
 		setChanged();
 		notifyObservers();
 	}
-
+	
+	private void updateOccupy(double elapsedTime) {
+		List<InteractiveEntity> shelters = findShelters();
+		if (!shelters.isEmpty()) {
+			
+		}
+	}
+	
+	private List<InteractiveEntity> findShelters() {
+		return null;
+	}
+	
 	private void updateAttack(double elapsedTime) {
 		if (myAttackStrategy.hasWeapon()) {
 			Weapon weapon = myAttackStrategy.getCurrentWeapon();
@@ -646,7 +670,6 @@ public abstract class InteractiveEntity extends GameEntity implements
 
 			if (!myCurQueueTask.isActive() && myQueueableTasks.peek() != null) {
 				myCurQueueTask = myQueueableTasks.poll();
-				System.out.println(myCurQueueTask);
 			}
 
 			myCurQueueTask.update(elapsedTime);

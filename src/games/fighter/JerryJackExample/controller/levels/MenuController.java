@@ -58,6 +58,7 @@ public abstract class MenuController extends Controller {
                           GameInfo gameinfo, String pathway) {
         super(name, frame, manager, gameinfo, pathway);
         myInputPathway = getHardFilePath() + INPUT_PATHWAY;
+        System.out.println(myInputPathway);
         setInput(manager.getInput());
         getInput().replaceMappingResourcePath(myInputPathway);
         getInput().addListenerTo(this);

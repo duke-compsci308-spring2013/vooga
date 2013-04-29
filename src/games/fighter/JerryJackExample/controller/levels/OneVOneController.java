@@ -9,8 +9,7 @@ import util.input.*;
 import vooga.fighter.controller.Controller;
 import vooga.fighter.controller.gameinformation.GameInfo;
 import vooga.fighter.controller.interfaces.ControllerDelegate;
-import vooga.fighter.forces.Force;
-import vooga.fighter.forces.ForceFactory;
+import vooga.fighter.forces.*;
 import vooga.fighter.model.objects.AttackObject;
 import vooga.fighter.model.objects.CharacterObject;
 import vooga.fighter.view.Canvas;
@@ -137,15 +136,28 @@ public class OneVOneController extends LevelController {
     }
 
 
-    @InputMethodTarget(name = "player1_attack")
-    public void playerOneAttackInput(AlertObject alObj) {
+    @InputMethodTarget(name = "player1_punch")
+    public void playerOnePunchInput(AlertObject alObj) {
         AttackObject newAttack = getInputObjects().get(0).attack("weakPunch");
         getMode().addObject(newAttack);
     }
 
-    @InputMethodTarget(name = "player2_attack")
-    public void playerTwoAttacknput(AlertObject alObj) {
-        getInputObjects().get(1).attack("weakPunch");
+    @InputMethodTarget(name = "player2_punch")
+    public void playerTwoPunchknput(AlertObject alObj) {
+        AttackObject newAttack = getInputObjects().get(1).attack("weakPunch");
+        getMode().addObject(newAttack);
+    }
+    
+    @InputMethodTarget(name = "player1_kick")
+    public void playerOneKicknput(AlertObject alObj) {
+        AttackObject newAttack = getInputObjects().get(0).attack("kick");
+        getMode().addObject(newAttack);
+    }
+    
+    @InputMethodTarget(name = "player2_kick")
+    public void playerTwoKickInput(AlertObject alObj) {
+        AttackObject newAttack = getInputObjects().get(1).attack("kick");
+        getMode().addObject(newAttack);
     }
 
     @InputMethodTarget(name = "continue")

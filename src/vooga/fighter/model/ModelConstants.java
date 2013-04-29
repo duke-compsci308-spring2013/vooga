@@ -106,7 +106,7 @@ public class ModelConstants {
     public static final String MASS_PROPERTY="mass";
     public static final String MAXHEALTH_PROPERTY="maxHealth";
     
-    public static final String BLANK="fighter/images/blank.gif";
+    public static final String BLANK="games/fighter/JerryJackExample/images/blank.gif";
     public static final String STAND="stand";
     
     

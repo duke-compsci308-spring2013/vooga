@@ -2,7 +2,7 @@
 <objects>
     <mouseobject >
     	<state name="still">
-            <frame mouseimage="fighter/images/ball.gif" mouseclickimage="fighter/images/fire.png" width="30" height="30" />
+            <frame mouseimage="games/fighter/images/ball.gif" mouseclickimage="games/fighter/JerryJackExample/images/fire.png" width="30" height="30" />
         </state>
     </mouseobject>
 </objects>

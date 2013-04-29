@@ -100,6 +100,12 @@ public class AttackObject extends GameObject {
     }
     
     /**
+     * No functionality for update state as of now
+     */
+    public void updateState(){
+    	
+    }
+    /**
      * Adds the initial acceleration of the attack object to the location's list
      * of accelerations.
      */

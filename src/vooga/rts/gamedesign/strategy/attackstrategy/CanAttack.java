@@ -39,6 +39,12 @@ public class CanAttack implements AttackStrategy {
      */
     public CanAttack (Location3D worldLocation, int PlayerID) {
         myWeapons = new ArrayList<Weapon>();
+        Weapon defaultWeapon =
+                new Weapon(new Projectile(Projectile.DEFAULT_PIC, worldLocation,
+                                          Projectile.DEFAULT_DIMENSION, PlayerID,
+                                          Projectile.DEFAULT_DAMAGE, Projectile.DEFAULT_HEALTH,800),
+                           Weapon.DEFAULT_RANGE, worldLocation, Weapon.DEFAULT_COOLDOWN_TIME);
+        myWeapons.add(defaultWeapon);
         myWeaponIndex = 0;
     }
 

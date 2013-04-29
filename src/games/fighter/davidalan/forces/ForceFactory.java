@@ -1,10 +1,8 @@
-package games.fighter.JerryJackExample.forces;
+package games.fighter.davidalan.forces;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import vooga.fighter.forces.Force;
 
 /**
  * Constructs the forces from a properties file

@@ -413,6 +413,7 @@ public class Factory {
             mySprites.get(key).setUpgradeStrategy(upgrade);
             if (upgrade instanceof CanUpgrade) {
                 UpgradeTree relatedUpgradeTree = myUpgradeTrees.get(strategies[4]);
+                System.out.println("RELATED UPGRADE: " + strategies[4]);
                 mySprites.get(key).setUpgradeTree(relatedUpgradeTree);
             }
         }

@@ -248,7 +248,7 @@ public abstract class Controller {
                                     myDisplayInfo.update();
                                     myCanvas.paint();
                                     checkConditions();
-
+                                    developerUpdate();
                                 }
                             });
         // start animation

@@ -12,7 +12,6 @@ import vooga.rts.util.ReflectionHelper;
 *
 */
 public class HealthUpgradeNode extends UpgradeNode {
-
     public HealthUpgradeNode (UpgradeTree upgradeTree,
                               String upgradeType,
                               int upgradeValue,
@@ -26,6 +25,8 @@ public class HealthUpgradeNode extends UpgradeNode {
      */
     @Override
     public void upgrade (InteractiveEntity requester) {
+    	ReflectionHelper.changeValue("myCurrentHealth", requester,
+    			getUpgradeValue());
     	ReflectionHelper.changeValue("myMaxHealth", requester,
     			getUpgradeValue());
     }

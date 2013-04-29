@@ -57,18 +57,18 @@ public class UpgradeDecoder extends Decoder {
 	 * 
 	 */
 	public void create(Document doc, String type) throws NumberFormatException {
-		UpgradeTree upgradeTree = new UpgradeTree();
-		
 		NodeList treeLst = doc.getElementsByTagName(TREE_TAG);
+		System.out.println("LENGTH: " + treeLst.getLength());
 		for (int i = 0; i < treeLst.getLength(); i++) {
 			Element treeElmnt = (Element) treeLst.item(i);
 			Element treeNameElmnt = (Element) treeElmnt.getElementsByTagName(TREE_NAME_TAG).item(0);
 			NodeList treeName = treeNameElmnt.getChildNodes();
-			createSingleTree(((Node) treeName.item(0)).getNodeValue(), treeElmnt, upgradeTree);
+			createSingleTree(((Node) treeName.item(0)).getNodeValue(), treeElmnt);
 		}
 	}
 	
-	private void createSingleTree(String treeName, Element treeElmnt, UpgradeTree upgradeTree) {
+	private void createSingleTree(String treeName, Element treeElmnt) {
+		UpgradeTree upgradeTree = new UpgradeTree();
 		NodeList nodeLst = treeElmnt.getElementsByTagName(UPGRADE_CATEGORY_TAG);
 
 		for (int i = 0; i < nodeLst.getLength(); i++) {
@@ -82,12 +82,12 @@ public class UpgradeDecoder extends Decoder {
 			for (int j=0; j<upgradeNodeList.getLength(); ++j) {
 				Element upgradeNodeElement = (Element) upgradeNodeList.item(j);
 
-				String parent = loadSingleLine(upgradeNodeElement, PARENT_UPGRADE_TAG);
-				String nodeName = loadSingleLine(upgradeNodeElement, TITLE_TAG);
-				String object = loadSingleLine(upgradeNodeElement, AFFECTING_OBJECT_TAG);
-				String value = loadSingleLine(upgradeNodeElement, AFFECTING_VALUE_TAG);
-				String costedResource = loadSingleLine(upgradeNodeElement, COSTING_RESOURCE_TYPE_TAG);
-				String costedResourceAmount = loadSingleLine(upgradeNodeElement, COSTING_RESOURCE_AMOUNT_TAG);
+				String parent = getElement(upgradeNodeElement, PARENT_UPGRADE_TAG);
+				String nodeName = getElement(upgradeNodeElement, TITLE_TAG);
+				String object = getElement(upgradeNodeElement, AFFECTING_OBJECT_TAG);
+				String value = getElement(upgradeNodeElement, AFFECTING_VALUE_TAG);
+				String costedResource = getElement(upgradeNodeElement, COSTING_RESOURCE_TYPE_TAG);
+				String costedResourceAmount = getElement(upgradeNodeElement, COSTING_RESOURCE_AMOUNT_TAG);
 
 				UpgradeNode newUpgrade = (UpgradeNode) ReflectionHelper.makeInstance(myUpgradeNodeType.get(object), upgradeTree, nodeName, Integer.parseInt(value), Integer.parseInt(costedResourceAmount));
 				UpgradeNode current = upgradeTree.findNode(parent);

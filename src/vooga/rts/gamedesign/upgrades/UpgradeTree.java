@@ -6,6 +6,7 @@ import java.util.List;
 import vooga.rts.action.InteractiveAction;
 import vooga.rts.commands.Command;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
+import vooga.rts.util.Information;
 
 
 /**
@@ -43,11 +44,13 @@ public class UpgradeTree {
      */
     public void activateNode (UpgradeNode activateNode, final InteractiveEntity entity) {
         myCurrentUpgrades.remove(activateNode);
-        entity.removeAction(activateNode.getUpgradeName());
+        entity.removeActionInfo("upgrade " + activateNode.getUpgradeName());
+        entity.removeAction("upgrade " + activateNode.getUpgradeName());
         if (!activateNode.getChildren().isEmpty()) {
             for (final UpgradeNode newUpgrade : activateNode.getChildren()) {
                 myCurrentUpgrades.add(newUpgrade);
-                entity.addAction(newUpgrade.getUpgradeName(), new InteractiveAction(entity) {
+                String commandName = "upgrade " + newUpgrade.getUpgradeName();
+                entity.addAction(commandName, new InteractiveAction(entity) {
     				@Override
     	            public void update (Command command) {
     	            }
@@ -57,6 +60,7 @@ public class UpgradeTree {
     	                newUpgrade.apply(entity);
     	            }
     			});
+                entity.addActionInfo(commandName, new Information(commandName, "This upgrades " + newUpgrade.getUpgradeName(), "buttons/unload.gif",null));  
             }
         }
     }
