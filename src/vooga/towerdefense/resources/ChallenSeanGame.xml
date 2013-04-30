@@ -114,13 +114,28 @@
 				</Move>
 			</actions>			
 		</ArtsyBird>
+		<Tweety>
+			<dimension>50, 50</dimension>
+			<image>Tweety.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<HEALTH>80</HEALTH>
+				<MOVE_SPEED>10</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+			</actions>			
+		</Tweety>
 		<Tower>
 			<dimension>50, 50</dimension>
 			<image>CSTower.png</image>
 			<type>Tower</type>
-			<attributes>
-				<MOVE_SPEED>50</MOVE_SPEED>
-			</attributes>
 			<attributes>
 				<Health>100</Health>
 				<Cost>10</Cost>
@@ -176,5 +191,19 @@
 				</LevelTimerAction>
 			</actions>
 		</Level2>
-		</levels>
+		<Level3>
+		<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>50</parameter>
+					<parameter>2500</parameter>
+					<parameter>Tweety</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>60000</parameter>
+				</LevelTimerAction>
+			</actions>
+			</Level3>
+			</levels>
 </Game>	
