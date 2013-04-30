@@ -188,7 +188,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
     }
 
-    public static class Fireflower extends GameCharacter implements ICollectible {
+    public static class Fireflower extends GameCharacter implements IPowerUp {
 
         private static final String DEFAULT_IMG = "item_flower.png";
 
@@ -209,6 +209,12 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         @Override
         public void handleDeath (Level level) {
             // killing this does not do anything
+        }
+
+        @Override
+        public int getStateID () {
+            // TODO Auto-generated method stub
+            return FireState.STATE_ID;
         }
 
     }

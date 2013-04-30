@@ -12,6 +12,7 @@ import vooga.scroller.scrollingmanager.ScrollingManager;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.animation.state_movement.MoveLeftState;
 import vooga.scroller.sprites.animation.state_movement.MoveRightState;
+import vooga.scroller.sprites.state.SpriteState;
 import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.util.ISpriteView;
 import vooga.scroller.util.Pixmap;
@@ -150,5 +151,10 @@ public class Mario extends Player implements IInputListener {
     public void incrementScore (int increment) {
         // TODO Auto-generated method stub
 
+    }
+
+    public void changeState (int i) {
+        // TODO Auto-generated method stub
+        
     }
 }
