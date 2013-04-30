@@ -45,12 +45,21 @@ public abstract class GameCharacter extends Sprite implements Locatable{
         super(image, size);
         myHealth = health;
         myDamage = damage;
-        myGravity = new Gravity(this);
+        myGravity = null;
+    }
+    
+    public GameCharacter (ISpriteView image, Dimension size, int health, int damage, boolean gravity) {
+        super(image, size);
+        myHealth = health;
+        myDamage = damage;
+        myGravity = gravity ? new Gravity(this) : null;
     }
 
     public void update (double elapsedTime, Dimension bounds) {
-        myGravity.apply();
         super.update(elapsedTime, bounds);
+        if (myGravity != null) {
+            myGravity.apply();
+        }
     }
     
     /**

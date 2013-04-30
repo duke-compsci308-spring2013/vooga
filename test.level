@@ -1,0 +1,40 @@
+/level
+                              
+                              
+                              
+                              
+   a  a  a     a  a           
+                              
+                      b       
+                              
+                              
+c                             
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+/lib
+games.scroller.superMario.sprites.SuperMarioLib
+/key
+b=StarPortal
+c=LevelTwoBlockThree
+a=Fireflower
+/settings
+StartPoint=16 208
+Background=/games/scroller/mr_fish/images/underwater3.jpg

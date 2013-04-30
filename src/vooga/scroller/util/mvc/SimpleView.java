@@ -15,7 +15,7 @@ public class SimpleView extends JFrame implements IView<Gaming> {
 
     public SimpleView (String title) {
         super(title);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
     }
 
     @Override

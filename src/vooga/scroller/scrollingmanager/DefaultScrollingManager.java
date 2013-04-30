@@ -61,6 +61,7 @@ public class DefaultScrollingManager extends ScrollingManager {
     
     public double getRightBoundary(Dimension frame, Location center) {
         return (center.getX() + frame.getWidth() / 2);
+        
     }
     
     public double getLeftBoundary(Dimension frame, Location center) {

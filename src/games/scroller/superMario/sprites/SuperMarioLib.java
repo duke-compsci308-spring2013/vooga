@@ -18,6 +18,8 @@ import vooga.scroller.sprites.movement.TrackPlayer;
 import vooga.scroller.sprites.superclasses.GameCharacter;
 import vooga.scroller.util.ISpriteView;
 import vooga.scroller.util.Pixmap;
+import vooga.scroller.util.physics.Force;
+import vooga.scroller.util.physics.Gravity;
 
 public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
@@ -124,8 +126,14 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         private static final String DEFAULT_IMG = "fireflower.png";
         private static final int DEFAULT_COIN_VALUE = 900; //TODO
 
+
         public Fireflower () {
-            super(makePixmap(DEFAULT_IMG), DEFAULT_SIZE, DEFAULT_HEALTH, DEFAULT_DAMAGE);
+            super(makePixmap(DEFAULT_IMG), DEFAULT_SIZE, DEFAULT_HEALTH, DEFAULT_DAMAGE, true);
+        }
+        
+        @Override
+        public void update (double elapsedTime, Dimension bounds) {
+            super.update(elapsedTime, bounds);
         }
 
         @Override
@@ -145,15 +153,16 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         private static final Dimension KOOPA_SIZE = new Dimension(32, 64);
         private int SPEED = 30;
         private int RADIUS = 45;
-        private TrackPlayer movement = new TrackPlayer(this, getLocatable(), SPEED, RADIUS);
+        private TrackPlayer movement;
 
         public Koopa () {
             super(makePixmap(DEFAULT_IMG), KOOPA_SIZE, new Integer(1), new Integer(1));
+            movement = new TrackPlayer(this, getLocatable(), SPEED, RADIUS);
         }
 
         public void update (double elapsedTime, Dimension bounds) {
-            movement.execute();
             super.update(elapsedTime, bounds);
+            movement.execute();
         }
 
         @Override
@@ -181,6 +190,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
         public Goomba () {
             super(makePixmap(DEFAULT_IMG), GOOMBA_SIZE, new Integer(1), new Integer(1));
+            movement = new BackAndForth(this, START, END, SPEED);
         }
 
         public void update (double elapsedTime, Dimension bounds) {

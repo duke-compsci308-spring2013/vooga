@@ -48,9 +48,13 @@ public class SpriteBox implements IPaintable {
      */
     public void addSprite (Sprite spr) {
         mySprite = spr;
+        updateSpriteLocation();
+        setUnavailable();
+    }
+
+    private void updateSpriteLocation () {
         mySprite.setCenter(myBounds.getX() + mySprite.getWidth() / 2,
                            myBounds.getY() + mySprite.getHeight() / 2);
-        setUnavailable();
     }
 
     /**
@@ -116,6 +120,7 @@ public class SpriteBox implements IPaintable {
     @Override
     public void paint (Graphics2D pen) {
         if (mySprite != null) {
+            updateSpriteLocation();
             mySprite.paint(pen);
         }
         pen.setColor(Color.BLACK);

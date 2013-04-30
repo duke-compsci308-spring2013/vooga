@@ -51,7 +51,8 @@ public abstract class ScrollingManager {
      * @return The right boundary
      */
     public double getRightBoundary(Dimension frame, Location center) {
-        return center.getX() + frame.getWidth() / 2;
+//        return center.getX() + frame.getWidth() / 2;
+        return center.getX() + frame.getWidth();
     }
 
     /**
@@ -61,7 +62,8 @@ public abstract class ScrollingManager {
      * @return The left boundary
      */
     public double getLeftBoundary(Dimension frame, Location center) {
-        return center.getX() - frame.getWidth() / 2;
+//        return center.getX() - frame.getWidth() / 2;
+        return center.getX() - frame.getWidth();
     }
 
     /**
