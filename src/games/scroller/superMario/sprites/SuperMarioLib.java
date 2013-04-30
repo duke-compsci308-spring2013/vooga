@@ -1,5 +1,6 @@
 package games.scroller.superMario.sprites;
 
+import games.scroller.superMario.MarioGravity;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import vooga.scroller.extra_resources.sprite_interfaces.ICollectible;
@@ -16,6 +17,7 @@ import vooga.scroller.sprites.movement.TrackPlayer;
 import vooga.scroller.sprites.superclasses.GameCharacter;
 import vooga.scroller.util.ISpriteView;
 import vooga.scroller.util.Pixmap;
+import vooga.scroller.util.physics.Force;
 
 
 public class SuperMarioLib extends EncapsulatedSpriteLibrary {
@@ -186,14 +188,19 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
             // killing this does not do anything
         }
 
+        @Override
+        public Force[] setForces () {
+            return null;
+        }
+
     }
 
-    public static class Fireflower extends GameCharacter implements ICollectible {
+    public static class Fireflower extends GameCharacter implements IPowerUp {
 
         private static final String DEFAULT_IMG = "item_flower.png";
 
         public Fireflower () {
-            super(makePixmap(DEFAULT_IMG), makeSize(1, 1), DEFAULT_HEALTH, DEFAULT_DAMAGE, true);
+            super(makePixmap(DEFAULT_IMG), makeSize(1, 1), DEFAULT_HEALTH, DEFAULT_DAMAGE);
         }
 
         @Override
@@ -209,6 +216,17 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         @Override
         public void handleDeath (Level level) {
             // killing this does not do anything
+        }
+
+        @Override
+        public int getStateID () {
+            // TODO Auto-generated method stub
+            return FireState.STATE_ID;
+        }
+
+        @Override
+        public Force[] setForces () {
+            return new Force[] { new MarioGravity(this) };
         }
 
     }
@@ -235,10 +253,14 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
             // TODO Auto-generated method stub
         }
 
-        // TODO :This is hacky
         @Override
         public void addTarget (Locatable target) {
             movement.setTarget(target);
+        }
+
+        @Override
+        public Force[] setForces () {
+            return new Force[] { new MarioGravity(this) };
         }
 
     }
@@ -267,6 +289,11 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         public void handleDeath (Level level) {
             // TODO Auto-generated method stub
 
+        }
+
+        @Override
+        public Force[] setForces () {
+            return new Force[] { new MarioGravity(this) };
         }
 
     }

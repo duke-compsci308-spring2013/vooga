@@ -12,34 +12,37 @@
                                                                                                     
                                                                                                     
                                                                                                     
+                      a                                                                             
                                                                                                     
-                                                                                                    
-              abbbbbbbbbc                                                                           
-                 d                                                                                  
-    e e          d                                                                                  
-                 d                                                                                  
-                 d                                                                                  
-   ffeff    abbbbbc                                                                                 
-               dg                                                                                   
-               d                                                                                    
-hiiiiiiiij     dbbbbbbc                                                                             
-               d                                                                                    
-    dd         d                                                                                    
-    dd         d                                                                                    
-    dd         d                                                                                    
+              bcccccccccd                                                                           
+                 e                                                                                  
+    f f          e                                                                                  
+                 e                                                                                  
+         j    g  e                                                                                  
+   hhfhh    bcccccd                                                                                 
+               ei                                                                                   
+               e                                                                                    
+kllllllllm     eccccccd                                                                             
+               e                                                                                    
+    ee         e                                                                                    
+    ee         e                                                                                    
+    ee         e                                                                                    
 /lib
 games.scroller.superMario.sprites.SuperMarioLib
 /key
-h=WoodBigLeft
-a=WoodLeft
-d=WoodPole
-i=WoodBigMid
-g=DoorPortal
-b=WoodMid
-e=ItemBlock
-f=Block
-j=WoodBigRight
-c=WoodRight
+b=WoodLeft
+e=WoodPole
+c=WoodMid
+f=ItemBlock
+m=WoodBigRight
+k=WoodBigLeft
+g=Goomba
+a=Koopa
+i=DoorPortal
+l=WoodBigMid
+h=Block
+j=Fireflower
+d=WoodRight
 /settings
 StartPoint=16 720
 Background=/games/scroller/superMario/images/backgrounds/backgroundhillsbig.png

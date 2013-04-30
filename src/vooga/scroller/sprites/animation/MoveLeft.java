@@ -9,7 +9,7 @@ import vooga.scroller.util.Pixmap;
  * @author Scott Valentine
  *
  */
-public class MoveLeft<D  extends Sprite> extends AnimationState<D> {
+public class MoveLeft<Sprite> extends AnimationState<Sprite> {
 
     private Pixmap myStand;
 

@@ -141,4 +141,10 @@ public class Mario extends Player implements IInputListener {
         // TODO Auto-generated method stub
 
     }
+
+    @Override
+    public Force[] setForces () {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
