@@ -1,0 +1,582 @@
+<!--This game was created by Xu Rui and Yoshi-->	
+<!--Date: April 28, 2013-->	
+<Game>
+	<view>
+		<dimension>1100, 800</dimension>
+		<MapScreen>
+			<dimension>800, 600</dimension>
+			<location>Center</location>
+		</MapScreen>
+		<MultipleScreenPanel>
+			<dimension>1000, 200</dimension>
+			<location>South</location>
+			<ShopScreen>
+				<dimension>600, 100</dimension>
+				<location>Center</location>
+			</ShopScreen>
+			<NextWaveScreen>
+				<dimension>200, 100</dimension>
+				<location>East</location>
+			</NextWaveScreen>
+		</MultipleScreenPanel>
+		<MultipleScreenPanel>
+			<dimension>200, 600</dimension>
+			<location>East</location>
+			<GameStatsScreen>
+				<dimension>200, 200</dimension>
+				<location>North</location>
+			</GameStatsScreen>
+			<GameElementInformationScreen>
+				<dimension>200, 200</dimension>
+				<location>South</location>
+			</GameElementInformationScreen>
+		</MultipleScreenPanel>
+	</view>
+	
+<!--TILES-->	
+
+	<tileType>
+		<ID3>
+			<name>bottom</name>
+			<image>B.gif</image>
+			<walkable>yes</walkable>
+			<buildable>no</buildable>
+		</ID3>
+		<ID4>
+			<name>left</name>
+			<image>L.gif</image>
+			<walkable>yes</walkable>
+			<buildable>no</buildable>
+		</ID4>
+		<ID5>
+			<name>top</name>
+			<image>T.gif</image>
+			<walkable>yes</walkable>
+			<buildable>no</buildable>
+		</ID5>
+		<ID6>
+			<name>right</name>
+			<image>R.gif</image>
+			<walkable>yes</walkable>
+			<buildable>no</buildable>
+		</ID6>
+		<ID7>
+			<name>topBottom</name>
+			<image>TB.gif</image>
+			<walkable>yes</walkable>
+			<buildable>no</buildable>
+		</ID7>
+		<ID8>
+			<name>topBottomLeft</name>
+			<image>TBL.gif</image>
+			<walkable>yes</walkable>
+			<buildable>no</buildable>
+		</ID8>
+		<ID9>
+			<name>topBottomLeftRight</name>
+			<image>TBLR.gif</image>
+			<walkable>no</walkable>
+			<buildable>no</buildable>
+		</ID9>
+		<ID10>
+			<name>topBottomRight</name>
+			<image>TBR.gif</image>
+			<walkable>yes</walkable>
+			<buildable>no</buildable>
+		</ID10>
+		<ID11>
+			<name>TopLeft</name>
+			<image>TL.gif</image>
+			<walkable>yes</walkable>
+			<buildable>no</buildable>
+		</ID11>
+		<ID12>
+			<name>topLeftRight</name>
+			<image>TLR.gif</image>
+			<walkable>yes</walkable>
+			<buildable>no</buildable>
+		</ID12>
+		<ID13>
+			<name>topRight</name>
+			<image>TR.gif</image>
+			<walkable>yes</walkable>
+			<buildable>no</buildable>
+		</ID13>
+		<ID14>
+			<name>bottomLeft</name>
+			<image>BL.gif</image>
+			<walkable>yes</walkable>
+			<buildable>no</buildable>
+		</ID14>
+		<ID15>
+			<name>bottomLeftRight</name>
+			<image>BLR.gif</image>
+			<walkable>yes</walkable>
+			<buildable>no</buildable>
+		</ID15>
+		<ID16>
+			<name>ladder</name>
+			<image>ladder.gif</image>
+			<walkable>yes</walkable>
+			<buildable>no</buildable>
+		</ID16>
+		<ID17>
+			<name>emptyWalkable</name>
+			<image>blank_tile.png</image>
+			<walkable>yes</walkable>
+			<buildable>no</buildable>
+		</ID17>
+		<ID17>
+			<name>emptyWalkable</name>
+			<image>blank_tile.png</image>
+			<walkable>no</walkable>
+			<buildable>yes</buildable>
+		</ID17>
+		<ID18>
+			<name>bottomRight</name>
+			<image>BR.gif</image>
+			<walkable>yes</walkable>
+			<buildable>no</buildable>
+		</ID18>
+	</tileType>
+
+<!--MAP-->
+
+	<map>
+		<Map1>
+			<image>background/wall.jpg</image>
+			<tile_size>50</tile_size>
+			<dimension>
+				<width>800</width>
+				<height>600</height>
+			</dimension>
+			<grid>
+				17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 
+				17 17 17 17 17 17 11  7  7  7  7  7  7 13 17 17 
+				s  7  13 17 17 17 16 17 17 17 17 17 17 16 17 17 
+				17 17 16 17 17 17 16 17 17 17 17 17 17 16 17 17 
+				17 17 16 17 17 17 16 17 17 11  7  7  7 18 17 17 
+				17 17 16 17 17 17 16 17 17 16 17 17 17 17 17 17 
+				17 17 16 17 17 17 16 17 17 16 17 17 17 17 17 17 
+				17 17 16 17 17 17 16 17 17 16 17 17 17 17 17 17 
+				17 17 16 17 17 17 16 17 17 16 17 17 17 17 17 17 
+				17 17 14  7  7  7 18 17 17 16 17 17 17 17 17 17
+				17 17 17 17 17 17 17 17 17 14  7  7  7  7  7 d  
+				17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17  
+			</grid>
+		</Map1>
+		<Map2>
+			<image>background/wall2.jpg</image>
+			<tile_size>50</tile_size>
+			<dimension>
+				<width>800</width>
+				<height>600</height>
+			</dimension>
+			<grid>
+				17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 
+				17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 
+				s  7  13 17 17 17 11  7 13 17 17 17 17 17 17 17 
+				17 17 16 17 17 17 16 17 16 17 17 17 17 17 17 17 
+				17 17 16 17 17 17 16 17 14  7 13 17 17 17 17 17 
+				17 17 16 17 17 17 16 17 17 17 16 17 17 17 17 17 
+				17 17 16 17 17 17 16 17 17 17 14  7  7  7 13 17 
+				17 17 16 17 17 17 16 17 17 17 17 17 17 17 16 17 
+				17 17 16 17 17 17 16 17 17 17 17 17 17 17 16 17 
+				17 17 14  7  7  7 18 17 17 17 17 17 17 17 16 17
+				17 17 17 17 17 17 17 17 17 17 17 17 17 17 14 d  
+				17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 17 
+			</grid>
+		</Map2>
+	</map>
+
+<!--Player-->	
+	
+	<player>
+		<attributes>
+			<Health>30.0</Health>
+			<Money>1000.0</Money>
+		</attributes>
+	</player>
+	<gameelements>
+	
+<!--UNITS-->
+	
+		<ForeverAlone>
+			<dimension>50, 50</dimension>
+			<image>foreveralone.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<HEALTH>10</HEALTH>
+				<MOVE_SPEED>150</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+				<AFFILIATION>1.2</AFFILIATION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+			</actions>
+		</ForeverAlone>
+		
+		<TrollFace>
+			<dimension>80, 80</dimension>
+			<image>TrollFaceDancing.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<HEALTH>100</HEALTH>
+				<MOVE_SPEED>80</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+				<AFFILIATION>1.2</AFFILIATION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+			</actions>
+		</TrollFace>
+
+<!--PROJECTILES-->
+		
+		<Fireball>
+			<dimension>40, 40</dimension>
+			<image>fireball.gif</image>
+			<type>Projectile</type>
+			<attributes>
+				<HEALTH>100</HEALTH>
+				<MOVE_SPEED>400</MOVE_SPEED>
+				<DIRECTION>180</DIRECTION>
+				<AFFILIATION>0.3</AFFILIATION>
+				<TARGET_AFFILIATION>1.2</TARGET_AFFILIATION>
+				<LIFESPAN>500</LIFESPAN>
+				<Score>10</Score>
+			</attributes>
+			<actions>
+				<MoveToTarget>
+					<parameter>MOVE_SPEED</parameter>	
+					<parameter>1</parameter>			
+					<OnCollision>
+						<parameter>TARGET_AFFILIATION</parameter>
+							<ModifyPlayerAttribute>
+								<parameter>Score</parameter>
+								<parameter>Money</parameter>
+							</ModifyPlayerAttribute>
+					</OnCollision>
+				</MoveToTarget>
+				<SelfDestruct>
+					<parameter>LIFESPAN</parameter>
+				</SelfDestruct>	
+			</actions>	
+		</Fireball>
+		
+		<Bullet>
+			<dimension>30, 30</dimension>
+			<image>bullet.png</image>
+			<type>Projectile</type>
+			<attributes>
+				<HEALTH>100</HEALTH>
+				<MOVE_SPEED>200</MOVE_SPEED>
+				<DIRECTION>180</DIRECTION>
+				<AFFILIATION>0.3</AFFILIATION>
+				<TARGET_AFFILIATION>1.2</TARGET_AFFILIATION>
+				<Score>10</Score>
+			</attributes>
+			<actions>
+				<MoveToTarget>
+					<parameter>MOVE_SPEED</parameter>	
+					<parameter>0</parameter>			
+					<OnCollision>
+						<parameter>TARGET_AFFILIATION</parameter>
+							<ModifyPlayerAttribute>
+								<parameter>Score</parameter>
+								<parameter>Money</parameter>
+							</ModifyPlayerAttribute>
+					</OnCollision>
+				</MoveToTarget>
+			</actions>	
+		</Bullet>
+		<Canon>
+			<dimension>80, 80</dimension>
+			<image>Flame.gif</image>
+			<type>Projectile</type>
+			<attributes>
+				<HEALTH>100</HEALTH>
+				<MOVE_SPEED>400</MOVE_SPEED>
+				<ATTACK_RADIUS>200</ATTACK_RADIUS>
+				<DIRECTION>180</DIRECTION>
+				<AFFILIATION>0.3</AFFILIATION>
+				<TARGET_AFFILIATION>1.2</TARGET_AFFILIATION>
+				<LIFESPAN>500</LIFESPAN>
+				<NUM_OF_TARGETS>5</NUM_OF_TARGETS>
+				<Score>10</Score>
+			</attributes>
+			<actions>
+				<FindTargets>
+					<parameter>ATTACK_RADIUS</parameter>
+					<FilterTargets>
+						<parameter>TARGET_AFFILIATION</parameter>
+						<parameter>NUM_OF_TARGETS</parameter>
+						<RemoveGameElement>
+						</RemoveGameElement>
+					</FilterTargets>
+				</FindTargets>
+				<MoveToTarget>
+					<parameter>MOVE_SPEED</parameter>	
+					<parameter>1</parameter>			
+					<OnCollision>
+						<parameter>TARGET_AFFILIATION</parameter>
+							<ModifyPlayerAttribute>
+								<parameter>Score</parameter>
+								<parameter>Money</parameter>
+							</ModifyPlayerAttribute>
+					</OnCollision>
+				</MoveToTarget>
+				<SelfDestruct>
+					<parameter>LIFESPAN</parameter>
+				</SelfDestruct>	
+			</actions>	
+		</Canon>
+		
+<!--TOWERS-->
+
+		<SlowTower>
+			<dimension>60, 60</dimension>
+			<image>Sword2.gif</image>
+			<type>Tower</type>
+			<attributes>
+				<HEALTH>50</HEALTH>
+				<Cost>100</Cost>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+				<ATTACK_RADIUS>100</ATTACK_RADIUS>
+				<COOL_DOWN>100</COOL_DOWN>
+				<NUM_OF_PROJECTILES>100</NUM_OF_PROJECTILES>
+				<NUM_OF_TARGETS>10</NUM_OF_TARGETS>
+				<AFFILIATION>0.1</AFFILIATION>
+				<TARGET_AFFILIATION>1.2</TARGET_AFFILIATION>
+				<SLOW>-50</SLOW>
+			</attributes>
+			<actions>
+				<FindTargets>
+					<parameter>ATTACK_RADIUS</parameter>
+						<FilterTargets>
+							<parameter>TARGET_AFFILIATION</parameter>
+							<parameter>NUM_OF_TARGETS</parameter>
+							<ApplyAttributeBuff>
+								<parameter>SLOW</parameter>
+								<parameter>MOVE_SPEED</parameter>
+							</ApplyAttributeBuff>
+						</FilterTargets>
+				</FindTargets>
+			</actions>	
+		</SlowTower>
+		
+		<DeathTower>
+			<dimension>80, 80</dimension>
+			<image>Pistol2.gif</image>
+			<type>Tower</type>
+			<attributes>
+				<HEALTH>100</HEALTH>
+				<Cost>100</Cost>
+				<ATTACK_RADIUS>80</ATTACK_RADIUS>
+				<NUM_OF_TARGETS>10</NUM_OF_TARGETS>
+				<TARGET_AFFILIATION>1.2</TARGET_AFFILIATION>
+				<LIFESPAN>3000</LIFESPAN>
+				<SLOW>-50</SLOW>
+			</attributes>
+			<actions>
+				<FindTargets>
+					<parameter>ATTACK_RADIUS</parameter>
+					<FilterTargets>
+						<parameter>TARGET_AFFILIATION</parameter>
+						<parameter>NUM_OF_TARGETS</parameter>
+						<RemoveGameElement>
+						</RemoveGameElement>
+					</FilterTargets>
+				</FindTargets>
+				<SelfDestruct>
+					<parameter>LIFESPAN</parameter>
+				</SelfDestruct>
+			</actions>
+		</DeathTower>
+		
+				
+		<Tank>
+			<dimension>100, 100</dimension>
+			<image>tank.gif</image>
+			<type>Tower</type>
+			<attributes>
+				<Cost>100</Cost>
+				<ATTACK_RADIUS>200</ATTACK_RADIUS>
+				<COOL_DOWN>2000</COOL_DOWN>
+				<NUM_OF_PROJECTILES>100</NUM_OF_PROJECTILES>
+				<NUM_OF_TARGETS>10</NUM_OF_TARGETS>
+				<NUM_OF_SHOTS>1</NUM_OF_SHOTS>
+				<TARGET_AFFILIATION>1.2</TARGET_AFFILIATION>
+			</attributes>
+			<actions>
+				<FindTargets>
+					<parameter>ATTACK_RADIUS</parameter>
+						<FilterTargets>
+							<parameter>TARGET_AFFILIATION</parameter>
+							<parameter>NUM_OF_TARGETS</parameter>
+								<ShootProjectile>
+									<parameter>Fireball</parameter>
+									<parameter>NUM_OF_PROJECTILES</parameter>
+									<parameter>NUM_OF_SHOTS</parameter>
+									<parameter>COOL_DOWN</parameter>
+									<parameter>1</parameter>								
+								</ShootProjectile>	
+						</FilterTargets>
+				</FindTargets>
+			</actions>	
+		</Tank>
+		
+		<BulletTower>
+			<dimension>80, 80</dimension>
+			<image>Rifle3.gif</image>
+			<type>Tower</type>
+			<attributes>
+				<Cost>50</Cost>
+				<ATTACK_RADIUS>100</ATTACK_RADIUS>
+				<COOL_DOWN>2000</COOL_DOWN>
+				<NUM_OF_PROJECTILES>100</NUM_OF_PROJECTILES>
+				<NUM_OF_TARGETS>10</NUM_OF_TARGETS>
+				<NUM_OF_SHOTS>3</NUM_OF_SHOTS>
+				<AFFILIATION>1.2</AFFILIATION>
+			</attributes>
+			<actions>
+				<FindTargets>
+					<parameter>ATTACK_RADIUS</parameter>
+						<FilterTargets>
+							<parameter>AFFILIATION</parameter>
+							<parameter>NUM_OF_TARGETS</parameter>
+								<ShootProjectile>
+									<parameter>Bullet</parameter>
+									<parameter>NUM_OF_PROJECTILES</parameter>
+									<parameter>NUM_OF_SHOTS</parameter>
+									<parameter>COOL_DOWN</parameter>
+									<parameter>1</parameter>								
+								</ShootProjectile>	
+						</FilterTargets>
+				</FindTargets>
+			</actions>	
+		</BulletTower>
+		
+		<DuvallTower>
+			<dimension>50, 50</dimension>
+			<image>Duvall.jpg</image>
+			<type>Tower</type>
+			<attributes>
+				<HEALTH>100</HEALTH>
+				<Cost>100</Cost>
+				<ATTACK_RADIUS>200</ATTACK_RADIUS>
+				<COOL_DOWN>1000</COOL_DOWN>
+				<NUM_OF_PROJECTILES>100</NUM_OF_PROJECTILES>
+				<NUM_OF_TARGETS>10</NUM_OF_TARGETS>
+				<NUM_OF_SHOTS>3</NUM_OF_SHOTS>
+				<TARGET_AFFILIATION>1.2</TARGET_AFFILIATION>
+			</attributes>
+			<actions>
+				<FindTargets>
+					<parameter>ATTACK_RADIUS</parameter>
+						<FilterTargets>
+							<parameter>TARGET_AFFILIATION</parameter>
+							<parameter>NUM_OF_TARGETS</parameter>
+								<ShootProjectile>
+									<parameter>Canon</parameter>
+									<parameter>NUM_OF_PROJECTILES</parameter>
+									<parameter>NUM_OF_SHOTS</parameter>
+									<parameter>COOL_DOWN</parameter>
+									<parameter>1</parameter>								
+								</ShootProjectile>	
+						</FilterTargets>
+				</FindTargets>
+			</actions>	
+		</DuvallTower>
+	</gameelements>
+	
+	
+<!--RULES-->
+	
+	<rules>
+		<EnemyReachedEndRule />
+		<NextLevelRule />
+		<LoseAtZeroHealthRule />
+	</rules>
+	
+<!--LEVELS-->
+	
+	<levels>
+		<Level0>
+			<rules>
+			</rules>
+			<actions>
+				<LevelTimerAction>
+					<parameter>10</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level0>
+		<Level1>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>15</parameter>
+					<parameter>1000</parameter>
+					<parameter>TrollFace</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>20000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level1>
+		<Level2>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>15</parameter>
+					<parameter>1000</parameter>
+					<parameter>ForeverAlone</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>20000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level2>
+		<Level3>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>20</parameter>
+					<parameter>1000</parameter>
+					<parameter>TrollFace</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>20000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level3>
+		<Level4>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>20</parameter>
+					<parameter>1000</parameter>
+					<parameter>ForeverAlone</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>20000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level4>
+	</levels>
+</Game>

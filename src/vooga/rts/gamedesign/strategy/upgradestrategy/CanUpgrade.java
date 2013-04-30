@@ -72,7 +72,7 @@ public class CanUpgrade implements UpgradeStrategy {
      * @param other the InteractiveEntity that will receive the effect of
      * this UpgradeStrategy
      */
-    public void affect (InteractiveEntity other) {
+    public void copyStrategy (InteractiveEntity other) {
         UpgradeStrategy newUpgrade = new CanUpgrade();
         newUpgrade.setUpgradeTree(getUpgradeTree(), other);
         other.setUpgradeStrategy(newUpgrade);

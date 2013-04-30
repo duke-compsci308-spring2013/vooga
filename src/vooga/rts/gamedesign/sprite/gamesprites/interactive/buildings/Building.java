@@ -38,7 +38,6 @@ public class Building extends InteractiveEntity {
     public static final Dimension DEFAULT_SIZE = new Dimension(100,100);
     public static final int MAXHEALTH = 100;
 
-    private Location3D myRallyPoint;
     /**
      * Creates a new building with a rally point, a list of what can be 
      * produced, a list of what can observe the building, and an upgrade tree.
@@ -59,7 +58,6 @@ public class Building extends InteractiveEntity {
                      int health,
                      double buildTime) {
         super(image, center, size, sound, playerID, MAXHEALTH, buildTime);
-        myRallyPoint = new Location3D(getWorldLocation().getX(), getWorldLocation().getY() + 150, 0);
 
     }
     
@@ -73,28 +71,8 @@ public class Building extends InteractiveEntity {
                 getHealth(), getBuildTime());
         
         transmitProperties(copyBuilding);
+        setRallyPoint();
     	return copyBuilding;
-    }
-
-
-    /**
-     * Returns the rally point of the production building.
-     * Will be used to move the newly created units to
-     * 
-     * @return myRallyPoint, the rally point of the
-     *         production building
-     */
-    public Location3D getRallyPoint () {
-        return myRallyPoint;
-    }
-
-    /**
-     * Sets the rally point of the production building
-     * 
-     * @param rallyPoint the location of the new rally point
-     */
-    public void setRallyPoint (Location3D rallyPoint) {
-        myRallyPoint = rallyPoint;
     }
 
     @Override

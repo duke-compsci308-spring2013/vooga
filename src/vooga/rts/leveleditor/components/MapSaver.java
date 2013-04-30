@@ -165,7 +165,7 @@ public class MapSaver {
             File bufferFile = new File(tileImagePath + str);
             String format = getFileFormat(str);
             try {
-                ImageIO.write((BufferedImage)tileInformation.get(str).getMyImage(), 
+                ImageIO.write((BufferedImage)tileInformation.get(str).getImage(), 
                               format, bufferFile);
             }
             catch (IOException e) {

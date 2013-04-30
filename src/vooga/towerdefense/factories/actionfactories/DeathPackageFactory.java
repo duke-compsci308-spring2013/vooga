@@ -35,7 +35,7 @@ public class DeathPackageFactory extends ActionFactory {
 
 	public void makeComboFactories() {
 		myDeath = new OnDeathFactory();
-		myRemoveElement = new RemoveElementFactory();
+		myRemoveElement = new RemoveGameElementFactory();
 		myPlayerValue = new ModifyPlayerAttributeFactory(
 				AttributeConstantsEnum.MONEY.getStatusCode(),
 				AttributeConstantsEnum.MONEY.getStatusCode());

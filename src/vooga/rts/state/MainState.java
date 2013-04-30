@@ -37,8 +37,8 @@ public class MainState implements State, Observer {
     private InputController myController;
     private boolean myReady;
     private String myMapFile;
-    
-    private GameState myGame; 
+
+    private GameState myGame;
 
     public MainState () {
         myReady = false;
@@ -54,7 +54,6 @@ public class MainState implements State, Observer {
         myStates.put(loader, menu);
         myGame = new GameState(this);
         myStates.put(menu, myGame);
-        myStates.put(myGame, menu);
 
         Input input = new Input(DEFAULT_INPUT_LOCATION, myWindow.getCanvas());
         myController = new InputController(this);
@@ -80,15 +79,13 @@ public class MainState implements State, Observer {
 
     @Override
     public void update (Observable o, Object arg) {
-        if (o instanceof LoadingState) {
-            MenuState m = new MenuState(this, myWindow.getJFrame());
-            setActiveState(m);
-            m.setMenu(0);            
-        }
-        else if (o instanceof MenuState) {
-            setActiveState(new GameState(this));
-        } else if (o instanceof GameState) {
-            setActiveState(new GameOverState(this));
+        if (o instanceof SubState) {
+            if (myStates.containsKey(o)) {
+                setActiveState(myStates.get(o));
+            }
+            if (arg instanceof GameOver) {
+                setActiveState(new GameOverState(this, (GameOver) arg));
+            }
         }
     }
 
@@ -97,13 +94,14 @@ public class MainState implements State, Observer {
      */
     private void setActiveState (SubState s) {
         myActiveState = s;
+        s.activate();
     }
 
     private void render () {
         Graphics2D graphics = myWindow.getCanvas().getGraphics();
         graphics.setColor(Color.BLACK);
         graphics.fillRect(0, 0, myWindow.getCanvas().getWidth(), myWindow.getCanvas().getHeight());
-        
+
         if (myActiveState instanceof MenuState) {
             MenuState m = (MenuState) myActiveState;
             if (m.getCurrentMenu() instanceof MultiMenu) {
@@ -160,7 +158,7 @@ public class MainState implements State, Observer {
 
     // Added so that we can actually get a game to create itself....
     public void setMapFile (String map) {
-        myMapFile = map;     
+        myMapFile = map;
         myGame.setupMap(map);
     }
 }

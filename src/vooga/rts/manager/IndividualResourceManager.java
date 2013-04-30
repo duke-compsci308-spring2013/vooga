@@ -104,7 +104,7 @@ public class IndividualResourceManager {
      * @param amount The amount of this type of resource earned
      */
     public void earn (String type, int amount) {
-        setAmount(type, getAmount(type) - amount);
+        setAmount(type, getAmount(type) + amount);
     }
     
     public void setInitialValues(Map<String, Integer> map){

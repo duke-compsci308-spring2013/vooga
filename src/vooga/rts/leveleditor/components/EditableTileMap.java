@@ -50,7 +50,7 @@ public class EditableTileMap extends TileMap {
      * @param image id of the tile
      */
     public void addTile(int i, int j, int id, String name , String imageName, Pixmap image) {
-        addTileType(id, (BufferedImage)image.getMyImage());
+        addTileType(id, (BufferedImage)image.getImage());
         this.createTile(id, i, j, id, name, imageName);
     }
     

@@ -63,5 +63,9 @@ public abstract class SubMenu extends Observable implements Observer {
         // TODO Auto-generated method stub
 
     }
+    
+    public Location getLocation() {
+        return myPos;
+    }
 
 }

@@ -23,7 +23,7 @@ public class OnCollisionFactory extends ActionFactory {
 
 	@Override
 	protected Action buildAction(GameElement e) {
-		return new OnCollision(e, e.getAttributeManager().getAttribute(
+		return new OnCollision(getMap(), e, e.getAttributeManager().getAttribute(
 				myAffiliationReference));
 	}
 

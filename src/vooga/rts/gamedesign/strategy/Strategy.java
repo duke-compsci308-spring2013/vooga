@@ -17,6 +17,6 @@ public interface Strategy {
 	 * 
 	 * @return a copy of the strategy
 	 */
-	public void affect(InteractiveEntity other);
+	public void copyStrategy(InteractiveEntity other);
 
 }

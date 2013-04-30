@@ -34,6 +34,7 @@ public class ModifyPlayerAttribute extends Action {
 		Attribute toChange = myPlayer.getAttributeManager().getAttribute(
 				myTargetAttribute);
 		if (toChange != null && myAppliedAttribute != null) {
+			System.out.println("NOT NULL");
 			toChange.modifyValue(myAppliedAttribute.getValue());
 		}
 	}

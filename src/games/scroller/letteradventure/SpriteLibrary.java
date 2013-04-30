@@ -6,6 +6,7 @@ import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
 import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
 import vooga.scroller.level_editor.Level;
 import vooga.scroller.level_editor.library.EncapsulatedSpriteLibrary;
+import vooga.scroller.level_management.LevelPortal;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.movement.Movement;
 import vooga.scroller.sprites.movement.TrackPlayer;
@@ -21,7 +22,7 @@ import vooga.scroller.util.Pixmap;
  */
 public class SpriteLibrary extends EncapsulatedSpriteLibrary {
     public static final Dimension DEFAULT_SIZE = new Dimension(42, 42);
-    public static final String IMAGES_DIRECTORY = "/src/games/scroller/letteradventure/images/";
+    public static final String IMAGES_DIRECTORY = "/games/scroller/letteradventure/images/";
 
     /**
      * This is the platform that all the characters walk along.
@@ -30,7 +31,7 @@ public class SpriteLibrary extends EncapsulatedSpriteLibrary {
     public static class Platform extends Sprite implements IPlatform {
         public static final String PLATFORM_IMAGE = "platform.png";
 
-        public Platform (ISpriteView image, Dimension size) {
+        public Platform () {
             super(makePixmap(PLATFORM_IMAGE), DEFAULT_SIZE);
         }
 
@@ -62,7 +63,7 @@ public class SpriteLibrary extends EncapsulatedSpriteLibrary {
 
         @Override
         public void handleDeath (Level level) {
-            // not sure what to put here.
+            // nothing happens.
         }
 
     }
@@ -93,7 +94,8 @@ public class SpriteLibrary extends EncapsulatedSpriteLibrary {
         @Override
         public void handleDeath (Level level) {
             // end game
-            // would like to return score from EPlayer to the arcade...
+            // would like to return score from EPlayer to the arcade, but don't
+            // know how...
         }
     }
 
@@ -130,7 +132,26 @@ public class SpriteLibrary extends EncapsulatedSpriteLibrary {
 
         @Override
         public void handleDeath (Level level) {
+            // nothing happens.
+        }
 
+    }
+    
+    /**
+     * The portal to go to the next level.
+     *
+     */
+    public static class Portal extends LevelPortal {
+        private static final String IMAGE = "door.jpg";
+        
+        @Override
+        public ISpriteView initView () {
+            return makePixmap(IMAGE);
+        }
+
+        @Override
+        public Dimension initSize () {
+            return DEFAULT_SIZE;
         }
 
     }

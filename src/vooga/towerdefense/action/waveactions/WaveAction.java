@@ -46,7 +46,7 @@ public class WaveAction extends Action {
 		}
 	}
 
-	private void spawnUnit() {
+	public void spawnUnit() {
 		GameElement unit = myFactory.createElement(myMap.getSpawnLocation());
 		//make a unit an enemy
 		Attribute affiliation = unit.getAttributeManager().getAttribute(AttributeConstantsEnum.AFFILIATION.getStatusCode());
@@ -54,6 +54,14 @@ public class WaveAction extends Action {
 		
 		myMap.addGameElement(unit);
 		--myUnitsRemaining;
+	}
+	
+	public int getUnitsRemaining(){
+		return myUnitsRemaining;
+	}
+	
+	public void decreaseUnitsRemaining(int factor){
+		myUnitsRemaining= myUnitsRemaining - factor;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
@@ -57,7 +58,8 @@ public class ShopScreen extends JPanel {
         super.paintComponent(pen);
         pen.setColor(myBackgroundColor);
         pen.fillRect(XCOORD, YCOORD, getSize().width, getSize().height);
-        myController.paintShop(pen);
+        myController.paintShop((Graphics2D) pen);
+        repaint();
     }
 
     /**

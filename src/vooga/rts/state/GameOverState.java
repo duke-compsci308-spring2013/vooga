@@ -15,9 +15,9 @@ public class GameOverState extends SubState implements Controller, Observer {
 
     GameOverMenu myGameOverMenu;
 
-    public GameOverState (Observer observer) {
+    public GameOverState (Observer observer, GameOver state) {
         super(observer);
-        myGameOverMenu = new GameOverMenu();
+        myGameOverMenu = new GameOverMenu(state);
         myGameOverMenu.addObserver(this);
     }
 

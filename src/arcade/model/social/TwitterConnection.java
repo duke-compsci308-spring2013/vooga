@@ -7,7 +7,7 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 /**
- * This class allows the Model to interface with the twitter API.
+ * This class allows the Controller to interface with the twitter API.
  * 
  * The implementation uses the external twitter4j library, which basically 
  * does all the work for us.

@@ -2,7 +2,7 @@
 <objects>
     <mouseclickobject>
     	<state name="still">
-            <frame image="fighter/images/ryu_stand1.png" width="30" height="30" />
+            <frame image="games/fighter/billMuenstermanJouster/images/ryu_stand1.png" width="30" height="30" />
         </state>
     </mouseclickobject>
 </objects>

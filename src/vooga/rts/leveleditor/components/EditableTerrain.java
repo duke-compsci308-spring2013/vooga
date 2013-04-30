@@ -78,7 +78,7 @@ public class EditableTerrain extends Terrain {
      * @return image
      */
     public Image getMyImage() {
-        return super.getImage().getMyImage();
+        return super.getImage().getImage();
     }
 
     /**

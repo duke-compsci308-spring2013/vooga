@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import vooga.towerdefense.action.Action;
 import vooga.towerdefense.action.TargetedAction;
+import vooga.towerdefense.attributes.Attribute;
 import vooga.towerdefense.attributes.AttributeManager;
+import vooga.towerdefense.factories.elementfactories.GameElementFactory;
 import util.Location;
 import vooga.towerdefense.util.Pixmap;
 import vooga.towerdefense.util.Sprite;
@@ -81,12 +83,20 @@ public class GameElement extends Sprite {
 	 */
 	public List<TargetedAction> getTargetedActions() {
 		List<TargetedAction> actions = new ArrayList<TargetedAction>();
-		for (Action a : actions) {
+		for (Action a : myActions) {
 			if (a.isTargetTracking()) {
 				actions.add((TargetedAction) a);
 			}
 		}
 		return actions;
+	}
+	
+	public Attribute getAttribute(String name){
+		return myAttributeManager.getAttribute(name);
+	}
+	
+	public GameElementFactory getGameElementFactory(String name){
+		return myAttributeManager.getGameElementFactory(name);
 	}
 
 }

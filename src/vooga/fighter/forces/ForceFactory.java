@@ -25,6 +25,7 @@ public class ForceFactory {
     public ForceFactory(String name) {
         myForcePathway = name + myForcePathway;
         myForcePackage = name + myForcePackage;
+        System.out.println(myForcePackage);
         myForces = new ArrayList<Force>();
         myForceResources = ResourceBundle.getBundle(myForcePathway);
         initializeForces();

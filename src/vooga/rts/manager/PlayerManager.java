@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import vooga.rts.player.HumanPlayer;
 import vooga.rts.player.Player;
 import vooga.rts.player.Team;
+import vooga.rts.state.GameOver;
 
 
-public class PlayerManager {
+public class PlayerManager extends Observable implements Observer {
     private List<Player> myPlayers;
     private Map<Integer, Team> myTeams;
     private HumanPlayer myHuman;
@@ -45,12 +48,13 @@ public class PlayerManager {
     public void addPlayer (int teamID) {
         Player result;
         if (myPlayers.size() == 0) {
-            myHuman = new HumanPlayer(0, teamID);
+            myHuman = new HumanPlayer(0, teamID);            
             result = myHuman;
         }
         else {
             result = new Player(myPlayers.size(), teamID);
         }
+        result.addObserver(this);
         addPlayer(result, teamID);
     }
 
@@ -95,5 +99,26 @@ public class PlayerManager {
 
     public int getTeamID (int playerID) {
         return myPlayers.get(playerID).getTeamID();
+    }
+
+    @Override
+    public void update (Observable arg0, Object arg1) {
+        if (arg1 instanceof GameOver) {
+            setChanged();
+            if (arg1 == GameOver.QUIT) {
+                notifyObservers(arg1);
+                return;
+            }
+            
+            if (arg0.equals(myHuman)) {
+                notifyObservers(GameOver.LOSE);
+            }
+            else
+            {
+                notifyObservers(GameOver.WIN);   
+            }
+        }
+        
+        
     }
 }

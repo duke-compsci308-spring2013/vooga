@@ -1,0 +1,209 @@
+<Game>
+	<view>
+		<dimension>1100, 800</dimension>
+		<MapScreen>
+			<dimension>800, 600</dimension>
+			<location>Center</location>
+		</MapScreen>
+		<MultipleScreenPanel>
+			<dimension>1000, 200</dimension>
+			<location>South</location>
+			<ShopScreen>
+				<dimension>600, 100</dimension>
+				<location>Center</location>
+			</ShopScreen>
+			<NextWaveScreen>
+				<dimension>200, 100</dimension>
+				<location>East</location>
+			</NextWaveScreen>
+		</MultipleScreenPanel>
+		<MultipleScreenPanel>
+			<dimension>200, 500</dimension>
+			<location>East</location>
+			<GameStatsScreen>
+				<dimension>200, 300</dimension>
+				<location>North</location>
+			</GameStatsScreen>
+			<GameElementInformationScreen>
+				<dimension>200, 300</dimension>
+				<location>South</location>
+			</GameElementInformationScreen>
+		</MultipleScreenPanel>
+	</view>
+	<map>
+		<SuperMap>
+			<image>grass_tile.gif</image>
+			<tile_size>50</tile_size>
+			<dimension>
+				<width>500</width>
+				<height>500</height>
+			</dimension>
+			<grid>s 1 1 1 1 1 1 1 1 1
+			2 2 2 2 2 1 1 1 1 1
+			1 2 1 1 2 1 1 1 1 1
+			1 2 1 1 2 1 1 1 1 1
+			1 2 1 1 2 2 1 1 1 1
+			1 2 1 1 1 2 1 1 1 1
+			1 2 1 1 1 2 2 2 2 2
+			1 2 1 1 1 1 1 1 1 2
+			1 2 1 1 1 1 1 1 1 2
+			1 2 2 2 2 2 2 2 2 d
+			</grid>
+			</SuperMap>
+			<SuperMap2>
+			<image>grass_tile.gif</image>
+			<tile_size>50</tile_size>
+			<dimension>
+				<width>500</width>
+				<height>500</height>
+			</dimension>
+			<grid>s 1 1 1 1 1 1 1 1 1
+			2 2 2 2 2 1 1 1 1 1
+			1 2 1 1 2 1 1 1 1 1
+			1 2 1 1 2 1 1 1 1 1
+			1 2 1 1 2 2 1 1 1 1
+			1 2 1 1 1 2 1 1 1 1
+			1 2 1 1 1 2 2 2 2 2
+			1 2 1 1 1 1 1 2 1 2
+			1 2 1 1 1 1 1 2 1 2
+			1 2 2 2 2 2 2 2 2 d
+			</grid>
+			</SuperMap2>
+	</map>	
+	<player>
+		<attributes>
+			<Health>100.0</Health>
+			<Score>0.0</Score>
+			<Money>1000.0</Money>
+		</attributes>
+	</player>
+	<gameelements>
+	<MoonWalkBird>
+			<dimension>50, 50</dimension>
+			<image>MoonWalkBird.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<HEALTH>10</HEALTH>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+			</actions>			
+		</MoonWalkBird>
+	<ArtsyBird>
+			<dimension>50, 50</dimension>
+			<image>ArtsyBird.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<HEALTH>10</HEALTH>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+			</actions>			
+		</ArtsyBird>
+		<Tweety>
+			<dimension>50, 50</dimension>
+			<image>Tweety.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<HEALTH>80</HEALTH>
+				<MOVE_SPEED>10</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+			</actions>			
+		</Tweety>
+		<Tower>
+			<dimension>50, 50</dimension>
+			<image>CSTower.png</image>
+			<type>Tower</type>
+			<attributes>
+				<Health>100</Health>
+				<Cost>10</Cost>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<FLY_SPEED>300</FLY_SPEED>
+				<RADIUS>100</RADIUS>
+				<AttackType>1.2</AttackType>
+				<Slow>-5</Slow>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+			    <FindTargets>
+					<parameter>RADIUS</parameter>
+					<ApplyAttributeBuff>
+						<parameter>Slow</parameter>
+					    <parameter>Health</parameter>
+					</ApplyAttributeBuff>
+			    </FindTargets>
+			</actions>			
+		</Tower>
+	</gameelements>
+	<rules>
+		<EnemyReachedEndRule/>
+		<NextLevelRule/>
+		<LoseAtZeroHealthRule/>
+	</rules>
+			<levels>
+		<Level1>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>50</parameter>
+					<parameter>1500</parameter>
+					<parameter>MoonWalkBird</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>60000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level1>
+		<Level2>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>50</parameter>
+					<parameter>2000</parameter>
+					<parameter>ArtsyBird</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>60000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level2>
+		<Level3>
+		<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>50</parameter>
+					<parameter>2500</parameter>
+					<parameter>Tweety</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>60000</parameter>
+				</LevelTimerAction>
+			</actions>
+			</Level3>
+			</levels>
+</Game>	

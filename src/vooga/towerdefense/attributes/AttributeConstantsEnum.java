@@ -32,6 +32,8 @@ public enum AttributeConstantsEnum {
     ATTACK_DAMAGE("Attack_Damage"),
     ATTACK_RADIUS("Attack_Range"),
     NUM_OF_TARGETS("Number_of_Targets"),
+    NUM_OF_PROJECTILES("Number_of_Projectiles"),
+    COOL_DOWN("Cool_down"),
     /**
      * Seconds between attacks
      */

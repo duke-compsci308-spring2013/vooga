@@ -5,7 +5,7 @@
 <Desc/>
 <Players number="2">
 <Player ID="1" X="250" Y="261"/>
-<Player ID="2" X="500" Y="500"/>
+<Player ID="2" X="900" Y="900"/>
 </Players>
 </MapInfo>
 <Resourceinfo>

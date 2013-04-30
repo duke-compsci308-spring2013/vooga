@@ -54,6 +54,9 @@ public class AttackActionFactory extends ActionFactory {
         myFilter = new FilterTargetsFactory(myTargets, myNumberOfTargets);
         mySpeed = new PeriodicActionFactory(myAttackSpeed);
         myProjectiles = new LaunchProjectileFactory(myProjectileType);
+        myFilter.addFollowUpActionsFactories(myProjectiles);
+       myFinder.addFollowUpActionsFactories(myFilter);
+       mySpeed.addFollowUpActionsFactories(myFinder);
     }
 
     /**
@@ -63,14 +66,8 @@ public class AttackActionFactory extends ActionFactory {
      */
     @Override
     protected Action buildAction (GameElement e) {
-        Action attack = myFinder.buildAction(e);
-        Action filter = myFilter.createAction(e);
         Action speed = mySpeed.createAction(e);
-        Action projectile = myProjectiles.createAction(e);
-        attack.addFollowUpAction(filter);
-        filter.addFollowUpAction(speed);
-        speed.addFollowUpAction(projectile);
-        return attack;
+        return speed;
     }
 
 }

@@ -1,0 +1,496 @@
+<Game>
+	<view>
+		<dimension>1100, 800</dimension>
+		<MapScreen>
+			<dimension>800, 600</dimension>
+			<location>Center</location>
+		</MapScreen>
+		<MultipleScreenPanel>
+			<dimension>1000, 200</dimension>
+			<location>South</location>
+			<ShopScreen>
+				<dimension>600, 100</dimension>
+				<location>Center</location>
+			</ShopScreen>
+			<NextWaveScreen>
+				<dimension>200, 100</dimension>
+				<location>East</location>
+			</NextWaveScreen>
+		</MultipleScreenPanel>
+		<MultipleScreenPanel>
+			<dimension>200, 500</dimension>
+			<location>East</location>
+			<GameStatsScreen>
+				<dimension>200, 300</dimension>
+				<location>North</location>
+			</GameStatsScreen>
+			<GameElementInformationScreen>
+				<dimension>200, 300</dimension>
+				<location>South</location>
+			</GameElementInformationScreen>
+		</MultipleScreenPanel>
+	</view>
+	<map>
+		<Map1>
+			<image>clowns/ClownMap.jpg</image>
+			<tile_size>20</tile_size>
+			<dimension>
+				<width>700</width>
+				<height>500</height>
+			</dimension>
+			<grid>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			s 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 d
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</grid>
+		</Map1>
+	</map>
+	<player>
+		<attributes>
+			<Health>50.0</Health>
+			<Score>0.0</Score>
+			<Money>10000.0</Money>
+		</attributes>
+	</player>
+	<gameelements>
+		<Clown1>
+			<dimension>60, 60</dimension>
+			<image>clowns/clown1.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>100</Health>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage/>
+			</actions>			
+		</Clown1>
+		<Clown2>
+			<dimension>60, 60</dimension>
+			<image>clowns/clown2.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>150</Health>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage/>
+			</actions>			
+		</Clown2>
+		<Clown3>
+			<dimension>60, 60</dimension>
+			<image>clowns/clown3.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>210</Health>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage/>
+			</actions>			
+		</Clown3>
+		<Clown4>
+			<dimension>60, 60</dimension>
+			<image>clowns/clown4.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>150</Health>
+				<MOVE_SPEED>100</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage/>
+			</actions>			
+		</Clown4>
+		<Clown5>
+			<dimension>60, 60</dimension>
+			<image>clowns/clown5.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>370</Health>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage/>
+			</actions>			
+		</Clown5>
+		<Clown6>
+			<dimension>60, 60</dimension>
+			<image>clowns/clown6.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>470</Health>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage/>
+			</actions>			
+		</Clown6>
+		<Clown7>
+			<dimension>60, 60</dimension>
+			<image>clowns/clown7.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>580</Health>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage/>
+			</actions>			
+		</Clown7>
+		<Clown8>
+			<dimension>40, 40</dimension>
+			<image>clowns/clown8.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>300</Health>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage/>
+			</actions>			
+		</Clown8>
+		<Clown9>
+			<dimension>60, 60</dimension>
+			<image>clowns/clown9.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>930</Health>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage/>
+			</actions>			
+		</Clown9>
+		<Clown10>
+			<dimension>60, 60</dimension>
+			<image>dancing_elephant.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>1070</Health>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage/>
+			</actions>			
+		</Clown10>
+		<ClownBoss>
+			<dimension>100, 100</dimension>
+			<image>clowns/clownBoss.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>15000</Health>
+				<MOVE_SPEED>35</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage/>
+			</actions>			
+		</ClownBoss>
+		<PieTower>
+			<dimension>39, 39</dimension>
+			<image>clowns/pie.gif</image>
+			<type>Tower</type>
+			<attributes>
+				<MOVE_SPEED>50</MOVE_SPEED>
+			</attributes>
+			<attributes>
+				<Health>1000</Health>
+				<Cost>200</Cost>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<FLY_SPEED>300</FLY_SPEED>
+				<RADIUS>100</RADIUS>
+				<AttackType>1.2</AttackType>
+				<Slow>-.5</Slow>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+			    <FindTargets>
+					<parameter>RADIUS</parameter>
+					<ApplyAttributeBuff>
+						<parameter>Slow</parameter>
+					    <parameter>Health</parameter>
+					</ApplyAttributeBuff>
+			    </FindTargets>
+			</actions>			
+		</PieTower>
+		<Tent>
+			<dimension>40, 40</dimension>
+			<image>clowns/tent.png</image>
+			<type>Tower</type>
+			<attributes>
+			</attributes>
+			<attributes>
+				<Health>1000</Health>
+				<Cost>25</Cost>
+			</attributes>
+			<actions>
+			</actions>			
+		</Tent>
+	</gameelements>
+	<rules>
+		<EnemyReachedEndRule/>
+		<NextLevelRule/>
+		<LoseAtZeroHealthRule/>
+	</rules>
+	<levels>
+		<Level0>
+			<rules>
+			</rules>
+			<actions>
+				<LevelTimerAction>
+					<parameter>45000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level0>
+		<Level1>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>10</parameter>
+					<parameter>1000</parameter>
+					<parameter>Clown1</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>30000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level1>
+		<Level2>
+				<rules>
+				</rules>
+				<actions>
+				<WaveAction>
+					<parameter>10</parameter>
+					<parameter>1000</parameter>
+					<parameter>Clown2</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>30000</parameter>
+				</LevelTimerAction>
+				</actions>
+			</Level2>
+			<Level3>
+				<rules>
+				</rules>
+				<actions>
+				<WaveAction>
+					<parameter>10</parameter>
+					<parameter>1000</parameter>
+					<parameter>Clown3</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>30000</parameter>
+				</LevelTimerAction>
+				</actions>
+			</Level3>
+			<Level4>
+				<rules>
+				</rules>
+				<actions>
+				<WaveAction>
+					<parameter>10</parameter>
+					<parameter>1000</parameter>
+					<parameter>Clown4</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>30000</parameter>
+				</LevelTimerAction>
+				</actions>
+			</Level4>
+			<Level5>
+				<rules>
+				</rules>
+				<actions>
+				<WaveAction>
+					<parameter>10</parameter>
+					<parameter>1000</parameter>
+					<parameter>Clown5</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>30000</parameter>
+				</LevelTimerAction>
+				</actions>
+			</Level5>
+			<Level6>
+				<rules>
+				</rules>
+				<actions>
+				<WaveAction>
+					<parameter>10</parameter>
+					<parameter>1000</parameter>
+					<parameter>Clown6</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>30000</parameter>
+				</LevelTimerAction>
+				</actions>
+			</Level6>
+			<Level7>
+				<rules>
+				</rules>
+				<actions>
+				<WaveAction>
+					<parameter>10</parameter>
+					<parameter>1000</parameter>
+					<parameter>Clown7</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>30000</parameter>
+				</LevelTimerAction>
+				</actions>
+			</Level7>
+			<Level8>
+				<rules>
+				</rules>
+				<actions>
+				<WaveAction>
+					<parameter>40</parameter>
+					<parameter>400</parameter>
+					<parameter>Clown8</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>30000</parameter>
+				</LevelTimerAction>
+				</actions>
+			</Level8>
+			<Level9>
+				<rules>
+				</rules>
+				<actions>
+				<WaveAction>
+					<parameter>10</parameter>
+					<parameter>1000</parameter>
+					<parameter>Clown9</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>30000</parameter>
+				</LevelTimerAction>
+				</actions>
+			</Level9>
+			<Level10>
+				<rules>
+				</rules>
+				<actions>
+				<WaveAction>
+					<parameter>10</parameter>
+					<parameter>1000</parameter>
+					<parameter>Clown10</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>30000</parameter>
+				</LevelTimerAction>
+				</actions>
+			</Level10>
+			<Level11>
+				<rules>
+				</rules>
+				<actions>
+				<WaveAction>
+					<parameter>1</parameter>
+					<parameter>1000</parameter>
+					<parameter>ClownBoss</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>90000</parameter>
+				</LevelTimerAction>
+				</actions>
+			</Level11>
+	</levels>
+</Game>

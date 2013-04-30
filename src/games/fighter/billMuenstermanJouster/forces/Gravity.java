@@ -2,6 +2,7 @@ package games.fighter.billMuenstermanJouster.forces;
 
 import util.Vector;
 import vooga.fighter.model.objects.CharacterObject;
+import vooga.fighter.forces.*;
 
 /**
  * 

@@ -76,11 +76,11 @@ public class Pixmap {
         return new Dimension(myImage.getWidth(null), myImage.getHeight(null));
     }
     
-    public int getMyWidth() {
+    public int getWidth() {
         return myImage.getWidth(null);
     }
     
-    public int getMyHeight() {
+    public int getHeight() {
         return myImage.getHeight(null);
     }
 	/**
@@ -100,7 +100,7 @@ public class Pixmap {
 	
     }
     
-    public Image getMyImage() {
+    public Image getImage() {
         return myImage;
     }
 

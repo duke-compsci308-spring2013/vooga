@@ -4,6 +4,12 @@ import vooga.rts.game.RTSGame;
 
 import arcade.games.ArcadeInteraction;
 
+/**
+ * Main class to create our sample game
+ * It only requires generated xml files to work
+ * @author Henrique Moraes & Sherry Liu
+ *
+ */
 public class Main extends RTSGame {
 
 	public Main (ArcadeInteraction arcade) {

@@ -118,6 +118,7 @@
 			<type>Tower</type>
 			<attributes>
 				<HEALTH>100</HEALTH>
+				<COST>10</COST>
 			</attributes>
 			<actions>
 			</actions>			

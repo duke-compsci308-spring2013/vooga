@@ -11,5 +11,9 @@
 	<classpathentry kind="lib" path="src/lib/twitter4j-core-3.0.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="src/util/libraries/jdom-2.0.4.jar"/>
+	<classpathentry kind="lib" path="src/util/libraries/jsapi.jar"/>
+	<classpathentry kind="lib" path="src/util/libraries/sphinx4.jar"/>
+	<classpathentry kind="lib" path="src/util/libraries/WSJ_8gau_13dCep_16k_40mel_130Hz_6800Hz.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

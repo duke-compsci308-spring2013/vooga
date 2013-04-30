@@ -47,12 +47,14 @@ public class FilterTargets extends TargetedAction {
 	@Override
 	public void executeAction(double elapsedTime) {
 		List<GameElement> filteredTargets = new ArrayList<GameElement>();
+		System.out.printf("filter got %d targets\n", getTargets().size());
 		for (int i = 0; i < getTargets().size(); i++) {
 			GameElement e = getTargets().get(i);
 			Attribute affiliation = e.getAttributeManager().getAttribute(
 					AttributeConstantsEnum.AFFILIATION.getStatusCode());
 			if (affiliation != null
 					&& affiliation.getValue() == myTargetAffiliation.getValue()) {
+				System.out.printf("my target affiliation is %s\n", myTargetAffiliation.getValue());
 				filteredTargets.add(e);
 			if (myNumTargets != null
 					&& myNumTargets.getValue() == myTargetAffiliation.getValue()) {
@@ -61,5 +63,6 @@ public class FilterTargets extends TargetedAction {
 			}
 		}
 		updateTargetedFollowUpActions(filteredTargets);
+		System.out.printf("my filtered targets are %s\n", filteredTargets.size());
 	}
 }

@@ -2,9 +2,12 @@ package vooga.rts.gui.menus;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import javax.annotation.Resource;
+import javax.annotation.Resources;
 import util.Location;
 import vooga.rts.commands.ClickCommand;
 import vooga.rts.commands.Command;
@@ -18,8 +21,11 @@ import vooga.rts.gui.buttons.ImageButton;
 import vooga.rts.gui.menus.gamesubmenus.ActionsSubMenu;
 import vooga.rts.gui.menus.gamesubmenus.InfoSubMenu;
 import vooga.rts.gui.menus.gamesubmenus.MiniMapSubMenu;
+import vooga.rts.gui.menus.gamesubmenus.ResourcesMenu;
 import vooga.rts.gui.menus.gamesubmenus.SubMenu;
+import vooga.rts.manager.IndividualResourceManager;
 import vooga.rts.manager.Manager;
+import vooga.rts.state.GameOver;
 
 
 public class GameMenu extends Menu {
@@ -53,6 +59,7 @@ public class GameMenu extends Menu {
                                                                   Window.D_Y -
                                                                           ACTIONS_DIMENSION
                                                                                   .getHeight());
+    private static final Location RESOURCES_LOCATION = new Location(25, 25);
 
     private InteractiveEntity mySelectedEntity;
 
@@ -63,7 +70,7 @@ public class GameMenu extends Menu {
     private SubMenu myInfoSubMenu;
     private SubMenu myActionsSubMenu;
 
-    public GameMenu () {
+    public GameMenu (IndividualResourceManager individualResourceManager) {
 
         myExitButton = new ImageButton(EXIT_IMAGE_URL, EXIT_BUTTON_DIMENSION, EXIT_BUTTON_LOCATION);
         addButton(myExitButton);
@@ -80,6 +87,8 @@ public class GameMenu extends Menu {
         myActionsSubMenu =
                 new ActionsSubMenu(ACTIONS_IMAGE_URL, ACTIONS_DIMENSION, ACTIONS_LOCATION);
         addSubMenu(myActionsSubMenu);
+        
+        addSubMenu(new ResourcesMenu(individualResourceManager, EXIT_IMAGE_URL, new Dimension(), RESOURCES_LOCATION));
 
     }
 
@@ -142,9 +151,8 @@ public class GameMenu extends Menu {
         }
 
         if (o.equals(myExitButton)) {
-            System.exit(0);
-            // setChanged();
-            // notifyObservers();
+            setChanged();
+            notifyObservers(GameOver.QUIT);
         }
     }
 

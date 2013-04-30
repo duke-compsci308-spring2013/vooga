@@ -1,4 +1,4 @@
-package games.MouseAndVocieDemo;
+package games.MouseAndVoiceDemo;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

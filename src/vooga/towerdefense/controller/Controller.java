@@ -376,8 +376,8 @@ public class Controller {
 	 * paints the shop.
 	 * @param pen
 	 */
-	public void paintShop(Graphics pen) {
-		myModel.paintShop((Graphics2D) pen);
+	public void paintShop(Graphics2D pen) {
+		myModel.paintShop(pen);
 	}
 
 	/**

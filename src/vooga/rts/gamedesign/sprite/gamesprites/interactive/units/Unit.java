@@ -32,8 +32,7 @@ import vooga.rts.util.Sound;
 public class Unit extends InteractiveEntity {
 
     // default values
-    public static final Pixmap DEFAULT_IMAGE = new Pixmap(
-                                                          "images/sprites/soldier.png");
+    public static final Pixmap DEFAULT_IMAGE = new Pixmap("images/sprites/soldier.png");
     public static final Location3D DEFAULT_LOCATION = new Location3D();
     public static final Dimension DEFAULT_SIZE = new Dimension(90, 90);
     public static final Sound DEFAULT_SOUND = null;
@@ -117,13 +116,8 @@ public class Unit extends InteractiveEntity {
                 new Unit(getImage(), getWorldLocation(), getSize(), getSound(), getPlayerID(),
                          getHealth(), getBuildTime(), getSpeed());
         transmitProperties(copyUnit);
+        setRallyPoint();
         return copyUnit;
-    }
-
-    @Override
-    public void updateAction (Command command) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override

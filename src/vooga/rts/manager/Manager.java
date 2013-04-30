@@ -362,9 +362,7 @@ public class Manager extends Observable implements State, IActOn, Observer {
                 InteractiveEntity unit = myEntities.get(index);
                 unit.getEntityState().setOccupyState(OccupyState.NOT_OCCUPYING);
                 unit.setVisible(true);
-
-                unit.setWorldLocation((((Building) entity).getRallyPoint()));
-                unit.move((((Building) entity).getRallyPoint()));
+                unit.setWorldLocation(((InteractiveEntity) entity).getRallyPoint());
                 myEntities.get(index).stopMoving();
                 unit.getEntityState().setMovementState(MovementState.STATIONARY);
             }

@@ -129,10 +129,9 @@ public class Controller implements ArcadeInteraction {
 	 * information is eventually stored in the database.
 	 * 
 	 * @throws UsernameTakenException
-	 * @throws IOException
 	 */
 	public void createNewUserProfile(UserSpecificData data)
-			throws UsernameTakenException, IOException {
+			throws UsernameTakenException {
 		if (usernameInDatabase(data.getUsername()))
 			throw new UsernameTakenException();
 		myDb.createUser(data);
@@ -294,7 +293,7 @@ public class Controller implements ArcadeInteraction {
 	public void publish(String name, String genre, String author, double price,
 			String extendsGame, String extendsMultiplayerGame, int ageRating,
 			boolean singlePlayer, boolean multiplayer, String thumbnailPath,
-			String adScreenPath, String description) throws IOException {
+			String adScreenPath, String description) {
 
 		// Put info in DB
 		myDb.createGame(
