@@ -1,9 +1,11 @@
 package vooga.scroller.sprites.superclasses;
 
 import java.awt.Dimension;
+import java.util.List;
 import util.Location;
 import util.Vector;
 import vooga.scroller.level_editor.Level;
+import vooga.scroller.marioGame.spritesDefinitions.physics.ForceBundle;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.interfaces.Locatable;
 import vooga.scroller.util.ISpriteView;
@@ -30,7 +32,7 @@ public abstract class GameCharacter extends Sprite implements Locatable{
     private int myHealth;
     private int myDamage;
     private Locatable myTarget;
-    private Force myGravity;
+    private Force[] myForces;
 
     
     /**
@@ -45,20 +47,15 @@ public abstract class GameCharacter extends Sprite implements Locatable{
         super(image, size);
         myHealth = health;
         myDamage = damage;
-        myGravity = null;
-    }
-    
-    public GameCharacter (ISpriteView image, Dimension size, int health, int damage, boolean gravity) {
-        super(image, size);
-        myHealth = health;
-        myDamage = damage;
-        myGravity = gravity ? new Gravity(this) : null;
+        myForces = setForces();
     }
 
     public void update (double elapsedTime, Dimension bounds) {
         super.update(elapsedTime, bounds);
-        if (myGravity != null) {
-            myGravity.apply();
+        if (myForces != null) {
+            for(Force f:myForces){
+                f.apply();
+            }
         }
     }
     
@@ -118,5 +115,7 @@ public abstract class GameCharacter extends Sprite implements Locatable{
      * Defines how to handle the death of this character.
      */
     public abstract void handleDeath(Level level);
+    
+    public abstract Force[] setForces();
     
 }

@@ -55,12 +55,8 @@ public class Mario extends Player implements IInputListener {
 
     private static final int DEFAULT_DAMAGE = new Integer(1);
 
-    private Force myGravity;
-
     public Mario () {
         super(DEFAULT_IMAGE, DEFAULT_SIZE, DEFAULT_HEALTH, DEFAULT_DAMAGE);
-
-        myGravity = new MarioGravity(this);
     }
 
     public Mario (Model m) {
@@ -72,7 +68,6 @@ public class Mario extends Player implements IInputListener {
         super(DEFAULT_IMAGE, DEFAULT_SIZE, gameView, sm, DEFAULT_HEALTH, DEFAULT_DAMAGE);
         // MarioLib.addLeftRightAnimationToPlayer(this, "mario.gif");
 
-        myGravity = new MarioGravity(this);
         initializePossibleStates();
 
     }
@@ -90,8 +85,6 @@ public class Mario extends Player implements IInputListener {
 
     @Override
     public void update (double elapsedTime, Dimension bounds) {
-        myGravity.apply();
-
         super.update(elapsedTime, bounds);
         checkSpeed();
     }
@@ -155,6 +148,11 @@ public class Mario extends Player implements IInputListener {
 
     public void changeState (int i) {
         // TODO Auto-generated method stub
-        
+
+    }
+
+    @Override
+    public Force[] setForces () {
+        return new Force[]{new MarioGravity(this)};
     }
 }

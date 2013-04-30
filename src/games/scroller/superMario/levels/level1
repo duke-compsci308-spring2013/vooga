@@ -18,11 +18,11 @@
                  e                                                                                  
     f f          e                                                                                  
                  e                                                                                  
-              g ge                                                                                  
+         j    g  e                                                                                  
    hhfhh    bcccccd                                                                                 
                ei                                                                                   
                e                                                                                    
-jkkkkkkkkl     eccccccd                                                                             
+kllllllllm     eccccccd                                                                             
                e                                                                                    
     ee         e                                                                                    
     ee         e                                                                                    
@@ -30,17 +30,18 @@ jkkkkkkkkl     eccccccd
 /lib
 games.scroller.superMario.sprites.SuperMarioLib
 /key
-j=WoodBigLeft
 b=WoodLeft
-g=Goomba
 e=WoodPole
-a=Koopa
-k=WoodBigMid
-i=DoorPortal
 c=WoodMid
 f=ItemBlock
+m=WoodBigRight
+k=WoodBigLeft
+g=Goomba
+a=Koopa
+i=DoorPortal
+l=WoodBigMid
 h=Block
-l=WoodBigRight
+j=Fireflower
 d=WoodRight
 /settings
 StartPoint=16 720

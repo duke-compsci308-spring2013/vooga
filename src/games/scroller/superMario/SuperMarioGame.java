@@ -2,6 +2,7 @@ package games.scroller.superMario;
 
 import games.scroller.superMario.sprites.Mario;
 import games.scroller.superMario.sprites.SuperMarioLib;
+import games.scroller.superMario.sprites.SuperMarioVisitLibrary;
 import arcade.games.ArcadeInteraction;
 import vooga.scroller.collision_manager.VisitLibrary;
 import vooga.scroller.extra_resources.sprite_interfaces.StandardPlayerCollisions;
@@ -45,7 +46,7 @@ public class SuperMarioGame extends ScrollerGame {
 
     @Override
     protected VisitLibrary setVisitLibrary () {
-        return new StandardPlayerCollisions();
+        return new SuperMarioVisitLibrary();
     }
 
     @Override

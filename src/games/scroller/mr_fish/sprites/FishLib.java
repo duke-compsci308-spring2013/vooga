@@ -26,6 +26,7 @@ import vooga.scroller.sprites.superclasses.GameCharacter;
 import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.util.ISpriteView;
 import vooga.scroller.util.Pixmap;
+import vooga.scroller.util.physics.Force;
 
 
 public class FishLib extends EncapsulatedSpriteLibrary {
@@ -62,6 +63,12 @@ public class FishLib extends EncapsulatedSpriteLibrary {
         @Override
         public void useItem (Player p) {
             p.setHealth(p.getHealth() + HEALTH_GAIN);
+        }
+
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
         }
     }
 
@@ -108,6 +115,12 @@ public class FishLib extends EncapsulatedSpriteLibrary {
             return myItems.get(index);
         }
 
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     }
 
     public static class HushPuppies extends Item implements ICollectible {
@@ -134,6 +147,12 @@ public class FishLib extends EncapsulatedSpriteLibrary {
             p.takeHit((int) (HEALTH_MULTIPLIER * multiplier));
         }
 
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     }
 
     public static class JamesCameron extends Item implements ICollectible {
@@ -157,6 +176,12 @@ public class FishLib extends EncapsulatedSpriteLibrary {
             MrFish fish = (MrFish) p;
             fish.incrementScore(SCORE);
 
+        }
+
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
         }
 
     }
@@ -204,6 +229,12 @@ public class FishLib extends EncapsulatedSpriteLibrary {
             movement.setTarget(target);
         }
 
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     }
 
     public static class Baracuda extends GameCharacter implements IEnemy {
@@ -245,6 +276,12 @@ public class FishLib extends EncapsulatedSpriteLibrary {
             hp.setCenter(this.getCenter().x, this.getCenter().y);
             level.addSprite(hp);
 
+        }
+
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
         }
 
     }
@@ -337,6 +374,12 @@ public class FishLib extends EncapsulatedSpriteLibrary {
         @Override
         public void handleDeath (Level level) {
 
+        }
+
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
         }
 
     }

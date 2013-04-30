@@ -28,6 +28,7 @@ import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.statistics.Statistic;
 import vooga.scroller.util.ISpriteView;
 import vooga.scroller.util.Pixmap;
+import vooga.scroller.util.physics.Force;
 import vooga.scroller.view.GameView;
 
 
@@ -230,6 +231,12 @@ public class MrFish extends Player {
     public void selectItem () {
         myInventory.getPreviousItem();
         myInventory.selectCurrent();
+    }
+
+    @Override
+    public Force[] setForces () {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

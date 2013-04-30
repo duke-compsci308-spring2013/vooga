@@ -22,6 +22,7 @@ import vooga.scroller.sprites.superclasses.GameCharacter;
 import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.util.ISpriteView;
 import vooga.scroller.util.Pixmap;
+import vooga.scroller.util.physics.Force;
 import util.Vector;
 
 
@@ -69,6 +70,12 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
             // killing this does not do anything
         }
 
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     }
 
     public static class Koopa extends GameCharacter implements IEnemy {
@@ -98,6 +105,12 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
             movement.setTarget(target);
         }
 
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     }
 
     public static class Turtle extends GameCharacter implements IEnemy {
@@ -119,6 +132,12 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
         @Override
         public void handleDeath (Level level) {
             // TODO Auto-generated method stub
+        }
+
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
         }
     }
 
@@ -147,6 +166,12 @@ public class MarioLib extends EncapsulatedSpriteLibrary {
         public void handleDeath (Level level) {
             // TODO Auto-generated method stub
 
+        }
+
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
         }
 
     }
