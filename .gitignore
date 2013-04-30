@@ -14,3 +14,5 @@ bin/**
 Thumbs.db
 /bin
 src/arcade/resources/ErrorLog*
+/bin
+

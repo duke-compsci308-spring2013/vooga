@@ -120,9 +120,9 @@
 				        <parameter>Money</parameter>
 				        <parameter>Money</parameter>
 				    </ModifyPlayerAttribute>
-				    <CreateElement>
+				    <CreateGameElement>
 				        <parameter>Grimer</parameter>
-				    </CreateElement>
+				    </CreateGameElement>
 				    <RemoveGameElement></RemoveGameElement>
 				</OnDeath>
 			</actions>			
@@ -152,8 +152,8 @@
 			<image>Pokemon/BlobPurple.gif</image>
 			<type>Projectile</type>
 			<attributes>
-				<Move_Speed>-5</Move_Speed>
-				<MOVE_SPEED>-5</MOVE_SPEED>
+				<Move_Speed>5</Move_Speed>
+				<MOVE_SPEED>5</MOVE_SPEED>
 				<DIRECTION>0</DIRECTION>
 				<NumTargets>1</NumTargets>
 				<RADIUS>50</RADIUS>
@@ -181,8 +181,8 @@
 			<image>Pokemon/pokeball.png</image>
 			<type>Projectile</type>
 			<attributes>
-				<Move_Speed>-5</Move_Speed>
-				<MOVE_SPEED>-5</MOVE_SPEED>
+				<Move_Speed>5</Move_Speed>
+				<MOVE_SPEED>5</MOVE_SPEED>
 				<DIRECTION>0</DIRECTION>
 				<NumTargets>4</NumTargets>
 				<RADIUS>10</RADIUS>
@@ -249,22 +249,20 @@
 				<RADIUS>100</RADIUS>
 				<RADIUS2>300</RADIUS2>
 				<AttackType>1.2</AttackType>
-				<DetonationSpeed>1000</DetonationSpeed>
+				<DetonationSpeed>200</DetonationSpeed>
 				<Damage>-5000</Damage>
 			</attributes>
 			<actions>
-			    <PeriodicAction>
-			        <parameter>DetonationSpeed</parameter>
-			        <FindTargets>
-					<parameter>RADIUS</parameter>
+				<FindTargets>
+				<parameter>RADIUS</parameter>
 					<ModifyAttributeValue>
 					    <parameter>Damage</parameter>
 					    <parameter>Health</parameter>
 					</ModifyAttributeValue>					
-					</FindTargets>
-					<RemoveGameElement>
-					</RemoveGameElement>
-			    </PeriodicAction>
+				</FindTargets>
+			    <SelfDestruct>
+			        <parameter>DetonationSpeed</parameter>
+			    </SelfDestruct>
 			</actions>
 		</Electrode>
 		<Sudowoodo>
