@@ -33,6 +33,7 @@ public class CustomHandler extends Decoder{
 	@Override
 	public void create(Document doc, String type) {
 		NodeList custom = doc.getElementsByTagName(CUSTOM_TAG + type);
+		System.out.println(type);
 		for(int i = 0; i < custom.getLength() ; i++){
 			Element customElement = (Element) custom.item(i);
 			String path = customElement.getAttributes().getNamedItem(SOURCE_TAG).getTextContent();

@@ -72,6 +72,10 @@ public class Projectile extends GameEntity {
 	public Projectile(Pixmap pixmap, int damage, int lifespan, int speed) {
 		this(pixmap, DEFAULTLOCATION, DEFAULT_DIMENSION, DEFAULT_PLAYERID, damage, lifespan, speed);
 	}
+	
+	public Projectile(){
+	    this(DEFAULT_PIC, 10, 100, 20);
+	}
 
 	/**
 	 * Sets the enemy that the pojectile is attempting to hit.

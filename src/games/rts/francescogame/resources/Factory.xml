@@ -159,7 +159,7 @@
 			<occupy>canbeoccupied</occupy>
 			<upgrade>cannotupgrade</upgrade>
 			<upgradeTreeName></upgradeTreeName>
-			<produce>player</produce>
+			<produce>player referee</produce>
 			<myweapons></myweapons>
 			<information>
 				<description>Where athletes are made!</description>
@@ -216,6 +216,9 @@
 				</cost>
 			</information>
 		</unit>	
+		<customunit src = "vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Referee">
+			<name>referee</name>
+		</customunit>
 	</units>
 	<weapons src = "vooga.rts.gamedesign.weapon.Weapon">
 			<weapon>

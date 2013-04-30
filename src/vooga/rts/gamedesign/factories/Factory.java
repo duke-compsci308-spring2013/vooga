@@ -386,7 +386,8 @@ public class Factory {
             producer.setProductionStrategy(new CanProduce(producer));
             for (String baby : produces) {
                 InteractiveEntity producable = mySprites.get(baby);
-
+                System.out.println(producable);
+                
                 producer.addProducable(producable.copy());
 
             }
