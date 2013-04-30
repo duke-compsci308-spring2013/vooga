@@ -116,7 +116,7 @@
 		</ArtsyBird>
 		<Tower>
 			<dimension>50, 50</dimension>
-			<image>tower.gif</image>
+			<image>CSTower.png</image>
 			<type>Tower</type>
 			<attributes>
 				<MOVE_SPEED>50</MOVE_SPEED>
