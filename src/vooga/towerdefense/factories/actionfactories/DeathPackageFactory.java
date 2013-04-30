@@ -1,6 +1,7 @@
 package vooga.towerdefense.factories.actionfactories;
 
 import vooga.towerdefense.action.Action;
+import vooga.towerdefense.action.actionlist.RemoveGameElement;
 import vooga.towerdefense.attributes.AttributeConstantsEnum;
 import vooga.towerdefense.gameelements.GameElement;
 import vooga.towerdefense.model.GameMap;
@@ -16,7 +17,7 @@ public class DeathPackageFactory extends ActionFactory {
 
 	ActionFactory myDeath;
 	ActionFactory myPlayerValue;
-	ActionFactory myRemoveElement;
+	RemoveGameElementFactory myRemoveElement;
 
 	/**
 	 * Default unit death USES: Health Attribute Worth Attribute Remove from map
@@ -49,8 +50,10 @@ public class DeathPackageFactory extends ActionFactory {
 	@Override
 	protected Action buildAction(GameElement e) {
 		Action death = myDeath.createAction(e);
-		death.addFollowUpAction(myPlayerValue.buildAction(e));
-		death.addFollowUpAction(myRemoveElement.buildAction(e));
+		death.addFollowUpAction(myPlayerValue.createAction(e));
+		RemoveGameElement delete = (RemoveGameElement) myRemoveElement.createAction(e);
+		delete.addTarget(e);
+		death.addFollowUpAction(delete);
 		return death;
 	}
 

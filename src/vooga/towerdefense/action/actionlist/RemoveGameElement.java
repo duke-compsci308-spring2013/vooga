@@ -22,12 +22,10 @@ public class RemoveGameElement extends TargetedAction {
 	public RemoveGameElement(GameMap map) {
 		super();
 		myMap = map;
-		System.out.println("REMOVE ELEMENT");
 	}
 
 	@Override
 	public void executeAction(double elapsedTime) {
-		System.out.printf("remove game element list%d\n", getTargets().size());
 		if (!getTargets().isEmpty()) {
 			myElement = getTargets().get(0);
 			myMap.removeGameElement(myElement);

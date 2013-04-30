@@ -194,7 +194,7 @@
 			<actions>
 			    <PeriodicAction>
 			        <parameter>Lifespan</parameter>
-			        <RemoveElement></RemoveElement>
+			        <RemoveGameElement></RemoveGameElement>
 			    </PeriodicAction>
 			    <FindTargets>
 					<parameter>RADIUS</parameter>

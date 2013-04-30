@@ -23,7 +23,6 @@ public class SelfDestructFactory extends ActionFactory {
 
 	@Override
 	public Action buildAction(GameElement e) {
-		System.out.println("self destruct built");
-		return new SelfDestruct(getMap(), e, e.getAttribute(myLifespan));
+		return new SelfDestruct(getMap(), e, e.getAttributeManager().getAttribute(myLifespan));
 	}
 }

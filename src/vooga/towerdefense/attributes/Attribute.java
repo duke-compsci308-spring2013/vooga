@@ -1,6 +1,5 @@
 package vooga.towerdefense.attributes;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import util.Location;
@@ -124,10 +123,16 @@ public class Attribute {
     /**
      * paints a bar representing this attribute
      */
-    public void paint (Graphics2D pen, Location where, Dimension size) {
-        pen.setColor(Color.red);
+    public void paintBar (Graphics2D pen, Location where, Dimension size) {
+        pen.fillRect((int) where.getX() - size.width / 2, (int) where.getY() - size.height / 2,
+                     (int) (size.getWidth() * (getValue() /
+                     getOriginalValue())), (int) 10);
     }
 
+    /**
+     * Returns the original value of this attribute
+     * @return 
+     */
     public double getOriginalValue () {
         return myOriginalValue;
     }
@@ -144,7 +149,6 @@ public class Attribute {
     /**
      * reset current value to original value;
      */
-
     public void reset () {
         myCurrentValue = myOriginalValue;
         resetBuffValue();

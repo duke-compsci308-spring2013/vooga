@@ -10,6 +10,11 @@ import vooga.towerdefense.model.tiles.VersaTile;
 import vooga.towerdefense.util.Pixmap;
 
 
+/**
+ * Creates tiles from an XML element handed in to this class by the MapEditor.
+ * 
+ * @author Yoshida
+ */
 public class XMLTileFactory extends TileFactory {
     
     private static final String TILE_IMAGES_CLASS_PATH = "/vooga/towerdefense/images/map/";
@@ -25,6 +30,12 @@ public class XMLTileFactory extends TileFactory {
     private XMLTool myXMLTool;
     private HashMap<String, String> myData;
     
+    /**
+     * The constructor of this class sets the data read from an XML element using the XMLTool.
+     * @param tool XMLTool from utility
+     * @param tileElement XML element containing the tile data
+     * @param id The id of the tile in the XML file map data.
+     */
     public XMLTileFactory(XMLTool tool, Element tileElement, String id) {
         myXMLTool = tool;
         myID = id;
@@ -45,9 +56,9 @@ public class XMLTileFactory extends TileFactory {
     @Override
     public Tile createTile (Location center, GameMap map) {
         VersaTile tile = new VersaTile(myImage, center, map.getTileSize());
-        tile.setName(myName);        
+        tile.setName(myName);
         tile.setTileBuildable(myData.get(BUILDABLE_TAG).equals(XML_TRUE));
-        tile.setTileWalkable(myData.get(WALKABLE_TAG).equals(XML_TRUE));       
+        tile.setTileWalkable(myData.get(WALKABLE_TAG).equals(XML_TRUE));
         return tile;
     }
     

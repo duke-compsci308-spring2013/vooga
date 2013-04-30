@@ -37,6 +37,7 @@ import vooga.rts.gamedesign.strategy.attackstrategy.CannotAttack;
 import vooga.rts.gamedesign.strategy.gatherstrategy.CanGather;
 import vooga.rts.gamedesign.strategy.gatherstrategy.CannotGather;
 import vooga.rts.gamedesign.strategy.gatherstrategy.GatherStrategy;
+import vooga.rts.gamedesign.strategy.occupystrategy.CanBeOccupied;
 import vooga.rts.gamedesign.strategy.occupystrategy.CannotBeOccupied;
 import vooga.rts.gamedesign.strategy.occupystrategy.OccupyStrategy;
 import vooga.rts.gamedesign.strategy.production.CannotProduce;
@@ -67,7 +68,8 @@ import vooga.rts.util.Sound;
  * 
  */
 
-public abstract class InteractiveEntity extends GameEntity implements IAttackable, IActOn {
+public abstract class InteractiveEntity extends GameEntity implements
+				IAttackable, IActOn {
 
     public static final Location3D DEFAULT_LOCATION = new Location3D(0, 0, 0);
     public static final int DEFAULT_PLAYERID = 0;
@@ -671,22 +673,37 @@ public abstract class InteractiveEntity extends GameEntity implements IAttackabl
         notifyObservers();
     }
 
+    /**
+     * Updates the InteractiveEntity by checking if it is able to occupy
+     * another InteractiveEntity.
+     * 
+     * @param elapsedTime
+     */
     private void updateOccupy (double elapsedTime) {
         List<InteractiveEntity> shelters = findShelters();
         if (!shelters.isEmpty()) {
-            shelters.get(0).getOccupied((Unit) this);
+        	shelters.get(0).getOccupied((Unit) this);
         }
     }
 
+    /**
+     * Finds the InteractiveEntity that are in range of this InteractiveEntity
+     * which also can be occupied.
+     * 
+     * @return the list of InteractiveEntity that can be occupied
+     */
     private List<InteractiveEntity> findShelters () {
-        List<InteractiveEntity> possibleShelters =
-                GameState.getMap().<InteractiveEntity> getInArea(getWorldLocation(),
-                                                                 10,
-                                                                 InteractiveEntity.class,
-                                                                 GameState.getPlayers()
-                                                                         .getTeamID(getPlayerID()),
-                                                                 true);
-        return possibleShelters;
+    	List<InteractiveEntity> possibleShelters =
+    			GameState.getMap().<InteractiveEntity>getInArea(getWorldLocation(),
+    			10, InteractiveEntity.class, GameState.getPlayers()
+    			.getTeamID(getPlayerID()), true);
+    	List<InteractiveEntity> actualShelters = new ArrayList<InteractiveEntity>();
+    	for (InteractiveEntity shelter: possibleShelters) {
+    		if (shelter.getOccupyStrategy() instanceof CanBeOccupied) {
+    			actualShelters.add(shelter);
+    		}
+    	}
+        return actualShelters;
     }
 
     private void updateAttack (double elapsedTime) {

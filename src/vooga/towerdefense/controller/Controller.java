@@ -275,7 +275,7 @@ public class Controller {
 		ShopItem itemToBuy = myModel.getShopItem(p);
 
 		// no item clicked
-		if (itemToBuy == null)
+		if (itemToBuy == null && myModel.getPlayer().getAttributeManager().getAttribute(AttributeConstantsEnum.MONEY.getStatusCode()).getValue() > 0)
 			return;
 
 		BuildMode myNewMode = new BuildMode();

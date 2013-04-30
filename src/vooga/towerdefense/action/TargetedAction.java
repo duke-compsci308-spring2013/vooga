@@ -103,7 +103,6 @@ public abstract class TargetedAction extends Action {
 	public void updateTargetedFollowUpActions(List<GameElement> targets) {
 		for (TargetedAction a : getTargetedFollowUpActions()) {
 			a.setTargets(targets);
-			System.out.printf("update targets size to be %s\n", targets.size());
 		}
 	}
 }

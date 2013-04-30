@@ -18,7 +18,6 @@ public class RemoveGameElementFactory extends ActionFactory {
 
 	@Override
 	public Action buildAction(GameElement e) {
-		System.out.println("remove game element action built");
 		return new RemoveGameElement(getMap());
 	}
 

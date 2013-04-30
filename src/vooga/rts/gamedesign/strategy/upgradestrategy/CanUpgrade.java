@@ -29,7 +29,8 @@ public class CanUpgrade implements UpgradeStrategy {
      * @param upgradeTree the UpgradeTree of this CanUpgrade
      * @param owner the InteractiveEntity that owns the UpgradeTree
      */
-    public void setUpgradeTree (UpgradeTree upgradeTree, InteractiveEntity owner) {
+    public void setUpgradeTree (UpgradeTree upgradeTree,
+    		InteractiveEntity owner) {
         myUpgradeTree = upgradeTree;
         createUpgradeActions(owner);
     }
@@ -51,7 +52,9 @@ public class CanUpgrade implements UpgradeStrategy {
                     upgrade.apply(entity);
                 }
             });
-            entity.addActionInfo(commandName, new Information(commandName, "This upgrades " + upgrade.getUpgradeName(), "buttons/unload.gif",null));  
+            entity.addActionInfo(commandName, new Information(commandName,
+            		"This upgrades " + upgrade.getUpgradeName(),
+            		"buttons/unload.gif",null));  
         }
     }
 
