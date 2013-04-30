@@ -59,9 +59,9 @@
 		</attributes>
 	</player>
 	<gameelements>
-	<Dog>
+	<MoonWalkBird>
 			<dimension>50, 50</dimension>
-			<image>dog.gif</image>
+			<image>MoonWalkBird.gif</image>
 			<type>Unit</type>
 			<attributes>
 				<HEALTH>10</HEALTH>
@@ -76,7 +76,25 @@
 					<parameter>DIRECTION</parameter>
 				</Move>
 			</actions>			
-		</Dog>
+		</ArtsyBird>
+	<ArtsyBird>
+			<dimension>50, 50</dimension>
+			<image>ArtsyBird.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<HEALTH>10</HEALTH>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+			</actions>			
+		</ArtsyBird>
 		<TestTower>
 			<dimension>50, 50</dimension>
 			<image>tower.gif</image>
@@ -129,7 +147,7 @@
 				<WaveAction>
 					<parameter>10</parameter>
 					<parameter>1000</parameter>
-					<parameter>Dog</parameter>
+					<parameter>ArtsyBird</parameter>
 				</WaveAction>
 				<LevelTimerAction>
 					<parameter>60000</parameter>
