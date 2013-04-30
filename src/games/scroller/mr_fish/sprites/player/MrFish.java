@@ -85,7 +85,8 @@ public class MrFish extends Player {
         initializePossibleStates();
     }
 
-    private void initializePossibleStates () {
+    @Override
+    protected void initializePossibleStates () {
         // TODO left, right, up, down, super, invincible
 
         // Movement states

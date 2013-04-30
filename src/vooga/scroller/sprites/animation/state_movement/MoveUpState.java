@@ -1,6 +1,7 @@
 package vooga.scroller.sprites.animation.state_movement;
 
 import vooga.scroller.sprites.Sprite;
+import vooga.scroller.sprites.state.SpriteState;
 import vooga.scroller.util.ISpriteView;
 
 public class MoveUpState extends SpriteMovementState {
@@ -19,6 +20,11 @@ public class MoveUpState extends SpriteMovementState {
     public void deactivate() {
         super.deactivate();
         getUnit().setView(myStandView);
+    }
+
+    @Override
+    public int getID () {
+        return STATE_ID;
     }
 
 }

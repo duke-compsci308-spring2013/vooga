@@ -14,6 +14,7 @@ public class SuperFish extends SpriteState<MrFish> {
     private static final int PRIORITY = Integer.MAX_VALUE;
     private static final Dimension SUPER_SIZE = new Dimension(100,100);
     private static final int HEALTH_MULITPLIER = 5;
+    private static final int STATE_ID = 25;
     
     private Dimension myInitialSize; 
     
@@ -51,6 +52,11 @@ public class SuperFish extends SpriteState<MrFish> {
         MrFish player = getUnit();       
 
         player.setHealth(MrFish.MR_FISH_HEALTH);        
+    }
+
+    @Override
+    public int getID () {
+        return STATE_ID;
     }
 
 }

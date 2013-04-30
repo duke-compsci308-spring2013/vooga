@@ -23,7 +23,9 @@ import vooga.scroller.view.GameView;
 public class Mario extends Player implements IInputListener {
 
     private static final String CONTROLS_FILE_PATH =
-            "vooga/scroller/marioGame/controls/MarioMapping";
+//            "games/scroller/superMario/controls/MarioMapping";
+
+            "games/scroller/marioGame/controls/MarioMapping";
 
     private static final int MAX_JUMPS = 2;
     private static final Pixmap DEFAULT_IMAGE = SuperMarioLib.makePixmap("mario_stand_right.gif");
@@ -71,14 +73,15 @@ public class Mario extends Player implements IInputListener {
         myJumpCount = 0;
         myGravity = new Gravity(this);
 
-        intializeStates();
+        initializePossibleStates();
 
     }
 
     /**
      * Initialize all possible states, including movement for mario.
      */
-    private void intializeStates () {
+    @Override
+    protected void initializePossibleStates () {
         this.addPossibleState(MoveLeftState.STATE_ID, new MoveLeftState(this, MOVE_LEFT,
                                                                         STAND_LEFT, SPEED));
         this.addPossibleState(MoveRightState.STATE_ID, new MoveRightState(this, MOVE_RIGHT,

@@ -15,5 +15,11 @@ public class TiltUp extends Tilt {
     }
 
 
+    @Override
+    public int getID () {
+        return STATE_ID;
+    }
+
+
 
 }
