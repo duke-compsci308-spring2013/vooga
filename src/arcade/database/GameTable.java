@@ -42,7 +42,7 @@ public class GameTable extends Table {
             }
         }
         catch (SQLException e) {
-            writeErrorMessage("Error determining if game name exists in GameTable.jave @Line 70");
+            writeErrorMessage("Error determining if game name exists in GameTable.java");
         }
         return false;
     }
@@ -177,8 +177,7 @@ public class GameTable extends Table {
             }
         }
         catch (SQLException e) {
-            e.printStackTrace();
-            //writeErrorMessage("Error printing entire table in GameTable.java @ Line 182");
+            writeErrorMessage("Error printing entire table in GameTable.java");
         }
     }
     

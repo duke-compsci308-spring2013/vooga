@@ -25,14 +25,16 @@ public class Gravity extends Force {
     /**
      * Applies gravity to character object
      */
-    public void applyForce(CharacterObject object) {
+    @Override
+	public void applyForce(CharacterObject object) {
         object.getLocation().addAcceleration(myVector);
     }
     
     /**
      * Initialize the force by setting direction and magnitude
      */
-    public void initialize(double param1, double param2) {
+    @Override
+	public void initialize(double param1, double param2) {
         myDirection = param1;
         myMagnitude = param2;
         myVector= new Vector(myDirection, myMagnitude);
@@ -41,7 +43,8 @@ public class Gravity extends Force {
     /**
      * Return the vector
      */
-    public Vector getVector() {
+    @Override
+	public Vector getVector() {
         return myVector;
     }
     

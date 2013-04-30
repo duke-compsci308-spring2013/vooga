@@ -17,10 +17,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import arcade.controller.Controller;
-import arcade.controller.GameSpecificData;
 import arcade.exceptions.AgeException;
 import arcade.exceptions.InvalidGameFileException;
 import arcade.exceptions.InvalidPriceException;
+import arcade.model.datapacket.GameSpecificData;
 import arcade.view.TextKeywords;
 
 
@@ -205,12 +205,7 @@ public class PublishView extends Form {
         return createButton(TextKeywords.PUBLISH, new ActionListener() {
             @Override
             public void actionPerformed (ActionEvent arg0) {
-                try {
-					publish();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                publish();
             }
         });
     }
@@ -218,22 +213,22 @@ public class PublishView extends Form {
     /**
      * Try telling controller to publish a new game. Inform the user if invalid
      * inputs.
-     * @throws IOException 
+     * 
      */
-    private void publish () throws IOException {
+    private void publish () {
         try {
             getController().publish(myNameTextField.getText(),
-                                  myGenreTextField.getText(),
-                                  myAuthorTextField.getText(),
-                                  getPrice(),
-                                  getGameFilePath(),
-                                  "",
-                                  getAgeRating(),
-                                  true,
-                                  false,
-                                  mySmallImagePath,
-                                  myLargeImagePath,
-                                  myDescriptionTextField.getText());
+                                    myGenreTextField.getText(),
+                                    myAuthorTextField.getText(),
+                                    getPrice(),
+                                    getGameFilePath(),
+                                    "",
+                                    getAgeRating(),
+                                    true,
+                                    false,
+                                    mySmallImagePath,
+                                    myLargeImagePath,
+                                    myDescriptionTextField.getText());
             dispose();
         }
         catch (InvalidPriceException e) {

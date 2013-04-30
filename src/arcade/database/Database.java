@@ -1,9 +1,10 @@
 package arcade.database;
-import arcade.controller.UserSpecificData;
 import arcade.games.Comment;
 import arcade.games.GameData;
 import arcade.games.Score;
 import arcade.games.UserGameData;
+import arcade.model.datapacket.UserSpecificData;
+
 import java.util.ArrayList;
 import java.util.List;
 import util.Pixmap;

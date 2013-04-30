@@ -27,23 +27,16 @@ import java.util.List;
  * 
  */
 public class Weapon {
-<<<<<<< HEAD:src/vooga/rts/gamedesign/Weapon.java
-//TODO: remove damage from weapon? 
 
-    private int myDamage;
-=======
     public static int DEFAULT_RANGE = 500;
     public static int DEFAULT_COOLDOWN_TIME = 1;
 
->>>>>>> 3fd6b4f49d501b2a55ec8ef32ec823744601e41d:src/vooga/rts/gamedesign/weapon/Weapon.java
     private Projectile myProjectile;
     private int myRange;
     private List<Projectile> myProjectiles;
     private double myCooldownTime;
-    // private Interval interval;
-    private Ellipse2D myRangeCircle;
     private Location3D myCenter;
-    private AttackingState attackingState;    
+    private AttackingState attackingState;
 
     private DelayedTask cooldownTime;
 
@@ -54,11 +47,14 @@ public class Weapon {
      * @param projectile
      */
     public Weapon (Projectile projectile, int range, Location3D center, double cooldownTime) {
+        this(range, cooldownTime);
         myProjectile = projectile;
-        myRange = range;
-        // interval = new Interval(cooldownTime);
-        myCooldownTime = cooldownTime;
         myCenter = center;
+    }
+
+    public Weapon (int range, double cooldownTime) {
+        myRange = range;
+        myCooldownTime = cooldownTime;
         myProjectiles = new ArrayList<Projectile>();
         attackingState = AttackingState.NOT_ATTACKING;
     }
@@ -67,19 +63,9 @@ public class Weapon {
      * This method is used by the weapon to attack an InteractiveEntity.
      * 
      */
-<<<<<<< HEAD:src/vooga/rts/gamedesign/Weapon.java
-    public void fire (InteractiveEntity toBeShot) {
-        if(interval.allowAction() && !toBeShot.isDead()){
-
-            Projectile fire = myProjectile.copy(myProjectile, myCenter);
-            fire.setEnemy(toBeShot);
-            fire.move(toBeShot.getWorldLocation());
-            myProjectiles.add(fire);
-            interval.resetCooldown();
-=======
     public void fire (InteractiveEntity interactiveEntity) {
         final InteractiveEntity toBeShot = interactiveEntity;
-        if (!toBeShot.isDead() && attackingState == AttackingState.NOT_ATTACKING) {
+        if (canFire(toBeShot)) {
             attackingState = AttackingState.WAITING;
             cooldownTime = new DelayedTask(myCooldownTime, new Runnable() {
 
@@ -96,8 +82,21 @@ public class Weapon {
             firingProjectile.move(toBeShot.getWorldLocation());
             myProjectiles.add(firingProjectile);
             attackingState = AttackingState.NOT_ATTACKING;
->>>>>>> 3fd6b4f49d501b2a55ec8ef32ec823744601e41d:src/vooga/rts/gamedesign/weapon/Weapon.java
         }
+    }
+
+    /**
+     * Determines whether a weapon can possibly fire based on whether or not it is already waiting
+     * to attack (or attacking) and whether
+     * its target is dead or not. This method is used to make sure that a delayed task (for weapon
+     * cooldown) is not overwritten before it
+     * is used.
+     * 
+     * @param toBeShot is the enemy being targeted
+     * @return whether or not the weapon can create a delayed task to fire
+     */
+    private boolean canFire (final InteractiveEntity toBeShot) {
+        return !toBeShot.isDead() && attackingState == AttackingState.NOT_ATTACKING;
     }
 
     /**
@@ -120,6 +119,15 @@ public class Weapon {
     }
 
     /**
+     * Returns the projectile that is currently in use.
+     * 
+     * @return the projectile that is currently in use
+     */
+    public Projectile getProjectile () {
+        return myProjectile;
+    }
+
+    /**
      * This method is used to change the projectile for the weapon.
      * 
      * @param projectile is the projectile that will be used by the weapon
@@ -136,12 +144,8 @@ public class Weapon {
      * @return true if the interactive is in the range of the weapon and false
      *         if the interactive is out of the range of the weapon
      */
-    public boolean inRange (InteractiveEntity enemy) {
-        // add z axis
-        // see if enemy is in adjacent node, better way ?
-        myRangeCircle = new Ellipse2D.Double(myCenter.getX(), myCenter.getY(), myRange, myRange);
-        return myRangeCircle.contains(enemy.getWorldLocation().to2D());
-
+    public boolean inRange (InteractiveEntity enemy, double distance) {
+        return (distance < this.myRange);
     }
 
     /**
@@ -183,11 +187,21 @@ public class Weapon {
             }
         }
     }
-    
+
     /**
      * @param center the center to set
      */
     public void setCenter (Location3D center) {
         myCenter = center;
+        myProjectile.setWorldLocation(center);
+    }
+
+    /**
+     * Returns a copy of the weapon so that units do not share the same weapon.
+     * 
+     * @return a copy of the weapon
+     */
+    public Weapon copy () {
+        return new Weapon(myProjectile, myRange, myCenter, myCooldownTime);
     }
 }

@@ -25,7 +25,7 @@ public class DukePaymentManager implements PaymentManager{
      */
     @Override
     public void doTransaction (String ... paymentInfo) throws InvalidPaymentException {
-        // no transaction actually occurs.
+        System.out.println("Duke purchase successful!");
         return;
     }
 

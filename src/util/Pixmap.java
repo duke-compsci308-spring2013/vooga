@@ -1,10 +1,13 @@
 package util;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+
 import javax.swing.ImageIcon;
 
 
@@ -18,10 +21,10 @@ import javax.swing.ImageIcon;
  *         Bill Muensterman and @author Wayne You added paintReverse
  *         @author James Wei added getSize()
  */
-public class Pixmap {
+public class Pixmap implements Paintable {
     private java.awt.Image myImage;
     private String myFileName;
-    private static final String RESOURCE_LOCATION = "/vooga/";
+    private static final String RESOURCE_LOCATION = "/";
     
     /**
      * Create an image from the given path including filename.

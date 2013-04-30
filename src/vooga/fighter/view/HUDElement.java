@@ -4,12 +4,12 @@ import java.awt.geom.Point2D;
 import java.lang.reflect.Field;
 import java.util.Observer;
 
-import vooga.fighter.util.Paintable;
+import util.Paintable;
 
 /**
  * Acts as a display for model data. Throws NullPointerExceptions on Update.
  * (Update method signature would not be properly overridden if it was given
- * throw statements.)
+ * throw statements.) ALWAYS APPEND SUBCLASSES WITH "HUD", e.g. HUDHistogram.
  * 
  * @author Wayne You
  * 
@@ -29,6 +29,24 @@ public abstract class HUDElement implements Observer, Paintable {
         myFieldName = fieldName;
     }
     
+    /**
+     * Reflects on the observed object to retrieve the information.
+     * 
+     * @param o
+     *            The observed object.
+     * @return The observed member variable.
+     * @throws SecurityException
+     *             Thrown when attempting to change access level of a private
+     *             member
+     * @throws NoSuchFieldException
+     *             Thrown when the saved field name is wrong
+     * @throws IllegalArgumentException
+     *             Thrown if the object given ceases to be the right
+     *             class/extant
+     * @throws IllegalAccessException
+     *             Thrown when attempting to access a private member without
+     *             access granted
+     */
     protected Object getObservedValue(Object o) throws SecurityException,
             NoSuchFieldException, IllegalArgumentException,
             IllegalAccessException {

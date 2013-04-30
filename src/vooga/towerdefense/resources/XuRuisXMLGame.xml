@@ -1,0 +1,293 @@
+<Game>
+	<view>
+		<dimension>1100, 800</dimension>
+		<MapScreen>
+			<dimension>800, 600</dimension>
+			<location>Center</location>
+		</MapScreen>
+		<MultipleScreenPanel>
+			<dimension>1000, 200</dimension>
+			<location>South</location>
+			<ShopScreen>
+				<dimension>600, 100</dimension>
+				<location>Center</location>
+			</ShopScreen>
+			<NextWaveScreen>
+				<dimension>200, 100</dimension>
+				<location>East</location>
+			</NextWaveScreen>
+		</MultipleScreenPanel>
+		<MultipleScreenPanel>
+			<dimension>200, 600</dimension>
+			<location>East</location>
+			<GameStatsScreen>
+				<dimension>200, 200</dimension>
+				<location>North</location>
+			</GameStatsScreen>
+			<GameElementInformationScreen>
+				<dimension>200, 200</dimension>
+				<location>South</location>
+			</GameElementInformationScreen>
+		</MultipleScreenPanel>
+	</view>
+	<map>
+		<Map1>
+			<image>grass_tile.gif</image>
+			<tile_size>50</tile_size>
+			<dimension>
+				<width>800</width>
+				<height>500</height>
+			</dimension>
+			<grid>
+			1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+			1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+			s 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1
+			1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1
+			1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1
+			1 1 2 2 2 2 2 2 2 1 1 1 1 1 1 1
+			1 1 1 1 1 1 1 1 2 2 2 1 1 1 1 1
+			1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1
+			1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1
+			1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 d</grid>
+		</Map1>
+	</map>
+	<player>
+		<attributes>
+			<Health>30.0</Health>
+			<Score>0.0</Score>
+			<Money>1000.0</Money>
+		</attributes>
+	</player>
+	<gameelements>
+		<Dog>
+			<dimension>50, 50</dimension>
+			<image>dog.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<HEALTH>10</HEALTH>
+				<MOVE_SPEED>150</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+			</actions>			
+		</Dog>
+		<Fireball>
+			<dimension>30, 30</dimension>
+			<image>fireball.gif</image>
+			<type>Projectile</type>
+			<attributes>
+				<HEALTH>100</HEALTH>
+				<MOVE_SPEED>400</MOVE_SPEED>
+				<DIRECTION>180</DIRECTION>
+				<AFFILIATION>0.3</AFFILIATION>
+				<TARGET_AFFILIATION>1.2</TARGET_AFFILIATION>
+				<LIFESPAN>1000</LIFESPAN>
+				<Score>10</Score>
+			</attributes>
+			<actions>
+				<MoveToTarget>
+					<parameter>MOVE_SPEED</parameter>	
+					<parameter>1</parameter>			
+					<OnCollision>
+						<parameter>TARGET_AFFILIATION</parameter>
+							<ModifyPlayerAttribute>
+								<parameter>Score</parameter>
+								<parameter>Money</parameter>
+							</ModifyPlayerAttribute>
+
+					</OnCollision>
+						
+				</MoveToTarget>
+				<SelfDestruct>
+					<parameter>LIFESPAN</parameter>
+				</SelfDestruct>	
+			</actions>			
+		</Fireball>
+		<Elephant>
+			<dimension>80, 80</dimension>
+			<image>dancing_elephant.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<HEALTH>100</HEALTH>
+				<MOVE_SPEED>40</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+				<AFFILIATION>1.2</AFFILIATION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+			</actions>			
+		</Elephant>
+		<TestTower>
+			<dimension>50, 50</dimension>
+			<image>tower.gif</image>
+			<type>Tower</type>
+			<attributes>
+				<HEALTH>100</HEALTH>
+				<Cost>10</Cost>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+				<ATTACK_RADIUS>100</ATTACK_RADIUS>
+				<COOL_DOWN>2000</COOL_DOWN>
+				<NUM_OF_PROJECTILES>100</NUM_OF_PROJECTILES>
+				<NUM_OF_TARGETS>10</NUM_OF_TARGETS>
+				<AFFILIATION>1.2</AFFILIATION>
+			</attributes>
+			<actions>
+				<FindTargets>
+					<parameter>ATTACK_RADIUS</parameter>
+					<FilterTargets>
+							<parameter>AFFILIATION</parameter>
+							<parameter>NUM_OF_TARGETS</parameter>
+								<LaunchProjectile>
+									<parameter>Fireball</parameter>
+									<parameter>NUM_OF_PROJECTILES</parameter>
+									<parameter>COOL_DOWN</parameter>
+									<parameter>1</parameter>								
+								</LaunchProjectile>	
+						</FilterTargets>
+				</FindTargets>
+			</actions>			
+		</TestTower>
+		<TestTower2>
+			<dimension>50, 50</dimension>
+			<image>Duvall.jpg</image>
+			<type>Tower</type>
+			<attributes>
+				<HEALTH>100</HEALTH>
+				<Cost>100</Cost>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+				<ATTACK_RADIUS>200</ATTACK_RADIUS>
+				<COOL_DOWN>1000</COOL_DOWN>
+				<NUM_OF_PROJECTILES>100</NUM_OF_PROJECTILES>
+				<NUM_OF_TARGETS>10</NUM_OF_TARGETS>
+				<AFFILIATION>1.2</AFFILIATION>
+			</attributes>
+			<actions>
+				<FindTargets>
+					<parameter>ATTACK_RADIUS</parameter>
+						<FilterTargets>
+							<parameter>AFFILIATION</parameter>
+							<parameter>NUM_OF_TARGETS</parameter>
+								<LaunchProjectile>
+									<parameter>Fireball</parameter>
+									<parameter>NUM_OF_PROJECTILES</parameter>
+									<parameter>COOL_DOWN</parameter>
+									<parameter>1</parameter>								
+								</LaunchProjectile>	
+						</FilterTargets>
+				</FindTargets>
+			</actions>			
+		</TestTower2>
+		
+		<TestTower3>
+			<dimension>50, 50</dimension>
+			<image>hippo.gif</image>
+			<type>Tower</type>
+			<attributes>
+				<HEALTH>100</HEALTH>
+				<Cost>10</Cost>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+				<ATTACK_RADIUS>100</ATTACK_RADIUS>
+				<COOL_DOWN>100</COOL_DOWN>
+				<NUM_OF_PROJECTILES>100</NUM_OF_PROJECTILES>
+				<NUM_OF_TARGETS>10</NUM_OF_TARGETS>
+				<AFFILIATION>1.2</AFFILIATION>
+				<SLOW>-50</SLOW>
+			</attributes>
+			<actions>
+				<FindTargets>
+					<parameter>ATTACK_RADIUS</parameter>
+						<FilterTargets>
+							<parameter>AFFILIATION</parameter>
+							<parameter>NUM_OF_TARGETS</parameter>
+							<ApplyAttributeBuff>
+								<parameter>SLOW</parameter>
+								<parameter>MOVE_SPEED</parameter>
+							</ApplyAttributeBuff>
+						</FilterTargets>
+				</FindTargets>
+			</actions>			
+		</TestTower3>
+		<TestTower4>
+			<dimension>50, 50</dimension>
+			<image>github.png</image>
+			<type>Tower</type>
+			<attributes>
+				<HEALTH>100</HEALTH>
+				<Cost>10</Cost>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+				<ATTACK_RADIUS>100</ATTACK_RADIUS>
+				<COOL_DOWN>100</COOL_DOWN>
+				<NUM_OF_PROJECTILES>100</NUM_OF_PROJECTILES>
+				<NUM_OF_TARGETS>10</NUM_OF_TARGETS>
+				<AFFILIATION>1.2</AFFILIATION>
+				<Score>100</Score>
+				<SLOW>-50</SLOW>
+			</attributes>
+			<actions>
+				<ModifyPlayerAttribute>
+				<parameter>Score</parameter>
+				<parameter>Money</parameter>
+				</ModifyPlayerAttribute>
+			</actions>			
+		</TestTower4>
+	</gameelements>
+	<rules>
+		<EnemyReachedEndRule/>
+		<NextLevelRule/>
+		<LoseAtZeroHealthRule/>
+	</rules>
+	<levels>
+		<Level0>
+			<rules>
+			</rules>
+			<actions>
+				<LevelTimerAction>
+					<parameter>10</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level0>
+		<Level1>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>10</parameter>
+					<parameter>1000</parameter>
+					<parameter>Elephant</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>20000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level1>
+		<Level2>
+				<rules>
+				</rules>
+				<actions>
+				<WaveAction>
+					<parameter>10</parameter>
+					<parameter>1000</parameter>
+					<parameter>Dog</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>60000</parameter>
+				</LevelTimerAction>
+				</actions>
+			</Level2>
+	</levels>
+</Game>

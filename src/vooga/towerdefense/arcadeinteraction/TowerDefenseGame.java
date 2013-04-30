@@ -1,4 +1,5 @@
 package vooga.towerdefense.arcadeinteraction;
+import java.lang.reflect.InvocationTargetException;
 import vooga.towerdefense.controller.Controller;
 import vooga.towerdefense.model.GameLoop;
 import arcade.games.ArcadeInteraction;
@@ -33,8 +34,24 @@ public class TowerDefenseGame extends Game {
      */
     @Override
     public void run () {
-        GameLoop game = new GameLoop(new Controller("English"));
-        game.start();
+        try {
+            Controller controller = new Controller("English", "/src/vooga/towerdefense/resources/JimmysTestGame.xml");
+        }
+        catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+        catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

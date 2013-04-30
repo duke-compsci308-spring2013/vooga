@@ -1,0 +1,30 @@
+/level
+a   a   a   a   a   a   a   
+                            
+                            
+                            
+a                           
+                            
+                            
+                            
+a                           
+                            
+                            
+                            
+a                           
+                            
+               b    b       
+                           c
+a   a   a   a   a   a   a   
+                            
+                            
+                            
+/lib
+games.scroller.stickmansam.StickmanSpriteLibrary
+/key
+c=Door
+b=StickZombie
+a=BigPlatform
+/settings
+StartPoint=144 496
+Background=/games/scroller/stickmansam/images/backgrounds/background.png

@@ -1,0 +1,164 @@
+<Game>
+	<view>
+		<dimension>1100, 800</dimension>
+		<MapScreen>
+			<dimension>800, 600</dimension>
+			<location>Center</location>
+		</MapScreen>
+		<MultipleScreenPanel>
+			<dimension>1000, 200</dimension>
+			<location>South</location>
+			<ShopScreen>
+				<dimension>600, 100</dimension>
+				<location>Center</location>
+			</ShopScreen>
+			<NextWaveScreen>
+				<dimension>200, 100</dimension>
+				<location>East</location>
+			</NextWaveScreen>
+		</MultipleScreenPanel>
+		<MultipleScreenPanel>
+			<dimension>200, 600</dimension>
+			<location>East</location>
+			<GameStatsScreen>
+				<dimension>200, 200</dimension>
+				<location>North</location>
+			</GameStatsScreen>
+			<GameElementInformationScreen>
+				<dimension>200, 200</dimension>
+				<location>South</location>
+			</GameElementInformationScreen>
+		</MultipleScreenPanel>
+	</view>
+	<map>
+		<Map1>
+			<image>halloweenbackground.jpg</image>
+			<tile_size>50</tile_size>
+			<dimension>
+				<width>500</width>
+				<height>500</height>
+			</dimension>
+			<grid>0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			0 2 2 2 2 2 2 0 0 0
+			0 2 0 0 0 0 2 0 0 0 
+			s 2 0 0 0 0 2 2 2 d
+			0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0</grid>
+		</Map1>
+	</map>
+	<player>
+		<attributes>
+			<Health>50.0</Health>
+			<Score>0.0</Score>
+			<Money>1000.0</Money>
+		</attributes>
+	</player>
+	<gameelements>
+		<Ghost>
+			<dimension>50, 50</dimension>
+			<image>ghost.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>1</Health>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+				<Money>10</Money>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage></DeathPackage>
+			</actions>			
+		</Ghost>
+		<Pumpkin>
+			<dimension>50, 50</dimension>
+			<image>pumpkin.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>2</Health>
+				<MOVE_SPEED>20</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+				<Money>50</Money>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage></DeathPackage>
+			</actions>			
+		</Pumpkin>
+		<HauntedHouse>
+			<dimension>50, 50</dimension>
+			<image>hauntedhouse.gif</image>
+			<type>Tower</type>
+			<attributes>
+				<MOVE_SPEED>50</MOVE_SPEED>
+			</attributes>
+			<attributes>
+				<Health>100</Health>
+				<Cost>10</Cost>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<FLY_SPEED>300</FLY_SPEED>
+				<RADIUS>100</RADIUS>
+				<AttackType>1.2</AttackType>
+				<Slow>-5</Slow>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+			    <FindTargets>
+					<parameter>RADIUS</parameter>
+					<ApplyAttributeBuff>
+						<parameter>Slow</parameter>
+					    <parameter>Health</parameter>
+					</ApplyAttributeBuff>
+			    </FindTargets>
+			</actions>			
+		</HauntedHouse>
+	</gameelements>
+	<rules>
+		<EnemyReachedEndRule/>
+		<NextLevelRule/>
+		<LoseAtZeroHealthRule/>
+	</rules>
+	<levels>
+		<Level1>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>10</parameter>
+					<parameter>1000</parameter>
+					<parameter>Ghost</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>60000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level1>
+		<Level2>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>5</parameter>
+					<parameter>2000</parameter>
+					<parameter>Pumpkin</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>60000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level2>
+	</levels>
+</Game>

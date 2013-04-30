@@ -7,8 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import util.Location;
 import vooga.rts.gui.Button;
-import vooga.rts.util.Location;
 
 public class TextButton extends Button {
 
@@ -57,6 +57,7 @@ public class TextButton extends Button {
 
     @Override
     public void processHover () {
+        // TODO Auto-generated method stub
         
     }
 

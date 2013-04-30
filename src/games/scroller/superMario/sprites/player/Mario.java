@@ -67,7 +67,7 @@ public class Mario extends Player implements IInputListener {
 
     public Mario (GameView gameView, ScrollingManager sm) {
         super(DEFAULT_IMAGE, DEFAULT_SIZE, gameView, sm, DEFAULT_HEALTH, DEFAULT_DAMAGE);
-        initializePossibleStates();
+        activateState(1);
     }
 
     /**

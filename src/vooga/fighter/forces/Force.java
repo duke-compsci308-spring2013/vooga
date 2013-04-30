@@ -1,6 +1,5 @@
 package vooga.fighter.forces;
 
-import java.util.ResourceBundle;
 import util.Vector;
 import vooga.fighter.model.objects.CharacterObject;
 

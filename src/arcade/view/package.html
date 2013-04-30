@@ -17,22 +17,12 @@ This package contains all of the views for the arcade.  High-level design is exp
 <b> public class MainView extends JFrame </b> <br>
 This represents the main view of the arcade.  The functionality of this class is
  to switch between which mode is being displayed (Game Center, Social Center, 
- Game Store, etc.).  These modes are organized using the CardLayout LayoutManager.
-   If we wished to add more modes to the arcade (such as an administration interface),
-   then additional classes that extend JPanel can be created and added to this object.
+ Game Store, etc.).  If we wished to add more modes to the arcade (such as an administration interface),
+   then additional classes that extend JPanel can be added to this object using the
+   changeViewPanel() method.
 <ul>
-<li> public void changeViewPanel(ArcadeMode mode)
-<ul><li> sets the current mode being displayed on the screen.</ul>
-</ul>
-
-<br>
-
-<b> public Enum ArcadeMode </b> <br>
-Used for switching which mode is currently being displayed in MainView
-<ul>
-<li>GAMECENTER
-<li>SOCIALCENTER
-<li>STORE
+<li> public void changeViewPanel(JPanel mode)
+<ul><li> sets the current mode being displayed on the screen to the provided panel</ul>
 </ul>
 
 <br>
@@ -48,6 +38,13 @@ the user.
 
 <br><br>
 
+<b> public class AllSnapShots extends JPanel implements Scrollable </b> <br>
+panel containing many individual SnapShots. AllSnapShots is Scrollable so when 
+more SnapShots are available than fit on the screen, the rest can be viewed by 
+scrolling down if this object is added to a JScrollPane
+
+<br><br>
+
 <b> public class SnapShot extends JPanel </b> <br>
 Represents the name, rating, and thumbnail picture of a game. When a SnapShot is
  clicked, launches a DetailView of the game.
@@ -58,35 +55,34 @@ Represents the name, rating, and thumbnail picture of a game. When a SnapShot is
 
 This entire window is the MainView.  The left pane is the ButtonPanel, and the
 center-right pane contains the current mode being displayed, which is the 
-GameCenter in this picture.  This GameCenter is currently displaying two SnapShots.
-(SnapShots will later be refactored to look nicer)
+GameCenter in this picture.  This GameCenter is displaying SnapShots for each
+game the user has bought.
 
 <br> <br>
 
 <b> public class DetailView extends JFrame </b> <br>
 After clicking on a Snapshot, this DetailView is displayed.  The DetailView 
-displays information about the game such as its name, author, a bigger picture,
+displays information about the game such as its name, author, a picture,
 the average rating, a description for the game, and comments for the game.  
 There is also the option for users to add ratings and comments here.  By clicking
 on the Play button, the game represented by this DetailView will be launched.
+However, if the game has not been bought yet, then a Buy button will be present
+instead, which will launch the PaymentSelection window if clicked.<br><br>
 If more game specific view stuff should be added (e.g. a network parlor, 
-level editors), launching those capabilities should go into this View.
-  (This will be made more apparent how to do, as an inheritance hierarchy 
-  for DetailView will likely be created soon)
+level editors), launching those capabilities should ideally happen from this View. 
+Unfortunately, we did not include the extensibility of this view as a design goal,
+so we leave it up to the game developers to allow access to these features once
+the game is launched.
 
 <br><br>
 
 <img src = http://people.duke.edu/~ej48/files/DetailView.png> <br>
-The DetailView in this picture is not completely developed.  The label for 
-the rating will later be a picture of how many stars instead of just a number.
-The comment section here is currently just placeholders for values to be pulled
-in when the database is ready.  Also, the ability to add new comments is not 
-present yet.
+The DetailView for a game that has already been bought.
 
 <br><br>
 
 <b> public class SocialCenterPanel extends JPanel </b> <br>
-This is not implemented yet.
+This was not implemented.
 
 <br><br>
 
@@ -94,8 +90,35 @@ This is not implemented yet.
 This view is very similar to that of the GameCenterPanel, except SnapShots for
 all games available are visible here, instead of only those purchased.  Clicking
 on these SnapShots will show a DetailView with an option to buy the game.  The
-StorePanel also has a Publish button for adding new games.  This view is not 
-developed enough to show a screenshot of yet.
+StorePanel also has a Publish button for adding new games.  Clicking this button
+launches the PublishView.
+
+<br><br>
+
+<img src = http://people.duke.edu/~ej48/files/StoreView.png> <br>
+The StorePanel allowing users to buy a game for their GameCenter library or
+to publish a new game.
+
+
+<br><br>
+
+<b> public class RatingIcons </b> <br>
+A helper class to create graphical representations of ratings from integer inputs.
+This is used by both SnapShot and DetailView to display the rating of a game
+as a picture of 0-5 stars.
+<ul>
+<li>
+JLabel makeLabel(int rating)<br>
+<ul><li> Makes a JLabel containing an icon for the provided rating. </ul>
+<li>
+String makeHTMLText(int rating) <br>
+<ul><li> Makes HTML that can be used to create an image for the provided rating. 
+Useful for displaying the icon within a JEditorPane.</ul>
+</ul>
+
+<br><br>
+
+<br><br>
 
 <br><br>
 
@@ -105,8 +128,8 @@ developed enough to show a screenshot of yet.
 
 <b> Forms subpackage </b> <br>
 It turns out there are a lot of forms to fill out in the Vooga arcade.  These are the login,
-register new user, publish new game, select payment option for buying a game,
-and filling in payment details for the selected payment option.  
+register new user, publish new game, select payment option for buying a game, filling in 
+payment details for the selected payment option, and the displaying of high scores.
 
 <br><br>
 
@@ -154,25 +177,23 @@ JPanel createTextPanel(String descriptionKeyword, JTextField inputField)
 <ul><li>Create a description defined by a descriptionKeyword in the resource
  bundle, and this description labels the provided input text field.</ul>
 
+
 <li>
-JComponent createImageSelector(String descriptionKeyword, String buttonKeyword, 
-final FileChooserAction action)
+JComponent createFileSelector (String descriptionKeyword, String buttonKeyword, 
+final FileChooserAction action, final FileFilter filter)
 <ul><li>Create a description defined by a descriptionKeyword in the resource
  bundle, and a button with a label defined by the buttonKeyword in the resource 
- bundle.  Clicking this button pops up a FileChooser dialog box.  The result of
- this dialog box is dealt with by the provided FileChooserAction. 
+ bundle.  Clicking this button pops up a FileChooser dialog box.  The FileChooser
+ only shows files specified by the specified filter.
+ The result of this dialog box is dealt with by the provided FileChooserAction. 
   A FileChooserAction is a single function interface that has a method for 
   approve(FileChooser chooser).</ul>
 
 <li>
-JComponent createCheckBox (String checkBoxMessageKeyword, final String instructionKeyword, 
-int width, final FileChooserAction action)
-<ul><li> Create a check box with the label defined by checkBoxMessageKeyword in
- the resource bundle.  The provided width is used to separate the box and the 
- label.  Upon checking the box, a dialog box pops up displaying an instruction 
- defined by instructionKeyword in the resource bundle and prompts the user to 
- select a file in the FileChooser.  The file chosen is dealt with appropriately 
- by the provided FileChooserAction.</ul>
+JComponent createImageSelector(String descriptionKeyword, String buttonKeyword, 
+final FileChooserAction action)
+<ul><li>creates a file selector with a default FileFilter allowing only image files
+to be selected.</ul>
 
 <li>
 JComponent createButton(String buttonKeyword, ActionListener action)
@@ -280,6 +301,38 @@ and I get this error message.
 
 <br><br>
 
+<b>public class ScoresView extends Form</b><br>
+A view that is displayed upon ending a game.  This view shows the user's score,
+a list of high scores, and the option to tweet the user's score.  These tweets
+are done in the backend using the <a href Twitter4J library 
+<a href = "http://twitter4j.org/en/index.html"> Twitter4J library </a>.  Many thanks
+to them.
+
+<br><br>
+<img src = http://people.duke.edu/~ej48/files/ScoresView.png><br>
+The ScoresView window before clicking the tweet button.
+
+<br><br><br>
+
+<img src = http://people.duke.edu/~ej48/files/TwitterWeb.png><br>
+After clicking on the tweet button, a web browser pops up, prompting me to authorize
+Vooga to use my Twitter account.
+
+<br><br><br>
+
+<img src = http://people.duke.edu/~ej48/files/EnteringPin.png><br>
+After allowing access, I get a pin, which I can enter into a new field in the ScoresView
+window.  Clicking OK sends the tweet.
+
+<br><br><br>
+
+<img src = http://people.duke.edu/~ej48/files/Tweet.png><br>
+The tweet sent by Vooga in my twitter feed.
+
+<br><br><br>
+
+<br><br>
+
 <b>public class PaymentSelection extends Form</b><br>
 A view for choosing which payment method to use for buying a game. This view
 is created upon clicking the buy button from the GameStore. Choosing an option 
@@ -324,7 +377,7 @@ The view to enter the Duke FLEX payment information.
 A PaymentView represents a form of payment information to be filled out.
 The DukePaymentView is a specific implementation of PaymentView, requiring
 payment information of name and Duke Card number.  After filling out the 
-PaymentView, the Model is given sufficient information to instantiate the appropriate
+PaymentView, the Controller is given sufficient information to instantiate the appropriate
 PaymentManager to deal with the request and hands the request off to its 
 PaymentManager.  The PaymentManager then attempts to do the transaction.  If it
 fails to go through, an InvalidPaymentException is thrown back to the PaymentView

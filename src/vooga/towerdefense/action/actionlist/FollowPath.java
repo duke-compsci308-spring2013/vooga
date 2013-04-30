@@ -2,10 +2,10 @@ package vooga.towerdefense.action.actionlist;
 
 import vooga.towerdefense.action.Action;
 import vooga.towerdefense.attributes.AttributeConstantsEnum;
-import vooga.towerdefense.gameElements.GameElement;
+import vooga.towerdefense.gameelements.GameElement;
 import vooga.towerdefense.model.Path;
-import vooga.towerdefense.util.Location;
-import vooga.towerdefense.util.Vector;
+import util.Location;
+import util.Vector;
 
 
 /**

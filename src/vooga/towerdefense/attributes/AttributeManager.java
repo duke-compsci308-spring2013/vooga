@@ -1,17 +1,19 @@
 package vooga.towerdefense.attributes;
 
+import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-
+import util.Location;
 import vooga.towerdefense.factories.elementfactories.GameElementFactory;
 
 
 /**
- * Attributes object that helps to track all game element attributes.
- * It also provides info requested by view through controller.
- * Used by game elements and also any other class that needs attribute management.
+ * Attributes object that helps to track all game element attributes. It also
+ * provides info requested by view through controller. Used by game elements and
+ * also any other class that needs attribute management.
  * 
  * @author Matthew Roy
  * @author XuRui
@@ -22,12 +24,11 @@ public class AttributeManager {
     private HashMap<String, GameElementFactory> myGameElementFactories;
     private HashMap<String, GameElementFactory> myUpgrades;
 
-
     public AttributeManager () {
         myAttributes = new HashMap<String, Attribute>();
         myGameElementFactories = new HashMap<String, GameElementFactory>();
         myUpgrades = new HashMap<String, GameElementFactory>();
-       
+
     }
 
     /**
@@ -43,8 +44,8 @@ public class AttributeManager {
     }
 
     /**
-     * currently the update will reset all attribute's temporary buff. So this method should
-     * be called before executing actions.
+     * currently the update will reset all attribute's temporary buff. So this
+     * method should be called before executing actions.
      */
     public void update () {
         resetAllAttributesTemporaryBuff();
@@ -63,6 +64,10 @@ public class AttributeManager {
         }
         return info;
     }
+
+    /**
+     * returns a string representing info about the attributeManager
+     */
 
     public String toString () {
         String returnValue = "";
@@ -88,20 +93,29 @@ public class AttributeManager {
     public void addAttribute (Attribute newAttribute) {
         myAttributes.put(newAttribute.getName(), newAttribute);
     }
-/**
- * add a list of attributes to the manager
- * @param newAttributes
- */
+
+    /**
+     * add a list of attributes to the manager
+     * 
+     * @param newAttributes
+     */
     public void addAttributes (List<Attribute> newAttributes) {
         for (Attribute a : newAttributes) {
             addAttribute(a);
         }
     }
 
-    public void replaceAttributeValue(String type, double newValue){
-    	myAttributes.get(type).setValue(newValue);
+    /**
+     * replaces the desired attribute's old value with new value
+     * 
+     * @param type
+     * @param newValue
+     */
+
+    public void replaceAttributeValue (String type, double newValue) {
+        myAttributes.get(type).setValue(newValue);
     }
-    
+
     /**
      * Resets all attributes to default values
      */
@@ -120,27 +134,67 @@ public class AttributeManager {
             attr.resetBuffValue();
         }
     }
-    
+
+    /**
+     * add a gameelementfactory to the upgrade map
+     * 
+     * @param upgradeName
+     * @param upgrade
+     */
     public void addUpgrade (String upgradeName, GameElementFactory upgrade) {
         myUpgrades.put(upgradeName, upgrade);
     }
 
+    /**
+     * checks whether this element has upgrades
+     * 
+     * @return
+     */
     public boolean hasUpgrades () {
         return !myUpgrades.isEmpty();
     }
 
+    /**
+     * return all the upgrades this element has
+     * 
+     * @return
+     */
     public HashMap<String, GameElementFactory> getUpgrades () {
         return myUpgrades;
     }
-    
-    public void addGameElementFactory(String name, GameElementFactory factory){
-    	myGameElementFactories.put(name, factory);
+
+    /**
+     * add a gameelementfactory to the factory list
+     * 
+     * @param name
+     * @param factory
+     */
+    public void addGameElementFactory (String name, GameElementFactory factory) {
+        myGameElementFactories.put(name, factory);
     }
+
+    /**
+     * return the gameelement factory related to that name
+     * 
+     * @param name
+     * @return
+     */
 
     public GameElementFactory getGameElementFactory (String name) {
         return myGameElementFactories.get(name);
     }
-    
 
- 
+    /**
+     * Paint health bars
+     * 
+     * @param pen
+     * @param where
+     * @param size
+     */
+    public void paintHealth (Graphics2D pen, Location where, Dimension size) {
+        Attribute Health = getAttribute(AttributeConstantsEnum.HEALTH.getStatusCode());
+        if (Health != null) {
+            Health.paintBar(pen, where, size);
+        }
+    }
 }

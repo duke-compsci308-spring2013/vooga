@@ -2,7 +2,11 @@ package vooga.rts.networking.server;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import util.logger.HandlerTxt;
+import vooga.rts.networking.NetworkBundle;
 import vooga.rts.networking.communications.LobbyInfo;
+import vooga.rts.networking.communications.servermessages.LobbyListMessage;
 
 
 /**
@@ -18,12 +22,24 @@ public class GameContainer extends AbstractThreadContainer {
     private Map<Integer, Room> myRooms = new HashMap<Integer, Room>();
     private Map<Integer, LobbyInfo> myLobbyInfos = new HashMap<Integer, LobbyInfo>();
     private int myRoomNumber = 0;
+    private String myGameName;
+
+    /**
+     * Constructor that stores the game name and starts the logger.
+     * 
+     * @param gameName
+     */
+    public GameContainer (String gameName) {
+        myGameName = gameName;
+        getLogger().addHandler(new HandlerTxt(myGameName).getHandler());
+    }
 
     /**
      * Removes the room from the game container.
      */
     protected void removeRoom (Room room) {
         myRooms.remove(room.getID());
+        myLobbyInfos.remove(room.getID());
     }
 
     /**
@@ -34,28 +50,73 @@ public class GameContainer extends AbstractThreadContainer {
     }
 
     /**
+     * Returns the next room number.
+     */
+    protected int getRoomNumber () {
+        return myRoomNumber;
+    }
+
+    /**
+     * Increments the room number.
+     */
+    protected void incrementRoomNumber () {
+        myRoomNumber++;
+    }
+
+    /**
+     * Increments lobby info size with the given id
+     */
+    protected void incrementLobbyInfoSize (int id) {
+        myLobbyInfos.get(id).addPlayer();
+    }
+
+    /**
+     * Decrements lobby info size with the given id
+     */
+    protected void decrementLobbyInfoSize (int id) {
+        myLobbyInfos.get(id).removePlayer();
+    }
+
+    /**
      * Joins the lobby if the lobby exists.
+     * 
      * @param thread that is joining
      * @param lobbyNumber number of lobby
      */
     @Override
     public void joinLobby (ConnectionThread thread, int lobbyNumber) {
-        if (myRooms.containsKey(lobbyNumber)) {
+        if (myRooms.containsKey(lobbyNumber) &&
+            myRooms.get(lobbyNumber).getNumberOfConnections() < myRooms.get(lobbyNumber)
+                    .getMaxConnections()) {
             removeConnection(thread);
             myRooms.get(lobbyNumber).addConnection(thread);
+            getLogger().log(Level.INFO, NetworkBundle.getString("LobbyJoined"));
         }
     }
-    
+
     @Override
     public void startLobby (ConnectionThread thread, LobbyInfo lobbyInfo) {
-        Room lobby = new Lobby(myRoomNumber, this, lobbyInfo);
-        myRoomNumber++;
-        lobby.addConnection(thread);
+        LobbyInfo newLobby = new LobbyInfo(lobbyInfo, getRoomNumber());
+        Room lobby = new Lobby(getRoomNumber(), this, newLobby, getLogger());
+        addLobby(thread, newLobby, lobby);
     }
-    
+
+    /**
+     * Adds a room to the GameContainer. Separated out so that subclasses can instantiates different
+     * Rooms.
+     */
+    protected void addLobby (ConnectionThread thread, LobbyInfo newLobby, Room lobby) {
+        myLobbyInfos.put(getRoomNumber(), newLobby);
+        incrementRoomNumber();
+        lobby.addConnection(thread);
+        addRoom(lobby);
+        getLogger().log(Level.INFO, NetworkBundle.getString("LobbyStarted"));
+    }
+
     @Override
     public void requestLobbies (ConnectionThread thread) {
-        
+        LobbyInfo[] infoArray = myLobbyInfos.values().toArray(new LobbyInfo[myLobbyInfos.size()]);
+        thread.sendMessage(new LobbyListMessage(infoArray));
     }
 
 }

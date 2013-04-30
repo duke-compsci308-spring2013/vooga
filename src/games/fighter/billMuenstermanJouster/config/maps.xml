@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<maps>
+    <map mapName="BlueMap" xSize="1024" ySize="871">
+        <startingPos xCoord="140" yCoord="300"/>
+        <startingPos xCoord="200" yCoord="300"/>
+        <state stateName = "background">
+            <frame image = "" />
+        </state>
+        <environmentObject objectName="platform" xCoord="250" yCoord="150" />
+        <environmentObject objectName="platform" xCoord="400" yCoord="350" />
+        <environmentObject objectName="platform" xCoord="550" yCoord="150" />
+        <environmentObject objectName="platform" xCoord="100" yCoord="450" />
+        <environmentObject objectName="platform" xCoord="700" yCoord="450" />
+        
+        <environmentObject objectName="platform" xCoord="100" yCoord="0" />
+        <environmentObject objectName="platform" xCoord="200" yCoord="0" />
+        <environmentObject objectName="platform" xCoord="300" yCoord="0" />
+        <environmentObject objectName="platform" xCoord="400" yCoord="0" />
+        <environmentObject objectName="platform" xCoord="500" yCoord="0" />
+        <environmentObject objectName="platform" xCoord="600" yCoord="0" />
+        <environmentObject objectName="platform" xCoord="700" yCoord="0" />
+        
+        <environmentObject objectName="platform" xCoord="100" yCoord="600" />
+        <environmentObject objectName="platform" xCoord="200" yCoord="600" />
+        <environmentObject objectName="platform" xCoord="300" yCoord="600" />
+        <environmentObject objectName="platform" xCoord="400" yCoord="600" />
+        <environmentObject objectName="platform" xCoord="500" yCoord="600" />
+        <environmentObject objectName="platform" xCoord="600" yCoord="600" />
+        <environmentObject objectName="platform" xCoord="700" yCoord="600" />
+        
+    </map>
+    <map mapName="RainbowBackground" xSize="1024" ySize="871">
+        <startingPos xCoord="140" yCoord="300"/>
+        <startingPos xCoord="200" yCoord="300"/>
+        <state stateName = "background">
+            <frame image = "games/fighter/billMuenstermanJouster/images/RainbowBackground.jpeg" />
+        </state>
+        <environmentObject objectName="platform" xCoord="300" yCoord="300" />
+    </map>
+    <map mapName="NewMap" xSize="1024" ySize="871">
+    </map>
+</maps>
