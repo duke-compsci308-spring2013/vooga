@@ -38,18 +38,18 @@ public class StandardPlayerCollisions extends VisitLibrary {
         collectible.takeHit(player.getHit());
     }
 
-    public void visit (Player player, IPlatform platform) {
+    public void visit (Sprite sp, IPlatform platform) {
 
-        Direction collisionType = direction.collisionDirection(player, platform);
+        Direction collisionType = direction.collisionDirection(sp, platform);
 
         if (collisionType == null) return;
 
         switch (collisionType) {
             case TOP:
-                player.setCenter(player.getX(), platform.getTop() - (player.getHeight() / 2));
-                Vector v = player.getVelocity().getComponentVector((double) Sprite.DOWN_DIRECTION);
+                sp.setCenter(sp.getX(), platform.getTop() - (sp.getHeight() / 2));
+                Vector v = sp.getVelocity().getComponentVector((double) Sprite.DOWN_DIRECTION);
                 v.negate();
-                player.addVector(v);
+                sp.addVector(v);
 
 //                Vector right = player.getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
 //                Vector left = player.getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
@@ -71,26 +71,26 @@ public class StandardPlayerCollisions extends VisitLibrary {
 
                 break;
             case BOTTOM:
-                player.setCenter(player.getX(), platform.getBottom() + (player.getHeight() / 2));
+                sp.setCenter(sp.getX(), platform.getBottom() + (sp.getHeight() / 2));
 
-                Vector up = player.getVelocity().getComponentVector(Sprite.UP_DIRECTION);
+                Vector up = sp.getVelocity().getComponentVector(Sprite.UP_DIRECTION);
                 up.negate();
-                player.addVector(up);
+                sp.addVector(up);
 
                 break;
             case LEFT:
-                player.setCenter(platform.getLeft() - (player.getWidth() / 2), player.getY());
-                Vector l = player.getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
+                sp.setCenter(platform.getLeft() - (sp.getWidth() / 2), sp.getY());
+                Vector l = sp.getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
                 l.negate();
-                player.addVector(l);
+                sp.addVector(l);
 
                 break;
             case RIGHT:
-                player.setCenter(platform.getRight() + (player.getWidth() / 2), player.getY());
+                sp.setCenter(platform.getRight() + (sp.getWidth() / 2), sp.getY());
 
-                Vector r = player.getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
+                Vector r = sp.getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
                 r.negate();
-                player.addVector(r);
+                sp.addVector(r);
 
                 break;
             default:

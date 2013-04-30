@@ -7,6 +7,8 @@ import vooga.scroller.level_editor.Level;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.interfaces.Locatable;
 import vooga.scroller.util.ISpriteView;
+import vooga.scroller.util.physics.Force;
+import vooga.scroller.util.physics.Gravity;
 
 /**
  * UPDATE - This is the superclass for all sprites a game designer creates 
@@ -28,6 +30,7 @@ public abstract class GameCharacter extends Sprite implements Locatable{
     private int myHealth;
     private int myDamage;
     private Locatable myTarget;
+    private Force myGravity;
 
     
     /**
@@ -42,9 +45,11 @@ public abstract class GameCharacter extends Sprite implements Locatable{
         super(image, size);
         myHealth = health;
         myDamage = damage;
+        myGravity = new Gravity(this);
     }
 
     public void update (double elapsedTime, Dimension bounds) {
+        myGravity.apply();
         super.update(elapsedTime, bounds);
     }
     

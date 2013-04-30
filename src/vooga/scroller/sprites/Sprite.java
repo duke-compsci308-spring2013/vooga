@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import util.Location;
 import util.Vector;
+import vooga.scroller.sprites.interfaces.Locatable;
 import vooga.scroller.sprites.state.SpriteState;
 import vooga.scroller.sprites.state.SpriteStateManager;
 import vooga.scroller.util.ISpriteView;
@@ -20,7 +21,7 @@ import vooga.scroller.util.ISpriteView;
  * 
  * @author Robert C. Duvall
  */
-public class Sprite {
+public class Sprite implements Locatable {
     // canonical directions for a collision
     public static final int RIGHT_DIRECTION = 0;
     public static final int UP_DIRECTION = 270;
