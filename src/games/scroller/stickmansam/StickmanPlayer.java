@@ -17,10 +17,12 @@ import vooga.scroller.util.physics.Force;
 import vooga.scroller.util.physics.Gravity;
 import vooga.scroller.view.GameView;
 
+
 /**
  * Stickman player
+ * 
  * @author David Winegar
- *
+ * 
  */
 @InputClassTarget
 public class StickmanPlayer extends Player {
@@ -55,6 +57,7 @@ public class StickmanPlayer extends Player {
 
     /**
      * Instantiate player
+     * 
      * @param gameView
      * @param sm
      */
@@ -149,8 +152,7 @@ public class StickmanPlayer extends Player {
     @InputMethodTarget(name = "fire")
     public void fire () {
         if (myBulletTimer == 0) {
-            getLevel().addSprite(new Bullet(myDirection));
-            
+            getLevel().addSprite(new Bullet(myDirection, getCenter()));
             myBulletTimer = TIME_BETWEEN_BULLETS;
         }
     }

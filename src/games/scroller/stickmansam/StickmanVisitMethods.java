@@ -9,7 +9,6 @@ import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
 import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.interfaces.IDoor;
-import vooga.scroller.sprites.superclasses.GameCharacter;
 import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.util.Direction;
 
@@ -108,7 +107,7 @@ public class StickmanVisitMethods extends VisitLibrary {
      * @param element element
      * @param bullet bullet
      */
-    public void visit (GameCharacter element, Bullet bullet) {
+    public void visit (StickZombie element, Bullet bullet) {
         element.takeHit(bullet.getHit());
         bullet.takeHit(2);
     }

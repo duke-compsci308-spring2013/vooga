@@ -55,6 +55,11 @@ public class Sprite {
         this(image, DEFAULT_LOCATION, size, new Vector());
         myStateManager = new SpriteStateManager(this);
     }
+    
+    public Sprite (ISpriteView image, Location center, Dimension size) {
+        this(image, center, size, new Vector());
+        myStateManager = new SpriteStateManager(this);
+    }
 
     /**
      * Create a shape at the given position, with the given size, velocity, and color. This is the

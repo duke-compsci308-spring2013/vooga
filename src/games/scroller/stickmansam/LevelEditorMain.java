@@ -17,6 +17,7 @@ public class LevelEditorMain {
 
     /**
      * Start game
+     * 
      * @param args none
      */
     public static void main (String[] args) {

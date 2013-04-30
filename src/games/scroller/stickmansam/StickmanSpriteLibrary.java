@@ -1,6 +1,7 @@
 package games.scroller.stickmansam;
 
 import java.awt.Dimension;
+import util.Location;
 import util.Vector;
 import vooga.scroller.extra_resources.movements.TimedMovement;
 import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
@@ -10,17 +11,18 @@ import vooga.scroller.level_editor.library.EncapsulatedSpriteLibrary;
 import vooga.scroller.level_management.LevelPortal;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.movement.Movement;
-import vooga.scroller.sprites.movement.TrackPlayer;
 import vooga.scroller.sprites.superclasses.GameCharacter;
 import vooga.scroller.util.ISpriteView;
 import vooga.scroller.util.Pixmap;
 import vooga.scroller.util.physics.Force;
 import vooga.scroller.util.physics.Gravity;
 
+
 /**
  * Library for Stickman Sam sprites
+ * 
  * @author David Winegar
- *
+ * 
  */
 public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
     private static final Dimension ENEMY_SIZE = new Dimension(32, 45);
@@ -31,8 +33,9 @@ public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
 
     /**
      * platform (1 slot)
+     * 
      * @author David Winegar
-     *
+     * 
      */
     public static class Platform extends Sprite implements IPlatform {
         /**
@@ -45,8 +48,9 @@ public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
 
     /**
      * Big platform (4x4 slots)
+     * 
      * @author David Winegar
-     *
+     * 
      */
     public static class BigPlatform extends Sprite implements IPlatform {
         private static final Dimension BIG_BLOCK_SIZE = new Dimension(128, 128);
@@ -61,8 +65,9 @@ public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
 
     /**
      * Enemy stick zombie that injures player.
+     * 
      * @author David Winegar
-     *
+     * 
      */
     public static class StickZombie extends GameCharacter implements IEnemy {
         private static final String ZOMBIE_IMAGE = "zombie.png";
@@ -73,6 +78,7 @@ public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
         private static final int TIME = 1;
         private static final int ANGLE = 180;
         private Movement myMovement = new TimedMovement(this, TIME, ANGLE, SPEED);
+
         /**
          * Create zombie
          */
@@ -96,8 +102,9 @@ public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
 
     /**
      * Bullet that player shoots
+     * 
      * @author David Winegar
-     *
+     * 
      */
     public static class Bullet extends GameCharacter {
         private static final int VELOCITY = 500;
@@ -107,10 +114,11 @@ public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
 
         /**
          * Create bullet with given direction
+         * 
          * @param direction
          */
-        public Bullet (int direction) {
-            super(makePixmap(BULLET_IMAGE), BULLET_SIZE, 1, BULLET_DAMAGE);
+        public Bullet (int direction, Location location) {
+            super(makePixmap(BULLET_IMAGE), BULLET_SIZE, 1, BULLET_DAMAGE, location);
             this.setVelocity(new Vector(direction, VELOCITY));
         }
 
@@ -123,8 +131,9 @@ public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
 
     /**
      * door to advance to next level
+     * 
      * @author David Winegar
-     *
+     * 
      */
     public static class Door extends LevelPortal {
         private static final String EMPTY_IMAGE = "empty.png";

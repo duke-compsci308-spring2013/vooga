@@ -12,10 +12,12 @@ import vooga.scroller.sprites.Sprite;
 import vooga.scroller.util.ISpriteView;
 import vooga.scroller.view.GameView;
 
+
 /**
  * Splash page for the Stickman Sam game
+ * 
  * @author David Winegar
- *
+ * 
  */
 @InputClassTarget
 public class StickmanSplashPage extends SplashPage {

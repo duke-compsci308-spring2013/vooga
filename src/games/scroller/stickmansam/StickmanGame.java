@@ -9,10 +9,12 @@ import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.view.GameView;
 import arcade.games.ArcadeInteraction;
 
+
 /**
  * Main game class that extends ScrollerGame and starts game.
+ * 
  * @author David Winegar
- *
+ * 
  */
 public class StickmanGame extends ScrollerGame {
 
@@ -21,7 +23,8 @@ public class StickmanGame extends ScrollerGame {
     private static final String LEVELS = "src/games/scroller/stickmansam/levels/";
 
     /**
-     * Send info to super 
+     * Send info to super
+     * 
      * @param arcade arcade info
      */
     public StickmanGame (ArcadeInteraction arcade) {
