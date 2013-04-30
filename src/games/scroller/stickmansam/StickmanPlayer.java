@@ -66,7 +66,7 @@ public class StickmanPlayer extends Player {
         super(STICKMAN_VIEW, SIZE, gameView, sm, HEALTH, DAMAGE);
 
         myJumpCount = 0;
-        myGravity = new Gravity(this, GRAVITY_CONSTANT);
+        myGravity = new Gravity(this);
 
         addPossibleState(MoveLeftState.STATE_ID, new MoveLeftState(this, MOVE_LEFT,
                                                                    STAND_LEFT, SPEED));
@@ -155,6 +155,24 @@ public class StickmanPlayer extends Player {
             getLevel().addSprite(new Bullet(myDirection, getCenter()));
             myBulletTimer = TIME_BETWEEN_BULLETS;
         }
+    }
+
+    @Override
+    public void incrementScore (int value) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    protected void initializePossibleStates () {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public Force[] setForces () {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

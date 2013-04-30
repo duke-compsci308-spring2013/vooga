@@ -98,6 +98,12 @@ public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
             super.update(elapsedTime, bounds);
         }
 
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     }
 
     /**
@@ -125,6 +131,12 @@ public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
         @Override
         public void handleDeath (Level level) {
             level.removeSprite(this);
+        }
+
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
         }
 
     }
