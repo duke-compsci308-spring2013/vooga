@@ -14,7 +14,7 @@ import vooga.scroller.util.Direction;
 public class StickmanVisitMethods extends VisitLibrary {
 
     
-    public void visit (Player player, IPlatform platform) {
+    public void visit (StickmanPlayer player, IPlatform platform) {
         Direction collisionType =  new CollisionDirection().collisionDirection(player, platform);
         if (collisionType == null) return;
 
@@ -29,6 +29,7 @@ public class StickmanVisitMethods extends VisitLibrary {
             case BOTTOM:
                 player.setCenter(player.getX(), platform.getBottom() + (player.getHeight() / 2));
 
+                player.
                 Vector up = player.getVelocity().getComponentVector(Sprite.UP_DIRECTION);
                 up.negate();
                 player.addVector(up);
@@ -64,5 +65,45 @@ public class StickmanVisitMethods extends VisitLibrary {
     
     public void visit (Player player, IDoor levelPortal) {
         levelPortal.goToNextLevel();
+    }
+    
+    public void visit (IEnemy enemy, IPlatform platform) {
+        Direction collisionType =  new CollisionDirection().collisionDirection(enemy, platform);
+        if (collisionType == null) return;
+
+        switch (collisionType) {
+            case TOP:
+                enemy.setCenter(enemy.getX(), platform.getTop() - (enemy.getHeight() / 2));
+                Vector v = enemy.getVelocity().getComponentVector((double) Sprite.DOWN_DIRECTION);
+                v.negate();
+                enemy.addVector(v);
+
+                break;
+            case BOTTOM:
+                enemy.setCenter(enemy.getX(), platform.getBottom() + (enemy.getHeight() / 2));
+
+                Vector up = enemy.getVelocity().getComponentVector(Sprite.UP_DIRECTION);
+                up.negate();
+                enemy.addVector(up);
+
+                break;
+            case LEFT:
+                enemy.setCenter(platform.getLeft() - (enemy.getWidth() / 2), enemy.getY());
+                Vector l = enemy.getVelocity().getComponentVector(Sprite.LEFT_DIRECTION);
+                l.negate();
+                enemy.addVector(l);
+
+                break;
+            case RIGHT:
+                enemy.setCenter(platform.getRight() + (enemy.getWidth() / 2), enemy.getY());
+
+                Vector r = enemy.getVelocity().getComponentVector(Sprite.RIGHT_DIRECTION);
+                r.negate();
+                enemy.addVector(r);
+
+                break;
+            default:
+                break;
+        }
     }
 }

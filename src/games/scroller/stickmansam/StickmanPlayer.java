@@ -2,6 +2,7 @@ package games.scroller.stickmansam;
 
 import java.awt.Dimension;
 import util.Vector;
+import util.input.InputClassTarget;
 import util.input.InputMethodTarget;
 import vooga.scroller.level_editor.Level;
 import vooga.scroller.scrollingmanager.ScrollingManager;
@@ -14,15 +15,17 @@ import vooga.scroller.util.Pixmap;
 import vooga.scroller.util.physics.Force;
 import vooga.scroller.util.physics.Gravity;
 import vooga.scroller.view.GameView;
+import games.scroller.stickmansam.StickmanSpriteLibrary.Bullet;
 
+@InputClassTarget
 public class StickmanPlayer extends Player {
 
     private static final Pixmap STICKMAN_VIEW = StickmanSpriteLibrary.makePixmap("stickman.png");
     private static final Dimension SIZE = new Dimension (32, 45);
     private static final int HEALTH = 100;
     private static final int DAMAGE = 20;    
-    private static final String INPUT_LOCATION = "/games/scroller/stickmansam/keymap";
-    private static final Vector JUMP_VELOCITY = new Vector(Sprite.UP_DIRECTION, 100);
+    private static final String INPUT_LOCATION = "games/scroller/stickmansam/keymap";
+    private static final Vector JUMP_VELOCITY = new Vector(Sprite.UP_DIRECTION, 99);
     private static final double MAX_JUMP_VELOCITY = 0.5;
     private static final int SPEED = 100;
     private static final int MAX_JUMPS = 1;
@@ -38,7 +41,7 @@ public class StickmanPlayer extends Player {
     private int myJumpCount;
     private Force myGravity;
 
-    
+   
    public StickmanPlayer (GameView gameView,
                            ScrollingManager sm) {
         super(STICKMAN_VIEW, SIZE, gameView, sm, HEALTH, DAMAGE);
@@ -59,8 +62,7 @@ public class StickmanPlayer extends Player {
 
     @Override
     public void handleDeath (Level level) {
-        // TODO Auto-generated method stub
-
+        this.getLevel().getDoor().goToNextLevel();
     }
     
     @Override
@@ -114,7 +116,7 @@ public class StickmanPlayer extends Player {
     
     @InputMethodTarget(name = "fire")
     public void fire () {
-        // TODO
+        getLevel().addSprite(new Bullet());
     }
 
 }

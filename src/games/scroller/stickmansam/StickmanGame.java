@@ -15,7 +15,7 @@ public class StickmanGame extends ScrollerGame {
 
     private static final String SPLASH_IMAGE = "splash.jpg";
     private static final String TITLE = "Stickman Sam";
-    private static final String LEVELS = "/games/scroller/stickmansam/levels/";
+    private static final String LEVELS = "src/games/scroller/stickmansam/levels/";
 
     public StickmanGame (ArcadeInteraction arcade) {
         super(arcade);
@@ -43,7 +43,7 @@ public class StickmanGame extends ScrollerGame {
 
     @Override
     protected String[] setLevelFileNames () {
-        return new String[] { /*TODO */ };
+        return new String[] { "level1.level" };
     }
 
     @Override
@@ -58,7 +58,7 @@ public class StickmanGame extends ScrollerGame {
     }
 
     public static void main (String[] args) {
-        new StickmanGame(new Controller("English")).run();
+        new StickmanGame(null).run();
     }
 
 }

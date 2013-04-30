@@ -68,7 +68,8 @@ public class LevelFactory {
     protected IGameComponent linkLevels (SplashPage splash, List<IGameComponent> levels) {
 //        SplashPage splash =
 //                new SplashPage(MarioLib.makePixmap(splashPage), 0, myView, mySM);
-        splash.addDoor(new MarioLib.DoorPortal());
+        // hardcoded? thanks - David Winegar
+        //splash.addDoor(new MarioLib.DoorPortal());
         myLevelManager.put(splash.getDoor(), levels.get(0));
     
         for (int i = 0; i < levels.size() - 1; i++) {

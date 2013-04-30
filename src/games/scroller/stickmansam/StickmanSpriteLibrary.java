@@ -5,12 +5,13 @@ import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
 import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
 import vooga.scroller.level_editor.Level;
 import vooga.scroller.level_editor.library.EncapsulatedSpriteLibrary;
-import vooga.scroller.level_management.LevelManager;
+import vooga.scroller.level_management.LevelPortal;
 import vooga.scroller.sprites.Sprite;
-import vooga.scroller.sprites.interfaces.IDoor;
 import vooga.scroller.sprites.superclasses.GameCharacter;
-import vooga.scroller.util.IGameComponent;
+import vooga.scroller.util.ISpriteView;
 import vooga.scroller.util.Pixmap;
+import vooga.scroller.util.physics.Force;
+import vooga.scroller.util.physics.Gravity;
 
 public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
     private static final Dimension ENEMY_SIZE = new Dimension(32, 45);
@@ -36,15 +37,24 @@ public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
     public static class StickZombie extends GameCharacter implements IEnemy {
         private static final String ZOMBIE_IMAGE = "zombie.png";
         private static final int HEALTH = 60;
+        private static final int DAMAGE = 5;
+        private Force myGravity;
+
 
         public StickZombie () {
-            super(makePixmap(ZOMBIE_IMAGE), ENEMY_SIZE, HEALTH, 0);
-            // TODO Auto-generated constructor stub
+            super(makePixmap(ZOMBIE_IMAGE), ENEMY_SIZE, HEALTH, DAMAGE);
+            myGravity = new Gravity(this);
         }
 
         @Override
         public void handleDeath (Level level) {
-            //level.removeSprite(this);
+            level.removeSprite(this);
+        }
+        
+        @Override
+        public void update (double elapsedTime, Dimension bounds) {
+            myGravity.apply();
+            super.update(elapsedTime, bounds);
         }
 
     }
@@ -102,36 +112,19 @@ public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
         
     }
     
-    public static class Door extends Sprite implements IDoor {
+    public static class Door extends LevelPortal {
         private static final String EMPTY_IMAGE = "empty.png";
 
-        public Door () {
-            super(makePixmap(EMPTY_IMAGE), BLOCK_SIZE);
+        @Override
+        public ISpriteView initView () {
+            return makePixmap(EMPTY_IMAGE);
         }
 
         @Override
-        public void setNextLevel (IGameComponent level) {
-            // TODO
+        public Dimension initSize () {
+            return BLOCK_SIZE;
         }
 
-        @Override
-        public IGameComponent getNextLevel () {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public void setManager (LevelManager lm) {
-            // TODO Auto-generated method stub
-            
-        }
-
-        @Override
-        public void goToNextLevel () {
-            // TODO Auto-generated method stub
-            
-        }
-        
     }
 
     
