@@ -2,6 +2,7 @@ package games.scroller.stickmansam;
 
 import java.awt.Dimension;
 import util.Vector;
+import vooga.scroller.extra_resources.movements.TimedMovement;
 import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
 import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
 import vooga.scroller.level_editor.Level;
@@ -69,9 +70,9 @@ public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
         private static final int DAMAGE = 2;
         private Force myGravity;
         private static final int SPEED = 5;
-        private static final int RADIUS = 300;
-        private Movement myMovement = new TrackPlayer(this, getLocatable(), SPEED, RADIUS);
-
+        private static final int TIME = 1;
+        private static final int ANGLE = 180;
+        private Movement myMovement = new TimedMovement(this, TIME, ANGLE, SPEED);
         /**
          * Create zombie
          */
@@ -88,7 +89,6 @@ public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
         @Override
         public void update (double elapsedTime, Dimension bounds) {
             myGravity.apply();
-            myMovement.execute();
             super.update(elapsedTime, bounds);
         }
 

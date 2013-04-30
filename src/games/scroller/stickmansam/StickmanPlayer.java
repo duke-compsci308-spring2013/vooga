@@ -150,6 +150,7 @@ public class StickmanPlayer extends Player {
     public void fire () {
         if (myBulletTimer == 0) {
             getLevel().addSprite(new Bullet(myDirection));
+            
             myBulletTimer = TIME_BETWEEN_BULLETS;
         }
     }
