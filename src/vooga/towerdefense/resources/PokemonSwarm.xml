@@ -32,22 +32,22 @@
 	</view>
 	<map>
 		<Map1>
-			<image>Pokemon\pkmnbackground.png</image>
+			<image>Pokemon/pkmnbackground.png</image>
 			<tile_size>50</tile_size>
 			<dimension>
 				<width>500</width>
 				<height>500</height>
 			</dimension>
-			<grid>0 0 0 0 0 0 0 s 0 0
-			2 2 2 2 2 2 2 2 0 0
-			2 0 0 0 0 0 0 0 0 0
-			2 2 2 2 2 2 2 0 0 0
-			0 2 0 0 0 0 2 0 0 0 
-			0 2 0 0 0 0 2 2 2 d
-			0 2 0 0 0 0 2 0 0 0
-			0 2 2 2 2 2 2 0 0 0
-			0 0 0 0 0 0 0 0 0 0
-			0 0 0 0 0 0 0 0 0 0</grid>
+			<grid>1 1 1 1 1 1 1 s 1 1
+			2 2 2 2 2 2 2 2 1 1
+			2 1 1 1 1 1 1 1 1 1
+			2 2 2 2 2 2 2 1 1 1
+			1 2 1 1 1 1 2 1 1 1 
+			1 2 1 1 1 1 2 2 2 d
+			1 2 1 1 1 1 2 1 1 1
+			1 2 2 2 2 2 2 1 1 1
+			1 1 1 1 1 1 1 1 1 1
+			1 1 1 1 1 1 1 1 1 1</grid>
 		</Map1>
 	</map>
 	<player>
@@ -123,7 +123,7 @@
 				    <CreateElement>
 				        <parameter>Grimer</parameter>
 				    </CreateElement>
-				    <RemoveElement></RemoveElement>
+				    <RemoveGameElement></RemoveGameElement>
 				</OnDeath>
 			</actions>			
 		</Muk>
@@ -156,11 +156,40 @@
 				<MOVE_SPEED>-5</MOVE_SPEED>
 				<DIRECTION>0</DIRECTION>
 				<NumTargets>1</NumTargets>
-				<RADIUS>10</RADIUS>
+				<RADIUS>50</RADIUS>
 				<AttackType>1.2</AttackType>
 				<Lifespan>1200</Lifespan>
 				<AttackSpeed>1.3</AttackSpeed>
 				<Damage>-5</Damage>
+			</attributes>
+			<actions>
+			    <PeriodicAction>
+			        <parameter>Lifespan</parameter>
+			        <RemoveGameElement></RemoveGameElement>
+			    </PeriodicAction>
+			    <FindTargets>
+					<parameter>RADIUS</parameter>
+					<ModifyAttributeValue>
+					    <parameter>Damage</parameter>
+					    <parameter>Health</parameter>
+					</ModifyAttributeValue>
+				</FindTargets>
+			</actions>			
+		</Poison>
+		<Pokeball>
+			<dimension>50, 50</dimension>
+			<image>Pokemon/pokeball.png</image>
+			<type>Projectile</type>
+			<attributes>
+				<Move_Speed>-5</Move_Speed>
+				<MOVE_SPEED>-5</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+				<NumTargets>4</NumTargets>
+				<RADIUS>10</RADIUS>
+				<AttackType>1.2</AttackType>
+				<Lifespan>1200</Lifespan>
+				<AttackSpeed>1.3</AttackSpeed>
+				<Damage>-20</Damage>
 			</attributes>
 			<actions>
 			    <PeriodicAction>
@@ -175,16 +204,15 @@
 					</ModifyAttributeValue>
 				</FindTargets>
 			</actions>			
-		</Poison>
+		</Pokeball>
 		<Ghastly>
 			<dimension>50, 50</dimension>
 			<image>Pokemon/ghastly.gif</image>
 			<type>Tower</type>
 			<attributes>
-				<Health>2</Health>
 				<MOVE_SPEED>-20</MOVE_SPEED>
 				<DIRECTION>0</DIRECTION>
-				<Cost>50</Cost>
+				<Cost>200</Cost>
 				<NumTargets>1</NumTargets>
 				<RADIUS>200</RADIUS>
 				<RADIUS2>300</RADIUS2>
@@ -234,8 +262,8 @@
 					    <parameter>Health</parameter>
 					</ModifyAttributeValue>					
 					</FindTargets>
-					<RemoveElement>
-					</RemoveElement>
+					<RemoveGameElement>
+					</RemoveGameElement>
 			    </PeriodicAction>
 			</actions>
 		</Electrode>
@@ -244,14 +272,11 @@
 			<image>Pokemon\sudowoodo.gif</image>
 			<type>Tower</type>
 			<attributes>
-				<Health>2</Health>
-				<MOVE_SPEED>20</MOVE_SPEED>
-				<DIRECTION>0</DIRECTION>
-				<Cost>50</Cost>
+				<Cost>150</Cost>
 				<NumTargets>100</NumTargets>
 				<RADIUS>100</RADIUS>
 				<AttackType>1.2</AttackType>
-				<FastEffect>5.0</FastEffect>
+				<FastEffect>50.0</FastEffect>
 				<MoneyIncrease>55</MoneyIncrease>
 			</attributes>
 			<actions>
@@ -273,19 +298,21 @@
 			<image>trainercatch.gif</image>
 			<type>Tower</type>
 			<attributes>
-				<Cost>10</Cost>
-				<RADIUS>100</RADIUS>
+				<Cost>100</Cost>
+				<RADIUS>200</RADIUS>
 				<AttackType>1.2</AttackType>
-				<Damage>-0.5</Damage>
+				<NumTargets>1</NumTargets>
+				<Damage>-25</Damage>
+				<AttackSpeed>1000</AttackSpeed>
 			</attributes>
 			<actions>
-			    <FindTargets>
-					<parameter>RADIUS</parameter>
-					<ApplyAttributeBuff>
-						<parameter>Damage</parameter>
-					    <parameter>Health</parameter>
-					</ApplyAttributeBuff>
-			    </FindTargets>
+			    <AttackAction>
+			        <parameter>RADIUS</parameter>
+			        <parameter>AttackSpeed</parameter>
+			        <parameter>NumTargets</parameter>
+			        <parameter>AttackType</parameter>
+			        <parameter>Pokeball</parameter>
+			    </AttackAction>
 			</actions>			
 		</Trainer>
 	</gameelements>
@@ -302,7 +329,7 @@
 				<WaveAction>
 					<parameter>10</parameter>
 					<parameter>1000</parameter>
-					<parameter>Muk</parameter>
+					<parameter>Golbat</parameter>
 				</WaveAction>
 				<LevelTimerAction>
 					<parameter>30000</parameter>

@@ -1,6 +1,6 @@
 package vooga.towerdefense.action.actionlist;
 
-import vooga.towerdefense.action.Action;
+import vooga.towerdefense.action.TargetedAction;
 import vooga.towerdefense.gameelements.GameElement;
 import vooga.towerdefense.model.GameMap;
 
@@ -11,7 +11,7 @@ import vooga.towerdefense.model.GameMap;
  * @author Matthew Roy
  * 
  */
-public class RemoveGameElement extends Action {
+public class RemoveGameElement extends TargetedAction {
 
 	private GameMap myMap;
 	private GameElement myElement;
@@ -19,17 +19,19 @@ public class RemoveGameElement extends Action {
 	/**
      * 
      */
-	public RemoveGameElement(GameMap map, GameElement elementToRemove) {
+	public RemoveGameElement(GameMap map) {
 		super();
 		myMap = map;
-		myElement = elementToRemove;
+		System.out.println("REMOVE ELEMENT");
 	}
 
+	@Override
 	public void executeAction(double elapsedTime) {
-		execute();
+		System.out.printf("remove game element list%d\n", getTargets().size());
+		if (!getTargets().isEmpty()) {
+			myElement = getTargets().get(0);
+			myMap.removeGameElement(myElement);
+		}
 	}
 
-	public void execute() {
-		myMap.removeGameElement(myElement);
-	}
 }

@@ -26,17 +26,6 @@ import vooga.rts.util.Location3D;
  */
 public interface ProductionStrategy extends Strategy{
 
-	/** 
-	 *  sets the rally point of this producer to rallypoint. 
-	 */
-	public void setRallyPoint(Location3D rallyPoint);
-	
-	/**
-	 * Sets the rally point to be the location of the interactive entity. 
-	 * @param entity
-	 */
-	public void setRallyPoint(InteractiveEntity entity);
-	
 	/**
 	 * Creates all the actions that this strategy can accomplish. 
 	 * @param producer

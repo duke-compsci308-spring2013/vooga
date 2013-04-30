@@ -2,6 +2,7 @@ package vooga.rts.player;
 
 import java.awt.Graphics2D;
 import java.util.Observable;
+import arcade.games.Game;
 import vooga.rts.IGameLoop;
 import vooga.rts.commands.Command;
 import vooga.rts.controller.Controller;
@@ -9,6 +10,7 @@ import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
 import vooga.rts.manager.IndividualResourceManager;
 import vooga.rts.manager.Manager;
 import vooga.rts.resourcemanager.ResourceManager;
+import vooga.rts.state.GameOver;
 import vooga.rts.util.Location3D;
 
 
@@ -86,6 +88,10 @@ public class Player extends Observable implements Controller, IGameLoop {
     @Override
     public void update (double elapsedTime) {
         myManager.update(elapsedTime);
+        if (myManager.getAllEntities().size() == 0) {
+            setChanged();
+            notifyObservers(GameOver.OVER);
+        }
     }
 
     /**

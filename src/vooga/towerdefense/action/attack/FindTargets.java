@@ -37,6 +37,9 @@ public class FindTargets extends TargetedAction {
                                              mySource,
                                              myScanningRadius.getValue());
         setTargets(newTargets);
+        //System.out.printf("found targets %d\n", getTargets().size());
         updateTargetedFollowUpActions(getTargets());
+        System.out.printf("Find targets are %d\n", getTargets().size());
+
     }
 }

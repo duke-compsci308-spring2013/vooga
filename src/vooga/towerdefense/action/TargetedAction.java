@@ -21,7 +21,19 @@ public abstract class TargetedAction extends Action {
 		setTargetTracking(true);
 		myTargets = new ArrayList<GameElement>();
 	}
-
+	
+	/**
+	 * Overrides update by passing on target information to all relevant follow up actions
+	 * in addition to updating follow up actions.
+	 */
+	@Override
+	public void update(double elapsedTime){
+		super.update(elapsedTime);
+		if (isEnabled()){
+			updateTargetedFollowUpActions(myTargets);
+		}
+	}
+	
 	/**
 	 * Adds one game element to the current list of targets
 	 * 
@@ -48,6 +60,16 @@ public abstract class TargetedAction extends Action {
 	public void setTargets(List<GameElement> newTargets) {
 		myTargets = newTargets;
 	}
+	
+	/**
+	 * Sets single target, used usually for acting on one single target.
+	 * @param newTarget
+	 */
+	public void setSingleTarget(GameElement newTarget){
+		List<GameElement> target = new ArrayList<GameElement>();
+		target.add(newTarget);
+		setTargets(target);
+	}
 
 	/**
 	 * Returns current targets list
@@ -57,6 +79,19 @@ public abstract class TargetedAction extends Action {
 	public List<GameElement> getTargets() {
 		return myTargets;
 	}
+	
+	/**
+	 * Returns first target in current target list. 
+	 * Removes target from current list.
+	 * @return
+	 */
+	public GameElement getSingleTarget() {
+		if (!myTargets.isEmpty()){
+			return myTargets.get(0);
+		}
+		return null;
+	}
+
 
 	/**
 	 * Updates all targeted follow up action accordingly; adds all targets to
@@ -68,6 +103,7 @@ public abstract class TargetedAction extends Action {
 	public void updateTargetedFollowUpActions(List<GameElement> targets) {
 		for (TargetedAction a : getTargetedFollowUpActions()) {
 			a.setTargets(targets);
+			System.out.printf("update targets size to be %s\n", targets.size());
 		}
 	}
 }

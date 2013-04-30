@@ -9,6 +9,7 @@ import java.util.Observer;
 import vooga.rts.player.HumanPlayer;
 import vooga.rts.player.Player;
 import vooga.rts.player.Team;
+import vooga.rts.state.GameOver;
 
 
 public class PlayerManager extends Observable implements Observer {
@@ -47,13 +48,13 @@ public class PlayerManager extends Observable implements Observer {
     public void addPlayer (int teamID) {
         Player result;
         if (myPlayers.size() == 0) {
-            myHuman = new HumanPlayer(0, teamID);
-            myHuman.addObserver(this);
+            myHuman = new HumanPlayer(0, teamID);            
             result = myHuman;
         }
         else {
             result = new Player(myPlayers.size(), teamID);
         }
+        result.addObserver(this);
         addPlayer(result, teamID);
     }
 
@@ -102,7 +103,22 @@ public class PlayerManager extends Observable implements Observer {
 
     @Override
     public void update (Observable arg0, Object arg1) {
-        setChanged();
-        notifyObservers();
+        if (arg1 instanceof GameOver) {
+            setChanged();
+            if (arg1 == GameOver.QUIT) {
+                notifyObservers(arg1);
+                return;
+            }
+            
+            if (arg0.equals(myHuman)) {
+                notifyObservers(GameOver.LOSE);
+            }
+            else
+            {
+                notifyObservers(GameOver.WIN);   
+            }
+        }
+        
+        
     }
 }

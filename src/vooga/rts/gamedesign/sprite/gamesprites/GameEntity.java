@@ -70,7 +70,6 @@ public class GameEntity extends GameSprite {
 	/**
 	 * Updates the shape's location.
 	 */
-	// TODO: make Velocity three dimensional...
 	public void update(double elapsedTime) {
 		if (isDead()) {
 			setChanged();

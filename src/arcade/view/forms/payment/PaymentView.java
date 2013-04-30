@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-
 import arcade.controller.Controller;
 import arcade.exceptions.InvalidPaymentException;
 import arcade.games.GameInfo;
@@ -35,7 +34,10 @@ public abstract class PaymentView extends Form {
      * @param resources
      * @param info
      */
-    public PaymentView (Controller controller, ResourceBundle resources, GameInfo game, String transactionType) {
+    public PaymentView (Controller controller,
+                        ResourceBundle resources,
+                        GameInfo game,
+                        String transactionType) {
         super(controller, resources);
         myGameInfo = game;
         myTransactionType = transactionType;
@@ -56,8 +58,8 @@ public abstract class PaymentView extends Form {
                                 public void actionPerformed (ActionEvent e) {
                                     try {
                                         getController().performTransaction(myGameInfo,
-                                                                      myTransactionType,
-                                                                      getPaymentInfo());
+                                                                           myTransactionType,
+                                                                           getPaymentInfo());
                                         dispose();
                                     }
                                     catch (InvalidPaymentException e1) {
@@ -67,11 +69,11 @@ public abstract class PaymentView extends Form {
                                 }
                             });
     }
-    
+
     /**
      * Returns the game being paid for so subclasses have access.
      */
-    protected GameInfo getGame() {
+    protected GameInfo getGame () {
         return myGameInfo;
     }
 
@@ -79,6 +81,5 @@ public abstract class PaymentView extends Form {
      * Submits the required payment information fields to be processed.
      */
     protected abstract String[] getPaymentInfo ();
-    
 
 }

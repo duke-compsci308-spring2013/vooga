@@ -135,7 +135,7 @@ public class GameElementFactory {
 				target.getCenter(), projectile.getAttributeManager()
 						.getAttribute(
 								AttributeConstantsEnum.MOVE_SPEED
-										.getStatusCode())));
+										.getStatusCode()),false));
 		projectile.addActions(actions);
 		return projectile;
 	}

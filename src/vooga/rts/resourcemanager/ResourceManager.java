@@ -142,8 +142,7 @@ public class ResourceManager {
      * Starts loading the resources that have been queued.
      */
     public void load () {
-        System.out.println("Starting Load");
-        myTime = new TimeIt();
+        System.out.println("Starting Load");        
         if (!isLoading()) {
             myLoadThread = new Thread(new Runnable() {
                 @Override
@@ -163,9 +162,7 @@ public class ResourceManager {
             while (!myLoadQueue.isEmpty()) {
                 URL nextFile = myLoadQueue.poll();
                 loadFile(nextFile);
-            }
-            System.out.println("Loaded!");
-            myTime.printTime();
+            }            
         }
     }
 

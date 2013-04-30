@@ -144,12 +144,13 @@ public class Node {
         return myContents.contains(sprite);
     }
 
-    public <T extends GameEntity> List<T> filterGameSprites (List<GameSprite> fullList,
-                                                             GameEntity other,
+    @SuppressWarnings("unchecked")
+    public <T extends GameEntity> List<T> filterGameSprites (Class<T> other,
                                                              int teamID,
                                                              boolean same) {
         List<T> resultList = new ArrayList<T>();
-        for (GameSprite item : fullList) {
+        
+        for (GameSprite item : myContents) {
             if (!(item instanceof GameEntity)) {
                 continue;
             }
@@ -157,15 +158,15 @@ public class Node {
             if (ge.getEntityState().getOccupyState() == OccupyState.OCCUPYING) {
                 continue;
             }
-
-            if (ge.getClass().isInstance(other)) {
+            int otherTeam = GameState.getPlayers().getTeamID(ge.getPlayerID());            
+            if (other.isAssignableFrom(ge.getClass())) {                
                 if (same) {
-                    if (GameState.getPlayers().getTeamID(ge.getPlayerID()) == teamID) {
+                    if (otherTeam == teamID) {
                         resultList.add((T) ge);
                     }
                 }
-                else {
-                    if (GameState.getPlayers().getTeamID(ge.getPlayerID()) != teamID) {
+                else {                    
+                    if (otherTeam != teamID) {                        
                         resultList.add((T) ge);
                     }
                 }

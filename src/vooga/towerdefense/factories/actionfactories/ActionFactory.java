@@ -34,7 +34,9 @@ public abstract class ActionFactory {
         myMap = map;
         myPlayer = player;
         for (ActionFactory a : myFollowUpActions) {
+            System.out.println(a);
             a.initialize(map, player);
+            System.out.println(a);
         }
     }
 

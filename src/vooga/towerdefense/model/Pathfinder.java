@@ -21,25 +21,21 @@ public class Pathfinder {
 
 	private Tile[][] myGrid;
 	private Dimension myTileSize;
-
+	
 	public Pathfinder(Tile[][] grid, Dimension tileSize) {
 		myGrid = grid;
 		myTileSize = tileSize;
 	}
 
 	private static void removeLinearPoints(ArrayList<Point> points) {
-		try {
-			for (int i = 0; i < points.size() - 2; i++) {
-				if (points.get(i).getX() == points.get(i + 1).getX()
-						&& points.get(i + 1).getX() == points.get(i + 2).getX()
-						|| points.get(i).getY() == points.get(i + 1).getY()
-						&& points.get(i + 1).getY() == points.get(i + 2).getY()) {
-					points.remove(i + 1);
-					i--;
-				}
+		for (int i = 0; i < points.size() - 2; i++) {
+			if (points.get(i).getX() == points.get(i + 1).getX()
+					&& points.get(i + 1).getX() == points.get(i + 2).getX()
+					|| points.get(i).getY() == points.get(i + 1).getY()
+					&& points.get(i + 1).getY() == points.get(i + 2).getY()) {
+				points.remove(i + 1);
+				i--;
 			}
-		} catch (NullPointerException e) {
-			System.out.println("Pathfinder failed to find a valid path!");
 		}
 	}
 
@@ -60,8 +56,8 @@ public class Pathfinder {
 		int goalX = (int) finish.getX();
 		int goalY = (int) finish.getY();
 
-		int[][] obstacleMap = convertMap(myGrid);
 
+		int[][] obstacleMap = convertMap(myGrid);
 		AreaMap map = new AreaMap(myGrid[0].length, myGrid.length, obstacleMap);
 		AStarHeuristic heuristic = new DiagonalHeuristic();
 
@@ -75,8 +71,9 @@ public class Pathfinder {
 
 		ArrayList<Location> locations = new ArrayList<Location>();
 		for (Point p : points)
-			locations.add(new Location((p.getY() + .5) * myTileSize.getWidth(),
-					(p.getX() + .5) * myTileSize.getHeight()));
+			locations.add(new Location((p.getY() + .5)
+					* myTileSize.getWidth(), (p.getX() + .5)
+					* myTileSize.getHeight()));
 
 		return new Path(locations);
 	}

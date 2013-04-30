@@ -44,7 +44,7 @@ public class HumanPlayer extends Player implements Observer {
     public HumanPlayer (int id, int teamID) {
         super(id, teamID);
         
-        myGameMenu = new GameMenu();
+        myGameMenu = new GameMenu(getResources());
         myGameMenu.addObserver(this);
         myManager.addObserver(myGameMenu);
 
@@ -127,7 +127,7 @@ public class HumanPlayer extends Player implements Observer {
             getManager().receiveCommand(i);
         } else {
             setChanged();
-            notifyObservers();
+            notifyObservers(a);
         }
         
        

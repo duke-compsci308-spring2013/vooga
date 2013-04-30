@@ -309,6 +309,10 @@ public class GameMap {
 				if (Vector.distanceBetween(source, gameElement.getCenter()) <= radius) {
 					elementsWithinRadius.add(gameElement);
 				}
+				if (gameElement.getCenter() == source){
+					elementsWithinRadius.remove(gameElement);
+				
+				}
 			}
 		}
 		return elementsWithinRadius;

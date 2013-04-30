@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import util.Location;
 import vooga.rts.IGameLoop;
 import vooga.rts.ai.Path;
@@ -104,34 +106,21 @@ public class GameMap implements IGameLoop {
      * @param loc The Location to search from
      * @param radius The radius of the circle to search in
      * @param type The type of unit to search for. This will compare on the name of the unit.
-     * @param teamID The player ID.
-     * @param same Whether to search for things of the same player ID or different one.
+     * @param teamID The team ID.
+     * @param same Whether to search for things of the same team or of the other teams.
      * @return
      */
     public <T extends GameEntity> List<T> getInArea (Location3D loc,
                                                      double radius,
-                                                     T type,
+                                                     Class<T> type,
                                                      int teamID,
                                                      boolean same) {
         List<T> inRange = new ArrayList<T>();
         List<Node> nodesinArea = myNodeMap.getNodesinArea(loc, radius);
         for (Node n : nodesinArea) {
-            inRange.addAll(n.<T>filterGameSprites(n.getContents(), type, teamID, same));
-        }
-
-        final Location3D loca = loc;
-        Collections.sort(inRange, new Comparator<T>() {
-            @Override
-            public int compare (T o1, T o2) {
-                if (o1 != null && o2 != null) {
-                    return 0;
-                }
-                double value1 = o1.getWorldLocation().getDistance(loca);
-                double value2 = o2.getWorldLocation().getDistance(loca);
-                return (int) (value1 - value2);
-            }
-        });
-        return inRange;
+            inRange.addAll(n.<T>filterGameSprites(type, teamID, same));
+        }       
+        return GameMap.sortByDistance(inRange, loc);
     }
 
     @Override
@@ -245,5 +234,17 @@ public class GameMap implements IGameLoop {
      */
     protected void addPlayerLocation(Location3D loc) {
         myPlayerLocations.add(loc);
+    }
+    
+    private static <T extends GameEntity> List<T> sortByDistance(List<T> items, Location3D fromPosition) {
+        Map<Double, T> myDistances = new TreeMap<Double, T>();
+        List<T> mySorted = new ArrayList<T>();
+        for (T t : items) {
+            double distance = t.getWorldLocation().getDistance(fromPosition);
+            myDistances.put(distance, t);
+        }
+        mySorted.addAll(myDistances.values());        
+        return mySorted;
+        
     }
 }

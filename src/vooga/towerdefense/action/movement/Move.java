@@ -32,6 +32,4 @@ public class Move extends Action {
         v.scale(elapsedTime / 1000);
         myCenter.translate(v);
     }
-
-
 }

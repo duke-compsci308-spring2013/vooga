@@ -154,12 +154,7 @@ public class RegisterView extends Account {
                             new ActionListener() {
                                 @Override
                                 public void actionPerformed (ActionEvent arg0) {
-                                    try {
-										registerNewUser();
-									} catch (IOException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
+                                    registerNewUser();
                                 }
                             });
     }
@@ -169,10 +164,10 @@ public class RegisterView extends Account {
      * date of birth are in the correct format.
      * 
      * If register successful, logs in to the arcade.
-     * @throws IOException 
+     * 
      * 
      */
-    private void registerNewUser () throws IOException {
+    private void registerNewUser () {
         try {
             if (!isUsernameCorrectFormat(getUsername())) { throw new UsernameFormatException(); }
 
@@ -210,17 +205,19 @@ public class RegisterView extends Account {
      * @param username
      * @return
      */
-    private boolean isUsernameCorrectFormat (String username) {
+    protected boolean isUsernameCorrectFormat (String username) {
         return !(username.isEmpty());
     }
 
     /**
      * Checks if the date of birth is in the correct format.
      * 
+     * Can override if a more rigorous check desired (e.g. no February 30)
+     * 
      * @param text
      * @return
      */
-    private boolean isDOBCorrectFormat (String dob) {
+    protected boolean isDOBCorrectFormat (String dob) {
         return dob.matches("[0-1][0-9]/[0-3][0-9]/[1-2][0-9][0-9][0-9]");
     }
 

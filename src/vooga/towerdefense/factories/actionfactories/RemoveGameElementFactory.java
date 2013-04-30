@@ -10,16 +10,16 @@ import vooga.towerdefense.gameelements.GameElement;
  * @author Zhen Gou
  * 
  */
-public class RemoveElementFactory extends ActionFactory {
+public class RemoveGameElementFactory extends ActionFactory {
 
-	public RemoveElementFactory() {
+	public RemoveGameElementFactory() {
 		super();
 	}
 
 	@Override
-	public Action buildAction(GameElement element) {
-
-		return new RemoveGameElement(getMap(), element);
+	public Action buildAction(GameElement e) {
+		System.out.println("remove game element action built");
+		return new RemoveGameElement(getMap());
 	}
 
 }

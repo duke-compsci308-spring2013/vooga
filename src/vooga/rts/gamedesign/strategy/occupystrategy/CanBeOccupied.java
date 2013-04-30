@@ -78,18 +78,15 @@ public class CanBeOccupied implements OccupyStrategy {
 
 			@Override
 			public void apply() {
-				System.err.println(myOccupierHashCodes.size());
-				if (myOccupierHashCodes.size() > 0) {
-					System.err.println("freedom");
-					myOccupierID = 0;
-					Iterator<Integer> it = myOccupierHashCodes.iterator();
-					while (it.hasNext()) {
-						Integer hashCode = it.next();
-						entity.setChanged();
-						entity.notifyObservers(hashCode);
-						it.remove();
-					}
+				myOccupierID = 0;
+				Iterator<Integer> it = myOccupierHashCodes.iterator();
+				while (it.hasNext()) {
+					Integer hashCode = it.next();
+					entity.setChanged();
+					entity.notifyObservers(hashCode);
+					it.remove();
 				}
+
 			}
 		});
 		entity.addActionInfo(commandName, new Information(commandName,

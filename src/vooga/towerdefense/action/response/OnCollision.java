@@ -4,6 +4,7 @@ import vooga.towerdefense.action.TargetedAction;
 import vooga.towerdefense.attributes.Attribute;
 import vooga.towerdefense.attributes.AttributeConstantsEnum;
 import vooga.towerdefense.gameelements.GameElement;
+import vooga.towerdefense.model.GameMap;
 
 /**
  * Defines actions on collision; after collision is detected, follow up actions
@@ -17,21 +18,28 @@ public class OnCollision extends TargetedAction {
 
 	private Attribute myTargetAffiliationID;
 	private GameElement myInitiator;
+	private GameMap myMap;
 
-	public OnCollision(GameElement initiator, Attribute targetAffiliation) {
+	public OnCollision(GameMap map, GameElement initiator,
+			Attribute targetAffiliation) {
+		super();
+		myInitiator = initiator;
 		myTargetAffiliationID = targetAffiliation;
+		myMap = map;
 	}
 
 	@Override
 	public void update(double elapsedTime) {
 		if (collisionDetected()) {
 			executeAction(elapsedTime);
+			updateFollowUpActions(elapsedTime);
 		}
 	}
 
 	@Override
 	public void executeAction(double elapsedTime) {
-		updateFollowUpActions(elapsedTime);
+		this.setEnabled(false);
+		updateTargetedFollowUpActions(getTargets());
 	}
 
 	/**
@@ -42,19 +50,25 @@ public class OnCollision extends TargetedAction {
 	public boolean collisionDetected() {
 		for (GameElement target : getTargets()) {
 			if (myInitiator.intersects(target) && checkTargetMatch(target)) {
+				myMap.removeGameElement(target);
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Check if target matches with the affiliationID this collision action is designed to handle.
+	 * Check if target matches with the affiliationID this collision action is
+	 * designed to handle.
+	 * 
 	 * @param target
 	 * @return
 	 */
-	private boolean checkTargetMatch(GameElement target){
-		return (target.getAttributeManager().getAttribute(AttributeConstantsEnum.AFFILIATION.getStatusCode()).getValue()
-				== myTargetAffiliationID.getValue());
+	private boolean checkTargetMatch(GameElement target) {
+		return (target
+				.getAttributeManager()
+				.getAttribute(
+						AttributeConstantsEnum.AFFILIATION.getStatusCode())
+				.getValue() == myTargetAffiliationID.getValue());
 	}
 }
