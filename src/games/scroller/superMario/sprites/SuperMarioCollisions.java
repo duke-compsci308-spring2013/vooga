@@ -11,7 +11,7 @@ import vooga.scroller.util.Direction;
 
 public class SuperMarioCollisions {
     
-    private CollisionDirection direction = new CollisionDirection();
+    private CollisionDirection myDirection = new CollisionDirection();
 
     public void marioAndCollectible (Mario mario, ICollectible collectible) {
         mario.incrementScore(collectible.getValue());
@@ -19,11 +19,19 @@ public class SuperMarioCollisions {
     }
 
     public void marioAndEnemy (Mario mario, IEnemy enemy) {
-        if (direction.collisionDirection(mario, enemy).equals(Direction.TOP)) {
+        if (myDirection.collisionDirection(mario, enemy).equals(Direction.TOP)) {
             enemy.takeHit(mario.getHit());
         }
         else {
             mario.takeHit(enemy.getHit());
+        }
+        
+    }
+
+    public void marioAndItemBlock (Mario mario, IItemBlock block) {
+        if(myDirection.collisionDirection(mario,block).equals(Direction.BOTTOM)){
+            block.createSprite();
+            block.decrementHits();
         }
         
     }
@@ -37,8 +45,8 @@ public class SuperMarioCollisions {
         mario.changeState(p.getStateID());
     }
 
-    public void marioAndPlatform (Sprite sprite, IPlatform platform) {
-        Direction collisionType = direction.collisionDirection(sprite, platform);
+    public void spriteAndPlatform (Sprite sprite, IPlatform platform) {
+        Direction collisionType = myDirection.collisionDirection(sprite, platform);
     
         if (collisionType == null) return;
     

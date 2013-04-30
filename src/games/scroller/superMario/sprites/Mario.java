@@ -113,13 +113,11 @@ public class Mario extends Player implements IInputListener {
 
     @InputMethodTarget(name = "leftstart")
     public void walkLeft () {
-        System.out.println("start");
         this.activateState(MoveLeftState.STATE_ID);
     }
 
     @InputMethodTarget(name = "leftend")
     public void stopLeft () {
-        System.out.println("end");
         this.deactivateState(MoveLeftState.STATE_ID);
     }
 

@@ -33,7 +33,7 @@ games.scroller.superMario.sprites.SuperMarioLib
 b=WoodLeft
 e=WoodPole
 c=WoodMid
-f=ItemBlock
+f=FireFlowerBlock
 m=WoodBigRight
 k=WoodBigLeft
 g=Goomba

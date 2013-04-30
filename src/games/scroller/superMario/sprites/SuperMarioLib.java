@@ -160,12 +160,23 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         }
     }
 
-    public static class ItemBlock extends Sprite implements IPlatform {
+    public static class FireFlowerBlock extends ItemBlock {
 
+        private static final String DEFAULT_IMG = "itemBlock_fire.png";
         private static final String BLOCK_IMG = "itemBlock.gif";
 
-        public ItemBlock () {
-            super(makePixmap(BLOCK_IMG), makeSize(1, 1));
+        public FireFlowerBlock () {
+            super(makePixmap(BLOCK_IMG), makeSize(1, 1), DEFAULT_HEALTH);
+        }
+
+        @Override
+        public Sprite createSprite () {
+            return new Fireflower();
+        }
+
+        @Override
+        public String setDefaultPng () {
+            return DEFAULT_IMG;
         }
 
     }
@@ -314,7 +325,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         }
     }
 
-    private static Dimension makeSize (int w, int h) {
+    public static Dimension makeSize (int w, int h) {
         return new Dimension(w * DEFAULT_SIZE, h * DEFAULT_SIZE);
     }
 }
