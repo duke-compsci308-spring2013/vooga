@@ -18,6 +18,8 @@ public class BaseMarioState extends MarioSpriteState {
     private static final Pixmap MOVE_RIGHT = SuperMarioLib.makePixmap("mario_walk_right.gif");
     private static final ISpriteView STAND_RIGHT = SuperMarioLib.makePixmap("mario_stand_right.png");
     private static final double SPEED = 100;
+    private static final Pixmap RUN_LEFT = SuperMarioLib.makePixmap("mario_run_left.gif");
+    private static final ISpriteView RUN_RIGHT = SuperMarioLib.makePixmap("mario_run_right.gif");
 
     public BaseMarioState (Mario unit) {
         super(unit);
@@ -27,8 +29,15 @@ public class BaseMarioState extends MarioSpriteState {
                                                         STAND_LEFT, SPEED);
         SpriteMovementState baseRight = new MoveRightState(unit, MOVE_RIGHT,
                                                           STAND_RIGHT, SPEED);
+        SpriteMovementState baseRunLeft = new RunLeftState(unit, RUN_LEFT,
+                                                         STAND_LEFT, SPEED);
+         SpriteMovementState baseRunRight = new MoveRightState(unit, RUN_RIGHT,
+                                                           STAND_RIGHT, SPEED);
+         
         baseAnimation.addAnimationState(baseLeft);
         baseAnimation.addAnimationState(baseRight);
+        baseAnimation.addAnimationState(baseRunLeft);
+        baseAnimation.addAnimationState(baseRunRight);
         setAnimation(baseAnimation);
     }
 

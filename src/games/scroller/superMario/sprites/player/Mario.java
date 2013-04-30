@@ -45,35 +45,18 @@ public class Mario extends Player implements IInputListener {
 
     // private static final double MOVE_MAGNITUDE = 10;
     private static final double MAX_SPEED = 300;
-    private static final double SPEED = 100;
-
-    private static final ISpriteView MOVE_LEFT = SuperMarioLib.makePixmap("mario_walk_left.gif");
-
-    private static final ISpriteView STAND_LEFT = SuperMarioLib.makePixmap("mario_stand_left.png");
-
-    private static final ISpriteView MOVE_RIGHT = SuperMarioLib.makePixmap("mario_walk_right.gif");
-
-    private static final ISpriteView STAND_RIGHT = SuperMarioLib
-            .makePixmap("mario_stand_right.png");
     private static final Dimension DEFAULT_SIZE = new Dimension(32, 32);
 
     private static final int DEFAULT_HEALTH = new Integer(1);
 
     private static final int DEFAULT_DAMAGE = new Integer(1);
-    private int myJumpCount;
-    private Force myGravity;
-
     private MarioSpriteState base;
     private MarioSpriteState fire;
-    private MarioSpriteState activeState;
-
     private MarioSpriteState big;
+    private boolean myRun;
 
     public Mario () {
         super(DEFAULT_IMAGE, DEFAULT_SIZE, DEFAULT_HEALTH, DEFAULT_DAMAGE);
-        myJumpCount = 0;
-        myGravity = new Gravity(this);
-
         activateState(1);
     }
 
@@ -84,9 +67,6 @@ public class Mario extends Player implements IInputListener {
 
     public Mario (GameView gameView, ScrollingManager sm) {
         super(DEFAULT_IMAGE, DEFAULT_SIZE, gameView, sm, DEFAULT_HEALTH, DEFAULT_DAMAGE);
-        // MarioLib.addLeftRightAnimationToPlayer(this, "mario.gif");
-        myJumpCount = 0;
-        myGravity = new Gravity(this);
         initializePossibleStates();
     }
 
@@ -133,31 +113,43 @@ public class Mario extends Player implements IInputListener {
     }
 
     @InputMethodTarget(name = "leftstart")
-    public void walkLeft () {
+    public void moveLeft () {
         // this.activateState(MoveLeftState.STATE_ID);
+        if (myRun)
+            ((MarioSpriteState) getSpriteState()).activateAnimationState(RunRightState.STATE_ID);
         ((MarioSpriteState) getSpriteState()).activateAnimationState(MoveLeftState.STATE_ID);
+    }
+
+    @InputMethodTarget(name = "runstart")
+    public void runOn () {
+        myRun = true;
+    }
+
+    @InputMethodTarget(name = "runend")
+    public void runOff () {
+        myRun = false;
     }
 
     @InputMethodTarget(name = "fire")
     public void activateFire () {
 
         this.activateState(3);
-        activeState = fire;
     }
 
     @InputMethodTarget(name = "big")
     public void activateBig () {
-        activeState = big;
     }
 
     @InputMethodTarget(name = "leftend")
     public void stopLeft () {
-        //this.deactivateState(MoveLeftState.STATE_ID);
+        // this.deactivateState(MoveLeftState.STATE_ID);
         ((MarioSpriteState) getSpriteState()).deactivateAnimationState(MoveLeftState.STATE_ID);
     }
 
     @InputMethodTarget(name = "rightstart")
-    public void walkRight () {
+    public void moveRight () {
+        if (myRun)
+            ((MarioSpriteState) getSpriteState()).activateAnimationState(RunRightState.STATE_ID);
         ((MarioSpriteState) getSpriteState()).activateAnimationState(MoveRightState.STATE_ID);
     }
 
