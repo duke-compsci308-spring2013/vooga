@@ -38,5 +38,7 @@ public abstract class AnimationState<S> {
     public Pixmap getView() {
         return myImage;
     }
+
+    public abstract void activate ();
     
 }

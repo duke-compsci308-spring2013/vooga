@@ -1,7 +1,7 @@
 package games.scroller.superMario;
 
-import games.scroller.superMario.sprites.Mario;
 import games.scroller.superMario.sprites.SuperMarioLib;
+import games.scroller.superMario.sprites.player.Mario;
 import games.scroller.superMario.sprites.SuperMarioVisitLibrary;
 import arcade.games.ArcadeInteraction;
 import vooga.scroller.collision_manager.VisitLibrary;

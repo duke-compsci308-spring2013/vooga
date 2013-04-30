@@ -40,6 +40,7 @@ public abstract class SpriteMovementState extends SpriteState<Sprite> {
 
     @Override
     public void activate () {
+        getUnit().setView(myView);
         Vector component = getUnit().getVelocity().getComponentVector(myDirection);
         component.negate();
         getUnit().addVector(component);

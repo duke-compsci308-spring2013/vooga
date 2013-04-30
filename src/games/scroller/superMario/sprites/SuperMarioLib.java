@@ -320,16 +320,18 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         private static final Dimension KOOPA_SIZE = new Dimension(32, 64);
         private int SPEED = 30;
         private int RADIUS = 45;
-        private TrackPlayer movement;
+        private Movement myMovement;
 
         public Koopa () {
             super(makePixmap(DEFAULT_IMG), KOOPA_SIZE, new Integer(1), new Integer(1));
-            movement = new TrackPlayer(this, getLocatable(), SPEED, RADIUS);
         }
 
         public void update (double elapsedTime, Dimension bounds) {
+
             super.update(elapsedTime, bounds);
-            movement.execute();
+            // if (myMovement != null) {
+            // myMovement.execute();
+            // }
         }
 
         @Override
@@ -339,7 +341,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
         @Override
         public void addTarget (Locatable target) {
-            movement.setTarget(target);
+            // myMovement = new SimpleMovement(this, getLocatable(), SPEED);
         }
 
         @Override
@@ -353,26 +355,30 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
         private static final String DEFAULT_IMG = "goomba.gif";
         private static final Dimension GOOMBA_SIZE = new Dimension(32, 32);
-        private int SPEED = 30;
-        private Point2D START = new Point2D.Double(500.0, 100.0);
-        private Point2D END = new Point2D.Double(200.0, 500.0);
-
-        private Movement movement = new BackAndForth(this, START, END, SPEED);
+        private int SPEED = 50;
+        private Movement myMovement;
 
         public Goomba () {
             super(makePixmap(DEFAULT_IMG), GOOMBA_SIZE, DEFAULT_HEALTH, new Integer(1));
-            movement = new BackAndForth(this, START, END, SPEED);
         }
 
         public void update (double elapsedTime, Dimension bounds) {
-            movement.execute();
+
             super.update(elapsedTime, bounds);
+            // if (myMovement != null) {
+            // myMovement.execute();
+            // }
         }
 
         @Override
         public void handleDeath (Level level) {
             // TODO Auto-generated method stub
 
+        }
+
+        @Override
+        public void addTarget (Locatable target) {
+            // myMovement = new SimpleMovement(this, getLocatable(), SPEED);
         }
 
         @Override

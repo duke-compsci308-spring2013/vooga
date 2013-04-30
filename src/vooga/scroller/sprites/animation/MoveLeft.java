@@ -9,7 +9,7 @@ import vooga.scroller.util.Pixmap;
  * @author Scott Valentine
  *
  */
-public class MoveLeft extends AnimationState<Sprite> {
+public class MoveLeft<Sprite> extends AnimationState<Sprite> {
 
     private Pixmap myStand;
 
@@ -26,7 +26,7 @@ public class MoveLeft extends AnimationState<Sprite> {
     }
 
     @Override
-    public boolean validAnimation (Sprite unit) {
+    public boolean validAnimation (D unit) {
         if(unit.getVelocity().getComponentVector(Sprite.LEFT_DIRECTION).getMagnitude() > 0){            
             unit.getView().setDefaultView(myStand);
             return true;

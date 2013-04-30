@@ -1,5 +1,6 @@
 package vooga.scroller.sprites;
 
+import games.scroller.superMario.sprites.player.states.MarioSpriteState;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -45,6 +46,7 @@ public class Sprite implements Locatable {
     private Location myLastLocation2;
 
     private SpriteStateManager myStateManager;
+    private SpriteState myActiveState;
 
     // private double myAngle;
 
@@ -392,16 +394,20 @@ public class Sprite implements Locatable {
     }
 
     public void activateState (int stateID) {
-        myStateManager.activateState(stateID);
+        myActiveState = myStateManager.activateState(stateID);
     }
 
     public void deactivateState (int stateID) {
-        myStateManager.deactivateState(stateID);
+        myActiveState = myStateManager.deactivateState(stateID);
     }
 
     public void updateLastLocation () {
         myLastLocation2 = new Location(myLastLocation.x, myLastLocation.y);
         myLastLocation = new Location(myCenter.x, myCenter.y);
+    }
+    
+    protected SpriteState getSpriteState () {
+        return myActiveState;
     }
 
     // public void rotate(double angle){

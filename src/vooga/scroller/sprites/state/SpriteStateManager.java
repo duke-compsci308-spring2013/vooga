@@ -80,13 +80,14 @@ public class SpriteStateManager {
      * Activates the specified state.
      * @param stateID
      */
-    public void activateState(int stateID){
+    public SpriteState activateState(int stateID){
         @SuppressWarnings("rawtypes")
         SpriteState state = myStates.get(stateID);
         if(!myActiveStates.contains(state) && state != null){
             state.activate();
             myActiveStates.add(state);
         }
+        return myActiveStates.peek();
     }
 
     /**
@@ -94,12 +95,13 @@ public class SpriteStateManager {
      * @param stateID
      */
     @SuppressWarnings("rawtypes")
-    public void deactivateState(int stateID) {
+    public SpriteState deactivateState(int stateID) {
         SpriteState state = myStates.get(stateID);
         if(state != null && myActiveStates.contains(state)){
             state.deactivate();
             myActiveStates.remove(myStates.get(stateID));
         }
+        return myActiveStates.peek();
     }
     
     /**

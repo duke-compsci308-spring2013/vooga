@@ -1,5 +1,6 @@
 package games.scroller.superMario.sprites;
 
+import games.scroller.superMario.sprites.player.Mario;
 import util.Vector;
 import vooga.scroller.collision_manager.CollisionDirection;
 import vooga.scroller.extra_resources.sprite_interfaces.ICollectible;
