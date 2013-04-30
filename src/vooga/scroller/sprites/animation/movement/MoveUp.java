@@ -1,6 +1,6 @@
 package vooga.scroller.sprites.animation.movement;
 
-import util.inputExample.Sprite;
+import vooga.scroller.sprites.Sprite;
 import vooga.scroller.util.ISpriteView;
 
 public class MoveUp extends SpriteMovement {
