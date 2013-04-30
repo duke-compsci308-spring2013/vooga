@@ -1,5 +1,6 @@
 package games.scroller.stickmansam;
 
+import games.scroller.stickmansam.StickmanSpriteLibrary.Door;
 import java.util.ArrayList;
 import java.util.List;
 import util.input.Input;
@@ -10,8 +11,12 @@ import vooga.scroller.scrollingmanager.ScrollingManager;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.util.ISpriteView;
 import vooga.scroller.view.GameView;
-import games.scroller.stickmansam.StickmanSpriteLibrary.Door;
 
+/**
+ * Splash page for the Stickman Sam game
+ * @author David Winegar
+ *
+ */
 @InputClassTarget
 public class StickmanSplashPage extends SplashPage {
 
@@ -24,7 +29,7 @@ public class StickmanSplashPage extends SplashPage {
         super(backgroundImage, splashID, gameView, sm);
         addDoor(new Door());
     }
-    
+
     /**
      * Start the next level.
      */
@@ -46,13 +51,12 @@ public class StickmanSplashPage extends SplashPage {
 
     @Override
     public void removeInputListeners (Input input) {
-        input.removeListener(this);        
+        input.removeListener(this);
     }
 
     @Override
     public String getInputFilePath () {
         return KEYMAP;
     }
-
 
 }

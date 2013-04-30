@@ -22,6 +22,11 @@ public class Gravity implements Force {
         gravityVector = new Vector(Sprite.UP_DIRECTION, GRAVITY_CONSTANT);
     }
     
+    public Gravity (Sprite sprite, double gravityConstant) {
+        this.sprite = sprite;
+        gravityVector = new Vector(Sprite.UP_DIRECTION, gravityConstant);
+    }
+    
     public void apply() {
         sprite.addVector(gravityVector);
     }

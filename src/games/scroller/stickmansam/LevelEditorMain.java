@@ -15,6 +15,10 @@ import vooga.scroller.view.GameView;
  */
 public class LevelEditorMain {
 
+    /**
+     * Start game
+     * @param args none
+     */
     public static void main (String[] args) {
 
         String backgroundPath = "/games/scroller/stickmansam/images/backgrounds/";
