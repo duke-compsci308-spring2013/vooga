@@ -1,5 +1,6 @@
 package games.scroller.superMario.sprites;
 
+import games.scroller.superMario.MarioGravity;
 import java.awt.Dimension;
 import util.Vector;
 import util.input.InputClassTarget;
@@ -23,11 +24,10 @@ import vooga.scroller.view.GameView;
 public class Mario extends Player implements IInputListener {
 
     private static final String CONTROLS_FILE_PATH =
-//            "games/scroller/superMario/controls/MarioMapping";
+            // "games/scroller/superMario/controls/MarioMapping";
 
             "games/scroller/marioGame/controls/MarioMapping";
 
-    private static final int MAX_JUMPS = 2;
     private static final Pixmap DEFAULT_IMAGE = SuperMarioLib.makePixmap("mario_stand_right.png");
     // private static final int DEATH_PENALTY = 1000;
 
@@ -35,7 +35,7 @@ public class Mario extends Player implements IInputListener {
 
     // private static final double MOVE_MAGNITUDE = 10;
 
-    private static final double MAX_SPEED = 300;
+    private static final double MAX_SPEED = 600;
 
     private static final ISpriteView MOVE_LEFT = SuperMarioLib.makePixmap("mario_walk_left.gif");
 
@@ -45,7 +45,8 @@ public class Mario extends Player implements IInputListener {
 
     private static final ISpriteView MOVE_RIGHT = SuperMarioLib.makePixmap("mario_walk_right.gif");
 
-    private static final ISpriteView STAND_RIGHT = SuperMarioLib.makePixmap("mario_stand_right.png");
+    private static final ISpriteView STAND_RIGHT = SuperMarioLib
+            .makePixmap("mario_stand_right.png");
 
     private static final Dimension DEFAULT_SIZE = new Dimension(32, 32);
 
@@ -53,26 +54,24 @@ public class Mario extends Player implements IInputListener {
 
     private static final int DEFAULT_DAMAGE = new Integer(1);
 
-    private int myJumpCount;
     private Force myGravity;
-    
+
     public Mario () {
         super(DEFAULT_IMAGE, DEFAULT_SIZE, DEFAULT_HEALTH, DEFAULT_DAMAGE);
-        myJumpCount = 0;
-        myGravity = new Gravity(this);
+
+        myGravity = new MarioGravity(this);
     }
-    
+
     public Mario (Model m) {
         this();
         setModel(m);
     }
 
-    public Mario (Dimension size, GameView gameView, ScrollingManager sm) {
-        super(DEFAULT_IMAGE, size, gameView, sm, DEFAULT_HEALTH, DEFAULT_DAMAGE);
+    public Mario (GameView gameView, ScrollingManager sm) {
+        super(DEFAULT_IMAGE, DEFAULT_SIZE, gameView, sm, DEFAULT_HEALTH, DEFAULT_DAMAGE);
         // MarioLib.addLeftRightAnimationToPlayer(this, "mario.gif");
-        myJumpCount = 0;
-        myGravity = new Gravity(this);
 
+        myGravity = new MarioGravity(this);
         initializePossibleStates();
 
     }
@@ -91,11 +90,6 @@ public class Mario extends Player implements IInputListener {
     @Override
     public void update (double elapsedTime, Dimension bounds) {
         myGravity.apply();
-
-        if (myJumpCount == MAX_JUMPS &&
-            this.getVelocity().getComponentVector(Sprite.UP_DIRECTION).getMagnitude() < .5) {
-            myJumpCount = 0;
-        }
 
         super.update(elapsedTime, bounds);
         checkSpeed();
@@ -148,10 +142,8 @@ public class Mario extends Player implements IInputListener {
     @InputMethodTarget(name = "jump")
     public void jump () {
         if (this.getVelocity().getComponentVector(Sprite.UP_DIRECTION).getMagnitude() < .5 &&
-            this.getVelocity().getComponentVector(Sprite.DOWN_DIRECTION).getMagnitude() < .5 &&
-            myJumpCount < MAX_JUMPS) {
+            this.getVelocity().getComponentVector(Sprite.DOWN_DIRECTION).getMagnitude() < .5) {
             addVector(JUMP_VELOCITY);
-            myJumpCount += 1;
         }
     }
 

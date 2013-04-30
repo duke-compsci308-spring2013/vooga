@@ -4,8 +4,11 @@ import games.scroller.superMario.sprites.Mario;
 import games.scroller.superMario.sprites.SuperMarioLib;
 import arcade.games.ArcadeInteraction;
 import vooga.scroller.collision_manager.VisitLibrary;
+import vooga.scroller.extra_resources.sprite_interfaces.StandardPlayerCollisions;
 import vooga.scroller.level_management.splash_page.SplashPage;
+import vooga.scroller.marioGame.splash_page.MarioSplashPage;
 import vooga.scroller.model.ScrollerGame;
+import vooga.scroller.scrollingmanager.OmniScrollingManager;
 import vooga.scroller.scrollingmanager.ScrollingManager;
 import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.view.GameView;
@@ -13,67 +16,62 @@ import vooga.scroller.view.GameView;
 
 public class SuperMarioGame extends ScrollerGame {
 
+    private static final String TITLE = "Super Mario";
+
     /**
      * main --- where the program starts
      * 
      * @param args
      */
     public static void main (String args[]) {
-        // ScrollerGame test = new SuperMarioGame(null);
-        // test.run();
-        String backgroundPath = "/games/scroller/superMario/images/backgrounds/";
-        String[] filenames = new String[] { "background.png",
-                                           "backgroundhills.png",
-                                           "backgroundhillsbig.png" };
-        runLevelEditor(new SuperMarioLib(),
-                       new Mario(), backgroundPath, filenames);
+        ScrollerGame test = new SuperMarioGame(null);
+        test.run();
+//        String backgroundPath = "/games/scroller/superMario/images/backgrounds/";
+//        String[] filenames = new String[] { "background.png",
+//                                           "backgroundhills.png",
+//                                           "backgroundhillsbig.png" };
+//        runLevelEditor(new SuperMarioLib(),
+//                       new Mario(), backgroundPath, filenames);
     }
 
     public SuperMarioGame (ArcadeInteraction arcade) {
         super(arcade);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
     protected ScrollingManager setScrollingManager () {
-        // TODO Auto-generated method stub
-        return null;
+        return new OmniScrollingManager();
     }
 
     @Override
     protected VisitLibrary setVisitLibrary () {
-        // TODO Auto-generated method stub
-        return null;
+        return new StandardPlayerCollisions();
     }
 
     @Override
     protected Player setPlayer (ScrollingManager sm, GameView gameView) {
-        // TODO Auto-generated method stub
-        return null;
+        return new Mario(getDisplay(), setScrollingManager());
     }
 
     @Override
     protected String setTitle () {
-        // TODO Auto-generated method stub
-        return null;
+        return TITLE;
     }
 
     @Override
     protected String[] setLevelFileNames () {
-        // TODO Auto-generated method stub
-        return null;
+        return new String[] { "level1" };
     }
 
     @Override
     protected String setLevelsDirPath () {
-        // TODO Auto-generated method stub
-        return null;
+        return "src/games/scroller/superMario/levels/";
     }
 
     @Override
     protected SplashPage setSplashPage () {
-        // TODO Auto-generated method stub
-        return null;
+        return new MarioSplashPage(SuperMarioLib.makePixmap("MARIO SPLASH.png"), 0, getDisplay(),
+                                   getScrollingManager());
     }
 
 }

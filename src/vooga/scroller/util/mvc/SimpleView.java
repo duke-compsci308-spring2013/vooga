@@ -34,8 +34,9 @@ public class SimpleView extends JFrame implements IView<Gaming> {
     * Make Visible
     */
     public void start () {
-        pack();
-        setVisible(true);
+        this.pack();
+        this.validate();
+        this.setVisible(true);
         
     }
 
