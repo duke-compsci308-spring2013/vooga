@@ -97,7 +97,6 @@ public class LevelParser {
                                     NEW_LINE, 0);
         String line = myScanner.nextLine();
         while (!line.equals(myResources.getString("BEGIN_LIB_PATH"))) {
-            System.out.println(line);
             myLevelStrings.add(line);
             line = myScanner.nextLine();
         }

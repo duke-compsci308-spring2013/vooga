@@ -15,8 +15,10 @@ public class SuperMarioVisitLibrary extends VisitLibrary {
     private SuperMarioCollisions myCollisions = new SuperMarioCollisions();
 
     public void visit (Sprite sprite, IPlatform platform) {
-        myCollisions.marioAndPlatform(sprite, platform);
+        myCollisions.spriteAndPlatform(sprite, platform);
     }
+    
+
 
     public void visit (Mario mario, ICollectible collectible) {
         myCollisions.marioAndCollectible(mario, collectible);
@@ -24,13 +26,22 @@ public class SuperMarioVisitLibrary extends VisitLibrary {
 
     public void visit (Mario mario, IPowerUp p) {
         myCollisions.marioAndPowerUp(mario, p);
+        myCollisions.marioAndCollectible(mario, p);
     }
 
     public void visit (Mario mario, IEnemy enemy) {
         myCollisions.marioAndEnemy(mario, enemy);
     }
 
-    public void visit (Player player, IDoor levelPortal) {
+    public void visit (Mario mario, IDoor levelPortal) {
         myCollisions.marioAndLevelPortal(levelPortal);
+    }
+    
+    public void visit (Mario mario, IItemBlock block) {
+        myCollisions.marioAndItemBlock(mario,block);
+    }
+    
+    public void visit (Sprite sprite, IItemBlock block) {
+        myCollisions.spriteAndPlatform(sprite, block);
     }
 }

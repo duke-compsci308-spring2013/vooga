@@ -237,8 +237,8 @@ public class ResourceMappingObject {
             while (iterator.hasNext()) {
                 String key = (String) iterator.next();
                 String value = map.get(key);
-                System.out.println(key + " = " + value);
+                //System.out.println(key + " = " + value);
             }
-            System.out.println("---");
+            //System.out.println("---");
      }
 }

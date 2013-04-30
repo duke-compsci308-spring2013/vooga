@@ -2,6 +2,7 @@ package vooga.scroller.level_editor.model;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.HashSet;
 import java.util.Set;

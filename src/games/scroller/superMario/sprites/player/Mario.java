@@ -51,7 +51,6 @@ public class Mario extends Player implements IInputListener {
 
     private static final ISpriteView STAND_LEFT = SuperMarioLib.makePixmap("mario_stand_left.png");
 
-
     private static final ISpriteView MOVE_RIGHT = SuperMarioLib.makePixmap("mario_walk_right.gif");
 
     private static final ISpriteView STAND_RIGHT = SuperMarioLib
@@ -69,7 +68,7 @@ public class Mario extends Player implements IInputListener {
     private MarioSpriteState activeState;
 
     private MarioSpriteState big;
-    
+
     public Mario () {
         super(DEFAULT_IMAGE, DEFAULT_SIZE, DEFAULT_HEALTH, DEFAULT_DAMAGE);
         myJumpCount = 0;
@@ -97,9 +96,9 @@ public class Mario extends Player implements IInputListener {
     @Override
     protected void initializePossibleStates () {
         base = new BaseMarioState(this);
-         big = new BigMarioState(this);
-         fire = new FireMarioState(this);
-         
+        big = new BigMarioState(this);
+        fire = new FireMarioState(this);
+
         this.addPossibleState(1, base);
         this.addPossibleState(2, big);
         this.addPossibleState(3, fire);
@@ -135,26 +134,25 @@ public class Mario extends Player implements IInputListener {
 
     @InputMethodTarget(name = "leftstart")
     public void walkLeft () {
-        System.out.println("start");
-//        this.activateState(MoveLeftState.STATE_ID);
+        // this.activateState(MoveLeftState.STATE_ID);
         ((MarioSpriteState) getSpriteState()).activateAnimationState(MoveLeftState.STATE_ID);
     }
-    
+
     @InputMethodTarget(name = "fire")
-    public void activateFire() {
+    public void activateFire () {
 
         this.activateState(3);
         activeState = fire;
     }
-    
+
     @InputMethodTarget(name = "big")
-    public void activateBig() {
+    public void activateBig () {
         activeState = big;
     }
 
     @InputMethodTarget(name = "leftend")
     public void stopLeft () {
-        System.out.println("end");
+        //this.deactivateState(MoveLeftState.STATE_ID);
         ((MarioSpriteState) getSpriteState()).deactivateAnimationState(MoveLeftState.STATE_ID);
     }
 
@@ -167,7 +165,7 @@ public class Mario extends Player implements IInputListener {
     public void stopRight () {
         ((MarioSpriteState) getSpriteState()).deactivateAnimationState(MoveRightState.STATE_ID);
     }
-    
+
     @InputMethodTarget(name = "downstart")
     public void duck () {
         ((MarioSpriteState) getSpriteState()).activateAnimationState(MoveDownState.STATE_ID);
@@ -190,7 +188,7 @@ public class Mario extends Player implements IInputListener {
         // TODO Auto-generated method stub
 
     }
-    
+
     public void changeState (int i) {
         // TODO Auto-generated method stub
 
@@ -198,6 +196,6 @@ public class Mario extends Player implements IInputListener {
 
     @Override
     public Force[] setForces () {
-        return new Force[]{new MarioGravity(this)};
+        return new Force[] { new MarioGravity(this) };
     }
 }

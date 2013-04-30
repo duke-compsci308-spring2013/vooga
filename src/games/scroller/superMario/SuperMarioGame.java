@@ -27,12 +27,12 @@ public class SuperMarioGame extends ScrollerGame {
     public static void main (String args[]) {
         ScrollerGame test = new SuperMarioGame(null);
         test.run();
-//        String backgroundPath = "/games/scroller/superMario/images/backgrounds/";
-//        String[] filenames = new String[] { "background.png",
-//                                           "backgroundhills.png",
-//                                           "backgroundhillsbig.png" };
-//        runLevelEditor(new SuperMarioLib(),
-//                       new Mario(), backgroundPath, filenames);
+        String backgroundPath = "/games/scroller/superMario/images/backgrounds/";
+        String[] filenames = new String[] { "background.png",
+                                           "backgroundhills.png",
+                                           "backgroundhillsbig.png" };
+        runLevelEditor(new SuperMarioLib(),
+                       new Mario(), backgroundPath, filenames);
     }
 
     public SuperMarioGame (ArcadeInteraction arcade) {
@@ -61,7 +61,7 @@ public class SuperMarioGame extends ScrollerGame {
 
     @Override
     protected String[] setLevelFileNames () {
-        return new String[] { "level1" };
+        return new String[] { "level1", "level2" };
     }
 
     @Override

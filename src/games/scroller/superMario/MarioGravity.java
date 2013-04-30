@@ -18,7 +18,7 @@ public class MarioGravity implements Force {
 
     @Override
     public void apply () {
-        mySprite.translate(myVelocityVector);
+        mySprite.addVector(myVelocityVector);
     }
 
 }

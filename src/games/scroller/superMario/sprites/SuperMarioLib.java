@@ -160,41 +160,6 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         }
     }
 
-    public static class ItemBlock extends Sprite implements IPlatform {
-
-        private static final String BLOCK_IMG = "itemBlock.gif";
-
-        public ItemBlock () {
-            super(makePixmap(BLOCK_IMG), makeSize(1, 1));
-        }
-
-    }
-
-    public static class Coin extends GameCharacter implements ICollectible {
-
-        private static final String DEFAULT_IMG = "coin.gif";
-
-        public Coin () {
-            super(makePixmap(DEFAULT_IMG), makeSize(1, 1), DEFAULT_HEALTH, DEFAULT_DAMAGE);
-        }
-
-        @Override
-        public int getValue () {
-            return DEFAULT_COIN_VALUE;
-        }
-
-        @Override
-        public void handleDeath (Level level) {
-            // killing this does not do anything
-        }
-
-        @Override
-        public Force[] setForces () {
-            return null;
-        }
-
-    }
-
     public static class Fireflower extends GameCharacter implements IPowerUp {
 
         private static final String DEFAULT_IMG = "item_flower.png";
@@ -220,8 +185,8 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
         @Override
         public int getStateID () {
-            // TODO Auto-generated method stub
-            return FireState.STATE_ID;
+            // TODO
+            return 0;
         }
 
         @Override
@@ -231,21 +196,142 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
     }
 
+    public static class RedMushroom extends GameCharacter implements IPowerUp {
+
+        private static final String DEFAULT_IMG = "item_mushroom_red.png";
+
+        public RedMushroom () {
+            super(makePixmap(DEFAULT_IMG), makeSize(1, 1), DEFAULT_HEALTH, DEFAULT_DAMAGE);
+        }
+
+        @Override
+        public void update (double elapsedTime, Dimension bounds) {
+            super.update(elapsedTime, bounds);
+        }
+
+        @Override
+        public int getValue () {
+            return DEFAULT_ITEM_VALUE;
+        }
+
+        @Override
+        public void handleDeath (Level level) {
+            // killing this does not do anything
+        }
+
+        @Override
+        public int getStateID () {
+            // TODO
+            return 0;
+        }
+
+        @Override
+        public Force[] setForces () {
+            return new Force[] { new MarioGravity(this) };
+        }
+    }
+
+    public static class RedMushroomBlock extends ItemBlock {
+
+        private static final String DEFAULT_IMG = "itemBlock_red_mushroom.png";
+        private static final String BLOCK_IMG = "itemBlock.gif";
+
+        public RedMushroomBlock () {
+            super(makePixmap(BLOCK_IMG), makeSize(1, 1), DEFAULT_HEALTH);
+        }
+
+        @Override
+        public Sprite createSprite () {
+            return new RedMushroom();
+        }
+
+        @Override
+        public String setDefaultPng () {
+            return DEFAULT_IMG;
+        }
+    }
+
+    public static class FireFlowerBlock extends ItemBlock {
+
+        private static final String DEFAULT_IMG = "itemBlock_fire.png";
+        private static final String BLOCK_IMG = "itemBlock.gif";
+
+        public FireFlowerBlock () {
+            super(makePixmap(BLOCK_IMG), makeSize(1, 1), DEFAULT_HEALTH);
+        }
+
+        @Override
+        public Sprite createSprite () {
+            return new Fireflower();
+        }
+
+        @Override
+        public String setDefaultPng () {
+            return DEFAULT_IMG;
+        }
+    }
+
+    public static class Coin extends GameCharacter implements ICollectible {
+
+        private static final String DEFAULT_IMG = "rotatingCoin.gif";
+
+        public Coin () {
+            super(makePixmap(DEFAULT_IMG), makeSize(1, 1), DEFAULT_HEALTH, DEFAULT_DAMAGE);
+        }
+
+        @Override
+        public int getValue () {
+            return DEFAULT_COIN_VALUE;
+        }
+
+        @Override
+        public void handleDeath (Level level) {
+            // killing this does not do anything
+        }
+
+        @Override
+        public Force[] setForces () {
+            return null;
+        }
+    }
+
+    public static class CoinBlock extends ItemBlock {
+
+        private static final double DEFAULT_TIME = 1.5;
+        private static final String DEFAULT_IMG = "itemBlock_coin.png";
+        private static final String BLOCK_IMG = "itemBlock.gif";
+
+        public CoinBlock () {
+            super(makePixmap(BLOCK_IMG), makeSize(1, 1), DEFAULT_HEALTH);
+        }
+
+        @Override
+        public Sprite createSprite () {
+            return new TemporaryCoin(DEFAULT_TIME);
+        }
+
+        @Override
+        public String setDefaultPng () {
+            return DEFAULT_IMG;
+        }
+    }
+
     public static class Koopa extends GameCharacter implements IEnemy {
         private static final String DEFAULT_IMG = "koopa_default_image.png";
         private static final Dimension KOOPA_SIZE = new Dimension(32, 64);
         private int SPEED = 30;
-        private int RADIUS = 45;
-        private TrackPlayer movement;
+        private Movement myMovement;
 
         public Koopa () {
             super(makePixmap(DEFAULT_IMG), KOOPA_SIZE, new Integer(1), new Integer(1));
-            movement = new TrackPlayer(this, getLocatable(), SPEED, RADIUS);
         }
 
         public void update (double elapsedTime, Dimension bounds) {
+
             super.update(elapsedTime, bounds);
-            movement.execute();
+//            if (myMovement != null) {
+//                myMovement.execute();
+//            }
         }
 
         @Override
@@ -255,7 +341,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
         @Override
         public void addTarget (Locatable target) {
-            movement.setTarget(target);
+//            myMovement = new SimpleMovement(this, target, SPEED);
         }
 
         @Override
@@ -269,26 +355,30 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
         private static final String DEFAULT_IMG = "goomba.gif";
         private static final Dimension GOOMBA_SIZE = new Dimension(32, 32);
-        private int SPEED = 30;
-        private Point2D START = new Point2D.Double(500.0, 100.0);
-        private Point2D END = new Point2D.Double(200.0, 500.0);
-
-        private Movement movement = new BackAndForth(this, START, END, SPEED);
+        private int SPEED = 50;
+        private Movement myMovement;
 
         public Goomba () {
             super(makePixmap(DEFAULT_IMG), GOOMBA_SIZE, DEFAULT_HEALTH, new Integer(1));
-            movement = new BackAndForth(this, START, END, SPEED);
         }
 
         public void update (double elapsedTime, Dimension bounds) {
-            movement.execute();
+
             super.update(elapsedTime, bounds);
+//            if (myMovement != null) {
+//                myMovement.execute();
+//            }
         }
 
         @Override
         public void handleDeath (Level level) {
             // TODO Auto-generated method stub
 
+        }
+
+        @Override
+        public void addTarget (Locatable target) {
+//            myMovement = new SimpleMovement(this, target, SPEED);
         }
 
         @Override
@@ -314,7 +404,25 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         }
     }
 
-    private static Dimension makeSize (int w, int h) {
+    public static class Cable extends Sprite {
+
+        private static final String DEFAULT_IMG = "cable.png";
+
+        public Cable () {
+            super(makePixmap(DEFAULT_IMG), makeSize(1, 1));
+        }
+    }
+
+    public static class CableBottom extends Sprite {
+
+        private static final String DEFAULT_IMG = "cableBottom.png";
+
+        public CableBottom () {
+            super(makePixmap(DEFAULT_IMG), makeSize(1, 1));
+        }
+    }
+
+    public static Dimension makeSize (int w, int h) {
         return new Dimension(w * DEFAULT_SIZE, h * DEFAULT_SIZE);
     }
 }
