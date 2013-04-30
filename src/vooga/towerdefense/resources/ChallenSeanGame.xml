@@ -76,7 +76,7 @@
 					<parameter>DIRECTION</parameter>
 				</Move>
 			</actions>			
-		</ArtsyBird>
+		</MoonWalkBird>
 	<ArtsyBird>
 			<dimension>50, 50</dimension>
 			<image>ArtsyBird.gif</image>
@@ -95,18 +95,7 @@
 				</Move>
 			</actions>			
 		</ArtsyBird>
-		<TestTower>
-			<dimension>50, 50</dimension>
-			<image>tower.gif</image>
-			<type>Tower</type>
-			<attributes>
-				<Health>100</Health>
-				<Cost>100</Cost>
-			</attributes>
-			<actions>
-			</actions>			
-		</TestTower>
-		<TestTower2>
+		<Tower>
 			<dimension>50, 50</dimension>
 			<image>tower.gif</image>
 			<type>Tower</type>
@@ -132,7 +121,7 @@
 					</ApplyAttributeBuff>
 			    </FindTargets>
 			</actions>			
-		</TestTower2>
+		</Tower>
 	</gameelements>
 	<rules>
 		<EnemyReachedEndRule/>
@@ -145,14 +134,28 @@
 			</rules>
 			<actions>
 				<WaveAction>
-					<parameter>10</parameter>
-					<parameter>1000</parameter>
-					<parameter>ArtsyBird</parameter>
+					<parameter>50</parameter>
+					<parameter>1500</parameter>
+					<parameter>MoonWalkBird</parameter>
 				</WaveAction>
 				<LevelTimerAction>
 					<parameter>60000</parameter>
 				</LevelTimerAction>
 			</actions>
 		</Level1>
+		<Level2>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>50</parameter>
+					<parameter>2000</parameter>
+					<parameter>ArtsyBird</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>60000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level2>
 		</levels>
 </Game>	
