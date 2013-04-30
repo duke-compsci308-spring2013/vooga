@@ -139,7 +139,7 @@
 			<occupy>cannotbeoccupied</occupy>
 			<upgrade>canupgrade</upgrade>
 			<upgradeTreeName>RegularUpgrade</upgradeTreeName>
-			<produce>player</produce>
+			<produce></produce>
 			<myweapons></myweapons>
 			<information>
 				<description>Score if you dare!</description>
@@ -150,9 +150,26 @@
 				</cost>				
 			</information>			
 		</building>
-		<custombuilding src = "vooga.rts.gamedesign.sprite.gamesprites.interactive.buildings.Stadium">
+		<building>
 			<name>stadium</name>
-		</custombuilding>
+			<img>images/stadium.png</img>
+			<sound>pikachu.wav</sound>
+			<health>2000</health>
+			<buildtime>5</buildtime>
+			<occupy>canbeoccupied</occupy>
+			<upgrade>cannotupgrade</upgrade>
+			<upgradeTreeName></upgradeTreeName>
+			<produce>player</produce>
+			<myweapons></myweapons>
+			<information>
+				<description>Where athletes are made!</description>
+				<button>buttons/marine.png</button>
+				<cost>
+					<gold>10</gold>
+					<wood>10</wood>
+				</cost>	
+			</information>	
+		</building>
 	</buildings>
 	<units src = "vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Unit">
 		<unit>
