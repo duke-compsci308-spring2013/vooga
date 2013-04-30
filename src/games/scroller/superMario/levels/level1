@@ -16,13 +16,13 @@
                                                                                                     
               bcccccccccd                                                                           
                  e                                                                                  
-    f f          e                                                                                  
+    f g          e                                                                                  
                  e                                                                                  
-         j    g  e                                                                                  
-   hhfhh    bcccccd                                                                                 
-               ei                                                                                   
+              h  e                                                                                  
+  giijii    bcccccd                                                                                 
+               ek                                                                                   
                e                                                                                    
-kllllllllm     eccccccd                                                                             
+lmmmmmmmmn     eccccccd                                                                             
                e                                                                                    
     ee         e                                                                                    
     ee         e                                                                                    
@@ -33,15 +33,16 @@ games.scroller.superMario.sprites.SuperMarioLib
 b=WoodLeft
 e=WoodPole
 c=WoodMid
-f=FireFlowerBlock
-m=WoodBigRight
-k=WoodBigLeft
-g=Goomba
+g=CoinBlock
+n=WoodBigRight
+l=WoodBigLeft
+h=Goomba
 a=Koopa
-i=DoorPortal
-l=WoodBigMid
-h=Block
-j=Fireflower
+m=WoodBigMid
+k=DoorPortal
+j=FireFlowerBlock
+f=RedMushroomBlock
+i=Block
 d=WoodRight
 /settings
 StartPoint=16 720

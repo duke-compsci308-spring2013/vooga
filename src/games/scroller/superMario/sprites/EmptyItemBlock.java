@@ -12,7 +12,7 @@ public class EmptyItemBlock extends ItemBlock {
     }
 
     @Override
-    public void decrementHits () {
+    public void handleHit () {
         // do nothing. do not decrement health.
     }
 

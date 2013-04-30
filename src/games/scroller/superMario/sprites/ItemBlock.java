@@ -10,27 +10,49 @@ import vooga.scroller.util.physics.Force;
 
 public abstract class ItemBlock extends GameCharacter implements IItemBlock {
 
+    private static final int HALF_BLOCK = 16;
+    private int myHits;
+
     public ItemBlock (ISpriteView image, Dimension size, int hits) {
-        super(image, size, hits, 0);
+        super(image, size, 1, 0);
         setDefaultImg(SuperMarioLib.makePixmap(setDefaultPng()));
         setView(image);
+        myHits = hits;
+    }
+
+    @Override
+    public void update (double elapsedTime, Dimension bounds) {
+        super.update(elapsedTime, bounds);
+
     }
 
     @Override
     public int getHits () {
-        return this.getHealth();
+        return myHits;
     }
 
     @Override
-    public void decrementHits () {
-        setHealth(getHealth() - 1);
+    public void handleHit () {
+        myHits--;
+        setHealth(0);
     }
 
     @Override
     public void handleDeath (Level level) {
-        Sprite block = new EmptyItemBlock();
-        block.setCenter(this.getX(), this.getY());
-        level.addSprite(block);
+        addToLevel(createSprite(), level, (int) getHeight() / 2
+                                          + (int) createSprite().getHeight() / 2);
+        if (getHits() <= 0) {
+            addToLevel(new EmptyItemBlock(), level, 0);
+        }
+    }
+
+    /**
+     * @param sprite
+     * @param offset
+     */
+    private void addToLevel (Sprite sprite, Level level, int offset) {
+        sprite.setCenter(this.getX(), this.getY() - offset);
+        level.addSprite(sprite);
     }
 
     @Override

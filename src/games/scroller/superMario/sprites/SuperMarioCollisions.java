@@ -19,7 +19,8 @@ public class SuperMarioCollisions {
     }
 
     public void marioAndEnemy (Mario mario, IEnemy enemy) {
-        if (myDirection.collisionDirection(mario, enemy).equals(Direction.TOP)) {
+        if (myDirection.collisionDirection(mario, enemy) != null &&
+                myDirection.collisionDirection(mario, enemy).equals(Direction.TOP)) {
             enemy.takeHit(mario.getHit());
         }
         else {
@@ -31,7 +32,7 @@ public class SuperMarioCollisions {
     public void marioAndItemBlock (Mario mario, IItemBlock block) {
         if(myDirection.collisionDirection(mario,block).equals(Direction.BOTTOM)){
             block.createSprite();
-            block.decrementHits();
+            block.handleHit();
         }
         
     }

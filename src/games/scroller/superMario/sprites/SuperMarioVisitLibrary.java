@@ -16,6 +16,8 @@ public class SuperMarioVisitLibrary extends VisitLibrary {
     public void visit (Sprite sprite, IPlatform platform) {
         myCollisions.spriteAndPlatform(sprite, platform);
     }
+    
+
 
     public void visit (Mario mario, ICollectible collectible) {
         myCollisions.marioAndCollectible(mario, collectible);
@@ -35,7 +37,10 @@ public class SuperMarioVisitLibrary extends VisitLibrary {
     }
     
     public void visit (Mario mario, IItemBlock block) {
-        myCollisions.spriteAndPlatform(mario, block);
         myCollisions.marioAndItemBlock(mario,block);
+    }
+    
+    public void visit (Sprite sprite, IItemBlock block) {
+        myCollisions.spriteAndPlatform(sprite, block);
     }
 }

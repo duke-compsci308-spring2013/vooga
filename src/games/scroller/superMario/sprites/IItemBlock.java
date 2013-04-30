@@ -10,6 +10,6 @@ public interface IItemBlock extends IPlatform {
 
     public int getHits ();
 
-    void decrementHits ();
+    void handleHit ();
 
 }

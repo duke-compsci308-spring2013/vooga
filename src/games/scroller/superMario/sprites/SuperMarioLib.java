@@ -160,52 +160,6 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         }
     }
 
-    public static class FireFlowerBlock extends ItemBlock {
-
-        private static final String DEFAULT_IMG = "itemBlock_fire.png";
-        private static final String BLOCK_IMG = "itemBlock.gif";
-
-        public FireFlowerBlock () {
-            super(makePixmap(BLOCK_IMG), makeSize(1, 1), DEFAULT_HEALTH);
-        }
-
-        @Override
-        public Sprite createSprite () {
-            return new Fireflower();
-        }
-
-        @Override
-        public String setDefaultPng () {
-            return DEFAULT_IMG;
-        }
-
-    }
-
-    public static class Coin extends GameCharacter implements ICollectible {
-
-        private static final String DEFAULT_IMG = "coin.gif";
-
-        public Coin () {
-            super(makePixmap(DEFAULT_IMG), makeSize(1, 1), DEFAULT_HEALTH, DEFAULT_DAMAGE);
-        }
-
-        @Override
-        public int getValue () {
-            return DEFAULT_COIN_VALUE;
-        }
-
-        @Override
-        public void handleDeath (Level level) {
-            // killing this does not do anything
-        }
-
-        @Override
-        public Force[] setForces () {
-            return null;
-        }
-
-    }
-
     public static class Fireflower extends GameCharacter implements IPowerUp {
 
         private static final String DEFAULT_IMG = "item_flower.png";
@@ -232,7 +186,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         @Override
         public int getStateID () {
             // TODO Auto-generated method stub
-            return FireState.STATE_ID;
+            return FireMarioState.STATE_ID;
         }
 
         @Override
@@ -240,6 +194,125 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
             return new Force[] { new MarioGravity(this) };
         }
 
+    }
+
+    public static class RedMushroom extends GameCharacter implements IPowerUp {
+
+        private static final String DEFAULT_IMG = "item_mushroom_red.png";
+
+        public RedMushroom () {
+            super(makePixmap(DEFAULT_IMG), makeSize(1, 1), DEFAULT_HEALTH, DEFAULT_DAMAGE);
+        }
+
+        @Override
+        public void update (double elapsedTime, Dimension bounds) {
+            super.update(elapsedTime, bounds);
+        }
+
+        @Override
+        public int getValue () {
+            return DEFAULT_ITEM_VALUE;
+        }
+
+        @Override
+        public void handleDeath (Level level) {
+            // killing this does not do anything
+        }
+
+        @Override
+        public int getStateID () {
+            return BigMarioState.STATE_ID;
+        }
+
+        @Override
+        public Force[] setForces () {
+            return new Force[] { new MarioGravity(this) };
+        }
+    }
+
+    public static class RedMushroomBlock extends ItemBlock {
+
+        private static final String DEFAULT_IMG = "itemBlock_red_mushroom.png";
+        private static final String BLOCK_IMG = "itemBlock.gif";
+
+        public RedMushroomBlock () {
+            super(makePixmap(BLOCK_IMG), makeSize(1, 1), DEFAULT_HEALTH);
+        }
+
+        @Override
+        public Sprite createSprite () {
+            return new RedMushroom();
+        }
+
+        @Override
+        public String setDefaultPng () {
+            return DEFAULT_IMG;
+        }
+    }
+
+    public static class FireFlowerBlock extends ItemBlock {
+
+        private static final String DEFAULT_IMG = "itemBlock_fire.png";
+        private static final String BLOCK_IMG = "itemBlock.gif";
+
+        public FireFlowerBlock () {
+            super(makePixmap(BLOCK_IMG), makeSize(1, 1), DEFAULT_HEALTH);
+        }
+
+        @Override
+        public Sprite createSprite () {
+            return new Fireflower();
+        }
+
+        @Override
+        public String setDefaultPng () {
+            return DEFAULT_IMG;
+        }
+    }
+
+    public static class Coin extends GameCharacter implements ICollectible {
+
+        private static final String DEFAULT_IMG = "coin.gif";
+
+        public Coin () {
+            super(makePixmap(DEFAULT_IMG), makeSize(1, 1), DEFAULT_HEALTH, DEFAULT_DAMAGE);
+        }
+
+        @Override
+        public int getValue () {
+            return DEFAULT_COIN_VALUE;
+        }
+
+        @Override
+        public void handleDeath (Level level) {
+            // killing this does not do anything
+        }
+
+        @Override
+        public Force[] setForces () {
+            return null;
+        }
+    }
+
+    public static class CoinBlock extends ItemBlock {
+
+        private static final double DEFAULT_TIME = 1.5;
+        private static final String DEFAULT_IMG = "itemBlock_coin.png";
+        private static final String BLOCK_IMG = "itemBlock.gif";
+
+        public CoinBlock () {
+            super(makePixmap(BLOCK_IMG), makeSize(1, 1), DEFAULT_HEALTH);
+        }
+
+        @Override
+        public Sprite createSprite () {
+            return new TemporaryCoin(DEFAULT_TIME);
+        }
+
+        @Override
+        public String setDefaultPng () {
+            return DEFAULT_IMG;
+        }
     }
 
     public static class Koopa extends GameCharacter implements IEnemy {
