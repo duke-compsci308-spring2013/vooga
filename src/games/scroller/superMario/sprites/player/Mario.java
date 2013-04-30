@@ -134,7 +134,6 @@ public class Mario extends Player implements IInputListener {
 
     @InputMethodTarget(name = "leftstart")
     public void walkLeft () {
-        this.activateState(MoveLeftState.STATE_ID);
         // this.activateState(MoveLeftState.STATE_ID);
         ((MarioSpriteState) getSpriteState()).activateAnimationState(MoveLeftState.STATE_ID);
     }
@@ -153,7 +152,7 @@ public class Mario extends Player implements IInputListener {
 
     @InputMethodTarget(name = "leftend")
     public void stopLeft () {
-        this.deactivateState(MoveLeftState.STATE_ID);
+        //this.deactivateState(MoveLeftState.STATE_ID);
         ((MarioSpriteState) getSpriteState()).deactivateAnimationState(MoveLeftState.STATE_ID);
     }
 

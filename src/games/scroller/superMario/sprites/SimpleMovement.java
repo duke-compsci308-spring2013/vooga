@@ -29,12 +29,13 @@ public class SimpleMovement implements Movement {
 
     @Override
     public void execute () {
-        if (myCounter > 0) {
-            mySprite.translate(new Vector(myDirection, mySpeed));
+        if (myCounter == 0) {
+            mySprite.setVelocity(new Vector(getDirection(), mySpeed));
         }
         else {
             myDirection = getDirection();
         }
+        myCounter--;
     }
 
 }

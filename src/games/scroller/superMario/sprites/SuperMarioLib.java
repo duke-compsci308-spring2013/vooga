@@ -185,8 +185,8 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
         @Override
         public int getStateID () {
-            // TODO Auto-generated method stub
-            return FireMarioState.STATE_ID;
+            // TODO
+            return 0;
         }
 
         @Override
@@ -221,7 +221,8 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
         @Override
         public int getStateID () {
-            return BigMarioState.STATE_ID;
+            // TODO
+            return 0;
         }
 
         @Override
@@ -319,7 +320,6 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         private static final String DEFAULT_IMG = "koopa_default_image.png";
         private static final Dimension KOOPA_SIZE = new Dimension(32, 64);
         private int SPEED = 30;
-        private int RADIUS = 45;
         private Movement myMovement;
 
         public Koopa () {
@@ -329,9 +329,9 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         public void update (double elapsedTime, Dimension bounds) {
 
             super.update(elapsedTime, bounds);
-            // if (myMovement != null) {
-            // myMovement.execute();
-            // }
+            if (myMovement != null) {
+                myMovement.execute();
+            }
         }
 
         @Override
@@ -341,7 +341,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
         @Override
         public void addTarget (Locatable target) {
-            // myMovement = new SimpleMovement(this, getLocatable(), SPEED);
+            myMovement = new SimpleMovement(this, target, SPEED);
         }
 
         @Override
@@ -365,9 +365,9 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         public void update (double elapsedTime, Dimension bounds) {
 
             super.update(elapsedTime, bounds);
-            // if (myMovement != null) {
-            // myMovement.execute();
-            // }
+            if (myMovement != null) {
+                myMovement.execute();
+            }
         }
 
         @Override
@@ -378,7 +378,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
         @Override
         public void addTarget (Locatable target) {
-            // myMovement = new SimpleMovement(this, getLocatable(), SPEED);
+            myMovement = new SimpleMovement(this, target, SPEED);
         }
 
         @Override
