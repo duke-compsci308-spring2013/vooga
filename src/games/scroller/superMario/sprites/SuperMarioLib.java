@@ -1,6 +1,8 @@
 package games.scroller.superMario.sprites;
 
 import games.scroller.superMario.MarioGravity;
+import games.scroller.superMario.sprites.player.Mario;
+import games.scroller.superMario.sprites.player.states.BigMarioState;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import vooga.scroller.extra_resources.sprite_interfaces.ICollectible;
@@ -185,8 +187,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
         @Override
         public int getStateID () {
-            // TODO
-            return 0;
+            return Mario.FIRE;
         }
 
         @Override
@@ -222,7 +223,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         @Override
         public int getStateID () {
             // TODO
-            return 0;
+            return Mario.BIG;
         }
 
         @Override
@@ -241,7 +242,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         }
 
         @Override
-        public Sprite createSprite () {
+        public Sprite createSprite (int state) {
             return new RedMushroom();
         }
 
@@ -261,8 +262,9 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         }
 
         @Override
-        public Sprite createSprite () {
-            return new Fireflower();
+        public Sprite createSprite (int state) {
+            if (state > 1) { return new Fireflower(); }
+            return new RedMushroom();
         }
 
         @Override
@@ -306,7 +308,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         }
 
         @Override
-        public Sprite createSprite () {
+        public Sprite createSprite (int state) {
             return new TemporaryCoin(DEFAULT_TIME);
         }
 
@@ -329,9 +331,9 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         public void update (double elapsedTime, Dimension bounds) {
 
             super.update(elapsedTime, bounds);
-//            if (myMovement != null) {
-//                myMovement.execute();
-//            }
+            if (myMovement != null) {
+                myMovement.execute();
+            }
         }
 
         @Override
@@ -341,7 +343,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
         @Override
         public void addTarget (Locatable target) {
-//            myMovement = new SimpleMovement(this, target, SPEED);
+            myMovement = new SimpleMovement(this, target, SPEED);
         }
 
         @Override
@@ -365,9 +367,9 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         public void update (double elapsedTime, Dimension bounds) {
 
             super.update(elapsedTime, bounds);
-//            if (myMovement != null) {
-//                myMovement.execute();
-//            }
+            if (myMovement != null) {
+                myMovement.execute();
+            }
         }
 
         @Override
@@ -378,7 +380,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
         @Override
         public void addTarget (Locatable target) {
-//            myMovement = new SimpleMovement(this, target, SPEED);
+            myMovement = new SimpleMovement(this, target, SPEED);
         }
 
         @Override

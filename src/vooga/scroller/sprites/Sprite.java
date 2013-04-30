@@ -411,7 +411,7 @@ public class Sprite implements Locatable {
         myLastLocation = new Location(myCenter.x, myCenter.y);
     }
     
-    protected SpriteState getSpriteState () {
+    public SpriteState getSpriteState () {
         return myActiveState;
     }
 

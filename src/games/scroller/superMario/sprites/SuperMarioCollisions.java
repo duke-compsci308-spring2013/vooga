@@ -32,8 +32,7 @@ public class SuperMarioCollisions {
 
     public void marioAndItemBlock (Mario mario, IItemBlock block) {
         if(myDirection.collisionDirection(mario,block).equals(Direction.BOTTOM)){
-            block.createSprite();
-            block.handleHit();
+            block.handleHit(mario.getSpriteState().getID());
         }
         
     }
@@ -44,7 +43,7 @@ public class SuperMarioCollisions {
     }
 
     public void marioAndPowerUp (Mario mario, IPowerUp p) {
-        mario.changeState(p.getStateID());
+        mario.activateState(p.getStateID());
     }
 
     public void spriteAndPlatform (Sprite sprite, IPlatform platform) {

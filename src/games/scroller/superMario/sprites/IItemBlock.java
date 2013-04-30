@@ -6,10 +6,10 @@ import vooga.scroller.sprites.Sprite;
 
 public interface IItemBlock extends IPlatform {
 
-    public Sprite createSprite ();
+    public Sprite createSprite (int myState);
 
     public int getHits ();
 
-    void handleHit ();
+    public void handleHit (int state);
 
 }

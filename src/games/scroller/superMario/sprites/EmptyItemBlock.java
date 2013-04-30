@@ -12,12 +12,12 @@ public class EmptyItemBlock extends ItemBlock {
     }
 
     @Override
-    public void handleHit () {
+    public void handleHit (int state) {
         // do nothing. do not decrement health.
     }
 
     @Override
-    public Sprite createSprite () {
+    public Sprite createSprite (int state) {
         return null;
     }
 

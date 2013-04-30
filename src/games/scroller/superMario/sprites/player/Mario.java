@@ -5,6 +5,7 @@ import games.scroller.superMario.sprites.player.states.BaseMarioState;
 import games.scroller.superMario.sprites.player.states.BigMarioState;
 import games.scroller.superMario.sprites.player.states.FireMarioState;
 import games.scroller.superMario.sprites.player.states.MarioSpriteState;
+import games.scroller.superMario.sprites.player.states.RunLeftState;
 import games.scroller.superMario.MarioGravity;
 import java.awt.Dimension;
 import util.Vector;
@@ -41,7 +42,7 @@ public class Mario extends Player implements IInputListener {
     private static final Pixmap DEFAULT_IMAGE = SuperMarioLib.makePixmap("mario_stand_right.png");
     // private static final int DEATH_PENALTY = 1000;
 
-    private static final Vector JUMP_VELOCITY = new Vector(Sprite.UP_DIRECTION, 100);
+    private static final Vector JUMP_VELOCITY = new Vector(Sprite.UP_DIRECTION, 230);
 
     // private static final double MOVE_MAGNITUDE = 10;
     private static final double MAX_SPEED = 300;
@@ -50,6 +51,9 @@ public class Mario extends Player implements IInputListener {
     private static final int DEFAULT_HEALTH = new Integer(1);
 
     private static final int DEFAULT_DAMAGE = new Integer(1);
+    public static final int BASE = 1;
+    public static final int BIG = 2;
+    public static final int FIRE = 3;
     private MarioSpriteState base;
     private MarioSpriteState fire;
     private MarioSpriteState big;
@@ -115,13 +119,16 @@ public class Mario extends Player implements IInputListener {
     @InputMethodTarget(name = "leftstart")
     public void moveLeft () {
         // this.activateState(MoveLeftState.STATE_ID);
+        System.out.println(myRun);
         if (myRun)
-            ((MarioSpriteState) getSpriteState()).activateAnimationState(RunRightState.STATE_ID);
+            ((MarioSpriteState) getSpriteState()).activateAnimationState(RunLeftState.STATE_ID);
         ((MarioSpriteState) getSpriteState()).activateAnimationState(MoveLeftState.STATE_ID);
     }
 
     @InputMethodTarget(name = "runstart")
     public void runOn () {
+
+        System.out.println("run");
         myRun = true;
     }
 
@@ -148,6 +155,7 @@ public class Mario extends Player implements IInputListener {
 
     @InputMethodTarget(name = "rightstart")
     public void moveRight () {
+        System.out.println(myRun);
         if (myRun)
             ((MarioSpriteState) getSpriteState()).activateAnimationState(RunRightState.STATE_ID);
         ((MarioSpriteState) getSpriteState()).activateAnimationState(MoveRightState.STATE_ID);

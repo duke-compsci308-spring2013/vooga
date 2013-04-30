@@ -12,6 +12,7 @@ public abstract class ItemBlock extends GameCharacter implements IItemBlock {
 
     private static final int HALF_BLOCK = 16;
     private int myHits;
+    private int myState;
 
     public ItemBlock (ISpriteView image, Dimension size, int hits) {
         super(image, size, 1, 0);
@@ -32,15 +33,16 @@ public abstract class ItemBlock extends GameCharacter implements IItemBlock {
     }
 
     @Override
-    public void handleHit () {
+    public void handleHit (int state) {
+        myState = state;
         myHits--;
         setHealth(0);
     }
 
     @Override
     public void handleDeath (Level level) {
-        addToLevel(createSprite(), level, (int) getHeight() / 2
-                                          + (int) createSprite().getHeight() / 2);
+        addToLevel(createSprite(myState), level, (int) getHeight() / 2
+                                          + (int) createSprite(myState).getHeight() / 2);
         if (getHits() <= 0) {
             addToLevel(new EmptyItemBlock(), level, 0);
         }

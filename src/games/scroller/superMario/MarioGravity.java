@@ -7,7 +7,7 @@ import vooga.scroller.util.physics.Force;
 
 public class MarioGravity implements Force {
 
-    private static final int GRAVITY_CONSTANT = -5;
+    private static final int GRAVITY_CONSTANT = -15;
     Sprite mySprite;
     private Vector myVelocityVector;
 
