@@ -1,0 +1,42 @@
+/level
+                                                            
+                                                            
+                                                            
+  aaaaaaaa   aa                                             
+  bc  c  ba  bc  bc  bc                                     
+       d  a                                                 
+e         a                                                 
+bbbb  bbb  d                                                
+   b                  d                                     
+   b  c  c  baaa                                            
+   b  c  bc  c    f                                         
+   b  bbbc  b aaa                                           
+   b         gbbb                                           
+   b    aabbbbbb                                            
+       abb                                                  
+bbbbbb bbb                                                  
+   aaaaaaa  e   aaaaaaaa                                    
+   c  bc  c  b  c  c  c                                     
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            
+/key
+d=vooga.scroller.sprites.test_sprites.MarioLib$Koopa
+e=vooga.scroller.sprites.test_sprites.MarioLib$Plant
+a=vooga.scroller.sprites.test_sprites.MarioLib$Coin
+f=vooga.scroller.sprites.test_sprites.MarioLib$LevelTwoBlockThree
+b=vooga.scroller.sprites.test_sprites.MarioLib$Platform
+g=vooga.scroller.sprites.test_sprites.MarioLib$Turtle
+c=vooga.scroller.sprites.test_sprites.MarioLib$LevelTwoBlockTwo
+/settings
+StartPoint=16 464
+EndPoint=697 89
