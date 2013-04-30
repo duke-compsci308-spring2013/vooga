@@ -34,7 +34,7 @@ public class CreateElement extends Action {
     public void executeAction (double elapsedTime) {
         GameElement element = myFactory.createElement(myCreator.getCenter());
         Attribute affiliation = element.getAttributeManager().getAttribute(AttributeConstantsEnum.AFFILIATION.getStatusCode());
-        affiliation.modifyValue(element.getAttributeManager().getAttribute(AttributeConstantsEnum.AFFILIATION.getStatusCode()).getValue());
+        affiliation.modifyValue((int)myCreator.getAttributeManager().getAttribute(AttributeConstantsEnum.AFFILIATION.getStatusCode()).getValue());
         myMap.addGameElement(element);
     }
 

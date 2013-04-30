@@ -67,7 +67,7 @@ public abstract class TargetedAction extends Action {
 	 */
 	public void updateTargetedFollowUpActions(List<GameElement> targets) {
 		for (TargetedAction a : getTargetedFollowUpActions()) {
-			a.addTargets(targets);
+			a.setTargets(targets);
 		}
 	}
 }

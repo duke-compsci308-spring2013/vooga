@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import vooga.rts.player.HumanPlayer;
 import vooga.rts.player.Player;
 import vooga.rts.player.Team;
 
 
-public class PlayerManager {
+public class PlayerManager extends Observable implements Observer {
     private List<Player> myPlayers;
     private Map<Integer, Team> myTeams;
     private HumanPlayer myHuman;
@@ -46,6 +48,7 @@ public class PlayerManager {
         Player result;
         if (myPlayers.size() == 0) {
             myHuman = new HumanPlayer(0, teamID);
+            myHuman.addObserver(this);
             result = myHuman;
         }
         else {
@@ -95,5 +98,11 @@ public class PlayerManager {
 
     public int getTeamID (int playerID) {
         return myPlayers.get(playerID).getTeamID();
+    }
+
+    @Override
+    public void update (Observable arg0, Object arg1) {
+        setChanged();
+        notifyObservers();
     }
 }

@@ -50,6 +50,7 @@ public enum AttributeConstantsEnum {
     
     AttributeConstantsEnum(String s) {
         attributeConstant = s;
+        attributeValue = -1;
     }
     
     AttributeConstantsEnum(String s, double v) {

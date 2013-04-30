@@ -3,10 +3,8 @@ package games.MouseAndVoiceDemo.inputExample;
 import util.input.AlertObject;
 import util.input.Input;
 import util.input.InputClassTarget;
-import util.input.InputDevice;
 import util.input.InputMethodTarget;
 import util.input.PositionObject;
-import util.input.ResourceMappingObject;
 import util.input.RollObject;
 
 import java.awt.Color;
@@ -15,14 +13,13 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 /**
  * An example race game which uses Input for input and has correct annotations for proper Input reflection.
  **/
 @InputClassTarget
 public class Game1 {
-    private static final int TRACK_LENGTH = 20000;
+    private static final int TRACK_LENGTH = 100000;
     public static final int CHEAT_CODE = KeyEvent.VK_G;
     public static final int ANTI_CHEAT_CODE = KeyEvent.VK_F;
     public static final int TV = 0;
@@ -49,15 +46,9 @@ public class Game1 {
         you = new PlayerSuperHero(new Pixmap("runningYou.png"), new Pixmap("flyingYou.png"));
         updateWindowSize();
         
-        input1 = new Input("games/MouseAndVoiceDemo/Game1MappingsMode1", myCanvas);
+        input1 = new Input("games/MouseAndVoiceDemo/inputExample/Game1MappingsMode1", myCanvas);
         input1.addListenerTo(this);
         input1.addListenerTo(you);
-        
-        //Optional Modifications:
-        //input1.replaceMappingResourcePath("examples/LegacyGame1Mappings");
-//        input1.overrideSettings("util/inputExample/Settings");
-//        input1.overrideMapping("cheat", "Keyboard_NM_Down|Keyboard_Right_Down");
-//        input1.overrideMapping("stopcheat", "Keyboard_N_Up|Keyboard_Right_Up");
         
         setUpObstacles();
     }

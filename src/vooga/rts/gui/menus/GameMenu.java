@@ -142,9 +142,8 @@ public class GameMenu extends Menu {
         }
 
         if (o.equals(myExitButton)) {
-            System.exit(0);
-            // setChanged();
-            // notifyObservers();
+            setChanged();
+            notifyObservers();
         }
     }
 

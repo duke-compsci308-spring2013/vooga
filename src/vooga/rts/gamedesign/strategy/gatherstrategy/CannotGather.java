@@ -45,7 +45,7 @@ public class CannotGather implements GatherStrategy {
 		return;
 	}
 	
-	public void affect(InteractiveEntity other) {
+	public void copyStrategy(InteractiveEntity other) {
 		other.setGatherStrategy(this);
 	}
 

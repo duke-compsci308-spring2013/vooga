@@ -1,10 +1,13 @@
 package vooga.towerdefense.attributes;
 
+import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import util.Location;
 import vooga.towerdefense.factories.elementfactories.GameElementFactory;
 
 /**
@@ -108,15 +111,20 @@ public class AttributeManager {
 	 * @param type
 	 * @param newValue
 	 */
-
 	public void replaceAttributeValue(String type, double newValue) {
 		myAttributes.get(type).setValue(newValue);
+	}
+	
+	public void paintHealth(Graphics2D pen, Location where, Dimension size) {
+	    Attribute Health = getAttribute(AttributeConstantsEnum.HEALTH.getStatusCode());
+	    if (Health != null) {
+	        Health.paint(pen, where, size);
+	    }
 	}
 
 	/**
 	 * Resets all attributes to default values
 	 */
-
 	public void resetAllAttributes() {
 		for (Attribute attr : myAttributes.values()) {
 			attr.reset();

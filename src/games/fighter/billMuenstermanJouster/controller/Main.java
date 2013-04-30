@@ -1,8 +1,10 @@
 package games.fighter.billMuenstermanJouster.controller;
 
+import games.fighter.billMuenstermanJouster.JousterGameManager;
+import games.fighter.billMuenstermanJouster.JousterGameRunAlone;
+
 import javax.swing.JFrame;
 
-import vooga.fighter.controller.GameManagerRunAlone;
 
 
 /**
@@ -20,7 +22,7 @@ public class Main extends JFrame
     public static void main (String args[])
     {
 
-        GameManagerRunAlone control = new GameManagerRunAlone();
+        JousterGameRunAlone control = new JousterGameRunAlone();
         control.run();
     }
 }

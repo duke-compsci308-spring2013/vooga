@@ -59,7 +59,7 @@ public class ActionXMLLoader {
      * these actions will act on this specified GameElement object.
      * 
      * @param e a game element upon which the list of actions will act on
-     * @param actionsElement the XML element represening the <actions> tag
+     * @param actionsElement the XML element representing the <actions> tag
      * @param gameMap a game map object
      * @param player a player object
      * @return a list of actions acting on the given GameElement

@@ -15,114 +15,118 @@ import vooga.rts.gamedesign.strategy.Strategy;
 import vooga.rts.util.Information;
 import vooga.rts.util.Location3D;
 
-
 /**
  * 
  * This class implements OccupyStrategy and is used as an instance in
- * InteractiveEntity for objects that can be occupied by types of Units specified.
+ * InteractiveEntity for objects that can be occupied by types of Units
+ * specified.
  * 
  * @author Wenshun Liu
  * 
  */
 public class CanBeOccupied implements OccupyStrategy {
-    public static final int DEFAULT_MAX_OCCUPIERS = 10;
+	public static final int DEFAULT_MAX_OCCUPIERS = 10;
 
-    //TODO: another way to verify different types of Units? Probably names in xml?
-    private List<Integer> myOccupierHashCodes;
-    private int myMaxOccupiers;
-    private int myOccupierID;
+	// TODO: another way to verify different types of Units? Probably names in
+	// xml?
+	private List<Integer> myOccupierHashCodes;
+	private int myMaxOccupiers;
+	private int myOccupierID;
 
-    /**
-     * Creates a new occupy strategy that represents an entity that can be
-     * occupied. It is created with a list of what entities can occupy it,
-     * what entities are occupying it, and the max number of entities that can
-     * occupy it.
-     */
-    public CanBeOccupied () {
-        myOccupierHashCodes = new ArrayList<Integer>();
-        myMaxOccupiers = DEFAULT_MAX_OCCUPIERS;
-        myOccupierID = 0;
-    }
+	/**
+	 * Creates a new occupy strategy that represents an entity that can be
+	 * occupied. It is created with a list of what entities can occupy it, what
+	 * entities are occupying it, and the max number of entities that can occupy
+	 * it.
+	 */
+	public CanBeOccupied() {
+		myOccupierHashCodes = new ArrayList<Integer>();
+		myMaxOccupiers = DEFAULT_MAX_OCCUPIERS;
+		myOccupierID = 0;
+	}
 
-    public void getOccupied (InteractiveEntity entity, Unit u) {
-        if (myOccupierHashCodes.size() < myMaxOccupiers) {
-            if (myOccupierID == 0) {
-                myOccupierID = u.getPlayerID();
-            }
-            myOccupierHashCodes.add(u.hashCode());
-            entity.setChanged();
-            u.getEntityState().setOccupyState(OccupyState.OCCUPYING);
-            u.setVisible(false);
-            entity.notifyObservers(u);
-        }
-    }
+	public void getOccupied(InteractiveEntity entity, Unit u) {
+		if (myOccupierHashCodes.size() < myMaxOccupiers) {
+			if (myOccupierID == 0) {
+				myOccupierID = u.getPlayerID();
+			}
+			myOccupierHashCodes.add(u.hashCode());
+			entity.setChanged();
+			u.getEntityState().setOccupyState(OccupyState.OCCUPYING);
+			u.setVisible(false);
+			entity.notifyObservers(u);
+		}
+	}
 
-    /**
-     * Creates and adds occupy strategy specific actions to entity
-     */
-    public void createOccupyActions (final InteractiveEntity entity) {
-        addDeoccupyAction(entity);
-    }
+	/**
+	 * Creates and adds occupy strategy specific actions to entity
+	 */
+	public void createOccupyActions(final InteractiveEntity entity) {
+		addDeoccupyAction(entity);
+	}
 
-    /**
-     * Creates and adds the action, in which the occupied entity will remove
-     * and return all its occupiers back to the original player.
-     * 
-     * @param entity the object that is occupied.
-     */
-    private void addDeoccupyAction (final InteractiveEntity entity) {
-    	String commandName = "deoccupy";
-        entity.addAction(commandName, new InteractiveAction(entity) {
-            @Override
-            public void update (Command command) {
-            }
+	/**
+	 * Creates and adds the action, in which the occupied entity will remove and
+	 * return all its occupiers back to the original player.
+	 * 
+	 * @param entity
+	 *            the object that is occupied.
+	 */
+	private void addDeoccupyAction(final InteractiveEntity entity) {
+		String commandName = "deoccupy";
+		entity.addAction(commandName, new InteractiveAction(entity) {
 
-            @Override
-            public void apply () {
-                myOccupierID = 0;
-                Iterator<Integer> it = myOccupierHashCodes.iterator();
-                while (it.hasNext()) {
-                    Integer hashCode = it.next();
-                    entity.setChanged();
-                    entity.notifyObservers(hashCode);
-                    it.remove();
-                }
-            }
-        });
-        entity.addActionInfo(commandName, new Information(commandName, "this deoccupies errboday","buttons/unload.gif",null));
-    }
+			@Override
+			public void apply() {
+				System.err.println(myOccupierHashCodes.size());
+				if (myOccupierHashCodes.size() > 0) {
+					System.err.println("freedom");
+					myOccupierID = 0;
+					Iterator<Integer> it = myOccupierHashCodes.iterator();
+					while (it.hasNext()) {
+						Integer hashCode = it.next();
+						entity.setChanged();
+						entity.notifyObservers(hashCode);
+						it.remove();
+					}
+				}
+			}
+		});
+		entity.addActionInfo(commandName, new Information(commandName,
+				"this deoccupies errboday", "buttons/unload.gif", null));
+	}
 
-    /**
-     * Sets the entity's current occupier id, which represents the player id
-     * that is currently occupying the entity.
-     */
-    public void setOccupierID (int id) {
-        myOccupierID = id;
-    }
+	/**
+	 * Sets the entity's current occupier id, which represents the player id
+	 * that is currently occupying the entity.
+	 */
+	public void setOccupierID(int id) {
+		myOccupierID = id;
+	}
 
-    /**
-     * Returns the entity's current occupier id, which represents the player id
-     * that is currently occupying the entity.
-     */
-    public int getOccupierID () {
-        return myOccupierID;
-    }
+	/**
+	 * Returns the entity's current occupier id, which represents the player id
+	 * that is currently occupying the entity.
+	 */
+	public int getOccupierID() {
+		return myOccupierID;
+	}
 
-    /**
-     * Returns the hash code of the list of occupiers.
-     */
-    public List<Integer> getOccupiers () {
-        return myOccupierHashCodes;
-    }
+	/**
+	 * Returns the hash code of the list of occupiers.
+	 */
+	public List<Integer> getOccupiers() {
+		return myOccupierHashCodes;
+	}
 
-    /**
-     * Returns the max number of occupiers this entity can take.
-     */
-    public int getMaxOccupiers () {
-        return myMaxOccupiers;
-    }
+	/**
+	 * Returns the max number of occupiers this entity can take.
+	 */
+	public int getMaxOccupiers() {
+		return myMaxOccupiers;
+	}
 
-	public void affect(InteractiveEntity entity) {
+	public void copyStrategy(InteractiveEntity entity) {
 		OccupyStrategy newOccupy = new CanBeOccupied();
 		newOccupy.createOccupyActions(entity);
 		entity.setOccupyStrategy(newOccupy);

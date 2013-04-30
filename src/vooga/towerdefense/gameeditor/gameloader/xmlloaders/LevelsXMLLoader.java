@@ -52,8 +52,9 @@ public class LevelsXMLLoader {
         
         List<Element> subElements = myXMLTool.getChildrenList(levelsElement);
         for (Element subElement : subElements) {
-            levels.add(loadLevel(subElement, model, gameMap, player));
+        	levels.add(loadLevel(subElement, model, gameMap, player));
         }
+        
         return levels;
     }
         

@@ -1,6 +1,5 @@
 package games.scroller.letteradventure;
 
-import arcade.controller.Controller;
 import arcade.games.ArcadeInteraction;
 import vooga.scroller.collision_manager.VisitLibrary;
 import vooga.scroller.level_management.splash_page.SplashPage;
@@ -60,9 +59,4 @@ public class LetterAdventure extends ScrollerGame {
         return new LetterSplashPage(SpriteLibrary.makePixmap("splash.jpg"), 0, getDisplay(),
                                    getScrollingManager());
     }
-    
-    public static void main (String[] args) {
-        new LetterAdventure(new Controller("English")).run();
-    }
-
 }

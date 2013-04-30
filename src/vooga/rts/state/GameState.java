@@ -68,12 +68,14 @@ public class GameState extends SubState implements Controller, Observer {
         super(observer);        
         myFrames = new FrameCounter(new Location(100, 20));
         myTasks = new ArrayList<DelayedTask>();
+        myPlayers.addObserver(this);
         isGameOver = false;        
     }
 
     @Override
     public void update (double elapsedTime) {
         if (isGameOver) {
+            System.out.println("games over");
             setChanged();
             notifyObservers();
         }
@@ -197,6 +199,7 @@ public class GameState extends SubState implements Controller, Observer {
 
     @Override
     public void update (Observable arg0, Object arg1) {
+        System.out.println("update game over");
         initializeGameOver();
     }
 

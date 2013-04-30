@@ -7,6 +7,7 @@ import java.util.List;
 
 import vooga.towerdefense.action.Action;
 import vooga.towerdefense.controller.Controller;
+import vooga.towerdefense.gameelements.GameElement;
 import vooga.towerdefense.model.levels.Level;
 import vooga.towerdefense.model.rules.Rule;
 import vooga.towerdefense.model.shop.Shop;
@@ -125,7 +126,7 @@ public class GameModel {
 	 * The function called when the winning conditions are met.
 	 */
 	public void win() {
-		myController.win();
+			myController.win();
 	}
 
 	/**

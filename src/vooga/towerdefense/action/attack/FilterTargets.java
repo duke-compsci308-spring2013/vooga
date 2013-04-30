@@ -55,7 +55,7 @@ public class FilterTargets extends TargetedAction {
 					&& affiliation.getValue() == myTargetAffiliation.getValue()) {
 				filteredTargets.add(e);
 			if (myNumTargets != null
-					&& myNumTargets.getValue() == myTargetAffiliation.getValue()) {
+					&& myNumTargets.getValue() <= filteredTargets.size()) {
 				break;
 				}
 			}

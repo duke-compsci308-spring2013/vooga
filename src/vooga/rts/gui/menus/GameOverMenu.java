@@ -16,11 +16,13 @@ public class GameOverMenu extends Menu {
         pen.setFont(new Font("Helvetica", Font.BOLD, 100));
         pen.setColor(Color.red);
         pen.drawString("Game Over...", 150, 300);
+        pen.setColor(Color.white);
+        pen.setFont(new Font("Helvetica", Font.BOLD, 50));
+        pen.drawString("Click the screen to exit.", 150, 375);
     }
     
     @Override
     public void handleMouseDown(int x, int y) {
-        setChanged();
-        notifyObservers();
+        System.exit(0);
     }
 }

@@ -137,7 +137,7 @@ public class CanAttack implements AttackStrategy {
         return true;
     }
 
-    public void affect (InteractiveEntity other) {
+    public void copyStrategy (InteractiveEntity other) {
         CanAttack toAdd = new CanAttack();
         toAdd.setWeaponIndex(0);
         toAdd.setWeapons(this.getWeaponCopies());

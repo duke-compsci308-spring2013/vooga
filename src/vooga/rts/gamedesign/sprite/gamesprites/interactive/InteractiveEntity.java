@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -47,6 +48,7 @@ import vooga.rts.gamedesign.weapon.Weapon;
 import vooga.rts.state.GameState;
 import vooga.rts.util.Camera;
 import vooga.rts.util.DelayedTask;
+import vooga.rts.util.FilterImageColor;
 import vooga.rts.util.Information;
 import vooga.rts.util.Location3D;
 import vooga.rts.util.Pixmap;
@@ -130,6 +132,13 @@ public abstract class InteractiveEntity extends GameEntity implements
 		setSpeed(DEFAULT_INTERACTIVEENTITY_SPEED);
 	}
 
+	public void changeImageColor() {
+		Image image = getImage().getImage();
+		if (image != null) {
+			setImage(FilterImageColor.colorImage(image, getPlayerID()));
+		}
+	}
+
 	/**
 	 * Adds an action to myActions with the passed in command and Action
 	 */
@@ -211,6 +220,12 @@ public abstract class InteractiveEntity extends GameEntity implements
 		return myInfo;
 	}
 
+	@Override
+	public void setPlayerID(int playerID) {
+		this.changeImageColor();
+		super.setPlayerID(playerID);
+	}
+
 	/**
 	 * Sets the upgradeTree to the passed in upgrade tree
 	 * 
@@ -254,7 +269,7 @@ public abstract class InteractiveEntity extends GameEntity implements
 	public void addActionInfo(String command, Information info) {
 		myActionInfos.put(command, info);
 	}
-	
+
 	public void removeActionInfo(String command) {
 		myActionInfos.remove(command);
 	}
@@ -347,7 +362,7 @@ public abstract class InteractiveEntity extends GameEntity implements
 	public void transmitProperties(InteractiveEntity toOther) {
 		toOther.setInfo(getInfo());
 		for (Strategy s : getStrategies()) {
-			s.affect(toOther);
+			s.copyStrategy(toOther);
 		}
 	}
 
@@ -376,14 +391,12 @@ public abstract class InteractiveEntity extends GameEntity implements
 			if (isMake.equals("make")) { // very buggy
 				infoCommands
 						.add(new InformationCommand(s, myActionInfos.get(s)));
-			}
-			else if (isMake.equals("upgrade")) {
+			} else if (isMake.equals("upgrade")) {
 				infoCommands
-					.add(new InformationCommand(s, myActionInfos.get(s)));
-			}
-			else if (isMake.equals("deoccupy")) {
+						.add(new InformationCommand(s, myActionInfos.get(s)));
+			} else if (isMake.equals("deoccupy")) {
 				infoCommands
-					.add(new InformationCommand(s, myActionInfos.get(s)));
+						.add(new InformationCommand(s, myActionInfos.get(s)));
 			}
 
 		}
@@ -639,21 +652,21 @@ public abstract class InteractiveEntity extends GameEntity implements
 		setChanged();
 		notifyObservers();
 	}
-	
+
 	private void updateOccupy(double elapsedTime) {
 		List<InteractiveEntity> shelters = findShelters();
 		if (!shelters.isEmpty()) {
-			shelters.get(0).getOccupied((Unit)this);
+			shelters.get(0).getOccupied((Unit) this);
 		}
 	}
-	
+
 	private List<InteractiveEntity> findShelters() {
 		List<InteractiveEntity> possibleShelters = GameState.getMap()
-		.<InteractiveEntity> getInArea(getWorldLocation(),10, this,
-				GameState.getPlayers().getTeamID(getPlayerID()), true);
+				.<InteractiveEntity> getInArea(getWorldLocation(), 10, this,
+						GameState.getPlayers().getTeamID(getPlayerID()), true);
 		return possibleShelters;
 	}
-	
+
 	private void updateAttack(double elapsedTime) {
 		if (myAttackStrategy.hasWeapon()) {
 			Weapon weapon = myAttackStrategy.getCurrentWeapon();

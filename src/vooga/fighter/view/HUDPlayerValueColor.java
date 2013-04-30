@@ -3,6 +3,7 @@ package vooga.fighter.view;
 import java.awt.Color;
 
 /**
+ * Sets the color of HUD Player Values
  * Sets the color of a HUD Values. Can change a value's paint color from
  * startColor to endColor based on the ints maxValue and currentValue. For
  * example, a player's health may be displayed in green when at full health, and
@@ -11,6 +12,7 @@ import java.awt.Color;
  * @author Bill Muensterman
  * 
  */
+
 public class HUDPlayerValueColor extends HUDPlayerValue {
 
 	/**
@@ -26,10 +28,11 @@ public class HUDPlayerValueColor extends HUDPlayerValue {
 	public Color setValueColor(int maxValue, int currentValue,
 			Color startColor, Color endColor) {
 
-		int ratio = maxValueToRangeRatio(maxValue, currentValue);
+		int ratio = maxValueToRangeRatio(maxValue,
+				currentValue);
 
 		int[] RGB = setRGBValues(startColor, endColor, ratio);
-
+		
 		Color c = new Color(RGB[0], RGB[1], RGB[2]);
 		return c;
 	}
@@ -46,7 +49,9 @@ public class HUDPlayerValueColor extends HUDPlayerValue {
 		int ratio;
 		if (maxValue == currentValue) {
 			ratio = maxValue;
-		} else {
+		}
+		
+		else {
 			ratio = maxValue / (maxValue - currentValue);
 		}
 		return ratio;

@@ -60,10 +60,10 @@
 	<gameelements>
 		<Golbat>
 			<dimension>50, 50</dimension>
-			<image>Pokemon/golbat.gif</image>
+			<image>Pokemon/golbatTrans.gif</image>
 			<type>Unit</type>
 			<attributes>
-				<Health>1</Health>
+				<Health>10</Health>
 				<MOVE_SPEED>50</MOVE_SPEED>
 				<DIRECTION>0</DIRECTION>
 				<Money>10</Money>
@@ -98,32 +98,75 @@
 				<DeathPackage></DeathPackage>
 			</actions>			
 		</Pidgeotto>
-		<Poison>
+		<Muk>
 			<dimension>50, 50</dimension>
-			<image>Pokemon/poisoncloud.gif</image>
-			<type>Projectile</type>
+			<image>Pokemon/muk.gif</image>
+			<type>Unit</type>
 			<attributes>
-				<Health>1000</Health>
-				<Move_Speed>-100</Move_Speed>
-				<MOVE_SPEED>-100</MOVE_SPEED>
+				<Health>100</Health>
+				<MOVE_SPEED>20</MOVE_SPEED>
 				<DIRECTION>0</DIRECTION>
 				<Money>50</Money>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<OnDeath>
+				    <ModifyPlayerAttribute>
+				        <parameter>Money</parameter>
+				        <parameter>Money</parameter>
+				    </ModifyPlayerAttribute>
+				    <CreateElement>
+				        <parameter>Grimer</parameter>
+				    </CreateElement>
+				    <RemoveElement></RemoveElement>
+				</OnDeath>
+			</actions>			
+		</Muk>
+		<Grimer>
+			<dimension>25, 25</dimension>
+			<image>Pokemon/grimer.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>30</Health>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+				<Money>10</Money>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage></DeathPackage>
+			</actions>			
+		</Grimer>
+		<Poison>
+			<dimension>50, 50</dimension>
+			<image>Pokemon/BlobPurple.gif</image>
+			<type>Projectile</type>
+			<attributes>
+				<Move_Speed>-5</Move_Speed>
+				<MOVE_SPEED>-5</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
 				<NumTargets>1</NumTargets>
-				<RADIUS>100</RADIUS>
-				<RADIUS2>300</RADIUS2>
+				<RADIUS>10</RADIUS>
 				<AttackType>1.2</AttackType>
-				<AttackType2>0.3</AttackType2>
-				<AttackSpeed>1.2</AttackSpeed>
+				<Lifespan>1200</Lifespan>
+				<AttackSpeed>1.3</AttackSpeed>
 				<Damage>-5</Damage>
 			</attributes>
 			<actions>
-			    <AreaOfEffectPackage>
-			        <parameter>RADIUS</parameter>
-			        <parameter>NumTargets</parameter>
-			        <parameter>AttackType</parameter>
-			        <parameter>Damage</parameter>
-			        <parameter>Health</parameter>
-			    </AreaOfEffectPackage>
+			    <PeriodicAction>
+			        <parameter>Lifespan</parameter>
+			        <RemoveElement></RemoveElement>
+			    </PeriodicAction>
 			    <FindTargets>
 					<parameter>RADIUS</parameter>
 					<ModifyAttributeValue>
@@ -131,10 +174,6 @@
 					    <parameter>Health</parameter>
 					</ModifyAttributeValue>
 				</FindTargets>
-			    <OnDeath>
-			        <RemoveElement>
-			        </RemoveElement>
-			    </OnDeath>
 			</actions>			
 		</Poison>
 		<Ghastly>
@@ -147,10 +186,10 @@
 				<DIRECTION>0</DIRECTION>
 				<Cost>50</Cost>
 				<NumTargets>1</NumTargets>
-				<RADIUS>100</RADIUS>
+				<RADIUS>200</RADIUS>
 				<RADIUS2>300</RADIUS2>
 				<AttackType>1.2</AttackType>
-				<AttackSpeed>1.2</AttackSpeed>
+				<AttackSpeed>2000</AttackSpeed>
 				<Damage>-5</Damage>
 			</attributes>
 			<actions>
@@ -167,13 +206,6 @@
 			        	</FilterTargets>
 			    	</FindTargets>
 			    </PeriodicAction>
-			    <AttackAction>
-			        <parameter>RADIUS2</parameter>
-			        <parameter>AttackSpeed</parameter>
-			        <parameter>NumTargets</parameter>
-			        <parameter>AttackType</parameter>
-			        <parameter>Poison</parameter>
-			    </AttackAction>
 			</actions>			
 		</Ghastly>
 		<Electrode>
@@ -189,19 +221,22 @@
 				<RADIUS>100</RADIUS>
 				<RADIUS2>300</RADIUS2>
 				<AttackType>1.2</AttackType>
-				<AttackSpeed>1.2</AttackSpeed>
+				<DetonationSpeed>1000</DetonationSpeed>
 				<Damage>-5000</Damage>
 			</attributes>
 			<actions>
-			    <FindTargets>
+			    <PeriodicAction>
+			        <parameter>DetonationSpeed</parameter>
+			        <FindTargets>
 					<parameter>RADIUS</parameter>
 					<ModifyAttributeValue>
 					    <parameter>Damage</parameter>
 					    <parameter>Health</parameter>
-					</ModifyAttributeValue>
+					</ModifyAttributeValue>					
+					</FindTargets>
 					<RemoveElement>
 					</RemoveElement>
-				</FindTargets>
+			    </PeriodicAction>
 			</actions>
 		</Electrode>
 		<Sudowoodo>
@@ -238,23 +273,16 @@
 			<image>trainercatch.gif</image>
 			<type>Tower</type>
 			<attributes>
-				<MOVE_SPEED>50</MOVE_SPEED>
-			</attributes>
-			<attributes>
-				<Health>100</Health>
 				<Cost>10</Cost>
-				<MOVE_SPEED>50</MOVE_SPEED>
-				<FLY_SPEED>300</FLY_SPEED>
 				<RADIUS>100</RADIUS>
 				<AttackType>1.2</AttackType>
-				<Slow>-5</Slow>
-				<DIRECTION>0</DIRECTION>
+				<Damage>-0.5</Damage>
 			</attributes>
 			<actions>
 			    <FindTargets>
 					<parameter>RADIUS</parameter>
 					<ApplyAttributeBuff>
-						<parameter>Slow</parameter>
+						<parameter>Damage</parameter>
 					    <parameter>Health</parameter>
 					</ApplyAttributeBuff>
 			    </FindTargets>
@@ -274,7 +302,7 @@
 				<WaveAction>
 					<parameter>10</parameter>
 					<parameter>1000</parameter>
-					<parameter>Golbat</parameter>
+					<parameter>Muk</parameter>
 				</WaveAction>
 				<LevelTimerAction>
 					<parameter>30000</parameter>
@@ -295,5 +323,19 @@
 				</LevelTimerAction>
 			</actions>
 		</Level2>
+		<Level3>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>5</parameter>
+					<parameter>2000</parameter>
+					<parameter>Muk</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>30000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level3>
 	</levels>
 </Game>

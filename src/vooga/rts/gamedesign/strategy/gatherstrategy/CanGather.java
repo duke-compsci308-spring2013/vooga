@@ -88,7 +88,7 @@ public class CanGather implements GatherStrategy {
 	}
 
 	@Override
-	public void affect(InteractiveEntity other) {
+	public void copyStrategy(InteractiveEntity other) {
 		other.setGatherStrategy(this);
 	}
 

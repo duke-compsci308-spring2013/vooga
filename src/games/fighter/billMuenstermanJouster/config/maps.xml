@@ -33,7 +33,7 @@
         <startingPos xCoord="140" yCoord="300"/>
         <startingPos xCoord="200" yCoord="300"/>
         <state stateName = "background">
-            <frame image = "fighter/images/RainbowBackground.jpeg" />
+            <frame image = "games/fighter/billMuenstermanJouster/images/RainbowBackground.jpeg" />
         </state>
         <environmentObject objectName="platform" xCoord="300" yCoord="300" />
     </map>

@@ -1,10 +1,7 @@
 package vooga.rts.gamedesign.strategy.production;
 
-import java.awt.Graphics2D;
 import java.util.List;
-
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
-import vooga.rts.gamedesign.sprite.gamesprites.interactive.buildings.Building;
 import vooga.rts.gamedesign.state.ProducingState;
 import vooga.rts.gamedesign.strategy.Strategy;
 import vooga.rts.util.Location3D;
@@ -62,19 +59,6 @@ public interface ProductionStrategy extends Strategy{
 	 * @param producables
 	 */
 	public void setProducables(List<InteractiveEntity> producables);
-
-	
-	/**
-	 * Updates the strategy by updating the list of producables. 
-	 * @param elapsedTime
-	 */
-	public void update (double elapsedTime);
-
-	/**
-	 * Paints all the interactive entities stored in this class. 
-	 * @param pen
-	 */
-	public void paint (Graphics2D pen);
 	
 	/**
 	 * Returns the production state

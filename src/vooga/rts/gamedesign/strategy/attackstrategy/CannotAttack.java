@@ -71,7 +71,7 @@ public class CannotAttack implements AttackStrategy {
     	return false;
     }
     
-	public void affect(InteractiveEntity other) {
+	public void copyStrategy(InteractiveEntity other) {
 		other.setAttackStrategy(this);
 		
 	}

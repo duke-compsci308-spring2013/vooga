@@ -89,7 +89,7 @@ public class Attribute {
     }
 
     /**
-     * Returns value of the stat
+     * Returns value of the stat, taking into account the temporary buff values
      * 
      * @return
      */
@@ -126,6 +126,8 @@ public class Attribute {
      */
     public void paint (Graphics2D pen, Location where, Dimension size) {
         pen.setColor(Color.red);
+        pen.fillRect((int) where.getX()-size.width/2, (int) where.getY() - size.height/2, (int) (size.getWidth() * (getValue() / 
+                getOriginalValue())), (int) 10);
     }
 
     public double getOriginalValue () {

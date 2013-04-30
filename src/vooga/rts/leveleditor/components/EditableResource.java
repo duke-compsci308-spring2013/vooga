@@ -106,6 +106,6 @@ public class EditableResource extends Resource {
      * @return
      */
     public Image getMyImage() {
-        return super.getImage().getMyImage();
+        return super.getImage().getImage();
     }
 }
