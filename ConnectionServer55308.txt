@@ -1,0 +1,6 @@
+Apr 28, 2013 9:40:56 PM vooga.rts.networking.server.ConnectionServer run
+INFO: Connection Server started at port:55308
+Apr 28, 2013 9:41:00 PM vooga.rts.networking.server.ConnectionServer run
+INFO: Connection Server started at port:55308
+Apr 28, 2013 9:41:00 PM vooga.rts.networking.server.ConnectionServer run
+SEVERE: Connection Server failed
