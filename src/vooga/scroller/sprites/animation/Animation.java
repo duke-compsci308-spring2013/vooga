@@ -5,7 +5,10 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import vooga.scroller.sprites.animation.state_movement.SpriteMovementState;
 import vooga.scroller.util.ISpriteView;
 
 /**
@@ -19,7 +22,7 @@ import vooga.scroller.util.ISpriteView;
 
 public class Animation<S> implements ISpriteView {
 
-    private List<AnimationState<S>> myAnimations;
+    private Map<Integer, SpriteMovementState> myAnimations;
     private S mySprite;
     private ISpriteView myDefaultStateView;
 
@@ -38,7 +41,7 @@ public class Animation<S> implements ISpriteView {
     }
     
     public Animation() {
-        myAnimations = new ArrayList<AnimationState<S>>();
+        myAnimations = new HashMap<Integer, SpriteMovementState>();
     }
     
     public void setSprite(S sprite) {
@@ -50,14 +53,14 @@ public class Animation<S> implements ISpriteView {
      * 
      * @return
      */
-    private ISpriteView getStateView() {
-        for (AnimationState<S> as: myAnimations) {
-            if (as.validAnimation(mySprite)) {
-                return as.getView();
-            }
-        }
-        return this.getDefaultStateView();
-    }
+//    private ISpriteView getStateView() {
+//        for (SpriteMovementState as: myAnimations) {
+//            if (as.validAnimation(mySprite)) {
+//                return as.getView();
+//            }
+//        }
+//        return this.getDefaultStateView();
+//    }
     
     private ISpriteView getDefaultStateView () {
         return myDefaultStateView;
@@ -69,8 +72,8 @@ public class Animation<S> implements ISpriteView {
     
     @Override
     public void paint (Graphics2D pen, Point2D center, Dimension size, double angle) {
-        ISpriteView currView = getStateView();
-        currView.paint(pen, center, size, angle);
+//        ISpriteView currView = getStateView();
+//        currView.paint(pen, center, size, angle);
         
     }
 
@@ -81,8 +84,8 @@ public class Animation<S> implements ISpriteView {
 
     @Override
     public void paint (Graphics2D pen, Point2D myCenter, Dimension mySize) {
-      ISpriteView currView = getStateView();
-      currView.paint(pen, myCenter, mySize);
+//      ISpriteView currView = getStateView();
+//      currView.paint(pen, myCenter, mySize);
     }
 
     @Override
@@ -96,13 +99,21 @@ public class Animation<S> implements ISpriteView {
      * 
      * @param animation is the animation state to add.
      */
-    public void addAnimationState(AnimationState<S> animation) {
-        myAnimations.add(animation);
+    public void addAnimationState(SpriteMovementState animation) {
+        myAnimations.put(animation.getID(), animation);
     }
 
     @Override
     public Image getImage () {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public void activateAnimationState (int stateId) {
+        myAnimations.get(stateId).activate();
+    }
+
+    public void deactivateAnimationState (int stateId) {
+        myAnimations.get(stateId).deactivate();
     }
 }
