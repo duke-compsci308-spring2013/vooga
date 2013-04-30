@@ -5,28 +5,31 @@ import vooga.scroller.extra_resources.sprite_interfaces.IEnemy;
 import vooga.scroller.extra_resources.sprite_interfaces.IPlatform;
 import vooga.scroller.level_editor.Level;
 import vooga.scroller.level_editor.library.EncapsulatedSpriteLibrary;
+import vooga.scroller.level_management.LevelManager;
 import vooga.scroller.sprites.Sprite;
+import vooga.scroller.sprites.interfaces.IDoor;
 import vooga.scroller.sprites.superclasses.GameCharacter;
+import vooga.scroller.util.IGameComponent;
 import vooga.scroller.util.Pixmap;
 
 public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
     private static final Dimension ENEMY_SIZE = new Dimension(32, 45);
+    private static final Dimension BLOCK_SIZE = new Dimension (32, 32);
     private static final String PLATFORM_IMAGE = "platform.png";
+    private static final String PLATFORM_IMAGE_2 = "platform2.png";
     private static final String IMAGES = "/games/scroller/stickmansam/images/";
 
-    public static class Platform extends Sprite implements IPlatform {
-        private static final Dimension BLOCK_SIZE = new Dimension (32, 32);
-        
+    public static class Platform extends Sprite implements IPlatform {        
         public Platform () {
             super(makePixmap(PLATFORM_IMAGE), BLOCK_SIZE);
         }
     }
     
     public static class BigPlatform extends Sprite implements IPlatform {
-        private static final Dimension BLOCK_SIZE = new Dimension (128, 128);
+        private static final Dimension BIG_BLOCK_SIZE = new Dimension (128, 128);
         
         public BigPlatform () {
-            super(makePixmap(PLATFORM_IMAGE), BLOCK_SIZE);
+            super(makePixmap(PLATFORM_IMAGE_2), BIG_BLOCK_SIZE);
         }
     }
     
@@ -93,6 +96,38 @@ public class StickmanSpriteLibrary extends EncapsulatedSpriteLibrary {
 
         @Override
         public void handleDeath (Level level) {
+            // TODO Auto-generated method stub
+            
+        }
+        
+    }
+    
+    public static class Door extends Sprite implements IDoor {
+        private static final String EMPTY_IMAGE = "empty.png";
+
+        public Door () {
+            super(makePixmap(EMPTY_IMAGE), BLOCK_SIZE);
+        }
+
+        @Override
+        public void setNextLevel (IGameComponent level) {
+            // TODO
+        }
+
+        @Override
+        public IGameComponent getNextLevel () {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public void setManager (LevelManager lm) {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public void goToNextLevel () {
             // TODO Auto-generated method stub
             
         }
