@@ -87,7 +87,7 @@ public class Mario extends Player implements IInputListener {
         // MarioLib.addLeftRightAnimationToPlayer(this, "mario.gif");
         myJumpCount = 0;
         myGravity = new Gravity(this);
-        initializePossibleStates();
+        activateState(1);
     }
 
     /**

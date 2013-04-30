@@ -76,7 +76,7 @@ public class LevelFactory {
 //        SplashPage splash =
 //                new SplashPage(MarioLib.makePixmap(splashPage), 0, myView, mySM);
         // hardcoded? thanks - David Winegar
-        //splash.addDoor(new MarioLib.DoorPortal());
+        splash.addDoor(new MarioLib.DoorPortal());
         myLevelManager.put(splash.getDoor(), levels.get(0));
     
         for (int i = 0; i < levels.size() - 1; i++) {
