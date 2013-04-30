@@ -1,0 +1,45 @@
+/level
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+              abbbbbbbbbc                                                                           
+                 d                                                                                  
+    e e          d                                                                                  
+                 d                                                                                  
+                 d                                                                                  
+   ffeff    abbbbbc                                                                                 
+               dg                                                                                   
+               d                                                                                    
+hiiiiiiiij     dbbbbbbc                                                                             
+               d                                                                                    
+    dd         d                                                                                    
+    dd         d                                                                                    
+    dd         d                                                                                    
+/lib
+games.scroller.superMario.sprites.SuperMarioLib
+/key
+h=WoodBigLeft
+a=WoodLeft
+d=WoodPole
+i=WoodBigMid
+g=DoorPortal
+b=WoodMid
+e=ItemBlock
+f=Block
+j=WoodBigRight
+c=WoodRight
+/settings
+StartPoint=16 720
+Background=/games/scroller/superMario/images/backgrounds/backgroundhillsbig.png

@@ -26,7 +26,7 @@ public class Mario extends Player implements IInputListener {
             "vooga/scroller/marioGame/controls/MarioMapping";
 
     private static final int MAX_JUMPS = 2;
-    private static final Pixmap DEFAULT_IMAGE = SuperMarioLib.makePixmap("mario_stand_right.gif");
+    private static final Pixmap DEFAULT_IMAGE = SuperMarioLib.makePixmap("mario_stand_right.png");
     // private static final int DEATH_PENALTY = 1000;
 
     private static final Vector JUMP_VELOCITY = new Vector(Sprite.UP_DIRECTION, 100);
@@ -35,15 +35,15 @@ public class Mario extends Player implements IInputListener {
 
     private static final double MAX_SPEED = 300;
 
-    private static final ISpriteView MOVE_LEFT = SuperMarioLib.makePixmap("mario_move_left.gif");
+    private static final ISpriteView MOVE_LEFT = SuperMarioLib.makePixmap("mario_walk_left.gif");
 
-    private static final ISpriteView STAND_LEFT = SuperMarioLib.makePixmap("mario_stand_left.gif");
+    private static final ISpriteView STAND_LEFT = SuperMarioLib.makePixmap("mario_stand_left.png");
 
     private static final double SPEED = 100;
 
-    private static final ISpriteView MOVE_RIGHT = SuperMarioLib.makePixmap("mario_move_right.gif");
+    private static final ISpriteView MOVE_RIGHT = SuperMarioLib.makePixmap("mario_walk_right.gif");
 
-    private static final ISpriteView STAND_RIGHT = SuperMarioLib.makePixmap("mario_stand_right.gif");
+    private static final ISpriteView STAND_RIGHT = SuperMarioLib.makePixmap("mario_stand_right.png");
 
     private static final Dimension DEFAULT_SIZE = new Dimension(32, 32);
 

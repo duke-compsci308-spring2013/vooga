@@ -97,6 +97,7 @@ public class LevelParser {
                                     NEW_LINE, 0);
         String line = myScanner.nextLine();
         while (!line.equals(myResources.getString("BEGIN_LIB_PATH"))) {
+            System.out.println(line);
             myLevelStrings.add(line);
             line = myScanner.nextLine();
         }
@@ -128,7 +129,7 @@ public class LevelParser {
 
     private LEGrid createGrid () {
         if (myLevelStrings.isEmpty()) { return null; }
-        LEGrid grid = new LEGrid(myLevelStrings.get(1).length(), myLevelStrings.size());
+        LEGrid grid = new LEGrid(myLevelStrings.get(1).length(), myLevelStrings.size()-1);
         for (int i = 1; i < myLevelStrings.size(); i++) {
             for (int j = 0; j < myLevelStrings.get(1).length(); j++) {
                 char c = myLevelStrings.get(i).charAt(j);

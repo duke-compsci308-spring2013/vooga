@@ -10,23 +10,23 @@ import vooga.scroller.scrollingmanager.ScrollingManager;
 import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.view.GameView;
 
+
 public class SuperMarioGame extends ScrollerGame {
-    
+
     /**
      * main --- where the program starts
      * 
      * @param args
      */
     public static void main (String args[]) {
-//        ScrollerGame test = new SuperMarioGame(null);
-//        test.run();
-        String backgroundPath = "/games/scroller/mr_fish/images/";
-        String[] filenames = new String[] { "underwater1.jpg",
-                                           "underwater2.jpg",
-                                           "underwater3.jpg",
-                                           "bikini_bottom.jpg" };
-        runLevelEditor(new SuperMarioLib(), 
-                        new Mario(), backgroundPath, filenames);
+        // ScrollerGame test = new SuperMarioGame(null);
+        // test.run();
+        String backgroundPath = "/games/scroller/superMario/images/backgrounds/";
+        String[] filenames = new String[] { "background.png",
+                                           "backgroundhills.png",
+                                           "backgroundhillsbig.png" };
+        runLevelEditor(new SuperMarioLib(),
+                       new Mario(), backgroundPath, filenames);
     }
 
     public SuperMarioGame (ArcadeInteraction arcade) {
