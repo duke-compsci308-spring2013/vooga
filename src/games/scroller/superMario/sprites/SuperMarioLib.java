@@ -273,7 +273,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
     public static class Coin extends GameCharacter implements ICollectible {
 
-        private static final String DEFAULT_IMG = "coin.gif";
+        private static final String DEFAULT_IMG = "rotatingCoin.gif";
 
         public Coin () {
             super(makePixmap(DEFAULT_IMG), makeSize(1, 1), DEFAULT_HEALTH, DEFAULT_DAMAGE);
@@ -329,9 +329,9 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         public void update (double elapsedTime, Dimension bounds) {
 
             super.update(elapsedTime, bounds);
-            if (myMovement != null) {
-                myMovement.execute();
-            }
+//            if (myMovement != null) {
+//                myMovement.execute();
+//            }
         }
 
         @Override
@@ -341,7 +341,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
         @Override
         public void addTarget (Locatable target) {
-            myMovement = new SimpleMovement(this, target, SPEED);
+//            myMovement = new SimpleMovement(this, target, SPEED);
         }
 
         @Override
@@ -365,9 +365,9 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         public void update (double elapsedTime, Dimension bounds) {
 
             super.update(elapsedTime, bounds);
-            if (myMovement != null) {
-                myMovement.execute();
-            }
+//            if (myMovement != null) {
+//                myMovement.execute();
+//            }
         }
 
         @Override
@@ -378,7 +378,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
         @Override
         public void addTarget (Locatable target) {
-            myMovement = new SimpleMovement(this, target, SPEED);
+//            myMovement = new SimpleMovement(this, target, SPEED);
         }
 
         @Override
@@ -401,6 +401,24 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
         @Override
         public Dimension initSize () {
             return PORTAL_SIZE;
+        }
+    }
+
+    public static class Cable extends Sprite {
+
+        private static final String DEFAULT_IMG = "cable.png";
+
+        public Cable () {
+            super(makePixmap(DEFAULT_IMG), makeSize(1, 1));
+        }
+    }
+
+    public static class CableBottom extends Sprite {
+
+        private static final String DEFAULT_IMG = "cableBottom.png";
+
+        public CableBottom () {
+            super(makePixmap(DEFAULT_IMG), makeSize(1, 1));
         }
     }
 

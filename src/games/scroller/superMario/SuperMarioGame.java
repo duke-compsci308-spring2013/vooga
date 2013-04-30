@@ -61,7 +61,7 @@ public class SuperMarioGame extends ScrollerGame {
 
     @Override
     protected String[] setLevelFileNames () {
-        return new String[] { "level1" };
+        return new String[] { "level1", "level2" };
     }
 
     @Override

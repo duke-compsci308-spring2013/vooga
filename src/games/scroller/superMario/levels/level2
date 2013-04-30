@@ -1,0 +1,53 @@
+/level
+                                                                                                    
+                                                                                                   a
+                                                                                                    
+                      bb                                                                            
+                                                                                                 b c
+                                                                                        d          c
+                     beea                                                                          c
+                                                                            f           cccc    ghhi
+                                                                    cccc  ccc          c j          
+                  bbeebbeebb                                        k      j        d c  j          
+                                                                   lkm     j         c   j          
+               f      f     f                                       k      j        c    j          
+        ghhhhhhhhhhhhhhhhhhhhhhi                                    k      j       c     j          
+          k  njn njn njn       k                                  ccc      j    d c      j          
+      a   k  njn njn njn       k                                  c c  bbbbj     cj      j          
+          k  njn njn njn       k                 d               cc c      j    c j      j          
+          k  njn non njn     lpppm                     d     d   c  cf     j   c  j      j          
+    eebee kq njn ghi njn                  lpppppppm            ccc  ccccccccccc   j      j          
+          k  njn     non                             lppppppppmc          j       j      j          
+          k  njn    ghhhi                cccccccccc            c          j       o      j          
+lpppppppppppmnjn          c             cc   j    j  kcccccccccc          j     ghhhi    j          
+             njn                       cc    j    o  knnjnnnnjn    ccbbbbbj              o          
+   kknnn     njn           c          cc   abjbb ghhhinnjnnnnjn    cr     j           lpppppm       
+   kknnn     njn                     cc      j        nnjnnnnjn    c      o                         
+   kknnn     njn            c       cc       o        nnonnnnon    clppppppppm               c    b 
+   kkppm     non                   cc      ghhhi      ghhhhhhhi    c                                
+   kk     ghhhhhhhi          c    cc                                                           c    
+   kk                         ccccc              c  c                                            ccc
+/lib
+games.scroller.superMario.sprites.SuperMarioLib
+/key
+g=WoodLeft
+k=WoodPole
+h=WoodMid
+j=Cable
+o=CableBottom
+b=CoinBlock
+m=WoodBigRight
+l=WoodBigLeft
+c=WoodBlock
+f=Goomba
+d=Koopa
+r=DoorPortal
+p=WoodBigMid
+q=FireFlowerBlock
+n=Coin
+a=RedMushroomBlock
+e=Block
+i=WoodRight
+/settings
+StartPoint=16 624
+Background=/games/scroller/superMario/images/backgrounds/backgroundhillsbig.png
