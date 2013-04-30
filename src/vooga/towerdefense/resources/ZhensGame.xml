@@ -1,0 +1,284 @@
+<Game>
+	<view>
+		<dimension>1100, 800</dimension>
+		<MapScreen>
+			<dimension>800, 600</dimension>
+			<location>Center</location>
+		</MapScreen>
+		<MultipleScreenPanel>
+			<dimension>1000, 200</dimension>
+			<location>South</location>
+			<ShopScreen>
+				<dimension>200, 100</dimension>
+				<location>Center</location>
+			</ShopScreen>
+			<NextWaveScreen>
+				<dimension>200, 100</dimension>
+				<location>East</location>
+			</NextWaveScreen>
+		</MultipleScreenPanel>
+		<MultipleScreenPanel>
+			<dimension>200, 600</dimension>
+			<location>East</location>
+			<GameStatsScreen>
+				<dimension>200, 200</dimension>
+				<location>North</location>
+			</GameStatsScreen>
+			<GameElementInformationScreen>
+				<dimension>200, 200</dimension>
+				<location>South</location>
+			</GameElementInformationScreen>
+		</MultipleScreenPanel>
+	</view>
+	<map>
+		<Map1>
+			<image>icy_background.png</image>
+			<tile_size>50</tile_size>
+			<dimension>
+				<width>800</width>
+				<height>600</height>
+			</dimension>
+			<grid>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 2 2 2 0 2 2 2 2 0 0 0 0 0
+			d 2 0 2 0 2 0 2 0 0 2 0 0 0 0 0
+			0 2 0 2 0 2 0 2 0 0 2 2 2 2 0 0 
+			0 2 0 2 0 2 0 2 0 0 0 0 0 2 0 0
+			0 2 2 2 0 2 0 2 0 0 0 0 0 2 0 0 
+			0 0 0 0 0 2 2 2 0 0 0 0 0 2 2 s
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</grid>
+		</Map1>
+	</map>
+	<player>
+		<attributes>
+			<Health>10.0</Health>
+			<Score>0.0</Score>
+			<Money>1000.0</Money>
+		</attributes>
+	</player>
+	<gameelements>
+		<Dog>
+			<dimension>60, 60</dimension>
+			<image>Troll_Sprite.png</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>10</Health>
+				<MOVE_SPEED>135</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage>
+				</DeathPackage>
+			</actions>			
+		</Dog>
+		<Bear>
+			<dimension>70, 70</dimension>
+			<image>bossB.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>100</Health>
+				<MOVE_SPEED>160</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage></DeathPackage>
+			</actions>			
+		</Bear>
+		<Elephant>
+			<dimension>50, 50</dimension>
+			<image>blueMon.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>100</Health>
+				<MOVE_SPEED>120</MOVE_SPEED>
+				<FLY_SPEED>50</FLY_SPEED>
+				<RADIUS>300</RADIUS>
+				<Slow>-10</Slow>
+				<Money>10</Money>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage></DeathPackage>
+			</actions>			
+		</Elephant>
+		<smartball>
+			<dimension>40, 40</dimension>
+			<image>fireball.gif</image>
+			<type>Projectile</type>
+			<attributes>
+				<Health>10</Health>
+				<MOVE_SPEEDB>200</MOVE_SPEEDB>
+				<RADIUS>30</RADIUS>
+				<DIRECTIONB>0</DIRECTIONB>
+				<AttackDamage>-3</AttackDamage>
+				<AttackInterval>1250</AttackInterval>
+				<ANGULAR_SPEED>-0.7</ANGULAR_SPEED>
+				<ANGULAR_INTERVAL>15</ANGULAR_INTERVAL>
+				<ACCELERATION>1.5</ACCELERATION>
+			</attributes>
+			<actions>
+				<Move>
+					<parameter>MOVE_SPEEDB</parameter>
+					<parameter>DIRECTIONB</parameter>
+				</Move>
+				<FindTargets>
+					<parameter>RADIUS</parameter>
+					<ModifyAttributeValue>
+						<parameter>AttackDamage</parameter>
+						<parameter>Health</parameter>
+					</ModifyAttributeValue>
+			    </FindTargets>
+			    <PeriodicAction>
+					<parameter>ANGULAR_INTERVAL</parameter>
+					<FindTargets>
+						<parameter>RADIUS</parameter>
+						<ModifyAttributeValue>
+							<parameter>ANGULAR_SPEED</parameter>
+							<parameter>DIRECTIONB</parameter>
+						</ModifyAttributeValue>
+						<ModifyAttributeValue>
+							<parameter>ACCELERATION</parameter>
+							<parameter>MOVE_SPEEDB</parameter>
+						</ModifyAttributeValue>
+				    </FindTargets>
+			    </PeriodicAction>
+			</actions>			
+		</smartball>
+		<aTower>
+			<dimension>50, 50</dimension>
+			<image>defenseTower.png</image>
+			<type>Tower</type>
+			<attributes>
+				<Health>10</Health>
+				<Cost>600</Cost>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<FLY_SPEED>300</FLY_SPEED>
+				<RADIUS>200</RADIUS>
+				<Slow>-5</Slow>
+				<DIRECTION>0</DIRECTION>
+				<AttackInterval>1000</AttackInterval>
+				<AttackType>1.6</AttackType>
+				<NumTargets>2</NumTargets>
+			</attributes>
+			<actions>
+			    <FindTargets>
+					<parameter>RADIUS</parameter>
+					<ApplyAttributeBuff>
+						<parameter>Slow</parameter>
+					    <parameter>MOVE_SPEED</parameter>
+					</ApplyAttributeBuff>
+			    </FindTargets>
+			    <PeriodicAction>
+			    	<parameter>AttackInterval</parameter>
+				    <FindTargets>
+						<parameter>RADIUS</parameter>
+		            	<RemoveElement>
+			            </RemoveElement>
+			         </FindTargets>
+				</PeriodicAction>
+			</actions>			
+		</aTower>
+		<bTower>
+			<dimension>50, 50</dimension>
+			<image>fireTower.png</image>
+			<type>Tower</type>
+			<attributes>
+				<MOVE_SPEED>50</MOVE_SPEED>
+			</attributes>
+			<attributes>
+				<Cost>600</Cost>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<RADIUS>100</RADIUS>
+				<AttackInterval>5000</AttackInterval>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+				<PeriodicAction>
+					<parameter>AttackInterval</parameter>
+					    <CreateElement>
+					    	<parameter>smartball</parameter>
+					    </CreateElement>
+				</PeriodicAction>
+			</actions>			
+		</bTower>
+	</gameelements>
+	<rules>
+		<EnemyReachedEndRule/>
+		<NextLevelRule/>
+		<LoseAtZeroHealthRule/>
+	</rules>
+	<levels>
+		<Level0>
+			<rules>
+			</rules>
+			<actions>
+				<LevelTimerAction>
+					<parameter>10</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level0>
+		<Level1>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>20</parameter>
+					<parameter>1000</parameter>
+					<parameter>Elephant</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>30000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level1>
+		<Level2>
+				<rules>
+				</rules>
+				<actions>
+				<WaveAction>
+					<parameter>30</parameter>
+					<parameter>400</parameter>
+					<parameter>Dog</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>20000</parameter>
+				</LevelTimerAction>
+				</actions>
+			</Level2>
+			<Level3>
+				<rules>
+				</rules>
+				<actions>
+				<WaveAction>
+					<parameter>60</parameter>
+					<parameter>240</parameter>
+					<parameter>Bear</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>35000</parameter>
+				</LevelTimerAction>
+				</actions>
+			</Level3>
+	</levels>
+</Game>
