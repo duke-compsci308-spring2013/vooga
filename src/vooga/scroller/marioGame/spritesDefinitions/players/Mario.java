@@ -25,7 +25,7 @@ public class Mario extends Player implements IInputListener {
     private static final String CONTROLS_FILE_PATH =
             "vooga/scroller/marioGame/controls/MarioMapping";
 
-    private static final int MAX_JUMPS = 2;
+    private static final int MAX_JUMPS = 1;
     private static final Pixmap DEFAULT_IMAGE = MarioLib.makePixmap("mario_stand_right.gif");
     // private static final int DEATH_PENALTY = 1000;
 
@@ -35,15 +35,15 @@ public class Mario extends Player implements IInputListener {
 
     private static final double MAX_SPEED = 300;
 
-    private static final ISpriteView MOVE_LEFT = MarioLib.makePixmap("mario_move_left.gif");
+    private static final ISpriteView MOVE_LEFT_VIEW = MarioLib.makePixmap("mario_move_left.gif");
 
-    private static final ISpriteView STAND_LEFT = MarioLib.makePixmap("mario_stand_left.gif");
+    private static final ISpriteView STAND_LEFT_VIEW = MarioLib.makePixmap("mario_stand_left.gif");
 
     private static final double SPEED = 100;
 
-    private static final ISpriteView MOVE_RIGHT = MarioLib.makePixmap("mario_move_right.gif");
+    private static final ISpriteView MOVE_RIGHT_VIEW = MarioLib.makePixmap("mario_move_right.gif");
 
-    private static final ISpriteView STAND_RIGHT = MarioLib.makePixmap("mario_stand_right.gif");
+    private static final ISpriteView STAND_RIGHT_VIEW = MarioLib.makePixmap("mario_stand_right.gif");
 
     private int myJumpCount;
     private Force myGravity;
@@ -54,18 +54,19 @@ public class Mario extends Player implements IInputListener {
         myJumpCount = 0;
         myGravity = new Gravity(this);
 
-        intializeStates();
+        initializePossibleStates();
 
     }
 
     /**
      * Initialize all possible states, including movement for mario.
      */
-    private void intializeStates () {
-        this.addPossibleState(MoveLeftState.STATE_ID, new MoveLeftState(this, MOVE_LEFT,
-                                                                        STAND_LEFT, SPEED));
-        this.addPossibleState(MoveRightState.STATE_ID, new MoveRightState(this, MOVE_RIGHT,
-                                                                          STAND_RIGHT, SPEED));
+    @Override
+    protected void initializePossibleStates () {
+        this.addPossibleState(MoveLeftState.STATE_ID, new MoveLeftState(this, MOVE_LEFT_VIEW,
+                                                                        STAND_LEFT_VIEW, SPEED));
+        this.addPossibleState(MoveRightState.STATE_ID, new MoveRightState(this, MOVE_RIGHT_VIEW,
+                                                                          STAND_RIGHT_VIEW, SPEED));
     }
 
     @Override

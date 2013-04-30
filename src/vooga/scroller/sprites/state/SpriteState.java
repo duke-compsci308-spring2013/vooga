@@ -3,6 +3,7 @@ package vooga.scroller.sprites.state;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import vooga.scroller.sprites.Sprite;
 
 /**
  * This is our implementation of the State design pattern. This 
@@ -66,8 +67,11 @@ public abstract class SpriteState<T> implements Comparable<SpriteState<T>>{
     
     
     @Override
-    public int compareTo (@SuppressWarnings("rawtypes") SpriteState other) {
+    public int compareTo (SpriteState<T> other) {
         return this.getPaintPriority() - other.getPaintPriority();
     }
+
+
+    public abstract int getID ();
       
 }

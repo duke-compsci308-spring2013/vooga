@@ -57,4 +57,10 @@ public class InventoryState extends SpriteState<MrFish> {
         
     }
 
+
+    @Override
+    public int getID () {
+        return STATE_ID;
+    }
+
 }

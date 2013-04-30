@@ -13,5 +13,10 @@ public class TiltDown extends Tilt {
         // TODO Auto-generated constructor stub
     }
 
+    @Override
+    public int getID () {
+        return STATE_ID;
+    }
+
 
 }

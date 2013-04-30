@@ -386,6 +386,10 @@ public class Sprite implements Locatable {
     public void addPossibleState (int stateID, SpriteState state) {
         myStateManager.addState(stateID, state);
     }
+    
+    public void addPossibleState(SpriteState state) {
+        myStateManager.addState(state.getID(), state);
+    }
 
     public void activateState (int stateID) {
         myStateManager.activateState(stateID);

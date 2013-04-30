@@ -11,6 +11,7 @@ import vooga.scroller.scrollingmanager.ScrollingManager;
 import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.animation.state_movement.MoveLeftState;
 import vooga.scroller.sprites.animation.state_movement.MoveRightState;
+import vooga.scroller.sprites.state.SpriteState;
 import vooga.scroller.sprites.superclasses.Player;
 import vooga.scroller.util.ISpriteView;
 import vooga.scroller.util.Pixmap;
@@ -54,18 +55,21 @@ public class Mario extends Player implements IInputListener {
         myJumpCount = 0;
         myGravity = new Gravity(this);
 
-        intializeStates();
+        initializePossibleStates();
+        
 
     }
 
     /**
      * Initialize all possible states, including movement for mario.
      */
-    private void intializeStates () {
-        this.addPossibleState(MoveLeftState.STATE_ID, new MoveLeftState(this, MOVE_LEFT,
-                                                                        STAND_LEFT, SPEED));
-        this.addPossibleState(MoveRightState.STATE_ID, new MoveRightState(this, MOVE_RIGHT,
-                                                                          STAND_RIGHT, SPEED));
+    protected void initializePossibleStates () {
+        SpriteState<Sprite> movingLeft = new MoveLeftState(this, MOVE_LEFT,
+                                                   STAND_LEFT, SPEED);
+        SpriteState<Sprite> movingRight = new MoveRightState(this, MOVE_RIGHT,
+                                                             STAND_RIGHT, SPEED);
+        this.addPossibleState(movingLeft);
+        this.addPossibleState(movingRight);
     }
 
     @Override

@@ -13,6 +13,7 @@ public class InvisibleState extends SpriteState<Sprite>{
     }
 
     private static final int PRIORITY = Integer.MIN_VALUE;
+    private static final int STATE_ID = 201;
 
     
     @Override
@@ -40,6 +41,12 @@ public class InvisibleState extends SpriteState<Sprite>{
     public void deactivate () {
         // nothing special
         
+    }
+
+    @Override
+    public int getID () {
+        // TODO Auto-generated method stub
+        return STATE_ID;
     }
 
 

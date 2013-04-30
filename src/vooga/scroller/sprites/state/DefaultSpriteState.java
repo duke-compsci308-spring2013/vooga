@@ -49,4 +49,9 @@ public class DefaultSpriteState extends SpriteState<Sprite>{
         
     }
 
+    @Override
+    public int getID () {
+        return DEFAULT_ID;
+    }
+
 }

@@ -42,6 +42,7 @@ public abstract class Player extends GameCharacter implements IInputListener, Lo
     /**
      * This is the minimal constructor. Make sure to set the model at some point when 
      * using this constructor
+     * It takes care of initializing the possible states as defined in the concrete method.
      * @param image
      * @param size
      * @param health
@@ -49,6 +50,7 @@ public abstract class Player extends GameCharacter implements IInputListener, Lo
      */
     public Player (ISpriteView image, Dimension size, int health, int damage) {
         super(image, size, health, damage);
+        initializePossibleStates();
     }
     
     public void setModel(Model model) {
@@ -91,4 +93,6 @@ public abstract class Player extends GameCharacter implements IInputListener, Lo
     }
 
     public abstract void incrementScore (int value);
+    
+    protected abstract void initializePossibleStates();
 }

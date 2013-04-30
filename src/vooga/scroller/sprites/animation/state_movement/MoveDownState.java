@@ -20,4 +20,9 @@ public class MoveDownState extends SpriteMovementState {
         getUnit().setView(myStandView);
     }
 
+    @Override
+    public int getID () {
+        return STATE_ID;
+    }
+
 }

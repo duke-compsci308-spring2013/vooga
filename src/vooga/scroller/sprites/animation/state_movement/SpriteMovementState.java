@@ -7,7 +7,7 @@ import vooga.scroller.sprites.Sprite;
 import vooga.scroller.sprites.state.SpriteState;
 import vooga.scroller.util.ISpriteView;
 
-public class SpriteMovementState extends SpriteState<Sprite> {
+public abstract class SpriteMovementState extends SpriteState<Sprite> {
     
     private static final int PRIORITY = 1;
 

@@ -12,6 +12,8 @@ public class HighHealth extends SpriteState<Player>{
     private static final double WIDTH_FACTOR = 1.5;
     private static final double HEIGHT_FACTOR = 2.0;
 
+    private static final int STATE_ID = 200;
+
     public HighHealth(Player player){
         super(player);
     }
@@ -39,5 +41,10 @@ public class HighHealth extends SpriteState<Player>{
     @Override
     public void deactivate () {
         getUnit().scale(1/WIDTH_FACTOR, 1/HEIGHT_FACTOR);
+    }
+
+    @Override
+    public int getID () {
+        return STATE_ID;
     }
 }

@@ -20,4 +20,9 @@ public class MoveRightState extends SpriteMovementState {
         super.deactivate();
         getUnit().setView(myStandView);
     }
+
+    @Override
+    public int getID () {
+        return STATE_ID;
+    }
 }
