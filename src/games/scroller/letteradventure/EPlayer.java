@@ -113,6 +113,24 @@ public class EPlayer extends Player implements IInputListener{
     public void fire () {
         this.getLevel().addSprite(new Projectile());
     }
+
+    @Override
+    public void incrementScore (int value) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    protected void initializePossibleStates () {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public Force[] setForces () {
+        // TODO Auto-generated method stub
+        return null;
+    }
     
 //    /**
 //     * Returns the score of the player after the end of the game.

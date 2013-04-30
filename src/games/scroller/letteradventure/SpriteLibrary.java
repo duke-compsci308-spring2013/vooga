@@ -13,6 +13,7 @@ import vooga.scroller.sprites.movement.TrackPlayer;
 import vooga.scroller.sprites.superclasses.GameCharacter;
 import vooga.scroller.util.ISpriteView;
 import vooga.scroller.util.Pixmap;
+import vooga.scroller.util.physics.Force;
 
 /**
  * All the sprites present in the LetterAdventure with the exception of
@@ -66,6 +67,12 @@ public class SpriteLibrary extends EncapsulatedSpriteLibrary {
             // nothing happens.
         }
 
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     }
 
     /**
@@ -96,6 +103,12 @@ public class SpriteLibrary extends EncapsulatedSpriteLibrary {
             // end game
             // would like to return score from EPlayer to the arcade, but don't
             // know how...
+        }
+
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
         }
     }
 
@@ -133,6 +146,12 @@ public class SpriteLibrary extends EncapsulatedSpriteLibrary {
         @Override
         public void handleDeath (Level level) {
             // nothing happens.
+        }
+
+        @Override
+        public Force[] setForces () {
+            // TODO Auto-generated method stub
+            return null;
         }
 
     }
