@@ -14,7 +14,7 @@ import vooga.rts.gui.Menu;
 import vooga.rts.gui.menus.MainMenu;
 import vooga.rts.gui.menus.MultiMenu;
 import vooga.rts.gui.menus.SetupMenu;
-import vooga.rts.networking.communications.ExpandedLobbyInfo;
+import vooga.rts.networking.communications.infoobjects.ExpandedLobbyInfo;
 
 
 /**

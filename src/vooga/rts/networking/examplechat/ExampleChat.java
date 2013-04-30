@@ -10,10 +10,10 @@ import vooga.rts.networking.client.ClientModel;
 import vooga.rts.networking.client.IClient;
 import vooga.rts.networking.client.IMessageReceiver;
 import vooga.rts.networking.client.NetworkedGame;
-import vooga.rts.networking.communications.ExpandedLobbyInfo;
 import vooga.rts.networking.communications.IMessage;
-import vooga.rts.networking.communications.PlayerInfo;
 import vooga.rts.networking.communications.UserTimeStamp;
+import vooga.rts.networking.communications.infoobjects.ExpandedLobbyInfo;
+import vooga.rts.networking.communications.infoobjects.SmallPlayerInfo;
 
 
 /**
@@ -33,7 +33,7 @@ public class ExampleChat implements NetworkedGame, IChatModel, IMessageReceiver 
     private JFrame myFrame;
     private ChatPanel myChatPanel;
     private IClient myClient;
-    private PlayerInfo myPlayer;
+    private SmallPlayerInfo myPlayer;
     private ExpandedLobbyInfo myInfo;
     private long myStartTime;
 
@@ -74,7 +74,7 @@ public class ExampleChat implements NetworkedGame, IChatModel, IMessageReceiver 
     }
 
     @Override
-    public void loadGame (ExpandedLobbyInfo info, PlayerInfo thisPlayer) {
+    public void loadGame (ExpandedLobbyInfo info, SmallPlayerInfo thisPlayer) {
         myFrame.dispose();
         myChatPanel = new ChatPanel(this);
         myPlayer = thisPlayer;

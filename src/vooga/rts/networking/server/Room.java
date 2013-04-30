@@ -1,8 +1,8 @@
 package vooga.rts.networking.server;
 
 import java.util.logging.Logger;
-import vooga.rts.networking.communications.ExpandedLobbyInfo;
-import vooga.rts.networking.communications.LobbyInfo;
+import vooga.rts.networking.communications.infoobjects.ExpandedLobbyInfo;
+import vooga.rts.networking.communications.infoobjects.SmallLobbyInfo;
 
 
 /**
@@ -24,7 +24,7 @@ public class Room extends AbstractThreadContainer {
      * @param lobbyInfo lobby info
      * @param logger logger to use
      */
-    public Room (int id, GameContainer container, LobbyInfo lobbyInfo, Logger logger) {
+    public Room (int id, GameContainer container, SmallLobbyInfo lobbyInfo, Logger logger) {
         super(logger);
         setIDandContainer(id, container);
         myLobbyModel = new ExpandedLobbyInfo(lobbyInfo, id);

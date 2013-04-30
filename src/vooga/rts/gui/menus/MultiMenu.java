@@ -13,7 +13,7 @@ import javax.swing.JInternalFrame;
 import vooga.rts.gui.Menu;
 import vooga.rts.gui.Window;
 import vooga.rts.networking.client.ClientModel;
-import vooga.rts.networking.communications.ExpandedLobbyInfo;
+import vooga.rts.networking.communications.infoobjects.ExpandedLobbyInfo;
 import vooga.rts.networking.server.MatchmakerServer;
 
 

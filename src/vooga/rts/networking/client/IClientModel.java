@@ -1,8 +1,8 @@
 package vooga.rts.networking.client;
 
-import vooga.rts.networking.communications.ExpandedLobbyInfo;
-import vooga.rts.networking.communications.LobbyInfo;
 import vooga.rts.networking.communications.TimeStamp;
+import vooga.rts.networking.communications.infoobjects.ExpandedLobbyInfo;
+import vooga.rts.networking.communications.infoobjects.SmallLobbyInfo;
 
 
 /**
@@ -23,7 +23,7 @@ public interface IClientModel extends IMessageReceiver {
      * 
      * @param lobbies list of lobbies to display
      */
-    public void addLobbies (LobbyInfo[] lobbies);
+    public void addLobbies (SmallLobbyInfo[] lobbies);
 
     /**
      * Switches the clients visual elements to that of the Lobby.

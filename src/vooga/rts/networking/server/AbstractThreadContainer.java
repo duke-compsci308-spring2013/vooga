@@ -9,11 +9,11 @@ import util.logger.HandlerMemory;
 import util.logger.IVoogaHandler;
 import util.logger.LoggerManager;
 import vooga.rts.networking.NetworkBundle;
-import vooga.rts.networking.communications.ExpandedLobbyInfo;
 import vooga.rts.networking.communications.IMessage;
-import vooga.rts.networking.communications.LobbyInfo;
 import vooga.rts.networking.communications.Message;
 import vooga.rts.networking.communications.clientmessages.ClientInfoMessage;
+import vooga.rts.networking.communications.infoobjects.ExpandedLobbyInfo;
+import vooga.rts.networking.communications.infoobjects.SmallLobbyInfo;
 import vooga.rts.networking.communications.servermessages.AlertClientMessage;
 
 
@@ -111,7 +111,7 @@ public abstract class AbstractThreadContainer implements IThreadContainer, IMess
     }
 
     @Override
-    public void startLobby (ConnectionThread thread, LobbyInfo lobbyInfo) {
+    public void startLobby (ConnectionThread thread, SmallLobbyInfo lobbyInfo) {
         sendErrorMessage(thread);
     }
 

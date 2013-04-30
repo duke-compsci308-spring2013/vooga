@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import util.logger.HandlerTxt;
 import vooga.rts.networking.NetworkBundle;
-import vooga.rts.networking.communications.LobbyInfo;
+import vooga.rts.networking.communications.infoobjects.SmallLobbyInfo;
 import vooga.rts.networking.communications.servermessages.LobbyListMessage;
 
 
@@ -20,7 +20,7 @@ import vooga.rts.networking.communications.servermessages.LobbyListMessage;
 public class GameContainer extends AbstractThreadContainer {
 
     private Map<Integer, Room> myRooms = new HashMap<Integer, Room>();
-    private Map<Integer, LobbyInfo> myLobbyInfos = new HashMap<Integer, LobbyInfo>();
+    private Map<Integer, SmallLobbyInfo> myLobbyInfos = new HashMap<Integer, SmallLobbyInfo>();
     private int myRoomNumber = 0;
     private String myGameName;
 
@@ -95,8 +95,8 @@ public class GameContainer extends AbstractThreadContainer {
     }
 
     @Override
-    public void startLobby (ConnectionThread thread, LobbyInfo lobbyInfo) {
-        LobbyInfo newLobby = new LobbyInfo(lobbyInfo, getRoomNumber());
+    public void startLobby (ConnectionThread thread, SmallLobbyInfo lobbyInfo) {
+        SmallLobbyInfo newLobby = new SmallLobbyInfo(lobbyInfo, getRoomNumber());
         Room lobby = new Lobby(getRoomNumber(), this, newLobby, getLogger());
         addLobby(thread, newLobby, lobby);
     }
@@ -105,7 +105,7 @@ public class GameContainer extends AbstractThreadContainer {
      * Adds a room to the GameContainer. Separated out so that subclasses can instantiates different
      * Rooms.
      */
-    protected void addLobby (ConnectionThread thread, LobbyInfo newLobby, Room lobby) {
+    protected void addLobby (ConnectionThread thread, SmallLobbyInfo newLobby, Room lobby) {
         myLobbyInfos.put(getRoomNumber(), newLobby);
         incrementRoomNumber();
         lobby.addConnection(thread);
@@ -115,7 +115,7 @@ public class GameContainer extends AbstractThreadContainer {
 
     @Override
     public void requestLobbies (ConnectionThread thread) {
-        LobbyInfo[] infoArray = myLobbyInfos.values().toArray(new LobbyInfo[myLobbyInfos.size()]);
+        SmallLobbyInfo[] infoArray = myLobbyInfos.values().toArray(new SmallLobbyInfo[myLobbyInfos.size()]);
         thread.sendMessage(new LobbyListMessage(infoArray));
     }
 

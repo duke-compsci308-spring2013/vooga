@@ -1,7 +1,7 @@
 package vooga.rts.networking.client;
 
-import vooga.rts.networking.communications.ExpandedLobbyInfo;
-import vooga.rts.networking.communications.PlayerInfo;
+import vooga.rts.networking.communications.infoobjects.ExpandedLobbyInfo;
+import vooga.rts.networking.communications.infoobjects.SmallPlayerInfo;
 
 
 /**
@@ -19,7 +19,7 @@ public interface NetworkedGame {
      * @param info info about server
      * @param userPlayer player on this client
      */
-    public void loadGame (ExpandedLobbyInfo info, PlayerInfo userPlayer);
+    public void loadGame (ExpandedLobbyInfo info, SmallPlayerInfo userPlayer);
 
     /**
      * Starts the game.

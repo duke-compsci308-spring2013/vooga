@@ -1,8 +1,8 @@
 package vooga.rts.networking.communications.clientmessages;
 
 import vooga.rts.networking.communications.AbstractLobbyInfoMessage;
-import vooga.rts.networking.communications.ExpandedLobbyInfo;
-import vooga.rts.networking.communications.LobbyInfo;
+import vooga.rts.networking.communications.infoobjects.ExpandedLobbyInfo;
+import vooga.rts.networking.communications.infoobjects.SmallLobbyInfo;
 import vooga.rts.networking.server.ConnectionThread;
 import vooga.rts.networking.server.IThreadContainer;
 
@@ -24,7 +24,7 @@ public class UpdateLobbyInfoMessage extends AbstractLobbyInfoMessage implements 
      * 
      * @param lobbyInfo 
      */
-    public UpdateLobbyInfoMessage (LobbyInfo lobbyInfo) {
+    public UpdateLobbyInfoMessage (SmallLobbyInfo lobbyInfo) {
         super(lobbyInfo);
     }
 

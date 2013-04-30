@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import vooga.rts.networking.NetworkBundle;
-import vooga.rts.networking.communications.LobbyInfo;
+import vooga.rts.networking.communications.infoobjects.SmallLobbyInfo;
 
 
 /**
@@ -105,8 +105,8 @@ public class CreateLobbyView extends JPanel {
      * 
      * @return lobbyInfo
      */
-    public LobbyInfo getLobbyInfo () {
-        return new LobbyInfo(myServerField.getText(),
+    public SmallLobbyInfo getLobbyInfo () {
+        return new SmallLobbyInfo(myServerField.getText(),
                              (String) myMapComboBox.getSelectedItem(),
                              (Integer) myMaxPlayersComboBox.getSelectedItem(), 0);
     }

@@ -1,7 +1,7 @@
 package vooga.rts.networking.communications.clientmessages;
 
 import vooga.rts.networking.communications.AbstractLobbyInfoMessage;
-import vooga.rts.networking.communications.ExpandedLobbyInfo;
+import vooga.rts.networking.communications.infoobjects.ExpandedLobbyInfo;
 import vooga.rts.networking.server.ConnectionThread;
 import vooga.rts.networking.server.IThreadContainer;
 

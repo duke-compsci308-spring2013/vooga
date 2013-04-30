@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import vooga.rts.networking.NetworkBundle;
 import vooga.rts.networking.client.ClientModel;
-import vooga.rts.networking.communications.ExpandedLobbyInfo;
-import vooga.rts.networking.communications.LobbyInfo;
+import vooga.rts.networking.communications.infoobjects.ExpandedLobbyInfo;
+import vooga.rts.networking.communications.infoobjects.SmallLobbyInfo;
 
 
 /**
@@ -153,7 +153,7 @@ public class ClientViewAdapter extends ViewAdapter {
      * @param lobbies array with LobbyInfo that should update
      *        the ServerBrowserAdapter
      */
-    public void changeLobbies (LobbyInfo[] lobbies) {
+    public void changeLobbies (SmallLobbyInfo[] lobbies) {
         myServerBrowserAdapter.changeLobbies(lobbies);
     }
 

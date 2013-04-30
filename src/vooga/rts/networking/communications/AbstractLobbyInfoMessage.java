@@ -1,5 +1,7 @@
 package vooga.rts.networking.communications;
 
+import vooga.rts.networking.communications.infoobjects.SmallLobbyInfo;
+
 /**
  * Abstract class for sending LobbyInfo and ExpandedLobbyInfo.
  * Is extended by any server or client message that contains reference to the LobbyInfo.
@@ -11,21 +13,21 @@ package vooga.rts.networking.communications;
 public abstract class AbstractLobbyInfoMessage extends Message {
 
     private static final long serialVersionUID = 2163042663466305077L;
-    private LobbyInfo myLobbyInfo;
+    private SmallLobbyInfo myLobbyInfo;
 
     /**
      * Takes in expandedLobbyInfo.
      * 
      * @param lobbyInfo info
      */
-    public AbstractLobbyInfoMessage (LobbyInfo lobbyInfo) {
+    public AbstractLobbyInfoMessage (SmallLobbyInfo lobbyInfo) {
         myLobbyInfo = lobbyInfo;
     }
 
     /**
      * Allows subclasses to get lobbyInfo.
      */
-    protected LobbyInfo getLobbyInfo () {
+    protected SmallLobbyInfo getLobbyInfo () {
         return myLobbyInfo;
     }
 

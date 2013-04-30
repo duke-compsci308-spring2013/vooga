@@ -1,114 +1,100 @@
-package vooga.rts.networking.communications;
-
-import java.io.Serializable;
-import java.util.Observable;
-
+package vooga.rts.networking.communications.infoobjects;
 
 /**
  * Basic lobby information used for sending across the network to the server browser. Lightweight so
- * we can send many of these very quickly.
+ * we can send many of these very quickly. Contains information on the lobby name, maximum number of
+ * players, current lobby id, and map name.
+ * 
+ * Implements the LobbyInfo interface:
+ * 
+ * @see vooga.rts.networking.communications.infoobjects.LobbyInfo
  * 
  * @author David Winegar
  * @author Sean Wareham
  * 
  */
-public class LobbyInfo extends Observable implements Serializable {
+public class SmallLobbyInfo implements LobbyInfo {
 
     private static final long serialVersionUID = -1941237597305628081L;
     private String myLobbyName;
     private int myMaxPlayers;
     private String myMapName;
     private int myPlayersCount = 0;
-    private int myID;
+    private int myLobbyID;
 
     /**
      * Creates the lobbyInfo.
+     * 
      * @param lobbyName name of lobby
      * @param mapName name of map
      * @param maxPlayers maximum players
-     * @param id id
+     * @param lobbyId id
      */
-    public LobbyInfo (String lobbyName, String mapName, int maxPlayers, int id) {
+    public SmallLobbyInfo (String lobbyName, String mapName, int maxPlayers, int lobbyId) {
         myLobbyName = lobbyName;
         myMaxPlayers = maxPlayers;
         myMapName = mapName;
-        myID = id;
-    }
-    
-    /**
-     * Constructor that creates a new LobbyInfo with a different ID
-     * @param lobbyInfo info
-     * @param newID new ID
-     */
-    public LobbyInfo (LobbyInfo lobbyInfo, int newID) {
-        this(lobbyInfo.getLobbyName(), lobbyInfo.getMapName(), lobbyInfo.getMaxPlayers(), newID);
+        myLobbyID = lobbyId;
     }
 
     /**
-     * Returns the name of the lobby
+     * Constructor that creates a new LobbyInfo with a different ID.
      * 
-     * @return
+     * @param lobbyInfo info
+     * @param newID new ID
      */
+    public SmallLobbyInfo (SmallLobbyInfo lobbyInfo, int newID) {
+        this(lobbyInfo.getLobbyName(), lobbyInfo.getMapName(), lobbyInfo.getMaxPlayers(), newID);
+    }
+
+    @Override
     public String getLobbyName () {
         return myLobbyName;
     }
 
-    /**
-     * Returns the maximum number of players this lobby can hold.
-     * 
-     * @return
-     */
+    @Override
     public int getMaxPlayers () {
         return myMaxPlayers;
     }
 
-    /**
-     * Returns name of the Map of the current lobby.
-     * 
-     * @return
-     */
+    @Override
     public String getMapName () {
         return myMapName;
     }
 
-    /**
-     * Returns true if Lobby is full.
-     * 
-     * @return
-     */
+    @Override
     public boolean isLobbyFull () {
         return myPlayersCount == myMaxPlayers;
     }
 
-    /**
-     * Decreases current player count by 1
-     */
-    public void removePlayer () {
+    @Override
+    public void removePlayer (int id) {
         myPlayersCount--;
     }
 
-    /**
-     * Increases player count by 1
-     */
-    public void addPlayer () {
+    @Override
+    public void removePlayer (PlayerInfo info) {
+        removePlayer(info.getId());
+    }
+
+    @Override
+    public void addPlayer (PlayerInfo info) {
         myPlayersCount++;
     }
 
-    /**
-     * Returns the id.
-     * 
-     * @return id number
-     */
+    @Override
     public int getId () {
-        return myID;
+        return myLobbyID;
     }
-    
-    /**
-     * Gets the current number of players
-     * @return number of players
-     */
+
+    @Override
     public int getNumberOfPlayers () {
         return myPlayersCount;
+    }
+
+    @Override
+    public boolean canStartGame () {
+        return isLobbyFull();
     }
 
 }

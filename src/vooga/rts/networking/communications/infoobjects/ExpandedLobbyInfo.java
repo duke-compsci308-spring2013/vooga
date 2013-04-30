@@ -1,4 +1,4 @@
-package vooga.rts.networking.communications;
+package vooga.rts.networking.communications.infoobjects;
 
 import java.util.Arrays;
 
@@ -7,18 +7,18 @@ import java.util.Arrays;
  * Expanded lobby information used by the lobby model and view. Passed back and forth between the
  * server and client.
  * 
+ * Implements the PlayerInfo interface:
+ * 
+ * @see vooga.rts.networking.communications.infoobjects.PlayerInfo
+ * 
  * @author Sean Wareham
  * @author David Winegar
  * @author Henrique Moraes
  * 
  */
-public class ExpandedLobbyInfo extends LobbyInfo {
+public class ExpandedLobbyInfo extends SmallLobbyInfo {
 
     private static final long serialVersionUID = 8433220026468566119L;
-    /**
-     * Inner list represents a team, outer list represents all the teams
-     */
-    private int myMaxTeams;
     private PlayerInfo[] myPlayers;
     private int myNextSlot = 0;
 
@@ -35,8 +35,7 @@ public class ExpandedLobbyInfo extends LobbyInfo {
                               int maxPlayers,
                               int id) {
         super(lobbyName, mapName, maxPlayers, id);
-        myMaxTeams = maxPlayers;
-        myPlayers = new PlayerInfo[maxPlayers];
+        myPlayers = new SmallPlayerInfo[maxPlayers];
     }
 
     /**
@@ -59,15 +58,10 @@ public class ExpandedLobbyInfo extends LobbyInfo {
         this(lobbyInfo.getLobbyName(), lobbyInfo.getMapName(), lobbyInfo.getMaxPlayers(), newID);
     }
 
-    /**
-     * This method is used to add a new player to the next available slot. It distributes players
-     * evenly among teams
-     * 
-     * @param player player to add
-     */
+    @Override
     public void addPlayer (PlayerInfo player) {
         if (myNextSlot != getMaxPlayers()) {
-            addPlayer();
+            super.addPlayer(player);
             myPlayers[myNextSlot] = player;
             for (int i = myNextSlot + 1; i < myPlayers.length; i++) {
                 if (myPlayers[i] == null) {
@@ -79,27 +73,7 @@ public class ExpandedLobbyInfo extends LobbyInfo {
         }
     }
 
-    /**
-     * Removes the given player from the lobby.
-     * 
-     * @param player to remove
-     */
-    public void removePlayer (PlayerInfo player) {
-        for (int i = 0; i < myPlayers.length; i++) {
-            if (myPlayers[i] != null && myPlayers[i].equals(player)) {
-                myPlayers[i] = null;
-                if (myNextSlot > i) {
-                    myNextSlot = i;
-                }
-            }
-        }
-    }
-
-    /**
-     * Removes the given player from the lobby
-     * 
-     * @param playerID id of player to remove
-     */
+    @Override
     public void removePlayer (int playerID) {
         for (int i = 0; i < myPlayers.length; i++) {
             if (myPlayers[i] != null && myPlayers[i].getId() == playerID) {
@@ -135,15 +109,6 @@ public class ExpandedLobbyInfo extends LobbyInfo {
     }
 
     /**
-     * returns the max teams.
-     * 
-     * @return maximum number of teams
-     */
-    public int getMaxTeams () {
-        return myMaxTeams;
-    }
-
-    /**
      * Returns a copy of the current players.
      * 
      * @return copy of player array
@@ -153,32 +118,27 @@ public class ExpandedLobbyInfo extends LobbyInfo {
     }
 
     /**
-     * Returns if the game is startable.
+     * Utility function to give the actual array, and not a copy, to subclasses of
+     * ExpandedLobbyInfo.
      * 
-     * @return true if game can be started
+     * @return original players array
      */
-    public boolean canStartGame () {
-        for (int i = 0; i < myPlayers.length; i++) {
-            if (myPlayers[i] == null) { return false; }
-        }
-        if (getMaxPlayers() == 1) return true;
-
-        int team1 = myPlayers[0].getTeam();
-        for (int i = 0; i < myPlayers.length; i++) {
-            if (myPlayers[i].getTeam() != team1) { return true; }
-        }
-        return false;
+    protected PlayerInfo[] getPlayerArray () {
+        return myPlayers;
     }
 
     /**
-     * Gets a player with the given id
+     * Gets a PlayerInfo with the given id, as long as the PlayerInfo is contained in the array.
+     * Returns null if player is not found.
      * 
      * @param id of player
      * @return player
      */
     public PlayerInfo getPlayer (int id) {
-        for (int i = 0; i < myPlayers.length; i++) {
-            if (myPlayers[i].getId() == id) { return myPlayers[i]; }
+        for (PlayerInfo myPlayer : myPlayers) {
+            if (myPlayer.getId() == id) {
+                return myPlayer;
+            }
         }
         return null;
     }

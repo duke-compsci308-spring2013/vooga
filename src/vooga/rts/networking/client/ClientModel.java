@@ -9,10 +9,7 @@ import util.logger.LoggerManager;
 import vooga.rts.networking.NetworkBundle;
 import vooga.rts.networking.client.clientgui.ClientViewAdapter;
 import vooga.rts.networking.client.clientgui.IModel;
-import vooga.rts.networking.communications.ExpandedLobbyInfo;
 import vooga.rts.networking.communications.IMessage;
-import vooga.rts.networking.communications.LobbyInfo;
-import vooga.rts.networking.communications.PlayerInfo;
 import vooga.rts.networking.communications.TimeStamp;
 import vooga.rts.networking.communications.UserTimeStamp;
 import vooga.rts.networking.communications.clientmessages.ClientTimingMessage;
@@ -24,6 +21,9 @@ import vooga.rts.networking.communications.clientmessages.RequestServerListMessa
 import vooga.rts.networking.communications.clientmessages.RequestStartGameMessage;
 import vooga.rts.networking.communications.clientmessages.StartLobbyMessage;
 import vooga.rts.networking.communications.clientmessages.UpdateLobbyInfoMessage;
+import vooga.rts.networking.communications.infoobjects.ExpandedLobbyInfo;
+import vooga.rts.networking.communications.infoobjects.SmallLobbyInfo;
+import vooga.rts.networking.communications.infoobjects.SmallPlayerInfo;
 import vooga.rts.networking.communications.servermessages.ServerInfoMessage;
 
 
@@ -42,8 +42,8 @@ public class ClientModel extends Observable implements IClientModel, IModel {
     private IClient myClient;
     private String myUserName;
     private ExpandedLobbyInfo myLobbyInfo;
-    private List<PlayerInfo> myUserControlledPlayers = new ArrayList<PlayerInfo>();
-    private PlayerInfo myPlayer;
+    private List<SmallPlayerInfo> myUserControlledPlayers = new ArrayList<SmallPlayerInfo>();
+    private SmallPlayerInfo myPlayer;
     private NetworkedGame myGame;
     private ClientViewAdapter myViewAdapter;
     private List<String> myFactions;
@@ -131,7 +131,7 @@ public class ClientModel extends Observable implements IClientModel, IModel {
      * 
      * @param lobbyInfo Lobby containing information to host a game
      */
-    public void startLobby (LobbyInfo lobbyInfo) {
+    public void startLobby (SmallLobbyInfo lobbyInfo) {
         myClient.sendMessage(new StartLobbyMessage(lobbyInfo));
     }
 
@@ -159,7 +159,7 @@ public class ClientModel extends Observable implements IClientModel, IModel {
     }
 
     @Override
-    public void addLobbies (LobbyInfo[] lobbies) {
+    public void addLobbies (SmallLobbyInfo[] lobbies) {
         myViewAdapter.changeLobbies(lobbies);
     }
 
@@ -177,7 +177,7 @@ public class ClientModel extends Observable implements IClientModel, IModel {
 
     @Override
     public void switchToLobby (ExpandedLobbyInfo lobbyInfo, int playerID) {
-        myPlayer = new PlayerInfo(myUserName, 1, myFactions.get(0), playerID);
+        myPlayer = new SmallPlayerInfo(myUserName, 1, myFactions.get(0), playerID);
         myUserControlledPlayers.clear();
         myUserControlledPlayers.add(myPlayer);
         lobbyInfo.addPlayer(myPlayer);
@@ -224,7 +224,7 @@ public class ClientModel extends Observable implements IClientModel, IModel {
      * 
      * @return List with player information for this lobby
      */
-    public List<PlayerInfo> getPlayersInfo () {
+    public List<SmallPlayerInfo> getPlayersInfo () {
         return myUserControlledPlayers;
     }
 

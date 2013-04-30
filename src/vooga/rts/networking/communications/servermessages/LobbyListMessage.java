@@ -1,8 +1,8 @@
 package vooga.rts.networking.communications.servermessages;
 
 import vooga.rts.networking.client.IClientModel;
-import vooga.rts.networking.communications.LobbyInfo;
 import vooga.rts.networking.communications.Message;
+import vooga.rts.networking.communications.infoobjects.SmallLobbyInfo;
 
 
 /**
@@ -15,14 +15,14 @@ import vooga.rts.networking.communications.Message;
 public class LobbyListMessage extends Message implements ServerInfoMessage {
 
     private static final long serialVersionUID = -1875703902581296257L;
-    private LobbyInfo[] myLobbies;
+    private SmallLobbyInfo[] myLobbies;
 
     /**
      * Instantiates the message with the given array of lobbies.
      * 
      * @param lobbyList list to send
      */
-    public LobbyListMessage (LobbyInfo[] lobbyList) {
+    public LobbyListMessage (SmallLobbyInfo[] lobbyList) {
         myLobbies = lobbyList;
     }
 

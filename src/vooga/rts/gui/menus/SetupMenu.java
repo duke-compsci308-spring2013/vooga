@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.Observable;
 import vooga.rts.gui.Menu;
-import vooga.rts.networking.communications.ExpandedLobbyInfo;
+import vooga.rts.networking.communications.infoobjects.ExpandedLobbyInfo;
 import vooga.rts.util.Scale;
 
 public class SetupMenu extends Menu {

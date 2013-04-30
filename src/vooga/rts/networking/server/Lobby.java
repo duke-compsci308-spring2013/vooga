@@ -3,8 +3,8 @@ package vooga.rts.networking.server;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import vooga.rts.networking.NetworkBundle;
-import vooga.rts.networking.communications.ExpandedLobbyInfo;
-import vooga.rts.networking.communications.LobbyInfo;
+import vooga.rts.networking.communications.infoobjects.ExpandedLobbyInfo;
+import vooga.rts.networking.communications.infoobjects.SmallLobbyInfo;
 import vooga.rts.networking.communications.servermessages.FinalizeLobbyInfoMessage;
 import vooga.rts.networking.communications.servermessages.SendLobbyInfoUpdatesMessage;
 import vooga.rts.networking.communications.servermessages.StartGameMessage;
@@ -29,7 +29,7 @@ public class Lobby extends Room {
      * @param lobbyInfo lobby info
      * @param logger log this
      */
-    public Lobby (int myRoomNumber, GameContainer gameContainer, LobbyInfo lobbyInfo, Logger logger) {
+    public Lobby (int myRoomNumber, GameContainer gameContainer, SmallLobbyInfo lobbyInfo, Logger logger) {
         super(myRoomNumber, gameContainer, lobbyInfo, logger);
     }
 

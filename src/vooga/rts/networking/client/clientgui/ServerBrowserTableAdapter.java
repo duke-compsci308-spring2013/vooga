@@ -2,7 +2,7 @@ package vooga.rts.networking.client.clientgui;
 
 import javax.swing.table.AbstractTableModel;
 import vooga.rts.networking.NetworkBundle;
-import vooga.rts.networking.communications.LobbyInfo;
+import vooga.rts.networking.communications.infoobjects.SmallLobbyInfo;
 
 
 /**
@@ -21,7 +21,7 @@ public class ServerBrowserTableAdapter extends AbstractTableModel {
                                       NetworkBundle.getString("Players") };
 
     // initialize with no lobbies
-    private LobbyInfo[] myLobbies = new LobbyInfo[0];
+    private SmallLobbyInfo[] myLobbies = new SmallLobbyInfo[0];
 
     @Override
     public int getColumnCount () {
@@ -76,7 +76,7 @@ public class ServerBrowserTableAdapter extends AbstractTableModel {
      * 
      * @param lobbies to display
      */
-    public void changeLobbies (LobbyInfo[] lobbies) {
+    public void changeLobbies (SmallLobbyInfo[] lobbies) {
         myLobbies = lobbies;
     }
 
