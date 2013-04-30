@@ -131,18 +131,18 @@
 	</strategies>
 	<buildings src = "vooga.rts.gamedesign.sprite.gamesprites.interactive.buildings.Building">
 		<building>
-			<name>home</name>
-			<img>images/home.png</img>
+			<name>goal</name>
+			<img>images/goal.png</img>
 			<sound>pikachu.wav</sound>
 			<health>1000</health>
 			<buildtime>5</buildtime>
 			<occupy>cannotbeoccupied</occupy>
 			<upgrade>canupgrade</upgrade>
 			<upgradeTreeName>RegularUpgrade</upgradeTreeName>
-			<produce>Marine</produce>
+			<produce>player</produce>
 			<myweapons></myweapons>
 			<information>
-				<description>Welcome home</description>
+				<description>Score if you dare!</description>
 				<button>buttons/marine.png</button>
 				<cost>
 					<gold>10</gold>
@@ -150,34 +150,14 @@
 				</cost>				
 			</information>			
 		</building>
-		<building>
-			<name>garrison</name>
-			<img>images/home.png</img>
-			<sound>pikachu.wav</sound>
-			<health>1000</health>
-			<buildtime>5</buildtime>
-			<occupy>canbeoccupied</occupy>
-			<upgrade>cannotupgrade</upgrade>
-			<upgradeTreeName></upgradeTreeName>
-			<produce>Marine</produce>
-			<myweapons></myweapons>
-			<information>
-				<description>I am a garrison</description>
-				<button>buttons/marine.png</button>
-				<cost>
-					<gold>20</gold>
-					<wood>20</wood>
-				</cost>				
-			</information>			
-		</building>
-		<custombuilding src = "vooga.rts.gamedesign.sprite.gamesprites.interactive.buildings.Tower">
-			<name>tower</name>
+		<custombuilding src = "vooga.rts.gamedesign.sprite.gamesprites.interactive.buildings.Stadium">
+			<name>stadium</name>
 		</custombuilding>
 	</buildings>
 	<units src = "vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Unit">
 		<unit>
-			<name>Marine</name>
-			<img>images/sprites/halo_soldier.png</img>
+			<name>player</name>
+			<img>images/player.png</img>
 			<sound>pikachu.wav</sound>
 			<health>100</health>
 			<buildtime>5</buildtime>
@@ -186,68 +166,55 @@
 			<occupy>cannotbeoccupied</occupy>
 			<upgrade>canupgrade</upgrade>
 			<upgradeTreeName>SoldierUpgrade</upgradeTreeName>
-			<produce>home</produce>
-			<myweapons>gun</myweapons>
+			<produce></produce>
+			<myweapons>ballthrower</myweapons>
 			<information>
-				<description>I am a big doo doo</description>
+				<description>I am a soccer player!</description>
 				<button>buttons/marine.png</button>
 				<cost>
-					<gold>15</gold>
-					<wood>15</wood>
+					<gold>0</gold>
+					<wood>0</wood>
 				</cost>				
 			</information>
-		</unit>
+		</unit>	
 		<unit>
-			<name>worker</name>
-			<img>images/sprites/soldier.png</img>
+			<name>goalie</name>
+			<img>images/goalie.png</img>
 			<sound>pikachu.wav</sound>
-			<health>100</health>
+			<health>500</health>
 			<buildtime>5</buildtime>
-			<speed>140</speed>
-			<gather>cangather</gather>
+			<speed>100</speed>
+			<gather>cannotgather</gather>
 			<occupy>cannotbeoccupied</occupy>
 			<upgrade>canupgrade</upgrade>
-			<upgradeTreeName>RegularUpgrade</upgradeTreeName>
-			<produce>home</produce>
+			<upgradeTreeName>SoldierUpgrade</upgradeTreeName>
+			<produce></produce>
 			<myweapons></myweapons>
 			<information>
-				<description>I am a big doo doo</description>
-				<button>images/scv.png</button>
+				<description>I am a goalie!</description>
+				<button>buttons/marine.png</button>
 				<cost>
-					<gold>12</gold>
-					<wood>12</wood>
+					<gold>0</gold>
+					<wood>0</wood>
 				</cost>
-			</information>			
-		</unit>
+			</information>
+		</unit>	
 	</units>
 	<weapons src = "vooga.rts.gamedesign.weapon.Weapon">
 			<weapon>
-				<name>gun</name>
-				<myprojectile>bullet</myprojectile>
+				<name>ballthrower</name>
+				<myprojectile>ball</myprojectile>
 				<range>500</range>
-				<cooldown>1</cooldown>
-			</weapon>
-			<weapon>
-				<name>sniper</name>
-				<myprojectile>sniperbullet</myprojectile>
-				<range>800</range>
 				<cooldown>1</cooldown>
 			</weapon>
 	</weapons>
 	<projectiles src = "vooga.rts.gamedesign.sprite.gamesprites.Projectile">
 		<projectile>
-			<name>bullet</name>
-			<img>images/bullet.png</img>
+			<name>ball</name>
+			<img>images/ball.png</img>
 			<damage>10</damage>
 			<lifespan>100</lifespan>
 			<speed>200</speed>
-		</projectile>
-		<projectile>
-			<name>sniperbullet</name>
-			<img>images/bullet.png</img>
-			<damage>10</damage>
-			<lifespan>100</lifespan>
-			<speed>400</speed>
 		</projectile>
 	</projectiles>
 </GameElements>

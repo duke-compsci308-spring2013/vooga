@@ -42,15 +42,15 @@ import vooga.rts.util.TimeIt;
  * 
  */
 public class GameState extends SubState implements Controller, Observer {
-    private static final Location3D DEFAULT_SOLDIER_ONE_RELATIVE_LOCATION = new Location3D(100,
-                                                                                           100, 0);
+
 
     private static final Location3D DEFAULT_WORKER_RELATIVE_LOCATION = new Location3D(200, 200, 0);
 
-    private static final Location3D DEFAULT_PRODUCTION_RELATIVE_LOCATION = new Location3D(000, 500,
+    private static final Location3D DEFAULT_PRODUCTION_RELATIVE_LOCATION = new Location3D(0, 0,
                                                                                           0);
+    private static final Location3D DEFAULT_GOALIE_RELATIVE_LOCATION = new Location3D(0,0,0);
 
-    private static final Location3D DEFAULT_OCCUPY_RELATIVE_LOCATION = new Location3D(300, 300, 0);
+
 
     private static GameMap myMap;
     private static PlayerManager myPlayers = new PlayerManager();
@@ -138,32 +138,28 @@ public class GameState extends SubState implements Controller, Observer {
 
     private void generateInitialSprites (int playerID) {
         Location3D baseLocation = getPlayers().getPlayer(playerID).getBase();
-        Unit worker = (Unit) RTSGame.getFactory().getEntitiesMap().get("worker").copy();
-        worker =
+        
+        
+        for(int i = 0 ; i < 10 ; i++){
+            Unit worker = (Unit) RTSGame.getFactory().getEntitiesMap().get("player").copy();
+            worker = (Unit) setLocation(worker, baseLocation, new Location3D(50+ i*10,0,0));
 
-        (Unit) setLocation(worker, baseLocation, DEFAULT_WORKER_RELATIVE_LOCATION);
+            getPlayers().getPlayer(playerID).add(worker);
+        }
 
-        getPlayers().getPlayer(playerID).add(worker);
-
-        Unit soldierOne = (Unit) RTSGame.getFactory().getEntitiesMap().get("Marine").copy();
-        soldierOne =
-
-        (Unit) setLocation(soldierOne, baseLocation, DEFAULT_SOLDIER_ONE_RELATIVE_LOCATION);
-
-        getPlayers().getPlayer(playerID).add(soldierOne);
-
+        Unit goalie = (Unit) RTSGame.getFactory().getEntitiesMap().get("goalie").copy();
+        goalie = (Unit) setLocation(goalie, baseLocation, new Location3D(0,0,0));
+        getPlayers().getPlayer(playerID).add(goalie);
+        
         Building startProduction =
-                (Building) RTSGame.getFactory().getEntitiesMap().get("home").copy();
-        startProduction =
-                (Building) setLocation(startProduction, baseLocation,
-                                       DEFAULT_PRODUCTION_RELATIVE_LOCATION);
+                (Building) RTSGame.getFactory().getEntitiesMap().get("goal").copy();
+        startProduction = (Building) setLocation(startProduction, baseLocation, DEFAULT_PRODUCTION_RELATIVE_LOCATION);
         getPlayers().getPlayer(playerID).add(startProduction);
+        
+        Building stadium = (Building) RTSGame.getFactory().getEntitiesMap().get("stadium");
+        stadium = (Building) setLocation(stadium, baseLocation, new Location3D(0,20,0));
+        getPlayers().getPlayer(playerID).add(stadium);
 
-        Building startOccupy =
-                (Building) RTSGame.getFactory().getEntitiesMap().get("garrison").copy();
-        startOccupy =
-                (Building) setLocation(startOccupy, baseLocation, DEFAULT_OCCUPY_RELATIVE_LOCATION);
-        getPlayers().getPlayer(playerID).add(startOccupy);
 
     }
 
@@ -178,11 +174,7 @@ public class GameState extends SubState implements Controller, Observer {
     }
 
     private void generateResources () {
-        for (int j = 0; j < 10; j++) {
-            getMap().getResources().add(new Resource(new Pixmap("images/mineral.gif"),
-                                                     new Location3D(600 + j * 30, 600 - j * 20, 0),
-                                                     new Dimension(50, 50), 0, 200, "mineral"));
-        }
+
     }
 
     public void initializeGameOver () {
