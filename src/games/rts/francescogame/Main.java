@@ -7,7 +7,7 @@ import arcade.games.ArcadeInteraction;
 /**
  * Main class to create our sample game
  * It only requires generated xml files to work
- * @author Henrique Moraes & Sherry Liu
+ * @author Francesco Agosti
  *
  */
 public class Main extends RTSGame {
