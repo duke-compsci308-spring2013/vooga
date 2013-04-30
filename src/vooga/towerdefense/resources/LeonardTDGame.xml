@@ -1,0 +1,191 @@
+<Game>
+	<view>
+		<dimension>1100, 800</dimension>
+		<MapScreen>
+			<dimension>800, 600</dimension>
+			<location>Center</location>
+		</MapScreen>
+		<MultipleScreenPanel>
+			<dimension>1000, 200</dimension>
+			<location>North</location>
+			<ShopScreen>
+				<dimension>600, 100</dimension>
+				<location>Center</location>
+			</ShopScreen>
+			<NextWaveScreen>
+				<dimension>200, 100</dimension>
+				<location>East</location>
+			</NextWaveScreen>
+		</MultipleScreenPanel>
+		<MultipleScreenPanel>
+			<dimension>200, 600</dimension>
+			<location>East</location>
+			<GameStatsScreen>
+				<dimension>200, 200</dimension>
+				<location>North</location>
+			</GameStatsScreen>
+			<GameElementInformationScreen>
+				<dimension>200, 200</dimension>
+				<location>South</location>
+			</GameElementInformationScreen>
+		</MultipleScreenPanel>
+	</view>
+	<map>
+		<Map1>
+			<image>bg1.jpg</image>
+			<tile_size>50</tile_size>
+			<dimension>
+				<width>800</width>
+				<height>500</height>
+			</dimension>
+			<grid>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 2 s 0 0 0 0 0 0 0 0 0 0 0 
+			0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0
+			0 2 2 2 2 2 2 0 0 0 0 2 2 2 0 0
+			0 2 0 2 0 0 2 0 0 0 0 2 0 2 0 0 
+			s 2 0 2 0 0 2 2 2 2 2 2 2 2 2 d
+			0 0 0 2 0 0 0 0 0 2 0 2 0 0 0 0
+			1 1 1 s 1 1 1 1 1 2 1 2 1 1 1 1
+			0 0 0 0 0 0 0 0 0 2 2 2 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</grid>
+		</Map1>
+	</map>
+	<player>
+		<attributes>
+			<Health>50.0</Health>
+			<Score>0.0</Score>
+			<Money>500.0</Money>
+		</attributes>
+	</player>
+	<gameelements>
+		<Hippo>
+			<dimension>50, 50</dimension>
+			<image>hippo.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>10</Health>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<DIRECTION>1</DIRECTION>
+				<Money>10</Money>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage></DeathPackage>
+			</actions>			
+		</Hippo>
+		<Tiger>
+			<dimension>50, 50</dimension>
+			<image>tiger.gif</image>
+			<type>Unit</type>
+			<attributes>
+				<Health>15</Health>
+				<MOVE_SPEED>200</MOVE_SPEED>
+				<DIRECTION>0</DIRECTION>
+				<FLY_SPEED>50</FLY_SPEED>
+				<Money>50</Money>
+			</attributes>
+			<actions>
+				<FollowPath>
+				</FollowPath>
+				<Move>
+					<parameter>MOVE_SPEED</parameter>
+					<parameter>DIRECTION</parameter>
+				</Move>
+				<DeathPackage></DeathPackage>
+			</actions>			
+		</Tiger>
+		<Tower1>
+			<dimension>50, 50</dimension>
+			<image>tower.gif</image>
+			<type>Tower</type>
+			<attributes>
+				<MOVE_SPEED>50</MOVE_SPEED>
+			</attributes>
+			<attributes>
+				<Health>100</Health>
+				<Cost>10</Cost>
+				<MOVE_SPEED>50</MOVE_SPEED>
+				<RADIUS>25</RADIUS>
+				<AttackType>1.2</AttackType>
+				<Slow>-5</Slow>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+			    <FindTargets>
+					<parameter>RADIUS</parameter>
+					<ApplyAttributeBuff>
+						<parameter>Slow</parameter>
+					    <parameter>Health</parameter>
+					</ApplyAttributeBuff>
+			    </FindTargets>
+			</actions>			
+		</Tower1>
+		<Tower2>
+			<dimension>50, 50</dimension>
+			<image>github.png</image>
+			<type>Tower</type>
+			<attributes>
+				<MOVE_SPEED>80</MOVE_SPEED>
+			</attributes>
+			<attributes>
+				<Health>100</Health>
+				<Cost>10</Cost>
+				<MOVE_SPEED>80</MOVE_SPEED>
+				<FLY_SPEED>300</FLY_SPEED>
+				<RADIUS>200</RADIUS>
+				<AttackType>1.2</AttackType>
+				<Slow>-5</Slow>
+				<DIRECTION>0</DIRECTION>
+			</attributes>
+			<actions>
+			    <FindTargets>
+					<parameter>RADIUS</parameter>
+					<ApplyAttributeBuff>
+						<parameter>Slow</parameter>
+					    <parameter>Health</parameter>
+					</ApplyAttributeBuff>
+			    </FindTargets>
+			</actions>			
+		</Tower2>
+	</gameelements>
+	<rules>
+		<EnemyReachedEndRule/>
+		<NextLevelRule/>
+		<LoseAtZeroHealthRule/>
+	</rules>
+	<levels>
+		<Level1>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>30</parameter>
+					<parameter>1000</parameter>
+					<parameter>Hippo</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>60000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level1>
+		<Level2>
+			<rules>
+			</rules>
+			<actions>
+				<WaveAction>
+					<parameter>30</parameter>
+					<parameter>500</parameter>
+					<parameter>Tiger</parameter>
+				</WaveAction>
+				<LevelTimerAction>
+					<parameter>50000</parameter>
+				</LevelTimerAction>
+			</actions>
+		</Level2>
+	</levels>
+</Game>

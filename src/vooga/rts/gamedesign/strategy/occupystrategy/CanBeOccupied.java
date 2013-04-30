@@ -7,18 +7,20 @@ import vooga.rts.action.InteractiveAction;
 import vooga.rts.commands.Command;
 import vooga.rts.gamedesign.sprite.gamesprites.GameEntity;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
-import vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Soldier;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Unit;
 import vooga.rts.gamedesign.state.DetectableState;
 import vooga.rts.gamedesign.state.MovementState;
 import vooga.rts.gamedesign.state.OccupyState;
+import vooga.rts.gamedesign.strategy.Strategy;
+import vooga.rts.util.Information;
 import vooga.rts.util.Location3D;
 
 
 /**
  * 
  * This class implements OccupyStrategy and is used as an instance in
- * InteractiveEntity for objects that can be occupied by types of Units specified.
+ * InteractiveEntity for objects that can be occupied by types of Units
+ * specified.
  * 
  * @author Wenshun Liu
  * 
@@ -26,32 +28,36 @@ import vooga.rts.util.Location3D;
 public class CanBeOccupied implements OccupyStrategy {
     public static final int DEFAULT_MAX_OCCUPIERS = 10;
 
+    // TODO: another way to verify different types of Units? Probably names in
+    // xml?
     private List<Integer> myOccupierHashCodes;
-    private List<String> myValidOccupierType;
     private int myMaxOccupiers;
     private int myOccupierID;
 
     /**
      * Creates a new occupy strategy that represents an entity that can be
-     * occupied. It is created with a list of what entities can occupy it,
-     * what entities are occupying it, and the max number of entities that can
-     * occupy it.
+     * occupied. It is created with a list of what entities can occupy it, what
+     * entities are occupying it, and the max number of entities that can occupy
+     * it.
      */
     public CanBeOccupied () {
         myOccupierHashCodes = new ArrayList<Integer>();
-        myValidOccupierType = new ArrayList<String>();
         myMaxOccupiers = DEFAULT_MAX_OCCUPIERS;
         myOccupierID = 0;
     }
 
     public void getOccupied (InteractiveEntity entity, Unit u) {
-        if (myOccupierHashCodes.size() < myMaxOccupiers && verifyOccupier(entity, u)) {
+        if (myOccupierHashCodes.contains(u.hashCode())) {
+            return;
+        }
+        if (myOccupierHashCodes.size() < myMaxOccupiers) {
             if (myOccupierID == 0) {
                 myOccupierID = u.getPlayerID();
             }
             myOccupierHashCodes.add(u.hashCode());
             entity.setChanged();
             u.getEntityState().setOccupyState(OccupyState.OCCUPYING);
+            u.setVisible(false);
             entity.notifyObservers(u);
         }
     }
@@ -64,16 +70,15 @@ public class CanBeOccupied implements OccupyStrategy {
     }
 
     /**
-     * Creates and adds the action, in which the occupied entity will remove
-     * and return all its occupiers back to the original player.
+     * Creates and adds the action, in which the occupied entity will remove and
+     * return all its occupiers back to the original player.
      * 
-     * @param entity the object that is occupied.
+     * @param entity
+     *        the object that is occupied.
      */
     private void addDeoccupyAction (final InteractiveEntity entity) {
-        entity.addAction("deoccupy", new InteractiveAction(entity) {
-            @Override
-            public void update (Command command) {
-            }
+        String commandName = "deoccupy";
+        entity.addAction(commandName, new InteractiveAction(entity) {
 
             @Override
             public void apply () {
@@ -85,46 +90,11 @@ public class CanBeOccupied implements OccupyStrategy {
                     entity.notifyObservers(hashCode);
                     it.remove();
                 }
+
             }
         });
-    }
-
-    /**
-     * Adds a new type of object as a valid type of occupier.
-     */
-    public void addValidClassType (Unit validOccupier) {
-        Class<?> cls = validOccupier.getClass();
-        String className = cls.getName();
-        myValidOccupierType.add(className);
-    }
-
-    /**
-     * Verifies if the occupier is able to occupy the entity.
-     * 
-     * @param entity the entity that will be occupied
-     * @param occupier the occupier that wants to perform occupy action
-     * @return whether the occupier can perform occupy action
-     */
-    private boolean verifyOccupier (GameEntity entity, InteractiveEntity occupier) {
-        Class<?> cls = occupier.getClass();
-        if (!occupier.getEntityState().getMovementState().equals(MovementState.STATIONARY)) {
-            return false;
-        }
-
-        if (myOccupierID != 0 && myOccupierID != occupier.getPlayerID()) {
-            return false;
-        }
-        for (String s : myValidOccupierType) {
-            while (cls != null) {
-                String className = cls.getName();
-                // System.out.println("class name to be compared: "+ className);
-                if (className.equals(s)) {
-                    return true;
-                }
-                cls = cls.getSuperclass();
-            }
-        }
-        return false;
+        entity.addActionInfo(commandName, new Information(commandName, "this deoccupies errboday",
+                                                          "buttons/unload.gif", null));
     }
 
     /**
@@ -157,18 +127,9 @@ public class CanBeOccupied implements OccupyStrategy {
         return myMaxOccupiers;
     }
 
-    /**
-     * TESTING FOR VERIFYING VALID OCCUPIER
-     * 
-     * @param argus
-     */
-    public static void main (String[] argus) {
-        OccupyStrategy o = new CanBeOccupied();
-        o.addValidClassType(new Unit());
-        Soldier s = new Soldier();
-        Unit u = new Unit();
-        // System.out.println("Soldier: " + verifyOccupier(s));
-        // System.out.println("Unit: " + verifyOccupier(u));
+    public void copyStrategy (InteractiveEntity entity) {
+        OccupyStrategy newOccupy = new CanBeOccupied();
+        newOccupy.createOccupyActions(entity);
+        entity.setOccupyStrategy(newOccupy);
     }
-
 }

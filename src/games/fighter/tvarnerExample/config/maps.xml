@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<maps>
+    <map mapName="BlueMap" xSize= "900" ySize="600">
+        <startingPos xCoord="140" yCoord="300"/>
+        <startingPos xCoord="640" yCoord="300"/>
+        <state stateName = "background">
+            <frame image = "games/fighter/tvarnerExample/images/nofutureback.jpg" />
+        </state>
+        <environmentObject objectName="platform" xCoord="200" yCoord="550" />
+    </map>
+    <map mapName="RainbowBackground" xSize="1024" ySize="871">
+        <startingPos xCoord="140" yCoord="300"/>
+        <startingPos xCoord="200" yCoord="300"/>
+        <state stateName = "background">
+            <frame image = "games/tvarnerExample/images/nofutureback.jpg" />
+        </state>
+        <environmentObject objectName="platform" xCoord="300" yCoord="300" />
+    </map>
+    <map mapName="NewMap" xSize="1024" ySize="871">
+    </map>
+</maps>

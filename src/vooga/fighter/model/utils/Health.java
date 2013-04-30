@@ -46,7 +46,7 @@ public class Health {
      * Returns true if the object has any remaining health.
      */
     public boolean hasHealthRemaining () {
-        return (myHealth > 0);
+        return myHealth > 0;
     }
 
 }

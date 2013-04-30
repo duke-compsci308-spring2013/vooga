@@ -26,6 +26,11 @@ public class Window {
     private GraphicsDevice myGraphics;
 
     private DisplayMode myPrevDispMode;
+    
+    public static final int D_X = 1366;
+    public static final int D_Y = 768;
+
+    
 
     public Window () {
         myFrame = new JFrame();
@@ -46,12 +51,8 @@ public class Window {
             });
         }
         catch (InvocationTargetException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
         catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
     }
 
@@ -79,6 +80,7 @@ public class Window {
                 myFrame.setResizable(false);
                 myFrame.setAlwaysOnTop(false);
                 myFrame.setVisible(true);
+                //myFrame.setIgnoreRepaint(true);
             }
         }
         else {
@@ -101,11 +103,13 @@ public class Window {
                 myFrame.setMinimumSize(new Dimension(SCREEN_SIZE));
                 myFrame.setResizable(true);
                 myFrame.setVisible(true);
+                //myFrame.setIgnoreRepaint(false);
             }
         }
         SCREEN_SIZE =
                 new Dimension(myGraphics.getDisplayMode().getWidth(), myGraphics.getDisplayMode()
                         .getHeight());
+
         myFrame.repaint();
     }
 
@@ -120,4 +124,5 @@ public class Window {
     public boolean hasFocus () {
         return myFrame.hasFocus();
     }
+    
 }

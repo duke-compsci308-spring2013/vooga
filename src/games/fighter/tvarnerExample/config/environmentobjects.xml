@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<environmentObjects>
+    <environmentObject objectName="platform" default="default">
+        <state stateName = "default">
+            <frame image="games/fighter/tvarnerExample/images/brick1.gif">
+                <hitbox cornerX="0" cornerY="0" width="2000" height="40"/>
+            </frame>
+        </state>
+    </environmentObject>
+</environmentObjects>

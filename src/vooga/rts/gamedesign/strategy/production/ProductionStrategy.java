@@ -1,6 +1,10 @@
 package vooga.rts.gamedesign.strategy.production;
 
+import java.util.List;
 import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
+import vooga.rts.gamedesign.state.ProducingState;
+import vooga.rts.gamedesign.strategy.Strategy;
+import vooga.rts.util.Location3D;
 
 /**
  * 
@@ -20,11 +24,35 @@ import vooga.rts.gamedesign.sprite.gamesprites.interactive.InteractiveEntity;
  * @author Wenshun Liu 
  *
  */
-public interface ProductionStrategy {
+public interface ProductionStrategy extends Strategy{
 
-  /** 
-   *  requires a timer for cooldown for production 
-   */
-  public void createProductionActions(InteractiveEntity producer);
+	/**
+	 * Creates all the actions that this strategy can accomplish. 
+	 * @param producer
+	 */
+	public void createProductionActions(InteractiveEntity producer);
+
+	/**
+	 * Adds a producable entity to the list of producables this producer can make. 
+	 */
+	public void addProducable(InteractiveEntity producable);
+
+	/**
+	 * Returns a list of the entities this producer can make. 
+	 * @return list of producables
+	 */
+	public List<InteractiveEntity> getProducables();
+	
+	/**
+	 * Sets the list of producables to the parameter producables. 
+	 * @param producables
+	 */
+	public void setProducables(List<InteractiveEntity> producables);
+	
+	/**
+	 * Returns the production state
+	 * @return
+	 */
+	public ProducingState getProducingState();
 
 }

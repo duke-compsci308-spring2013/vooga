@@ -8,12 +8,13 @@ import javax.swing.JPanel;
 
 /**
  * This Class holds all the functional Buttons for this level editor
- * ZoomIn, ZoomOut, remove, clear
+ * Right now it has fill, remove and clearall button
  * 
  * @author Ziqiang Huang
  *
  */
 
+@SuppressWarnings("serial")
 public class ButtonPanel extends JPanel {
 
     private Canvas myCanvas;
@@ -33,37 +34,29 @@ public class ButtonPanel extends JPanel {
      */
 
     public void initializeButton() {
-        JButton ZoomInButton = new JButton("ZoomIn");
-        ZoomInButton.addActionListener(new ActionListener() {
+        JButton fillButton = new JButton("Fill");
+        fillButton.addActionListener(new ActionListener() {
             public void actionPerformed (ActionEvent e) {
-                myCanvas.ZoomIn();
+                myCanvas.getMapPanel().fill();
             }
         });
-        JButton ZoomOutButton = new JButton("ZoomOut");
-        ZoomOutButton.addActionListener(new ActionListener() {
+        JButton removeButton = new JButton("Remove");
+        removeButton.addActionListener(new ActionListener() {
             public void actionPerformed (ActionEvent e) {
-                myCanvas.ZoomOut();
-            }
-        });
-        JButton RemoveButton = new JButton("Remove");
-        RemoveButton.addActionListener(new ActionListener() {
-            public void actionPerformed (ActionEvent e) {
-                myCanvas.remove(true);
-                myCanvas.setMode(MapPanel.RESOURCEMODE);
+                myCanvas.getMapPanel().setRemoveMode();
             }
         });
 
-        JButton ClearButton = new JButton("ClearAll");
-        ClearButton.addActionListener(new ActionListener() {
+        JButton clearButton = new JButton("ClearAll");
+        clearButton.addActionListener(new ActionListener() {
             public void actionPerformed (ActionEvent e) {
                 myCanvas.clear();
             }
         });
 
-        this.add(ZoomInButton);
-        this.add(ZoomOutButton);
-        this.add(RemoveButton);
-        this.add(ClearButton);
+        this.add(fillButton);
+        this.add(removeButton);
+        this.add(clearButton);
     }
 
 

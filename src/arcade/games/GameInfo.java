@@ -226,6 +226,7 @@ public class GameInfo {
             Class game = getSingleplayerGameClass();
             Method method;
             try {
+
                 method = game.getMethod("generateNewProfile");
                 try {
                     return (UserGameData) method.invoke(theGame);

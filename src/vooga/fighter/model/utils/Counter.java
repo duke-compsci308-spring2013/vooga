@@ -18,8 +18,7 @@ public class Counter {
      * True if the counter is active, false otherwise. Active refers to a counter
      * that has set its value.
      */
-    private boolean myStatus;
-    
+    private boolean myStatus;    
 
     /**
      * Construct counter with initial count set to my count
@@ -76,7 +75,7 @@ public class Counter {
      * Returns true if the counter is positive, or false otherwise.
      */
     public boolean hasCountRemaining () {
-        return (myCount > 0);
+        return myCount > 0;
     }
 
 }

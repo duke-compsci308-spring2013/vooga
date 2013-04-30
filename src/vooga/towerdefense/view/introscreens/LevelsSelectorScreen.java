@@ -14,17 +14,23 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JButton;
 import util.Location;
-import util.Pixmap;
+import vooga.towerdefense.util.Pixmap;
 import vooga.towerdefense.view.TDView;
 
 
 /**
+ * 
+ * THIS CLASS IS NOT USED IN THE GAME AS OUR IDEA OF WHAT LEVELS ARE 
+ * CHANGED TOWARDS THE END OF THE PROJECT. LEVELS ARE NOW DEFINED IN
+ * TERMS OF WAVES.
+ * 
  * This view screen enables the player to select the mode they want to play in.
  * There is easy, medium and hard modes.
  * 
  * @author Leonard K. Ng'eno
  * 
  */
+
 public class LevelsSelectorScreen extends SelectScreen {
     private static final String CHECKED_IMAGE = "checked.gif";
     private static final long serialVersionUID = 1L;
@@ -79,7 +85,7 @@ public class LevelsSelectorScreen extends SelectScreen {
             @Override
             public void actionPerformed (ActionEvent e) {
                 if (myLevelSelected == true) {
-                    getView().createGUI();
+                  //  getView().createGUI();
                 }
             }
         });

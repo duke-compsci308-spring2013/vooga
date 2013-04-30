@@ -82,10 +82,5 @@ public class Example2 extends Game{
         getArcade().getUserGameData(this).setScore(score);
         getArcade().killGame();
     }
-    
-    public static void main (String[] args) {
-        Game g = new Example2(null);
-        g.run();
-    }
 
 }

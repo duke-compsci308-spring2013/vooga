@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<GameElements>
+<start>
+	<worker>2</worker>
+	<gold>100</gold>
+	<wood>100</wood>
+	<home>2</home>
+</start>
+<upgrade>
+	<tree>
+		<treeName>SoldierUpgrade</treeName>
+		<type>
+			<name>Health</name>
+			<upgradeNode>
+				<parent>Health</parent>
+				<nodeName>Boost1</nodeName>
+				<object>Health</object>
+				<value>50</value>
+				<resourceCostType>Resource</resourceCostType>
+				<resourceAmount>30</resourceAmount>
+			</upgradeNode>
+			<upgradeNode>
+				<parent>Boost1</parent>
+				<nodeName>Boost2</nodeName>
+				<object>Health</object>
+				<value>100</value>
+				<resourceCostType>Resource</resourceCostType>
+				<resourceAmount>30</resourceAmount>
+			</upgradeNode>
+		</type>
+		<type>
+			<name>Attack</name>
+			<upgradeNode>
+				<parent>Attack</parent>
+				<nodeName>CanAttack</nodeName>
+				<object>AttackStrategy</object>
+				<value>0</value>
+				<resourceCostType>Resource</resourceCostType>
+				<resourceAmount>30</resourceAmount>
+			</upgradeNode>
+			<upgradeNode>
+				<parent>Attack</parent>
+				<nodeName>RangeBoost1</nodeName>
+				<object>Range</object>
+				<value>100</value>
+				<resourceCostType>Resource</resourceCostType>
+				<resourceAmount>30</resourceAmount>
+			</upgradeNode>
+			<upgradeNode>
+				<parent>Attack</parent>
+				<nodeName>DamageBoost1</nodeName>
+				<object>Damage</object>
+				<value>100</value>
+				<resourceCostType>Resource</resourceCostType>
+				<resourceAmount>30</resourceAmount>
+			</upgradeNode>
+		</type>
+	</tree>
+</upgrade>
+<resources src = "vooga.rts.gamedesign.sprite.gamesprites.Resource">
+	<resource>
+		<name>gold</name>
+		<img>/games/rts/battleForMiddleDuke/resources/gold.png</img>
+		<health>500</health>
+	</resource>
+</resources>
+<strategies>
+	<attacks>
+		<canattack src = "vooga.rts.gamedesign.strategy.attackstrategy.CanAttack"/>
+		<cannotattack src = "vooga.rts.gamedesign.strategy.attackstrategy.CannotAttack"/>
+	</attacks>
+	<occupys>
+			<canbeoccupied src = "vooga.rts.gamedesign.strategy.occupystrategy.CanBeOccupied"/>
+			<cannotbeoccupied src = "vooga.rts.gamedesign.strategy.occupystrategy.CannotBeOccupied"/>
+	</occupys>
+	<gathers>
+			<cangather src = "vooga.rts.gamedesign.strategy.gatherstrategy.CanGather"/>
+			<cannotgather src = "vooga.rts.gamedesign.strategy.gatherstrategy.CannotGather"/>
+	</gathers>
+	<upgrades>
+			<canupgrade src = "vooga.rts.gamedesign.strategy.upgradestrategy.CanUpgrade"/>
+			<cannotupgrade src = "vooga.rts.gamedesign.strategy.upgradestrategy.CannotUpgrade"/>
+	</upgrades>
+</strategies>
+<buildings src = "vooga.rts.gamedesign.sprite.gamesprites.interactive.buildings.Building">
+	<building>
+		<name>home</name>
+		<img>/games/rts/battleForMiddleDuke/resources/lsrc.png</img>
+		<sound>pikachu.wav</sound>
+		<health>3000</health>
+		<buildtime>50</buildtime>
+		<occupy>cannotbeoccupied</occupy>
+		<upgrade>cannotupgrade</upgrade>
+		<upgradeTreeName></upgradeTreeName>
+		<produce>worker</produce>
+		<myweapons></myweapons>
+		<information>
+			<description>Fear me for I am a Bunny Rabbit</description>
+			<button>/games/rts/battleForMiddleDuke/resources/buttons/fortress-button.png</button>
+			<cost>
+				<gold>100</gold>
+			</cost>				
+		</information>			
+	</building>
+		<building>
+		<name>Goblin Maker</name>
+		<img>/games/rts/battleForMiddleDuke/resources/goblinmaker.png</img>
+		<sound>pikachu.wav</sound>
+		<health>3000</health>
+		<buildtime>50</buildtime>
+		<occupy>cannotbeoccupied</occupy>
+		<upgrade>cannotupgrade</upgrade>
+		<upgradeTreeName></upgradeTreeName>
+		<produce>goblinworker</produce>
+		<myweapons></myweapons>
+		<information>
+			<description>I make goblins</description>
+			<button>/games/rts/battleForMiddleDuke/resources/buttons/fortress-button.png</button>
+			<cost>
+				<gold>100</gold>
+			</cost>				
+		</information>			
+	</building>
+	<building>
+		<name>garrison</name>
+		<img>/games/rts/battleForMiddleDuke/resources/garrison.png</img>
+		<sound>pikachu.wav</sound>
+		<health>1000</health>
+		<buildtime>10</buildtime>
+		<occupy>canbeoccupied</occupy>
+		<upgrade>canupgrade</upgrade>
+		<upgradeTreeName>SoldierUpgrade</upgradeTreeName>
+		<produce></produce>
+		<myweapons></myweapons>
+		<information>
+			<description>I am a garrison</description>
+			<button>/games/rts/battleForMiddleDuke/resources/buttons/garrison-button.png</button>
+			<cost>
+				<gold>20</gold>
+			</cost>				
+		</information>			
+	</building>
+		<building>
+		<name>barracks</name>
+		<img>/games/rts/battleForMiddleDuke/resources/barracks.png</img>
+		<sound>pikachu.wav</sound>
+		<health>500</health>
+		<buildtime>20</buildtime>
+		<occupy>cannotbeoccupied</occupy>
+		<upgrade>canupgrade</upgrade>
+		<upgradeTreeName>SoldierUpgrade</upgradeTreeName>
+		<produce>Marine wizard friendlydragon</produce>
+		<myweapons></myweapons>
+		<information>
+			<description>I am a barracks</description>
+			<button>/games/rts/battleForMiddleDuke/resources/buttons/barracks-button.png</button>
+			<cost>
+				<gold>50</gold>
+			</cost>				
+		</information>			
+	</building>
+		<building>
+		<name>goblincave</name>
+		<img>/games/rts/battleForMiddleDuke/resources/goblincave.png</img>
+		<sound>pikachu.wav</sound>
+		<health>600</health>
+		<buildtime>22</buildtime>
+		<occupy>cannotbeoccupied</occupy>
+		<upgrade>canupgrade</upgrade>
+		<upgradeTreeName>SoldierUpgrade</upgradeTreeName>
+		<produce>troll minotaur enemydragon</produce>
+		<myweapons></myweapons>
+		<information>
+			<description>I am a goblin cave</description>
+			<button>/games/rts/battleForMiddleDuke/resources/buttons/barracks-button.png</button>
+			<cost>
+				<gold>50</gold>
+			</cost>				
+		</information>			
+	</building>
+</buildings>
+<units src = "vooga.rts.gamedesign.sprite.gamesprites.interactive.units.Unit">
+	<unit>
+		<name>Marine</name>
+		<img>/games/rts/battleForMiddleDuke/resources/halo_soldier.png</img>
+		<sound>pikachu.wav</sound>
+		<health>150</health>
+		<buildtime>7</buildtime>
+		<speed>170</speed>
+		<gather>cannotgather</gather>
+		<occupy>cannotbeoccupied</occupy>
+		<upgrade>canupgrade</upgrade>
+		<upgradeTreeName>SoldierUpgrade</upgradeTreeName>
+		<produce></produce>
+		<myweapons>gun</myweapons>
+		<information>
+			<description>I am a marine</description>
+			<button>/games/rts/battleForMiddleDuke/resources/buttons/marine-button.png</button>
+			<cost>
+				<gold>15</gold>
+			</cost>				
+		</information>
+	</unit>
+	<unit>
+		<name>friendlydragon</name>
+		<img>/games/rts/battleForMiddleDuke/resources/friendlydragon.png</img>
+		<sound>pikachu.wav</sound>
+		<health>540</health>
+		<buildtime>38</buildtime>
+		<speed>240</speed>
+		<gather>cannotgather</gather>
+		<occupy>cannotbeoccupied</occupy>
+		<upgrade>canupgrade</upgrade>
+		<upgradeTreeName>SoldierUpgrade</upgradeTreeName>
+		<produce></produce>
+		<myweapons>gun</myweapons>
+		<information>
+			<description>I'm just a friendly dragon</description>
+			<button>/games/rts/battleForMiddleDuke/resources/buttons/dragon-button.png</button>
+			<cost>
+				<gold>230</gold>
+			</cost>				
+		</information>
+	</unit>
+	<unit>
+		<name>enemydragon</name>
+		<img>/games/rts/battleForMiddleDuke/resources/enemydragon.png</img>
+		<sound>pikachu.wav</sound>
+		<health>500</health>
+		<buildtime>32</buildtime>
+		<speed>250</speed>
+		<gather>cannotgather</gather>
+		<occupy>cannotbeoccupied</occupy>
+		<upgrade>canupgrade</upgrade>
+		<upgradeTreeName>SoldierUpgrade</upgradeTreeName>
+		<produce></produce>
+		<myweapons>gun</myweapons>
+		<information>
+			<description>I'm albi</description>
+			<button>/games/rts/battleForMiddleDuke/resources/buttons/dragon-button.png</button>
+			<cost>
+				<gold>200</gold>
+			</cost>				
+		</information>
+	</unit>
+	<unit>
+		<name>troll</name>
+		<img>/games/rts/battleForMiddleDuke/resources/troll.png</img>
+		<sound>pikachu.wav</sound>
+		<health>600</health>
+		<buildtime>7</buildtime>
+		<speed>30</speed>
+		<gather>cannotgather</gather>
+		<occupy>cannotbeoccupied</occupy>
+		<upgrade>canupgrade</upgrade>
+		<upgradeTreeName>SoldierUpgrade</upgradeTreeName>
+		<produce></produce>
+		<myweapons>gun</myweapons>
+		<information>
+			<description>I'm gonna troll you</description>
+			<button>/games/rts/battleForMiddleDuke/resources/buttons/troll-button.png</button>
+			<cost>
+				<gold>15</gold>
+			</cost>				
+		</information>
+	</unit>
+	<unit>
+		<name>goblinworker</name>
+		<img>/games/rts/battleForMiddleDuke/resources/golbinworker.png</img>
+		<sound>pikachu.wav</sound>
+		<health>100</health>
+		<buildtime>5</buildtime>
+		<speed>190</speed>
+		<gather>cangather</gather>
+		<occupy>cannotbeoccupied</occupy>
+		<upgrade>canupgrade</upgrade>
+		<upgradeTreeName>SoldierUpgrade</upgradeTreeName>
+		<produce></produce>
+		<myweapons></myweapons>
+		<information>
+			<description>I wanna gather some hobbits</description>
+			<button>/games/rts/battleForMiddleDuke/resources/buttons/goblinworker-button.png</button>
+			<cost>
+				<gold>12</gold>
+			</cost>
+		</information>			
+	</unit>
+	<unit>
+		<name>worker</name>
+		<img>/games/rts/battleForMiddleDuke/resources/programmer.png</img>
+		<sound>pikachu.wav</sound>
+		<health>80</health>
+		<buildtime>2</buildtime>
+		<speed>210</speed>
+		<gather>cangather</gather>
+		<occupy>cannotbeoccupied</occupy>
+		<upgrade>canupgrade</upgrade>
+		<upgradeTreeName>SoldierUpgrade</upgradeTreeName>
+		<produce>worker</produce>
+		<myweapons></myweapons>
+		<information>
+			<description>No booleans!</description>
+			<button>/games/rts/battleForMiddleDuke/resources/buttons/programmer-button.png</button>
+			<cost>
+				<gold>15</gold>
+			</cost>
+		</information>			
+	</unit>
+	<unit>
+		<name>minotaur</name>
+		<img>/games/rts/battleForMiddleDuke/resources/minotaur.png</img>
+		<sound>pikachu.wav</sound>
+		<health>200</health>
+		<buildtime>8</buildtime>
+		<speed>230</speed>
+		<gather>cannotgather</gather>
+		<occupy>cannotbeoccupied</occupy>
+		<upgrade>canupgrade</upgrade>
+		<upgradeTreeName>SoldierUpgrade</upgradeTreeName>
+		<produce></produce>
+		<myweapons>club</myweapons>
+		<information>
+			<description>I am a minotaur</description>
+			<button>/games/rts/battleForMiddleDuke/resources/buttons/minotaur-button.png</button>
+			<cost>
+				<gold>35</gold>
+			</cost>
+		</information>			
+	</unit>
+	<unit>
+		<name>wizard</name>
+		<img>/games/rts/battleForMiddleDuke/resources/wizard.png</img>
+		<sound>pikachu.wav</sound>
+		<health>100</health>
+		<buildtime>15</buildtime>
+		<speed>160</speed>
+		<gather>cannotgather</gather>
+		<occupy>cannotbeoccupied</occupy>
+		<upgrade>canupgrade</upgrade>
+		<upgradeTreeName>SoldierUpgrade</upgradeTreeName>
+		<produce></produce>
+		<myweapons>wand</myweapons>
+		<information>
+			<description>You Shall Not Pass!</description>
+			<button>/games/rts/battleForMiddleDuke/resources/buttons/wizard-button.png</button>
+			<cost>
+				<gold>35</gold>
+			</cost>
+		</information>			
+	</unit>
+</units>
+	<weapons src = "vooga.rts.gamedesign.weapon.Weapon">
+		<weapon>
+			<name>gun</name>
+			<myprojectile>bullet</myprojectile>
+			<range>500</range>
+			<cooldown>1</cooldown>
+		</weapon>
+		<weapon>
+			<name>fire</name>
+			<myprojectile>fire</myprojectile>
+			<range>300</range>
+			<cooldown>.5</cooldown>
+		</weapon>
+		<weapon>
+			<name>club</name>
+			<myprojectile>spikes</myprojectile>
+			<range>100</range>
+			<cooldown>2</cooldown>
+		</weapon>
+		<weapon>
+			<name>wand</name>
+			<myprojectile>lazer</myprojectile>
+			<range>200</range>
+			<cooldown>5</cooldown>
+		</weapon>
+		<weapon>
+			<name>computer</name>
+			<myprojectile>boolean</myprojectile>
+			<range>400</range>
+			<cooldown>2</cooldown>
+		</weapon>
+	</weapons>
+	<projectiles src = "vooga.rts.gamedesign.sprite.gamesprites.Projectile">
+		<projectile>
+			<name>bullet</name>
+			<img>/games/rts/battleForMiddleDuke/resources/bullet.png</img>
+			<damage>10</damage>
+			<lifespan>3</lifespan>
+			<speed>100</speed>
+		</projectile>
+		<projectile>
+			<name>fire</name>
+			<img>/games/rts/battleForMiddleDuke/resources/fire.png</img>
+			<damage>60</damage>
+			<lifespan>3</lifespan>
+			<speed>500</speed>
+		</projectile>
+		<projectile>
+			<name>spikes</name>
+			<img>/games/rts/battleForMiddleDuke/resources/spikes.png</img>
+			<damage>60</damage>
+			<lifespan>2</lifespan>
+			<speed>500</speed>
+		</projectile>
+		<projectile>
+			<name>boolean</name>
+			<img>/games/rts/battleForMiddleDuke/resources/boolean.png</img>
+			<damage>10</damage>
+			<lifespan>5</lifespan>
+			<speed>200</speed>
+		</projectile>
+		<projectile>
+			<name>lazer</name>
+			<img>/games/rts/battleForMiddleDuke/resources/bullet.png</img>
+			<damage>70</damage>
+			<lifespan>3</lifespan>
+			<speed>500</speed>
+		</projectile>
+	</projectiles>
+</GameElements>

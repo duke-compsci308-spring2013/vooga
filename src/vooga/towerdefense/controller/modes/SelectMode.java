@@ -1,8 +1,9 @@
 package vooga.towerdefense.controller.modes;
 
 import java.awt.Point;
+
 import vooga.towerdefense.controller.Controller;
-import vooga.towerdefense.gameElements.GameElement;
+import vooga.towerdefense.gameelements.GameElement;
 
 /**
  * The default game mode used when nothing is selected.
