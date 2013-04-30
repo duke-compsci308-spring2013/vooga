@@ -173,10 +173,10 @@ public class Input {
                 execute(myInputMap.getGameBehavior(inputBehavior), object);
             }
         } catch (NullPointerException e) {
-            System.out.println("Null Pointer Exception");
+            //System.out.println("Null Pointer Exception");
         } catch (MissingResourceException e) {
-            System.out.println("Missing Resource Exception! Resources did not contain: "
-                               + inputBehavior);
+            //System.out.println("Missing Resource Exception! Resources did not contain: "
+            //                   + inputBehavior);
         }
     }
     
@@ -197,13 +197,13 @@ public class Input {
                      gameBehaviors.get(gameBehavior).invoke(x.get(), paramClasses[0].cast(in));
                 }
             } catch (IllegalArgumentException e) {
-            	System.out.println("Illegal Argument Exception on game method call: " + gameBehavior);
+            	//System.out.println("Illegal Argument Exception on game method call: " + gameBehavior);
             } catch (IllegalAccessException e) {
-            	System.out.println("Illegal Access Exception on game method call: " + gameBehavior);
+            	//System.out.println("Illegal Access Exception on game method call: " + gameBehavior);
             } catch (InvocationTargetException e) {
-            	System.out.println("Inovaction Target Exception on game method call: " + gameBehavior);
+            	//System.out.println("Inovaction Target Exception on game method call: " + gameBehavior);
             } catch (NullPointerException e) {
-            	System.out.println("Null Pointer Exception on game method call: " + gameBehavior);
+            	//System.out.println("Null Pointer Exception on game method call: " + gameBehavior);
             }
         }
     }

@@ -64,7 +64,7 @@ public class VoiceInput extends InputDevice implements Runnable {
         myRecognizer.allocate();
         Microphone microphone = (Microphone) voiceManager.lookup("microphone");
         if (!microphone.startRecording()) {
-            System.out.println("Cannot start microphone.");
+            //System.out.println("Cannot start microphone.");
             myRecognizer.deallocate();
             System.exit(1);
         }
@@ -85,7 +85,7 @@ public class VoiceInput extends InputDevice implements Runnable {
     @Override
     public void run() {
         while (true) {
-            System.out.println("Start speaking. Press Ctrl-C to quit.");
+            //System.out.println("Start speaking. Press Ctrl-C to quit.");
             Result result = myRecognizer.recognize();
             if (result != null) {
                 String resultText = result.getBestFinalResultNoFiller();
@@ -162,7 +162,7 @@ public class VoiceInput extends InputDevice implements Runnable {
      * @param filePath
      */
     private void updateDictFile(String filePath) {
-        System.out.println(filePath);
+        //System.out.println(filePath);
         int pos = filePath.lastIndexOf(File.separator);
         if (pos == -1) {
             dictFilePath = "";

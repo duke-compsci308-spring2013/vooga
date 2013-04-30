@@ -23,6 +23,7 @@ public class SuperMarioVisitLibrary extends VisitLibrary {
 
     public void visit (Mario mario, IPowerUp p) {
         myCollisions.marioAndPowerUp(mario, p);
+        myCollisions.marioAndCollectible(mario, p);
     }
 
     public void visit (Mario mario, IEnemy enemy) {

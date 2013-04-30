@@ -135,10 +135,15 @@ public class Mario extends Player implements IInputListener {
 
     @InputMethodTarget(name = "jump")
     public void jump () {
+        System.out.println("jump");
+        System.out.println(this.getVelocity().getComponentVector(Sprite.UP_DIRECTION).getMagnitude());
+        System.out.println(this.getVelocity().getComponentVector(Sprite.DOWN_DIRECTION).getMagnitude());
         if (this.getVelocity().getComponentVector(Sprite.UP_DIRECTION).getMagnitude() < .5 &&
             this.getVelocity().getComponentVector(Sprite.DOWN_DIRECTION).getMagnitude() < .5) {
             addVector(JUMP_VELOCITY);
+            System.out.println("added v");
         }
+        else System.out.println("cant jump");
     }
 
     public void incrementScore (int increment) {
