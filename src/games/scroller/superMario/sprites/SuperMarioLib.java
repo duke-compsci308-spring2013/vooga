@@ -275,7 +275,7 @@ public class SuperMarioLib extends EncapsulatedSpriteLibrary {
 
     public static class Coin extends GameCharacter implements ICollectible {
 
-        private static final String DEFAULT_IMG = "rotatingCoin.gif";
+        private static final String DEFAULT_IMG = "coin.png";
 
         public Coin () {
             super(makePixmap(DEFAULT_IMG), makeSize(1, 1), DEFAULT_HEALTH, DEFAULT_DAMAGE);
