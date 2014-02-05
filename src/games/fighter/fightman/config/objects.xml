@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<objects>
+    <character charID="1" charName="FightMan" charIcon="black.png" maxHealth="10" movespeed="50">
+        <state stateName="stand">
+            <frame image="black.png">
+                <hitbox cornerX="10" cornerY="3" rectX="30" rectY="80"/>
+            </frame>
+        </state>
+    </character>
+</objects>

@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * Handles the logic of switching controllers
- * Right now juts gets the controller from a Map, but in the future,
+ * Right now just gets the controller from a Map, but in the future,
  * if someone wants to implement a tournament system, they can subclass this
  * class.
  * 

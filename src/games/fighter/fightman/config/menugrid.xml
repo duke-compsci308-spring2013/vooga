@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<menutype>
+    <menumode menuname = "MainMenu" >
+        <menuobject menuobjectname="Play" xCoord = "400" yCoord = "400" xSize = "150" ySize = "80" nextState = "Fight" gridnum = "1" up="1" down="2" left="1" right="1" />
+        <menuobject menuobjectname="Quit" xCoord = "400" yCoord = "500" xSize = "150" ySize = "80" nextState = "Exit" gridnum = "2" up="1" down="2" left="2" right="2" />
+        
+    </menumode>
+    <menumode menuname = "ScoreMenu" >
+        <menuobject menuobjectname="Replay" xCoord = "400" yCoord = "400" xSize = "150" ySize = "80" nextState = "Fight" gridnum = "1" up="1" down="2" left="1" right="1" />
+        <menuobject menuobjectname="Quit" xCoord = "400" yCoord = "500" xSize = "150" ySize = "80" nextState = "Exit" gridnum = "2" up="1" down="2" left="2" right="2" />
+        
+    </menumode>
+    
+</menutype>

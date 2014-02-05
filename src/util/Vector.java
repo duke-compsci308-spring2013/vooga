@@ -312,7 +312,7 @@ public class Vector {
      */
     public void setVectorByComponent (double dX, double dY) {
         setMagnitude(Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2)));
-        setDirection(Math.atan2(dX, dY));
+        setDirection(Math.atan2(dY, dX));
     }
     
     /**
